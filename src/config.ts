@@ -66,6 +66,16 @@ export const profileConfig: ProfileConfig = {
 			url: "https://space.bilibili.com/3461579200792658",
 		},
 		{
+			name: "Bangumi",
+			icon: "local:bgm",
+			url: "https://bgm.tv/user/938070",
+		},
+		{
+			name: "Pixiv",
+			icon: "fa6-brands:pixiv",
+			url: "https://www.pixiv.net/users/61514267",
+		},
+		{
 			name: "Steam",
 			icon: "fa6-brands:steam",
 			url: "https://steamcommunity.com/profiles/76561198858669669/",

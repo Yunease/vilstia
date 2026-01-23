@@ -38,7 +38,7 @@ let links: NavBarLink[] = navBarConfig.links.map(
                 if (l.type === "silhouette") {
                     return (
                         <div class="relative">
-                            <button aria-label="剪影" id="silhouette-switch" class="btn-plain scale-animation rounded-lg h-11 font-bold px-5 min-w-[9rem] text-center active:scale-95">
+                            <button aria-label="剪影" id="silhouette-switch" class="btn-plain scale-animation rounded-lg h-11 font-bold px-5 min-w-[5rem] text-center active:scale-95">
                                 <div class="flex items-center justify-center">
                                     {l.name}
                                 </div>
@@ -51,7 +51,7 @@ let links: NavBarLink[] = navBarConfig.links.map(
                 // Render normal links
                 return (
                     <a aria-label={l.name} href={l.external ? l.url : url(l.url)} target={l.external ? "_blank" : null}
-                              class="btn-plain scale-animation rounded-lg h-11 font-bold px-5 min-w-[9rem] text-center active:scale-95"
+                              class="btn-plain scale-animation rounded-lg h-11 font-bold px-5 min-w-[5rem] text-center active:scale-95"
                     >
                         <div class="flex items-center justify-center">
                             {l.name}

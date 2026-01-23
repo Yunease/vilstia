@@ -1,0 +1,59 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getPostUrlBySlug } from "@utils/url-utils";
+import PostCard from "./PostCard.astro";
+import CustomPagination from "./control/CustomPagination.astro";
+
+interface Props {
+	page: {
+		data: CollectionEntry<"posts">[];
+		currentPage: number;
+		lastPage: number;
+		url: {
+			prev: string | null;
+			next: string | null;
+		};
+	};
+}
+
+const { page } = Astro.props;
+
+const len = page.data.length;
+let delay = 0;
+const interval = 50;
+---
+
+<div class="flex flex-col">
+	<!-- Page Title and Description -->
+	<div class="card-base p-6 mb-8 onload-animation">
+		<h1 class="text-3xl font-bold text-[var(--primary)] mb-3">叙梦协定</h1>
+		<p class="text-[var(--text-neutral)] dark:text-white/80 leading-relaxed">
+			梦境与现实交错的地方，记录那些在睡梦中出现的奇妙世界。
+		</p>
+	</div>
+
+	<div class="transition flex flex-col rounded-[var(--radius-large)] bg-[var(--card-bg)] py-1 md:py-0 md:bg-transparent md:gap-4 mb-4">
+		{page.data.map((entry) => (
+			<PostCard
+				entry={entry}
+				title={entry.data.title}
+				tags={entry.data.tags}
+				category={entry.data.category}
+				published={entry.data.published}
+				updated={entry.data.updated}
+				url={getPostUrlBySlug(entry.slug)}
+				image={entry.data.image}
+				description={entry.data.description}
+				draft={entry.data.draft}
+				class:list="onload-animation"
+				style={`animation-delay: calc(var(--content-delay) + ${delay++ * interval}ms);`}
+			></PostCard>
+		))}
+	</div>
+	<CustomPagination
+		class="mx-auto onload-animation"
+		page={page}
+		basePath="/dream"
+		style={`animation-delay: calc(var(--content-delay) + ${len * interval}ms)`}
+	></CustomPagination>
+</div>

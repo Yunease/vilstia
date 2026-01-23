@@ -1,0 +1,28 @@
+---
+import { Icon } from "astro-icon/components";
+import { url } from "../../utils/url-utils";
+
+// Dropdown menu items configuration
+const dropdownItems = [
+    { name: "叙梦协定", url: "/dream/" },
+    { name: "心灵碎片", url: "/rant/" },
+];
+---
+<div id="silhouette-dropdown" class="float-panel float-panel-closed absolute transition-all left-1/2 -translate-x-1/2 -mt-10 min-w-[9rem] w-auto px-2 py-1">
+    <div class="flex flex-col">
+        {dropdownItems.map((item) => (
+            <a href={url(item.url)} class="group flex justify-between items-center py-2 pl-3 pr-1 rounded-lg gap-4
+                hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition
+            "
+            >
+                <div class="transition text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)] whitespace-nowrap">
+                    {item.name}
+                </div>
+                <Icon name="material-symbols:chevron-right-rounded"
+                      class="transition text-[1.25rem] text-[var(--primary)]"
+                >
+                </Icon>
+            </a>
+        ))}
+    </div>
+</div>

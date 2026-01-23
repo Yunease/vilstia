@@ -1,0 +1,17 @@
+---
+import type { GetStaticPaths } from "astro";
+import RantPage from "@components/RantPage.astro";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { getMessPosts } from "../../utils/mess-utils";
+
+export const getStaticPaths = (async ({ paginate }) => {
+	const messPosts = await getMessPosts();
+	return paginate(messPosts, { pageSize: 8 });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+---
+
+<MainGridLayout title="吐槽" description="随便说点什么">
+	<RantPage page={page}></RantPage>
+</MainGridLayout>

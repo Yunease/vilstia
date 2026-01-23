@@ -1,0 +1,17 @@
+---
+import type { GetStaticPaths } from "astro";
+import DreamPage from "@components/DreamPage.astro";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { getDreamPosts } from "../../utils/dream-utils";
+
+export const getStaticPaths = (async ({ paginate }) => {
+	const dreamPosts = await getDreamPosts();
+	return paginate(dreamPosts, { pageSize: 6 });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+---
+
+<MainGridLayout title="梦境" description="记录我的梦境">
+	<DreamPage page={page}></DreamPage>
+</MainGridLayout>

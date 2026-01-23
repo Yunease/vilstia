@@ -1,0 +1,49 @@
+---
+import type { CollectionEntry } from "astro:content";
+import RantCard from "./RantCard.astro";
+import CustomPagination from "./control/CustomPagination.astro";
+
+interface Props {
+	page: {
+		data: CollectionEntry<"posts">[];
+		currentPage: number;
+		lastPage: number;
+		url: {
+			prev: string | null;
+			next: string | null;
+		};
+	};
+}
+
+const { page } = Astro.props;
+
+const len = page.data.length;
+let delay = 0;
+const interval = 100;
+---
+
+<div class="flex flex-col">
+	<!-- Page Title and Description -->
+	<div class="card-base p-6 mb-8 onload-animation">
+		<h1 class="text-3xl font-bold text-[var(--primary)] mb-3">心灵碎片</h1>
+		<p class="text-[var(--text-neutral)] dark:text-white/80 leading-relaxed">
+			情绪的碎片化记录，在这里记录日常的喜怒哀乐和瞬息万变的想法。
+		</p>
+	</div>
+
+	<div class="transition flex flex-col rounded-[var(--radius-large)] bg-[var(--card-bg)] py-1 md:py-0 md:bg-transparent md:gap-4 mb-4">
+		{page.data.map((entry) => (
+			<RantCard
+				entry={entry}
+				class="onload-animation"
+				style={`animation-delay: calc(var(--content-delay) + ${delay++ * interval}ms);`}
+			></RantCard>
+		))}
+	</div>
+	<CustomPagination
+		class="mx-auto onload-animation"
+		page={page}
+		basePath="/rant"
+		style={`animation-delay: calc(var(--content-delay) + ${len * interval}ms)`}
+	></CustomPagination>
+</div>

@@ -3,7 +3,7 @@ title: mess
 
 tags: [mess]
 
-mood: 烦躁
+mood: 难过
 
 published: 2026-01-24T04:10:00
 ---

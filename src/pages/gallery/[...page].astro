@@ -1,0 +1,17 @@
+---
+import type { GetStaticPaths } from "astro";
+import GalleryPage from "@components/GalleryPage.astro";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { getGalleryPosts } from "../../utils/gallery-utils";
+
+export const getStaticPaths = (async ({ paginate }) => {
+	const galleryPosts = await getGalleryPosts();
+	return paginate(galleryPosts, { pageSize: 28 });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+---
+
+<MainGridLayout title="回廊画架" description="时光的画廊">
+	<GalleryPage page={page}></GalleryPage>
+</MainGridLayout>

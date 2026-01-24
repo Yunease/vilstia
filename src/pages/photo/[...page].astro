@@ -1,0 +1,17 @@
+---
+import type { GetStaticPaths } from "astro";
+import PhotoPage from "@components/PhotoPage.astro";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { getPhotoPosts } from "../../utils/photo-utils";
+
+export const getStaticPaths = (async ({ paginate }) => {
+	const photoPosts = await getPhotoPosts();
+	return paginate(photoPosts, { pageSize: 28 });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+---
+
+<MainGridLayout title="截光求影" description="摄影作品集">
+	<PhotoPage page={page}></PhotoPage>
+</MainGridLayout>

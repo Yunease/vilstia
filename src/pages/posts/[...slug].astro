@@ -6,6 +6,8 @@ import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 import { getSortedPosts } from "@utils/content-utils";
+import { getGalleryPosts } from "@utils/gallery-utils";
+import { getPhotoPosts } from "@utils/photo-utils";
 import { getDir, getPostUrlBySlug } from "@utils/url-utils";
 import { Icon } from "astro-icon/components";
 import { licenseConfig } from "src/config";
@@ -16,7 +18,10 @@ import { formatDateToYYYYMMDD } from "../../utils/date-utils";
 
 export async function getStaticPaths() {
 	const blogEntries = await getSortedPosts();
-	return blogEntries.map((entry) => ({
+	const galleryEntries = await getGalleryPosts();
+	const photoEntries = await getPhotoPosts();
+	const allEntries = [...blogEntries, ...galleryEntries, ...photoEntries];
+	return allEntries.map((entry) => ({
 		params: { slug: entry.slug },
 		props: { entry },
 	}));

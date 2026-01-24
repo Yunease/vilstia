@@ -1,0 +1,105 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getPostUrlBySlug } from "@utils/url-utils";
+import GalleryCard from "./GalleryCard.astro";
+import CustomPagination from "./control/CustomPagination.astro";
+
+interface Props {
+	page: {
+		data: CollectionEntry<"posts">[];
+		currentPage: number;
+		lastPage: number;
+		url: {
+			prev: string | null;
+			next: string | null;
+		};
+	};
+}
+
+const { page } = Astro.props;
+
+const len = page.data.length;
+let delay = 0;
+const interval = 50;
+---
+
+<div class="flex flex-col">
+	<!-- Page Title and Description -->
+	<div class="card-base p-6 mb-8 onload-animation">
+		<h1 class="text-3xl font-bold text-[var(--primary)] mb-3">回廊画架</h1>
+		<p class="text-[var(--text-neutral)] dark:text-white/80 leading-relaxed">
+			时光的画廊，这里陈列着那些值得珍藏的瞬间与画面。
+		</p>
+		<p class="text-[var(--text-neutral)] dark:text-white/80 leading-relaxed">
+			每一幅画都是一个故事，每一段光影都承载着回忆。
+		</p>
+		<p class="text-[var(--text-neutral)] dark:text-white/80 leading-relaxed">
+			&nbsp;
+		</p>
+		<p class="text-[var(--text-neutral)] dark:text-white/80 leading-relaxed">
+			漫步于回廊之间，遇见过去的自己。
+		</p>
+	</div>
+
+	<!-- Pixiv-style Grid Layout -->
+	<div class="gallery-grid mb-4">
+		{page.data.map((entry) => (
+			<GalleryCard
+				entry={entry}
+				title={entry.data.title}
+				url={getPostUrlBySlug(entry.slug)}
+				image={entry.data.image}
+				published={entry.data.published}
+				category={entry.data.category}
+				class="onload-animation"
+				style={`animation-delay: calc(var(--content-delay) + ${delay++ * interval}ms);`}
+			></GalleryCard>
+		))}
+	</div>
+
+	<CustomPagination
+		class="mx-auto onload-animation"
+		page={page}
+		basePath="/gallery"
+		style={`animation-delay: calc(var(--content-delay) + ${len * interval}ms)`}
+	></CustomPagination>
+</div>
+
+<style>
+	/* Fixed 4-column grid layout for gallery */
+	.gallery-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 0.75rem;
+	}
+
+	/* Mobile: 2 columns */
+	@media (min-width: 480px) {
+		.gallery-grid {
+			grid-template-columns: repeat(3, 1fr);
+			gap: 1rem;
+		}
+	}
+
+	/* Tablet and above: 4 columns (fixed) */
+	@media (min-width: 768px) {
+		.gallery-grid {
+			grid-template-columns: repeat(4, 1fr);
+			gap: 1.25rem;
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.gallery-grid {
+			grid-template-columns: repeat(4, 1fr);
+			gap: 1.5rem;
+		}
+	}
+
+	@media (min-width: 1280px) {
+		.gallery-grid {
+			grid-template-columns: repeat(4, 1fr);
+			gap: 1.75rem;
+		}
+	}
+</style>

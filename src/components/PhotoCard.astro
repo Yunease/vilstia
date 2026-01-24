@@ -1,0 +1,88 @@
+---
+import type { CollectionEntry } from "astro:content";
+import path from "node:path";
+import { getDir } from "../utils/url-utils";
+import ImageWrapper from "./misc/ImageWrapper.astro";
+
+interface Props {
+	entry: CollectionEntry<"posts">;
+	url: string;
+	title: string;
+	image: string;
+	published: Date;
+	category: string | null;
+	class?: string;
+	style?: string;
+}
+
+const {
+	entry,
+	url,
+	title,
+	image,
+	published,
+	category,
+	class: className,
+	style,
+} = Astro.props;
+
+// Photo posts must have a cover image
+const coverImage = image || "";
+
+const formatDate = (date: Date) => {
+	const year = date.getFullYear();
+	const month = (date.getMonth() + 1).toString().padStart(2, "0");
+	const day = date.getDate().toString().padStart(2, "0");
+	return `${year}-${month}-${day}`;
+};
+---
+
+<div class:list={["photo-card group relative rounded-xl overflow-hidden cursor-pointer", className]} style={style}>
+	<a href={url} class="block w-full h-full" aria-label={title}>
+		<!-- Image Container -->
+		<div class="relative w-full aspect-square bg-[var(--card-bg)] overflow-hidden">
+			<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
+
+			<ImageWrapper
+				src={coverImage}
+				basePath={path.join("content/posts/", getDir(entry.id))}
+				alt={title}
+				class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+			/>
+
+			<!-- Hover Overlay Icon -->
+			<div class="absolute inset-0 flex items-center justify-center z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+				<div class="bg-black/50 backdrop-blur-sm rounded-full p-3">
+					<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+					</svg>
+				</div>
+			</div>
+		</div>
+
+		<!-- Title Overlay (always visible at bottom) -->
+		<div class="absolute bottom-0 left-0 right-0 p-3 z-10">
+			<div class="bg-black/40 backdrop-blur-sm rounded-lg p-2 transition-all duration-300 group-hover:bg-black/60">
+				<h3 class="text-white font-medium text-sm line-clamp-2 leading-tight">
+					{title}
+				</h3>
+				<div class="flex items-center gap-2 mt-1 text-white/70 text-xs">
+					{category && (
+						<span class="px-1.5 py-0.5 bg-white/20 rounded">
+							{category}
+						</span>
+					)}
+					<span>{formatDate(published)}</span>
+				</div>
+			</div>
+		</div>
+	</a>
+</div>
+
+<style>
+	.photo-card {
+		break-inside: avoid;
+		margin-bottom: 1rem;
+	}
+</style>

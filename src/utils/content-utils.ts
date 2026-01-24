@@ -3,8 +3,8 @@ import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import { getCategoryUrl } from "@utils/url-utils.ts";
 
-// Tag to exclude from normal post lists (these go to special pages)
-const EXCLUDED_TAG = "mess";
+// Tags to exclude from normal post lists (these go to special pages)
+const EXCLUDED_TAGS = ["mess", "gallery", "photo"];
 
 // Retrieve posts and sort them by publication date
 async function getRawSortedPosts() {
@@ -24,8 +24,8 @@ async function getRawSortedPosts() {
 export async function getSortedPosts() {
 	const allPosts = await getRawSortedPosts();
 
-	// Filter out posts with mess tag
-	const filteredPosts = allPosts.filter((post) => !post.data.tags.includes(EXCLUDED_TAG));
+	// Filter out posts with excluded tags (mess, gallery)
+	const filteredPosts = allPosts.filter((post) => !EXCLUDED_TAGS.some(tag => post.data.tags.includes(tag)));
 
 	for (let i = 1; i < filteredPosts.length; i++) {
 		filteredPosts[i].data.nextSlug = filteredPosts[i - 1].slug;
@@ -46,8 +46,8 @@ export type PostForList = {
 export async function getSortedPostsList(): Promise<PostForList[]> {
 	const sortedFullPosts = await getRawSortedPosts();
 
-	// Filter out posts with mess tag
-	const filteredPosts = sortedFullPosts.filter((post) => !post.data.tags.includes(EXCLUDED_TAG));
+	// Filter out posts with excluded tags (mess, gallery)
+	const filteredPosts = sortedFullPosts.filter((post) => !EXCLUDED_TAGS.some(tag => post.data.tags.includes(tag)));
 
 	// delete post.body
 	const sortedPostsList = filteredPosts.map((post) => ({
@@ -69,8 +69,8 @@ export async function getTagList(): Promise<Tag[]> {
 
 	const countMap: { [key: string]: number } = {};
 	allBlogPosts.forEach((post: { data: { tags: string[] } }) => {
-		// Skip mess tag for tag list
-		if (post.data.tags.includes(EXCLUDED_TAG)) return;
+		// Skip posts with excluded tags (mess, gallery) for tag list
+		if (EXCLUDED_TAGS.some(tag => post.data.tags.includes(tag))) return;
 		post.data.tags.forEach((tag: string) => {
 			if (!countMap[tag]) countMap[tag] = 0;
 			countMap[tag]++;
@@ -97,8 +97,8 @@ export async function getCategoryList(): Promise<Category[]> {
 	});
 	const count: { [key: string]: number } = {};
 	allBlogPosts.forEach((post: { data: { category: string | null; tags: string[] } }) => {
-		// Skip posts with mess tag
-		if (post.data.tags.includes(EXCLUDED_TAG)) return;
+		// Skip posts with mess tag only (gallery and photo posts are included in category stats)
+		if (post.data.tags.includes("mess")) return;
 		if (!post.data.category) {
 			const ucKey = i18n(I18nKey.uncategorized);
 			count[ucKey] = count[ucKey] ? count[ucKey] + 1 : 1;

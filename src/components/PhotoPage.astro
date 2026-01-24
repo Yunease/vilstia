@@ -1,0 +1,105 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getPostUrlBySlug } from "@utils/url-utils";
+import PhotoCard from "./PhotoCard.astro";
+import CustomPagination from "./control/CustomPagination.astro";
+
+interface Props {
+	page: {
+		data: CollectionEntry<"posts">[];
+		currentPage: number;
+		lastPage: number;
+		url: {
+			prev: string | null;
+			next: string | null;
+		};
+	};
+}
+
+const { page } = Astro.props;
+
+const len = page.data.length;
+let delay = 0;
+const interval = 50;
+---
+
+<div class="flex flex-col">
+	<!-- Page Title and Description -->
+	<div class="card-base p-6 mb-8 onload-animation">
+		<h1 class="text-3xl font-bold text-[var(--primary)] mb-3">截光求影</h1>
+		<p class="text-[var(--text-neutral)] dark:text-white/80 leading-relaxed">
+			捕捉光影的瞬间，定格时间的流逝。
+		</p>
+		<p class="text-[var(--text-neutral)] dark:text-white/80 leading-relaxed">
+			每一次快门都是与世界的一次对话，每一张照片都是故事的开端。
+		</p>
+		<p class="text-[var(--text-neutral)] dark:text-white/80 leading-relaxed">
+			&nbsp;
+		</p>
+		<p class="text-[var(--text-neutral)] dark:text-white/80 leading-relaxed">
+			在镜头中寻找被忽略的美好。
+		</p>
+	</div>
+
+	<!-- Grid Layout (same as gallery) -->
+	<div class="photo-grid mb-4">
+		{page.data.map((entry) => (
+			<PhotoCard
+				entry={entry}
+				title={entry.data.title}
+				url={getPostUrlBySlug(entry.slug)}
+				image={entry.data.image}
+				published={entry.data.published}
+				category={entry.data.category}
+				class="onload-animation"
+				style={`animation-delay: calc(var(--content-delay) + ${delay++ * interval}ms);`}
+			></PhotoCard>
+		))}
+	</div>
+
+	<CustomPagination
+		class="mx-auto onload-animation"
+		page={page}
+		basePath="/photo"
+		style={`animation-delay: calc(var(--content-delay) + ${len * interval}ms)`}
+	></CustomPagination>
+</div>
+
+<style>
+	/* Fixed 4-column grid layout for photo */
+	.photo-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 0.75rem;
+	}
+
+	/* Mobile: 2 columns */
+	@media (min-width: 480px) {
+		.photo-grid {
+			grid-template-columns: repeat(3, 1fr);
+			gap: 1rem;
+		}
+	}
+
+	/* Tablet and above: 4 columns (fixed) */
+	@media (min-width: 768px) {
+		.photo-grid {
+			grid-template-columns: repeat(4, 1fr);
+			gap: 1.25rem;
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.photo-grid {
+			grid-template-columns: repeat(4, 1fr);
+			gap: 1.5rem;
+		}
+	}
+
+	@media (min-width: 1280px) {
+		.photo-grid {
+			grid-template-columns: repeat(4, 1fr);
+			gap: 1.75rem;
+		}
+	}
+</style>

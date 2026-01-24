@@ -20,12 +20,12 @@ const { page } = Astro.props;
 
 // Mood颜色配置（与RantCard保持一致）
 const MOOD_COLORS: { [key: string]: string } = {
-	开心: "#F6C177",
+	开心: "#3CB371",
 	烦躁: "#E06C75",
-	难过: "#6C7A96",
-	焦虑: "#C792EA",
+	难过: "#5A6FB2",
+	焦虑: "#D9822B",
 	摆烂: "#7F8C8D",
-	怨恨: "#4169E1",
+	怨恨: "#C792EA",
 };
 
 // 获取所有mood统计数据
@@ -53,8 +53,8 @@ const interval = 100;
 		</p>
 		<!-- Mood 统计 -->
 		<div class="mt-4 space-y-2">
-			<div class="h-[3px] rounded-full bg-[var(--primary)]"></div>
-			<div class="mt-3 space-y-1.5">
+			<div class="Uline h-[3px] rounded-full bg-[var(--primary)]"></div>
+			<div class="mt-5 space-y-1.5">
 				{Object.entries(moodCounts)
 					.sort(([, a], [, b]) => b - a)
 					.map(([mood, count]) => {
@@ -69,7 +69,7 @@ const interval = 100;
 									{mood}
 								</span>
 								<span class="text-[var(--text-neutral)] dark:text-white/80">
-									：{count}条
+									：共{count}条
 								</span>
 							</div>
 						);
@@ -94,3 +94,9 @@ const interval = 100;
 		style={`animation-delay: calc(var(--content-delay) + ${len * interval}ms)`}
 	></CustomPagination>
 </div>
+
+<style>
+	.Uline{
+		margin-bottom:  30px;
+	}
+</style>

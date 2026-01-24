@@ -10,12 +10,12 @@ interface Props {
 const { entry, class: className, style } = Astro.props;
 
 const MOOD_COLORS: { [key: string]: string } = {
-	开心: "#F6C177",
+	开心: "#3CB371",
 	烦躁: "#E06C75",
-	难过: "#6C7A96",
-	焦虑: "#C792EA",
+	难过: "#5A6FB2",
+	焦虑: "#D9822B",
 	摆烂: "#7F8C8D",
-	怨恨: "#4169E1",
+	怨恨: "#C792EA",
 };
 
 const mood = entry.data.mood || "烦躁";

@@ -3,7 +3,9 @@
     "allow": [
       "Bash(npm run dev)",
       "Bash(timeout /t 10)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(dir:*)",
+      "Bash(findstr:*)"
     ]
   }
 }

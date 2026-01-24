@@ -8,25 +8,95 @@ interface Props {
 }
 
 const links = Astro.props.links;
+
+// Silhouette dropdown items
+const silhouetteItems = [
+    { name: "叙梦协定", url: "/dream/" },
+    { name: "心灵碎片", url: "/rant/" },
+    { name: "回廊画架", url: "/gallery/" },
+    { name: "截光求影", url: "/photo/" },
+];
 ---
 <div id="nav-menu-panel" class:list={["float-panel float-panel-closed absolute transition-all fixed right-4 px-2 py-2"]}>
-    {links.map((link) => (
-        <a href={link.external ? link.url : url(link.url)} class="group flex justify-between items-center py-2 pl-3 pr-1 rounded-lg gap-8
-            hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition
-        "
-           target={link.external ? "_blank" : null}
-        >
-            <div class="transition text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]">
-                {link.name}
-            </div>
-            {!link.external && <Icon name="material-symbols:chevron-right-rounded"
-                  class="transition text-[1.25rem] text-[var(--primary)]"
+    {links.map((link) => {
+        // Render silhouette as expandable submenu
+        if (link.type === "silhouette") {
+            return (
+                <div>
+                    <button id="nav-silhouette-switch" class="group flex justify-between items-center py-2 pl-3 pr-1 rounded-lg gap-8 w-full
+                        hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition
+                    ">
+                        <div class="transition text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]">
+                            {link.name}
+                        </div>
+                        <Icon name="material-symbols:expand-more-rounded"
+                              class="transition text-[1.25rem] text-[var(--primary)]"
+                        >
+                        </Icon>
+                    </button>
+                    <div id="nav-silhouette-submenu" class="hidden pl-4 mt-1 mb-1">
+                        {silhouetteItems.map((item) => (
+                            <a href={url(item.url)} class="group flex justify-between items-center py-2 pl-3 pr-1 rounded-lg gap-4
+                                hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition
+                            ">
+                                <div class="transition text-black/60 dark:text-white/60 font-medium text-sm group-hover:text-[var(--primary)] group-active:text-[var(--primary)]">
+                                    {item.name}
+                                </div>
+                                <Icon name="material-symbols:chevron-right-rounded"
+                                      class="transition text-[1rem] text-[var(--primary)]"
+                                >
+                                </Icon>
+                            </a>
+                        ))}
+                    </div>
+                </div>
+            );
+        }
+
+        // Render normal links
+        return (
+            <a href={link.external ? link.url : url(link.url)} class="group flex justify-between items-center py-2 pl-3 pr-1 rounded-lg gap-8
+                hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition
+            "
+               target={link.external ? "_blank" : null}
             >
-            </Icon>}
-            {link.external && <Icon name="fa6-solid:arrow-up-right-from-square"
-                  class="transition text-[0.75rem] text-black/25 dark:text-white/25 -translate-x-1"
-            >
-            </Icon>}
-        </a>
-    ))}
+                <div class="transition text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]">
+                    {link.name}
+                </div>
+                {!link.external && <Icon name="material-symbols:chevron-right-rounded"
+                      class="transition text-[1.25rem] text-[var(--primary)]"
+                >
+                </Icon>}
+                {link.external && <Icon name="fa6-solid:arrow-up-right-from-square"
+                      class="transition text-[0.75rem] text-black/25 dark:text-white/25 -translate-x-1"
+                >
+                </Icon>}
+            </a>
+        );
+    })}
 </div>
+
+<script>
+function addNavSilhouetteHandler() {
+    const switchBtn = document.getElementById("nav-silhouette-switch");
+    const submenu = document.getElementById("nav-silhouette-submenu");
+    const icon = switchBtn?.querySelector("svg");
+
+    if (switchBtn && submenu && icon) {
+        switchBtn.onclick = function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const isHidden = submenu.classList.contains("hidden");
+            if (isHidden) {
+                submenu.classList.remove("hidden");
+                icon.style.transform = "rotate(180deg)";
+            } else {
+                submenu.classList.add("hidden");
+                icon.style.transform = "rotate(0deg)";
+            }
+        };
+    }
+}
+
+addNavSilhouetteHandler();
+</script>

@@ -97,8 +97,8 @@ export async function getCategoryList(): Promise<Category[]> {
 	});
 	const count: { [key: string]: number } = {};
 	allBlogPosts.forEach((post: { data: { category: string | null; tags: string[] } }) => {
-		// Skip posts with mess tag only (gallery and photo posts are included in category stats)
-		if (post.data.tags.includes("mess")) return;
+		// Skip posts with excluded tags (mess, gallery, photo) for category stats
+		if (EXCLUDED_TAGS.some(tag => post.data.tags.includes(tag))) return;
 		if (!post.data.category) {
 			const ucKey = i18n(I18nKey.uncategorized);
 			count[ucKey] = count[ucKey] ? count[ucKey] + 1 : 1;

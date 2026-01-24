@@ -5,7 +5,9 @@
       "Bash(timeout /t 10)",
       "Bash(curl:*)",
       "Bash(dir:*)",
-      "Bash(findstr:*)"
+      "Bash(findstr:*)",
+      "Bash(pnpm dev)",
+      "Bash(timeout:*)"
     ]
   }
 }

@@ -1,7 +1,6 @@
 ---
-title: mess
-tags: [mess]
-mood: 烦躁
+title: 一觉醒来，宝可梦ZA降临现实！
+tags: [段子]
 published: 2025-10-16T14:56:01
 ---
 

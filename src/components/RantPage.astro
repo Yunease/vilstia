@@ -2,6 +2,7 @@
 import type { CollectionEntry } from "astro:content";
 import RantCard from "./RantCard.astro";
 import CustomPagination from "./control/CustomPagination.astro";
+import { getMessPosts } from "@utils/mess-utils";
 
 interface Props {
 	page: {
@@ -16,6 +17,24 @@ interface Props {
 }
 
 const { page } = Astro.props;
+
+// Mood颜色配置（与RantCard保持一致）
+const MOOD_COLORS: { [key: string]: string } = {
+	开心: "#F6C177",
+	烦躁: "#E06C75",
+	难过: "#6C7A96",
+	焦虑: "#C792EA",
+	摆烂: "#7F8C8D",
+	怨恨: "#4169E1",
+};
+
+// 获取所有mood统计数据
+const allMessPosts = await getMessPosts();
+const moodCounts: { [key: string]: number } = {};
+allMessPosts.forEach((post) => {
+	const mood = post.data.mood || "烦躁";
+	moodCounts[mood] = (moodCounts[mood] || 0) + 1;
+});
 
 const len = page.data.length;
 let delay = 0;
@@ -32,6 +51,31 @@ const interval = 100;
 		<p class="text-[var(--text-neutral)] dark:text-white/80 leading-relaxed">
 			这只是一个吐槽版。
 		</p>
+		<!-- Mood 统计 -->
+		<div class="mt-4 space-y-2">
+			<div class="h-[3px] rounded-full bg-[var(--primary)]"></div>
+			<div class="mt-3 space-y-1.5">
+				{Object.entries(moodCounts)
+					.sort(([, a], [, b]) => b - a)
+					.map(([mood, count]) => {
+						const moodColor = MOOD_COLORS[mood] || "#F6C177";
+						return (
+							<div class="flex items-center gap-2">
+								<div class="w-3 h-3 rounded-full bg-[var(--primary)]"></div>
+								<span
+									class="text-sm font-bold px-2 py-0.5 rounded-full"
+									style={`color: ${moodColor}; background-color: ${moodColor}15;`}
+								>
+									{mood}
+								</span>
+								<span class="text-[var(--text-neutral)] dark:text-white/80">
+									：{count}条
+								</span>
+							</div>
+						);
+					})}
+			</div>
+		</div>
 	</div>
 
 	<div class="transition flex flex-col rounded-[var(--radius-large)] bg-[var(--card-bg)] py-1 md:py-0 md:bg-transparent md:gap-4 mb-4">

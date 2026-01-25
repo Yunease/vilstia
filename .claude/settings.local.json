@@ -7,7 +7,9 @@
       "Bash(dir:*)",
       "Bash(findstr:*)",
       "Bash(pnpm dev)",
-      "Bash(timeout:*)"
+      "Bash(timeout:*)",
+      "Bash(node:*)",
+      "Bash(del \"D:\\\\Astro\\\\Virstia\\\\test-time.js\" \"D:\\\\Astro\\\\Virstia\\\\test-time2.js\" \"D:\\\\Astro\\\\Virstia\\\\test-time3.js\")"
     ]
   }
 }

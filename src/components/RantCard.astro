@@ -21,7 +21,7 @@ const MOOD_COLORS: { [key: string]: string } = {
 const mood = entry.data.mood || "烦躁";
 const moodColor = MOOD_COLORS[mood] || "#F6C177";
 
-const publishedDate = new Date(entry.data.published);
+const publishedDate = entry.data.published;
 
 // Format date: YYYY.MM.DD
 const dateStr = publishedDate.toLocaleDateString("zh-CN", {
@@ -31,11 +31,11 @@ const dateStr = publishedDate.toLocaleDateString("zh-CN", {
 }).replace(/\//g, ".");
 
 // Format time: HH:MM
-const timeStr = publishedDate.toLocaleTimeString("zh-CN", {
-	hour: "2-digit",
-	minute: "2-digit",
-	hour12: false,
-});
+// Since published is already a Date object (from z.date() schema),
+// we can directly get the hours and minutes from it
+const hours = publishedDate.getUTCHours().toString().padStart(2, "0");
+const minutes = publishedDate.getUTCMinutes().toString().padStart(2, "0");
+const timeStr = `${hours}:${minutes}`;
 ---
 
 <div class:list={["flex gap-4 onload-animation", className]} {style}>

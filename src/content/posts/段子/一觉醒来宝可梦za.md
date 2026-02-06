@@ -1,7 +1,7 @@
 ---
 title: 一觉醒来，宝可梦ZA降临现实！
 tags: [段子]
-category: 稻光剪影
+category: 下里巴人
 published: 2025-10-16T14:56:01
 ---
 

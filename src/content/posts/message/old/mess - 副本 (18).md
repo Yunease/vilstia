@@ -1,10 +1,7 @@
 ---
 title: mess
-
 tags: [mess]
-
-mood: 开心
-
+mood: 振奋
 published: 2026-01-23T13:00:00
 ---
 

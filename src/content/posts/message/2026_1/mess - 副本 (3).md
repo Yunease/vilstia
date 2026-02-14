@@ -1,7 +1,7 @@
 ---
 title: mess
 tags: [mess]
-mood: 烦躁
+mood: 焦躁
 published: 2026-01-24T22:34:01
 ---
 

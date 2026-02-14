@@ -1,7 +1,7 @@
 ---
 title: mess
 tags: [mess]
-mood: 难过
+mood: 消沉
 published: 2023-11-18T10:18:01
 ---
 

@@ -9,13 +9,14 @@ interface Props {
 
 const { entry, class: className, style } = Astro.props;
 
+//此处做过改动，请在RantPage.astro中查看，有详细的注释。
 const MOOD_COLORS: { [key: string]: string } = {
-	开心: "#3CB371",
-	烦躁: "#E06C75",
-	难过: "#5A6FB2",
-	焦虑: "#D9822B",
-	摆烂: "#7F8C8D",
+	焦躁: "#E06C75",
+	消沉: "#7F8C8D",
 	怨恨: "#C792EA",
+	开心: "#3CB371",
+	平和: "#FFB6C1",
+	振奋: "#D9822B",
 };
 
 const mood = entry.data.mood || "烦躁";
@@ -24,11 +25,13 @@ const moodColor = MOOD_COLORS[mood] || "#F6C177";
 const publishedDate = entry.data.published;
 
 // Format date: YYYY.MM.DD
-const dateStr = publishedDate.toLocaleDateString("zh-CN", {
-	year: "numeric",
-	month: "2-digit",
-	day: "2-digit",
-}).replace(/\//g, ".");
+const dateStr = publishedDate
+	.toLocaleDateString("zh-CN", {
+		year: "numeric",
+		month: "2-digit",
+		day: "2-digit",
+	})
+	.replace(/\//g, ".");
 
 // Format time: HH:MM
 // Since published is already a Date object (from z.date() schema),

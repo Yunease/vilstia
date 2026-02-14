@@ -1,7 +1,7 @@
 ---
 title: 忘记带钥匙
 tags: [mess]
-mood: 烦躁
+mood: 焦躁
 published: 2026-01-23T01:30:02
 ---
 

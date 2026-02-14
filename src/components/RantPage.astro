@@ -1,8 +1,8 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import RantCard from "./RantCard.astro";
-import CustomPagination from "./control/CustomPagination.astro";
 import { getMessPosts } from "@utils/mess-utils";
+import CustomPagination from "./control/CustomPagination.astro";
+import RantCard from "./RantCard.astro";
 
 interface Props {
 	page: {
@@ -20,13 +20,38 @@ const { page } = Astro.props;
 
 // Mood颜色配置（与RantCard保持一致）
 const MOOD_COLORS: { [key: string]: string } = {
-	开心: "#3CB371",
-	烦躁: "#E06C75",
-	难过: "#5A6FB2",
-	焦虑: "#D9822B",
-	摆烂: "#7F8C8D",
+	焦躁: "#E06C75",
+	消沉: "#7F8C8D",
 	怨恨: "#C792EA",
+	开心: "#3CB371",
+	平和: "#FFB6C1",
+	振奋: "#D9822B",
 };
+
+//我认为应该合并一下情绪，让情绪比例为1：1
+//正面情绪：平和，开心，振奋（生理上的）
+//负面情绪：焦躁（焦虑+烦躁），消沉（难过+摆烂），怨恨
+
+//它们的颜色也应该重写，我的原则是保留原有的样式尽可能不变：
+// 开心: "#3CB371",
+// 平和: "#FFB6C1",
+// 振奋："#E06C75" 要比这个更亮一点,
+
+// 焦躁: "#E06C75",
+// 消沉: "#7F8C8D",
+// 怨恨: "#C792EA",
+// 接下来我应该重写已有的情绪部分，保持和新版的情绪一致。
+// 不过，我应该先备份原有的颜色，就算有git也应该备份。
+
+// const MOOD_COLORS: { [key: string]: string } = {
+// 	开心: "#3CB371",
+// 	烦躁: "#E06C75",
+// 	难过: "#5A6FB2",
+// 	焦虑: "#D9822B",
+// 	摆烂: "#7F8C8D",
+// 	怨恨: "#C792EA",
+// 	平和: "#FFB6C1",
+// };
 
 // 获取所有mood统计数据
 const allMessPosts = await getMessPosts();

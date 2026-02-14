@@ -1,7 +1,7 @@
 ---
 title: mess
 tags: [mess]
-mood: 摆烂
+mood: 消沉
 published: 2026-01-25T12:15:01
 ---
 

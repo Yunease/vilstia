@@ -1,7 +1,7 @@
 ---
 title: mess
 tags: [mess]
-mood: 难过
+mood: 平和
 published: 2024-03-31T01:31:01
 ---
 

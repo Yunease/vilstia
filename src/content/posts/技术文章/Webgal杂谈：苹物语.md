@@ -1,7 +1,7 @@
 ---
 title: WebGal杂谈：苹物语
 tags: [博客文章]
-category: 
+category: webgal
 published: 2026-02-10T19:56:01
 ---
 

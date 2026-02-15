@@ -78,7 +78,7 @@ const interval = 100;
 		</p>
 		<!-- Mood 统计 -->
 		<div class="mt-4 space-y-2">
-			<div class="Uline h-[3px] rounded-full bg-[var(--primary)]"></div>
+			<div class="h-[3px] rounded-full bg-[var(--primary)]"></div>
 			<div class="mt-5 space-y-1.5">
 				{Object.entries(moodCounts)
 					.sort(([, a], [, b]) => b - a)
@@ -99,6 +99,18 @@ const interval = 100;
 							</div>
 						);
 					})}
+			</div>
+			<div class="Uline flex items-center gap-2">
+				<div class="w-3 h-3 rounded-full bg-[var(--primary)]"></div>
+				<span
+					class="allTheCard text-sm font-bold px-2 py-0.5 rounded-full"
+					style="dark:color: #d1d5db; dark:background-color: #1f2937;"
+				>
+					总计
+				</span>
+				<span class="text-[var(--text-neutral)] dark:text-white/80">
+					：共{Object.values(moodCounts).reduce((sum, count) => sum + count, 0)}条
+				</span>
 			</div>
 		</div>
 	</div>
@@ -123,5 +135,9 @@ const interval = 100;
 <style>
 	.Uline{
 		margin-bottom:  30px;
+	}
+	.allTheCard{
+		color: #6495ED;
+		background-color: #6495ED15;
 	}
 </style>

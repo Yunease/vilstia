@@ -1,6 +1,6 @@
 # About Me
 
-<span style="font-size: 2.5em; font-weight: 700; line-height: 1.8; color: var(--text-primary);">"我是要成为宝可梦大师的男人啊！"</span>
+<span style="font-size: 2.5em; font-weight: 700; line-height: 1.8; color: var(--text-primary);">"我是要成为宝可梦大师的人啊！"</span>
 
 你好，我们是&nbsp;<span style="color: #87CEFA; font-weight: 700;">琴泠</span>&nbsp;和&nbsp;<span style="color: #6A5ACD; font-weight: 700;">Vistia</span>。  
 这里是我们的个人博客，主要用来记录一些有趣的事情——没错，总有些东西值得记录下来。

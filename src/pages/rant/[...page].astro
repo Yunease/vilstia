@@ -1,12 +1,14 @@
 ---
-import type { GetStaticPaths } from "astro";
 import RantPage from "@components/RantPage.astro";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
+import type { GetStaticPaths } from "astro";
 import { getMessPosts } from "../../utils/mess-utils";
 
 export const getStaticPaths = (async ({ paginate }) => {
 	const messPosts = await getMessPosts();
-	return paginate(messPosts, { pageSize: 8 });
+	// return paginate(messPosts, { pageSize: 8 });
+	// 修改这里的pagesize，就可以改变单页的条数
+	return paginate(messPosts, { pageSize: 12 });
 }) satisfies GetStaticPaths;
 
 const { page } = Astro.props;

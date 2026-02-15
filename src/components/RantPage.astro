@@ -64,6 +64,12 @@ allMessPosts.forEach((post) => {
 const len = page.data.length;
 let delay = 0;
 const interval = 100;
+
+//获取一共有多少md文件，优化性能不用每次都计算
+const totalCount = Object.values(moodCounts).reduce(
+	(sum, count) => sum + count,
+	0,
+);
 ---
 
 <div class="flex flex-col">
@@ -84,6 +90,16 @@ const interval = 100;
 					.sort(([, a], [, b]) => b - a)
 					.map(([mood, count]) => {
 						const moodColor = MOOD_COLORS[mood] || "#F6C177";
+						//计算count的字符串长度，用于生成对齐的margin参数
+						const countLength = count.toString().length;
+						//根据长度计算偏移值
+						//基础偏移30px，每多1位减9px
+						//如果countLength<4就永远不要动这个9，不然会炸
+						const baseMargin = 30;
+						const maxLength = 4; // 预设最大长度，应该不会出现超过1w条了
+						const offsetMargin = baseMargin - (countLength - 1) * 9;
+						//妈的怎么跑不通，调试一下试试。。。
+						console.log(`计算出的margin-left：${offsetMargin}px`);
 						return (
 							<div class="flex items-center gap-2">
 								<div class="w-3 h-3 rounded-full bg-[var(--primary)]"></div>
@@ -95,6 +111,12 @@ const interval = 100;
 								</span>
 								<span class="text-[var(--text-neutral)] dark:text-white/80">
 									：共{count}条
+								</span>
+								<span 
+									class="text-[var(--text-neutral)] dark:text-white/80"
+									style={`margin-left: ${offsetMargin}px;`}
+								>
+									{(count / totalCount * 100).toFixed(1)}%
 								</span>
 							</div>
 						);

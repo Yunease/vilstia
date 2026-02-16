@@ -2,31 +2,42 @@
 import { getCollection } from "astro:content";
 import { Icon } from "astro-icon/components";
 
-// 定义组件Props（可选自定义类名）
 interface Props {
 	class?: string;
 }
 const className = Astro.props.class;
 
-// 核心：统计总文章数 + 总字数（服务端执行，性能无影响）
+// 核心：统计总文章数 + 总字数（排除指定tag的文章）
 const calculateBlogStats = async () => {
-	// 1. 获取所有文章（替换成你实际的 collection 名称，比如 "posts"）
+	// 1. 定义需要排除的标签列表（仅在文章筛选阶段使用）
+	const excludeTags = ["mess", "gallery", "photo"];
+
+	// 2. 获取文章并过滤：排除草稿 + 排除指定tag的文章
 	const allPosts = await getCollection("posts", ({ data }) => {
-		// 可选：过滤草稿/未发布的文章
-		return data.draft !== true;
+		// 过滤1：排除草稿文章
+		if (data.draft === true) return false;
+
+		// 过滤2：排除tag包含mess/gallery/photo的文章
+		const postTags = data.tags;
+		// 无tag的文章保留
+		if (!postTags) return true;
+		// 统一转为数组（兼容tag是字符串的情况，比如 tags: "mess"）
+		const tagsArray = Array.isArray(postTags) ? postTags : [postTags];
+		// 检查是否包含排除标签：包含则过滤，不包含则保留
+		const hasExcludeTag = tagsArray.some(
+			(tag) => excludeTags.includes(tag.toLowerCase()), // 忽略大小写，比如 Mess/MESS 也会被排除
+		);
+		return !hasExcludeTag;
 	});
 
-	// 2. 总文章数
+	// 3. 总文章数（已排除指定tag）
 	const totalPosts = allPosts.length;
 
-	// 3. 统计总字数（去掉 markdown 标签，只算纯文本）
-	let totalWords = 0;
-	// 修复：不修改参数，用新变量承接处理结果
+	// 4. 字数统计函数（完全保留你的逻辑，仅空值兜底，不过滤markdown标签）
 	const removeMarkdown = (content: string | undefined) => {
-		// 1. 定义需要排除的标签列表（方便后续维护）
-		const excludeTags = ["mess", "gallery", "photo"];
-		// 核心修复：空值兜底，避免 undefined 调用 replace
+		// 值兜底，避免 undefined 调用 replace
 		if (!content) return 0;
+
 		// 新建变量，避免修改原参数
 		let cleanedContent = content;
 		// 现在文章字数太少了，咱们先把这个过滤删了，等以后字数多了再加上。
@@ -42,9 +53,9 @@ const calculateBlogStats = async () => {
 		return cleanedContent.length;
 	};
 
-	// 遍历所有文章，累加字数
+	// 5. 统计总字数（仅统计过滤后的文章）
+	let totalWords = 0;
 	for (const post of allPosts) {
-		// post.body 是 markdown 原始内容
 		totalWords += removeMarkdown(post.body);
 	}
 
@@ -66,24 +77,18 @@ const calculateBlogStats = async () => {
 const stats = await calculateBlogStats();
 ---
 
-<!-- 博客统计面板（和现有模块样式统一） -->
+<!-- 组件渲染部分不变 -->
 <div class:list={[className, "card-base p-5 rounded-lg onload-animation"]} style="animation-delay: 300ms">
-  <!-- 标题 -->
   <h3 class="font-bold text-lg mb-4 flex items-center text-[var(--primary)]">
     <Icon name="material-symbols:analytics" class="mr-2 text-xl" />
     博客总览
   </h3>
-
-  <!-- 统计数据：一行两个，图标+数字 -->
   <div class="grid grid-cols-2 gap-4">
-    <!-- 总文章数 -->
     <div class="flex flex-col items-center justify-center p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
-      <Icon name="material-symbols:analytics" class="text-[var(--primary)] text-2xl mb-1" />
+      <Icon name="material-symbols:article" class="text-[var(--primary)] text-2xl mb-1" />
       <span class="text-sm text-[var(--text-75)] dark:text-white/80">总文章</span>
       <span class="text-xl font-bold text-[var(--primary)]">{stats.totalPosts} 篇</span>
     </div>
-
-    <!-- 总字数 -->
     <div class="flex flex-col items-center justify-center p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
       <Icon name="material-symbols:format-size" class="text-[var(--primary)] text-2xl mb-1" />
       <span class="text-sm text-[var(--text-75)] dark:text-white/80">总字数</span>
@@ -91,7 +96,3 @@ const stats = await calculateBlogStats();
     </div>
   </div>
 </div>
-
-<script>
-    console.log('num')
-</script>

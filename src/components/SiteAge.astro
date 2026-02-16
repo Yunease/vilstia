@@ -86,7 +86,7 @@ if (Number.isNaN(buildDateServer.getTime())) {
     if (years > 0) ageTextD += `${years}年`;
     if (months > 0) ageTextD += `${months}月`;
     if (days > 0) ageTextD += `${days}天`;
-    ageTextS += ` ${hours.toString().padStart(2, '0')} : ${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`;
+    ageTextS += ` ${hours.toString().padStart(2, '0')} 小时 ${minutes.toString().padStart(2, '0')} 分钟 ${seconds.toString().padStart(2, '0')} 秒`;
 
     return {
         date: ageTextD,
@@ -154,6 +154,8 @@ function updateSiteAge() {
 
 .SageTime{
     text-align: center;
-    font-size: clamp(1.25rem, 2vw, 1rem);
+    font-size: clamp(1rem, 2vw, 1rem);
+    position: relative;
+    left: 2px;
 }
 </style>

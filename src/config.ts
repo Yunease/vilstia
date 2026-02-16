@@ -99,3 +99,9 @@ export const expressiveCodeConfig: ExpressiveCodeConfig = {
 	// Please select a dark theme, as this blog theme currently only supports dark background color
 	theme: "github-dark",
 };
+
+export const Stime = {
+	title: "樟庭徊路",
+	description: "",
+	buildTime: "2024-11-28 22:39:17", // 固定建站时间（格式：YYYY-MM-DD HH:mm:ss）
+};

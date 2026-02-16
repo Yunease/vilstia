@@ -1,0 +1,159 @@
+---
+import { Icon } from "astro-icon/components";
+import { Stime } from "../config"; // 引入固定建站时间
+
+// 定义组件Props（可选自定义类名）
+interface Props {
+	class?: string;
+}
+const className = Astro.props.class;
+
+// 校验建站时间格式（服务端提前校验，避免客户端报错）
+const buildTimeStr = Stime.buildTime;
+if (!buildTimeStr) {
+	console.error("配置文件中未定义 Stime.buildTime！");
+}
+// 服务端先验证 Date 能否解析
+const buildDateServer = new Date(buildTimeStr);
+if (Number.isNaN(buildDateServer.getTime())) {
+	console.error(
+		`Stime.buildTime 格式错误：${buildTimeStr}，请使用 YYYY-MM-DD 或 YYYY-MM-DD HH:mm:ss 格式`,
+	);
+}
+---
+
+<!-- 建站时长面板（样式和分类/标签组件统一） -->
+<div class:list={[className, "card-base p-4 rounded-lg onload-animation"]} style="animation-delay: 250ms">
+    <!-- 标题 -->
+    <h3 class="font-bold text-lg mb-3 flex items-center dark:text-white/80">
+    <Icon name="material-symbols:timer-outline" class="mr-2 text-[var(--primary)]" />
+    站点已运行
+    </h3>
+    <!-- 实时显示时长的容器 -->
+    <div class="site-age-container space-y-2">
+    <!-- 年月日容器 -->
+    <div id="site-age-date" class="text-[var(--primary)] text-sm BigH">
+        计算中...
+    </div>
+    <!-- 时分秒容器（单独样式，比如等宽字体+主色调） -->
+    <div id="site-age-time" class="mr-2 dark:text-white/80 SageTime">
+        -- : -- : --
+    </div>
+    </div>
+</div>
+
+<!-- 关键修复：用 define:vars 传递服务端变量到客户端 JS -->
+<script is:inline define:vars={{ buildTime: Stime.buildTime }}>
+  // 1. 固定建站时间（从服务端变量正确获取）
+  const buildDate = new Date(buildTime);
+  
+  // 新增：提前校验 Date 是否有效
+  if (isNaN(buildDate.getTime())) {
+    const ageElement = document.getElementById("site-age");
+    if (ageElement) {
+      ageElement.textContent = "建站时间格式错误";
+    }
+    console.error(`建站时间解析失败：${buildTime}，请检查 config.ts 中的 Stime.buildTime`);
+    // 终止执行，避免后续 NaN
+    return;
+  }
+
+  // 2. 计算两个日期的差值（年/月/日/时/分/秒）
+  function calculateSiteAge() {
+    const now = new Date();
+    const diffMs = now.getTime() - buildDate.getTime(); // 总毫秒差
+
+    // 计算总秒数、分钟数、小时数、天数
+    const totalSeconds = Math.floor(diffMs / 1000);
+    const totalMinutes = Math.floor(totalSeconds / 60);
+    const totalHours = Math.floor(totalMinutes / 60);
+    const totalDays = Math.floor(totalHours / 24);
+
+    // 计算年（按365天算，简化版；如需精准可加闰年判断）
+    const years = Math.floor(totalDays / 365);
+    const remainingDays = totalDays % 365;
+    // 计算月（按30天简化，精准版可处理每月天数差异）
+    const months = Math.floor(remainingDays / 30);
+    const days = remainingDays % 30;
+    // 计算时/分/秒
+    const hours = Math.floor(totalHours % 24);
+    const minutes = Math.floor(totalMinutes % 60);
+    const seconds = Math.floor(totalSeconds % 60);
+
+    // 拼接显示文本（只显示非0的单位，更简洁）
+    let ageTextD = "";
+    let ageTextS = "";
+    if (years > 0) ageTextD += `${years}年`;
+    if (months > 0) ageTextD += `${months}月`;
+    if (days > 0) ageTextD += `${days}天`;
+    ageTextS += ` ${hours.toString().padStart(2, '0')} : ${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`;
+
+    return {
+        date: ageTextD,
+        time: ageTextS
+    };
+  }
+
+    // 3. 初始化显示 + 每秒更新一次
+function updateSiteAge() {
+    // 获取两个容器
+    const dateElement = document.getElementById("site-age-date");
+    const timeElement = document.getElementById("site-age-time");
+    
+    // 计算时长（得到date和time）
+    const ageData = calculateSiteAge();
+
+    // 分别更新内容
+    if (dateElement) {
+        // 如果年月日为空（比如刚建站不到1天），显示“0天”
+        dateElement.textContent = ageData.date || "0天";
+    }
+    if (timeElement) {
+        timeElement.textContent = ageData.time;
+    }
+}
+
+  // 初始化执行一次
+  updateSiteAge();
+  // 每秒更新（实现“时时打印”）
+  setInterval(updateSiteAge, 1000);
+</script>
+
+<style>
+#site-age span {
+    transition: all .2s ease;
+}
+.BigH{
+  /* 字体大小：使用 clamp 实现响应式，在不同屏幕下都足够大 */
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  /* 占据整行宽度 */
+  width: 100%;
+  /* 让字体更粗一点 */
+  font-weight: bold;
+  /* 文字居中，让整行更平衡 */
+  text-align: center;
+  /* 增加上下内边距，让这一行更有“存在感” */
+  padding: 0.75rem 0;
+  /* 背景：可以加一个非常浅的绿色背景，增强整行的视觉效果 */
+  /* 圆角：和卡片整体风格统一 */
+  border-radius: var(--radius-large, 0.75rem);
+  /* 过渡效果 */
+  transition: all 0.3s ease;
+  /* 确保是块级元素，独占一行 */
+  display: block;
+  margin-bottom: 0.75rem;
+  background-color: var(--btn-regular-bg);
+  transition: all .3s ease-in-out;
+}
+
+.BigH:hover{
+    transform: scale(1.05);
+    transition: all .3s ease-in-out;
+    font-weight: bolder;
+}
+
+.SageTime{
+    text-align: center;
+    font-size: clamp(1.25rem, 2vw, 1rem);
+}
+</style>

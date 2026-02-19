@@ -10,7 +10,10 @@
       "Bash(timeout:*)",
       "Bash(node:*)",
       "Bash(del \"D:\\\\Astro\\\\Virstia\\\\test-time.js\" \"D:\\\\Astro\\\\Virstia\\\\test-time2.js\" \"D:\\\\Astro\\\\Virstia\\\\test-time3.js\")",
-      "Bash(pnpm run build)"
+      "Bash(pnpm run build)",
+      "Bash(git push:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ]
   }
 }

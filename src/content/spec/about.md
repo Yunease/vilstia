@@ -82,3 +82,14 @@
 
 亲爱的网友，欢迎你。
 
+---
+
+<div style="text-align: center; margin-top: 3rem; padding: 2rem; border: 1px solid rgba(200, 200, 200, 0.3); background: linear-gradient(135deg, rgba(245, 245, 245, 0.1) 0%, rgba(230, 230, 230, 0.1) 100%);">
+
+<p style="color: #b8b8b8; font-size: 0.85em; letter-spacing: 0.3em; margin-bottom: 0.5rem; font-family: 'Georgia', serif;">✦ ✦ ✦</p>
+
+<a href="https://pale-blooms.pages.dev/" style="color: #c0c0c0; text-decoration: none; font-size: 1.1em; letter-spacing: 0.2em; transition: color 0.3s ease;">苍白花境</a>
+
+<p style="color: #a0a0a0; font-size: 0.8em; letter-spacing: 0.2em; margin-top: 0.5rem; font-family: 'Georgia', serif;">⁂ ⁂ ⁂</p>
+
+</div>

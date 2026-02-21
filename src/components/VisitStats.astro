@@ -23,41 +23,38 @@ const className = Astro.props.class;
 </div>
 
 <script>
-	// 获取到数值后 +3000
+	// 标记是否已经处理过，避免重复执行
+	let hasProcessed = false;
+
 	function addBaseCount() {
+		if (hasProcessed) return;
+		hasProcessed = true;
+
 		const element = document.getElementById('vercount_value_site_pv');
-		if (element && element.textContent && element.textContent !== 'Loading') {
-			const currentCount = parseInt(element.textContent.replace(/,/g, ''), 10);
-			if (!isNaN(currentCount)) {
-				const newCount = currentCount + 3000;
-				element.textContent = newCount.toLocaleString();
+		if (!element) return;
+
+		// 等待 Vercount 设置值（轮询检查）
+		const checkInterval = setInterval(() => {
+			const text = element.textContent;
+			if (text && text !== 'Loading' && text !== 'NaN') {
+				clearInterval(checkInterval);
+
+				const currentCount = parseInt(text.replace(/,/g, ''), 10);
+				// 暂时移除 +3000，方便调试
+				// const newCount = currentCount + 3000;
+				// element.textContent = newCount.toLocaleString();
+				element.textContent = currentCount.toLocaleString();
 			}
-		}
+		}, 500);
+
+		// 最多等待 5 秒
+		setTimeout(() => {
+			clearInterval(checkInterval);
+		}, 5000);
 	}
 
-	// 监听 Vercount 加载完成
-	const observer = new MutationObserver((mutations) => {
-		for (const mutation of mutations) {
-			if (mutation.type === 'childList' || mutation.type === 'characterData') {
-				const element = document.getElementById('vercount_value_site_pv');
-				if (element && element.textContent && element.textContent !== 'Loading') {
-					addBaseCount();
-					observer.disconnect();
-					break;
-				}
-			}
-		}
+	// 页面加载后延迟执行
+	window.addEventListener('load', () => {
+		setTimeout(addBaseCount, 1000);
 	});
-
-	observer.observe(document.body, {
-		childList: true,
-		subtree: true,
-		characterData: true
-	});
-
-	// 备用方案：延迟检查
-	setTimeout(() => {
-		addBaseCount();
-		observer.disconnect();
-	}, 3000);
 </script>

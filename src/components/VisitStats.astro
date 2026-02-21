@@ -1,0 +1,63 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+	class?: string;
+}
+const className = Astro.props.class;
+---
+
+<!-- 引入 Vercount 脚本 -->
+<script defer src="https://events.vercount.one/js"></script>
+
+<div class:list={[className, "card-base p-5 rounded-lg onload-animation"]} style="animation-delay: 325ms">
+	<h3 class="font-bold text-lg mb-4 flex items-center text-[var(--primary)]">
+		<Icon name="material-symbols:visibility" class="mr-2 text-xl" />
+		访问统计
+	</h3>
+	<div class="flex flex-col items-center justify-center p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
+		<Icon name="material-symbols:eye-tracking" class="text-[var(--primary)] text-2xl mb-1" />
+		<span class="text-sm text-[var(--text-75)] dark:text-white/80">总浏览量</span>
+		<span id="vercount_value_site_pv" class="text-xl font-bold text-[var(--primary)]">Loading</span>
+	</div>
+</div>
+
+<script>
+	// 获取到数值后 +3000
+	function addBaseCount() {
+		const element = document.getElementById('vercount_value_site_pv');
+		if (element && element.textContent && element.textContent !== 'Loading') {
+			const currentCount = parseInt(element.textContent.replace(/,/g, ''), 10);
+			if (!isNaN(currentCount)) {
+				const newCount = currentCount + 3000;
+				element.textContent = newCount.toLocaleString();
+			}
+		}
+	}
+
+	// 监听 Vercount 加载完成
+	const observer = new MutationObserver((mutations) => {
+		for (const mutation of mutations) {
+			if (mutation.type === 'childList' || mutation.type === 'characterData') {
+				const element = document.getElementById('vercount_value_site_pv');
+				if (element && element.textContent && element.textContent !== 'Loading') {
+					addBaseCount();
+					observer.disconnect();
+					break;
+				}
+			}
+		}
+	});
+
+	observer.observe(document.body, {
+		childList: true,
+		subtree: true,
+		characterData: true
+	});
+
+	// 备用方案：延迟检查
+	setTimeout(() => {
+		addBaseCount();
+		observer.disconnect();
+	}, 3000);
+</script>

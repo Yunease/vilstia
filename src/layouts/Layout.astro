@@ -432,6 +432,17 @@ const setup = () => {
 		if (heightExtend) {
 			heightExtend.classList.remove('hidden')
 		}
+		
+		try {
+          const path = window.location.pathname;
+          if (path === '/rank/' || path === '/rank') {
+              if (typeof window.initRankPage === 'function') {
+                  window.initRankPage();
+              }
+          }
+      } catch (e) {
+          console.error(e);
+      }
 	});
 	window.swup.hooks.on('visit:end', (_visit: {to: {url: string}}) => {
 		setTimeout(() => {

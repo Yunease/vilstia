@@ -34,36 +34,6 @@ for (const post of allPosts) {
     });
 }
 
-// 从 Worker API 获取排行数据
-let rankData: { slug: string; pv: number }[] = [];
-try {
-    const response = await fetch(`${WORKER_API}/api/rank`);
-    if (response.ok) {
-        rankData = await response.json();
-    }
-} catch (error) {
-    console.error("Failed to fetch rank data:", error);
-}
-
-// 过滤并匹配文章信息，只取前 10 条
-// 需要匹配 /posts/{slug}/ 格式
-const filteredRank = rankData
-    .filter((item) => {
-        // 提取 slug 部分（去掉 /posts/ 前缀和 / 后缀）
-        const slug = item.slug.replace(/^\/posts\//, "").replace(/\/$/, "");
-        // 检查是否在正式文章列表中
-        return postMap.has(slug);
-    })
-    .slice(0, 10)
-    .map((item) => {
-        const slug = item.slug.replace(/^\/posts\//, "").replace(/\/$/, "");
-        const postInfo = postMap.get(slug);
-        return {
-            ...postInfo,
-            pv: item.pv,
-        };
-    });
-
 // 排名图标
 const rankIcons = [
     "material-symbols:emoji-events",
@@ -81,53 +51,120 @@ const rankColors = ["text-yellow-500", "text-gray-400", "text-amber-600"];
                 访问排行
             </h1>
 
-            {filteredRank.length === 0 ? (
-                <p class="text-neutral-700 dark:text-neutral-300 text-center py-8">
-                    暂无排行数据
-                </p>
-            ) : (
-                <div class="flex flex-col gap-3">
-                    {filteredRank.map((item, index) => (
-                        <a
-                            href={item.url}
-                            class="rank-item group block relative p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50 hover:bg-[var(--btn-plain-bg-hover)] dark:hover:bg-gray-700/50 transition-all duration-300 hover:scale-[1.02]"
-                        >
-                            <div class="flex items-center">
-                                <!-- 排名 -->
-                                <div class="rank-number flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-[var(--primary)]/10 text-[var(--primary)] font-bold mr-4">
-                                    {index < 3 ? (
-                                        <Icon
-                                            name={rankIcons[index]}
-                                            class={`${rankColors[index]} text-2xl`}
-                                        />
-                                    ) : (
-                                        <span class="text-lg">{index + 1}</span>
-                                    )}
-                                </div>
+            <!-- 加载状态 -->
+            <div id="rank-loading" class="text-center py-8">
+                <Icon name="material-symbols:hourglass-empty" class="text-4xl text-neutral-400 animate-pulse" />
+                <p class="text-neutral-500 dark:text-neutral-400 mt-2">加载中...</p>
+            </div>
 
-                                <!-- 文章信息 -->
-                                <div class="flex-1 min-w-0">
-                                    <h3 class="text-base font-bold text-[var(--primary)] truncate group-hover:underline decoration-2 underline-offset-2">
-                                        {item.title}
-                                    </h3>
-                                    <p class="text-sm text-neutral-500 dark:text-neutral-400 truncate">
-                                        {item.category}
-                                    </p>
-                                </div>
+            <!-- 排行列表容器 -->
+            <div id="rank-list" class="flex flex-col gap-3 hidden">
+            </div>
 
-                                <!-- 访问量 -->
-                                <div class="flex-shrink-0 ml-4 flex items-center text-neutral-600 dark:text-neutral-400">
-                                    <Icon name="material-symbols:visibility" class="mr-1" />
-                                    <span class="font-medium">{item.pv}</span>
-                                </div>
-                            </div>
-                        </a>
-                    ))}
-                </div>
-            )}
+            <!-- 空状态 -->
+            <div id="rank-empty" class="text-center py-8 hidden">
+                <p class="text-neutral-700 dark:text-neutral-300">暂无排行数据</p>
+            </div>
+
+            <!-- 错误状态 -->
+            <div id="rank-error" class="text-center py-8 hidden">
+                <p class="text-red-500 dark:text-red-400">加载失败，请刷新重试</p>
+            </div>
         </div>
     </div>
 </MainGridLayout>
+
+<!-- 客户端获取排行数据 -->
+<script is:inline define:vars={{ workerApi: WORKER_API, postMap: Object.fromEntries(postMap) }}>
+    (async function() {
+        const loadingEl = document.getElementById('rank-loading');
+        const listEl = document.getElementById('rank-list');
+        const emptyEl = document.getElementById('rank-empty');
+        const errorEl = document.getElementById('rank-error');
+
+        // 排除的标签
+        const excludeTags = ['mess', 'gallery', 'photo'];
+
+        // 过滤文章 slug
+        function isValidPost(slug) {
+            // 提取 slug 部分（去掉 /posts/ 前缀和 / 后缀）
+            const cleanSlug = slug.replace(/^\/posts\//, '').replace(/\/$/, '');
+            // 检查是否在正式文章列表中
+            return postMap.hasOwnProperty(cleanSlug);
+        }
+
+        try {
+            const response = await fetch(workerApi + '/api/rank');
+            if (!response.ok) throw new Error('Network response was not ok');
+
+            const rankData = await response.json();
+
+            // 过滤并取前 10 条
+            const filteredRank = rankData
+                .filter(item => isValidPost(item.slug))
+                .slice(0, 10)
+                .map(item => {
+                    const cleanSlug = item.slug.replace(/^\/posts\//, '').replace(/\/$/, '');
+                    const postInfo = postMap[cleanSlug];
+                    return {
+                        ...postInfo,
+                        pv: item.pv
+                    };
+                });
+
+            // 隐藏加载状态
+            loadingEl.classList.add('hidden');
+
+            if (filteredRank.length === 0) {
+                emptyEl.classList.remove('hidden');
+                return;
+            }
+
+            // 渲染列表
+            listEl.classList.remove('hidden');
+
+            const rankIcons = [
+                'material-symbols:emoji-events',
+                'material-symbols:emoji-events',
+                'material-symbols:emoji-events'
+            ];
+            const rankColors = ['text-yellow-500', 'text-gray-400', 'text-amber-600'];
+
+            filteredRank.forEach((item, index) => {
+                const html = `
+                    <a href="${item.url}" class="rank-item group block relative p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50 hover:bg-[var(--btn-plain-bg-hover)] dark:hover:bg-gray-700/50 transition-all duration-300 hover:scale-[1.02]">
+                        <div class="flex items-center">
+                            <div class="rank-number flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-[var(--primary)]/10 text-[var(--primary)] font-bold mr-4">
+                                ${index < 3
+            ? `<svg class="w-6 h-6 ${rankColors[index]}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2c-1.5 2-3 3.5-3 5.5 0 2.5 2.5 3 3 3s3-.5 3-3c0-2-1.5-3.5-3-5.5zm0 10c-1.5 2-3 3.5-3 5.5 0 2.5 2.5 3 3 3s3-.5 3-3c0-2-1.5-3.5-3-5.5zm0 5.5c-1.5 2-3 3.5-3 5.5 0 2.5 2.5 3 3 3s3-.5 3-3c0-2-1.5-3.5-3-5.5z"/></svg>`
+            : `<span class="text-lg">${index + 1}</span>`
+            }
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h3 class="text-base font-bold text-[var(--primary)] truncate group-hover:underline decoration-2 underline-offset-2">
+                                    ${item.title}
+                                </h3>
+                                <p class="text-sm text-neutral-500 dark:text-neutral-400 truncate">
+                                    ${item.category || ''}
+                                </p>
+                            </div>
+                            <div class="flex-shrink-0 ml-4 flex items-center text-neutral-600 dark:text-neutral-400">
+                                <svg class="w-4 h-4 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 14"><path d="M10 0C4.612 0 0 3.866 0 7c0 2.032 1.075 3.819 2.782 4.615.205.078.28-.088.28-.196 0-.097-.004-.354-.006-.695l-.596-.893c-.224-.336-.46-.422-.536-.422-.313-.012-.635.196-.635.196-.289.01-.412.202-.412.412 0 .287.296.414.54.526.204.093.278.204.278.413-.335.093-.691.203-1.002.247-.314.044-.463.151-.463.336 0 .247.007.448.007.509 0 .083-.035.151-.131.194l-.414.298c-.075.058-.168.07-.246.04-.311-.115-.505-.372-.505-.752 0-.419.303-.799.792-.9.401-.082.742-.199.742-.487 0-.246-.095-.45-.327-.628-.185-.142-.463-.203-.463-.203l-.298.093c-.21.007-.42-.093-.535-.297-.075-.168-.112-.361-.112-.555 0-.495.372-.952.936-1.052.38-.067.685-.224.685-.461 0-.327-.204-.588-.595-.784l-.596-.893c-.224-.336-.298-.448-.298-.588 0-.196.168-.357.373-.357h.784c1.495 0 2.697-.888 2.697-1.98 0-.933-.562-1.784-1.484-2.137-.335-.129-.595-.336-.595-.628z"/></svg>
+                                <span class="font-medium">${item.pv}</span>
+                            </div>
+                        </div>
+                    </a>
+                `;
+                listEl.insertAdjacentHTML('beforeend', html);
+            });
+
+        } catch (error) {
+            console.error('Failed to load rank data:', error);
+            loadingEl.classList.add('hidden');
+            errorEl.classList.remove('hidden');
+        }
+    })();
+</script>
 
 <style>
     .rank-item {

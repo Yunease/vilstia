@@ -45,6 +45,14 @@ for (const post of allPosts) {
 
     <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
         <div class="card-base z-10 px-6 py-5 relative w-full">
+            <!-- 统计说明 -->
+            <div class="mb-4 p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700/50 rounded-lg">
+                <p class="text-sm text-amber-800 dark:text-amber-200/80">
+                    <span class="font-medium">提示：</span>
+                    本页面统计数据由 Cloudflare KV 独立统计，可能与页面底部显示的 Vercount 数据存在差异，仅供参考。
+                </p>
+            </div>
+
             <h1 class="text-2xl font-bold text-[var(--primary)] mb-6 flex items-center">
                 <Icon name="material-symbols:leaderboard" class="mr-2 text-2xl" />
                 访问排行

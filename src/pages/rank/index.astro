@@ -1,12 +1,142 @@
 ---
 import MainGridLayout from "../../layouts/MainGridLayout.astro";
+import { getCollection } from "astro:content";
+import { Icon } from "astro-icon/components";
+import { getPostUrlBySlug } from "../../utils/url-utils";
+
+// Worker API 地址
+const WORKER_API = "https://vilstia.2642076599.workers.dev";
+
+// 获取所有正式文章（排除 mess、gallery、photo 标签）
+const allPosts = await getCollection("posts", ({ data }) => {
+    // 排除草稿
+    if (data.draft === true) return false;
+
+    // 排除特定标签的文章
+    const excludeTags = ["mess", "gallery", "photo"];
+    const postTags = data.tags;
+    if (!postTags) return true;
+    const tagsArray = Array.isArray(postTags) ? postTags : [postTags];
+    const hasExcludeTag = tagsArray.some(
+        (tag) => excludeTags.includes(tag.toLowerCase())
+    );
+    return !hasExcludeTag;
+});
+
+// 构建 slug -> 文章信息 的映射
+const postMap = new Map();
+for (const post of allPosts) {
+    postMap.set(post.slug, {
+        title: post.data.title,
+        slug: post.slug,
+        url: getPostUrlBySlug(post.slug),
+        category: post.data.category || "",
+    });
+}
+
+// 从 Worker API 获取排行数据
+let rankData: { slug: string; pv: number }[] = [];
+try {
+    const response = await fetch(`${WORKER_API}/api/rank`);
+    if (response.ok) {
+        rankData = await response.json();
+    }
+} catch (error) {
+    console.error("Failed to fetch rank data:", error);
+}
+
+// 过滤并匹配文章信息，只取前 10 条
+// 需要匹配 /posts/{slug}/ 格式
+const filteredRank = rankData
+    .filter((item) => {
+        // 提取 slug 部分（去掉 /posts/ 前缀和 / 后缀）
+        const slug = item.slug.replace(/^\/posts\//, "").replace(/\/$/, "");
+        // 检查是否在正式文章列表中
+        return postMap.has(slug);
+    })
+    .slice(0, 10)
+    .map((item) => {
+        const slug = item.slug.replace(/^\/posts\//, "").replace(/\/$/, "");
+        const postInfo = postMap.get(slug);
+        return {
+            ...postInfo,
+            pv: item.pv,
+        };
+    });
+
+// 排名图标
+const rankIcons = [
+    "material-symbols:emoji-events",
+    "material-symbols:emoji-events",
+    "material-symbols:emoji-events",
+];
+const rankColors = ["text-yellow-500", "text-gray-400", "text-amber-600"];
 ---
 
 <MainGridLayout title="访问排行" description="访问排行">
     <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
         <div class="card-base z-10 px-6 py-5 relative w-full">
-            <h1 class="text-2xl font-bold text-[var(--primary)] mb-4">访问排行</h1>
-            <p class="text-neutral-700 dark:text-neutral-300">排行榜功能开发中...</p>
+            <h1 class="text-2xl font-bold text-[var(--primary)] mb-6 flex items-center">
+                <Icon name="material-symbols:leaderboard" class="mr-2 text-2xl" />
+                访问排行
+            </h1>
+
+            {filteredRank.length === 0 ? (
+                <p class="text-neutral-700 dark:text-neutral-300 text-center py-8">
+                    暂无排行数据
+                </p>
+            ) : (
+                <div class="flex flex-col gap-3">
+                    {filteredRank.map((item, index) => (
+                        <a
+                            href={item.url}
+                            class="rank-item group block relative p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50 hover:bg-[var(--btn-plain-bg-hover)] dark:hover:bg-gray-700/50 transition-all duration-300 hover:scale-[1.02]"
+                        >
+                            <div class="flex items-center">
+                                <!-- 排名 -->
+                                <div class="rank-number flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-[var(--primary)]/10 text-[var(--primary)] font-bold mr-4">
+                                    {index < 3 ? (
+                                        <Icon
+                                            name={rankIcons[index]}
+                                            class={`${rankColors[index]} text-2xl`}
+                                        />
+                                    ) : (
+                                        <span class="text-lg">{index + 1}</span>
+                                    )}
+                                </div>
+
+                                <!-- 文章信息 -->
+                                <div class="flex-1 min-w-0">
+                                    <h3 class="text-base font-bold text-[var(--primary)] truncate group-hover:underline decoration-2 underline-offset-2">
+                                        {item.title}
+                                    </h3>
+                                    <p class="text-sm text-neutral-500 dark:text-neutral-400 truncate">
+                                        {item.category}
+                                    </p>
+                                </div>
+
+                                <!-- 访问量 -->
+                                <div class="flex-shrink-0 ml-4 flex items-center text-neutral-600 dark:text-neutral-400">
+                                    <Icon name="material-symbols:visibility" class="mr-1" />
+                                    <span class="font-medium">{item.pv}</span>
+                                </div>
+                            </div>
+                        </a>
+                    ))}
+                </div>
+            )}
         </div>
     </div>
 </MainGridLayout>
+
+<style>
+    .rank-item {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .rank-item:hover {
+        box-shadow:
+            0 4px 12px rgba(0, 0, 0, 0.1),
+            0 0 0 1px var(--primary);
+    }
+</style>

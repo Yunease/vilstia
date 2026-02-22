@@ -1,5 +1,6 @@
 import type {
 	ExpressiveCodeConfig,
+	FriendConfig,
 	LicenseConfig,
 	NavBarConfig,
 	ProfileConfig,
@@ -44,6 +45,7 @@ export const navBarConfig: NavBarConfig = {
 		LinkPreset.Home,
 		LinkPreset.Archive,
 		LinkPreset.About,
+		LinkPreset.Friends,
 		LinkPreset.Silhouette,
 		{
 			name: "GitHub",
@@ -105,3 +107,21 @@ export const Stime = {
 	description: "",
 	buildTime: "2024-11-28 22:39:17", // 固定建站时间（格式：YYYY-MM-DD HH:mm:ss）
 };
+
+export const friendsConfig: FriendConfig[] = [
+	// 在这里添加你的友链信息
+	// 示例: { name: "朋友名称", avatar: "https://example.com/avatar.png", url: "https://example.com", bio: "个人签名" }
+	{
+		name: "Eno",
+		avatar: "https://img.1nuo.me/img/avatar.webp",
+		url: "https://1nuo.me",
+		bio: "We choose go to the Moon, not because it is easy, but beacuse it is hard.",
+	},
+	{
+		name: "菲兹克斯喵",
+		avatar:
+			"https://i.postimg.cc/44h2Lwkh/2DC97CA7AE85379B6F2E2BA4C0C131BA.jpg",
+		url: "https://physnya.top",
+		bio: "TA好像喜欢保持沉默",
+	},
+];

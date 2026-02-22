@@ -4,7 +4,6 @@ declare global {
 	interface Window {
 		// type from '@swup/astro' is incorrect
 		swup: AstroIntegration;
-		// rank page init function
 		initRankPage?: () => Promise<void> | void;
 		pagefind: {
 			search: (query: string) => Promise<{

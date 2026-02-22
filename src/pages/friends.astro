@@ -89,6 +89,21 @@ function processUrl(url: string): string {
             inset 0 0 30px rgba(var(--primary), 0.05);
     }
 
+    /* 头像 3D 悬停动画 */
+    .friend-avatar {
+        transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                    box-shadow 0.4s ease;
+    }
+
+    .friend-card:hover .friend-avatar {
+        /* 放大 + 向左倾斜的 3D 效果 */
+        transform: scale(1.15) rotateY(-12deg) rotateX(5deg);
+        /* 底部使用全局 primary 配色的阴影 */
+        box-shadow:
+            0 15px 35px -5px var(--primary),
+            0 8px 20px -3px var(--primary);
+    }
+
     /* 名字悬停发光效果 */
     .friend-card:hover h3 {
         text-shadow: 0 0 10px var(--primary);

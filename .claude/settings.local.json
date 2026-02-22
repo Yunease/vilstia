@@ -1,22 +1,27 @@
 {
-	"permissions": {
-		"allow": [
-			"Bash(npm run dev)",
-			"Bash(timeout /t 10)",
-			"Bash(curl:*)",
-			"Bash(dir:*)",
-			"Bash(findstr:*)",
-			"Bash(pnpm dev)",
-			"Bash(timeout:*)",
-			"Bash(node:*)",
-			"Bash(del \"D:\\\\Astro\\\\Virstia\\\\test-time.js\" \"D:\\\\Astro\\\\Virstia\\\\test-time2.js\" \"D:\\\\Astro\\\\Virstia\\\\test-time3.js\")",
-			"Bash(pnpm run build)",
-			"Bash(git push:*)",
-			"Bash(git add:*)",
-			"Bash(git commit:*)",
-			"Bash(xxd:*)",
-			"Bash(pnpm astro check)",
-			"Bash(pnpm astro dev:*)"
-		]
-	}
+  "permissions": {
+    "allow": [
+      "Bash(npm run dev)",
+      "Bash(timeout /t 10)",
+      "Bash(curl:*)",
+      "Bash(dir:*)",
+      "Bash(findstr:*)",
+      "Bash(pnpm dev)",
+      "Bash(timeout:*)",
+      "Bash(node:*)",
+      "Bash(del \"D:\\\\Astro\\\\Virstia\\\\test-time.js\" \"D:\\\\Astro\\\\Virstia\\\\test-time2.js\" \"D:\\\\Astro\\\\Virstia\\\\test-time3.js\")",
+      "Bash(pnpm run build)",
+      "Bash(git push:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(xxd:*)",
+      "Bash(pnpm astro check)",
+      "Bash(pnpm astro dev:*)",
+      "WebFetch(domain:cn.vercount.one)",
+      "WebSearch",
+      "Bash(gh repo view:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)"
+    ]
+  }
 }

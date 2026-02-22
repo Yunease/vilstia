@@ -51,7 +51,7 @@ function processUrl(url: string): string {
                                 </h3>
                                 <!-- 个人签名 -->
                                 {friend.bio && (
-                                    <p class="text-sm text-[var(--text-secondary)] truncate mt-4 ml-6">
+                                    <p class="text-sm text-neutral-700 dark:text-neutral-300 truncate mt-4 ml-6">
                                         {friend.bio}
                                     </p>
                                 )}
@@ -61,7 +61,7 @@ function processUrl(url: string): string {
                 ))}
             </div>
             {friendsConfig.length === 0 && (
-                <p class="text-center text-[var(--text-secondary)] py-8">
+                <p class="text-center text-neutral-700 dark:text-neutral-300 py-8">
                     暂无友链
                 </p>
             )}

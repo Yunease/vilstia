@@ -86,12 +86,12 @@ const stats = await calculateBlogStats();
   <div class="grid grid-cols-2 gap-4">
     <div class="flex flex-col items-center justify-center p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
       <Icon name="material-symbols:article" class="text-[var(--primary)] text-2xl mb-1" />
-      <span class="text-sm text-[var(--text-75)] dark:text-white/80">总文章</span>
+      <span class="text-sm text-neutral-700 dark:text-neutral-300">总文章</span>
       <span class="text-xl font-bold text-[var(--primary)]">{stats.totalPosts} 篇</span>
     </div>
     <div class="flex flex-col items-center justify-center p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
       <Icon name="material-symbols:format-size" class="text-[var(--primary)] text-2xl mb-1" />
-      <span class="text-sm text-[var(--text-75)] dark:text-white/80">总字数</span>
+      <span class="text-sm text-neutral-700 dark:text-neutral-300">总字数</span>
       <span class="text-xl font-bold text-[var(--primary)]">{stats.totalWords}</span>
     </div>
   </div>

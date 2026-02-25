@@ -3,7 +3,7 @@
 <span style="font-size: 2.5em; font-weight: 700; line-height: 1.8; color: var(--text-primary);">"我是要成为宝可梦大师的人啊！"</span>
 
 你好，我们是&nbsp;<span style="color: #87CEFA; font-weight: 700;">琴泠</span>&nbsp;和&nbsp;<span style="color: #6A5ACD; font-weight: 700;">Vistia</span>。  
-这里是我们的个人博客，主要用来记录一些有趣的事情——没错，总有些东西值得记录下来。
+这里是我们的个人博客，主要用来记录一些有趣和琐碎的事情———没错，总有些东西值得记录下来。
 
 我们喜欢把零散的想法整理记录起来，您能通过心灵碎片窥见一些瑰丽荒诞的世界剪影——如果那样就太好了。
 
@@ -15,12 +15,17 @@
 - 💻 专注方向：**[ 前端 / 游戏开发 / 像素艺术 / 写作 ]**
 - 🌙 MBTI: **[ INFP-A ]**
 - 🧩 正在进行的项目：
-  - **[ 个人博客：樟庭徊路 ]**
+  - **[ 个人博客：樟庭徊路/苍白花院 ]**
   - **[ 独立游戏《misen》 ]**
   - **[ 视觉小说《你好特别》 ]**
   - **[ 视觉小说《交叠之夏》 ]**
   - **[ 视觉小说《欢迎来到八股文学社》 ]**
   - **[ 宝可梦同人本《心之轨迹》 ]**
+  - **[ 散文集《如星空般深蓝》 ]**
+  - **[ 同人小说《一觉醒来全世界空洞骑士水平下降一百万倍》 ]**
+- 😊 已经完成的项目：
+  - **[ 视觉小说《苹物语》 ]**
+  - **[ windows卓面程序：时间胶囊 ]**
 
 ---
 
@@ -34,7 +39,8 @@
   - **[ 卡林巴琴 ]**
   - **[ 口琴 ]**
   - **[ 烘培 ]**
-  - **[ 唱歌 ]**
+  - **[ 翻唱 ]**
+  - **[ 健身环 ]**
 
 - 与此同时，我是这些系列的忠实粉丝！
   - **[ 宝可梦 ]**
@@ -52,7 +58,7 @@
   - 📄 技术文章（好吧其实我没什么技术，鲜花和掌声请给cline和claude code大人）
   - 📙 同人小说（暂时还没更新，请期待）
   - 💭 叙梦协定
-  - 💬 日常吐槽
+  - 💬 日常吐槽（rant）
 - 这里的图库包含：
   - 🎨 个人绘画
   - 📷 摄影照片
@@ -89,7 +95,7 @@
 
 <p style="color: #b8b8b8; font-size: 0.85em; letter-spacing: 0.3em; margin-bottom: 0.5rem; font-family: 'Georgia', serif;">✦ ✦ ✦</p>
 
-<a href="https://pale-blooms.pages.dev/" style="color: #c0c0c0; text-decoration: none; font-size: 1.1em; letter-spacing: 0.2em; transition: color 0.3s ease;">苍白花境</a>
+<a href="https://pale-blooms.pages.dev/" style="color: #c0c0c0; text-decoration: none; font-size: 1.1em; letter-spacing: 0.2em; transition: color 0.3s ease;">苍白花院</a>
 
 <p style="color: #a0a0a0; font-size: 0.8em; letter-spacing: 0.2em; margin-top: 0.5rem; font-family: 'Georgia', serif;">⁂ ⁂ ⁂</p>
 

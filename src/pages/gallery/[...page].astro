@@ -6,12 +6,47 @@ import { getGalleryPosts } from "../../utils/gallery-utils";
 
 export const getStaticPaths = (async ({ paginate }) => {
 	const galleryPosts = await getGalleryPosts();
-	return paginate(galleryPosts, { pageSize: 28 });
+	const pageSize = 28;
+
+	// Get all star posts
+	const starPosts = galleryPosts.filter((post) => post.isStar);
+
+	// Calculate number of pages
+	const totalPages = Math.ceil(galleryPosts.length / pageSize);
+
+	// If there's only 1 page, show all star posts on page 1
+	// If there are multiple pages, only show 2 star posts (1 row) on page 1
+	const maxStarPostsOnFirstPage = totalPages > 1 ? 2 : starPosts.length;
+
+	// Create pages
+	const allPages = paginate(galleryPosts, { pageSize });
+
+	// Add star posts info to each page
+	return allPages.map((page, index) => {
+		let starPostsOnPage: typeof galleryPosts = [];
+
+		if (index === 0) {
+			// First page: show star posts (up to 2 if multiple pages, all if single page)
+			starPostsOnPage = starPosts.slice(0, maxStarPostsOnFirstPage);
+		} else if (index === 1 && totalPages > 1) {
+			// Second page: show remaining star posts
+			starPostsOnPage = starPosts.slice(maxStarPostsOnFirstPage);
+		}
+
+		return {
+			...page,
+			props: {
+				...page.props,
+				starPosts: starPostsOnPage,
+			},
+		};
+	});
 }) satisfies GetStaticPaths;
 
 const { page } = Astro.props;
+const starPosts = (Astro.props as { starPosts?: typeof page.data }).starPosts ?? [];
 ---
 
 <MainGridLayout title="回廊画架" description="时光的画廊">
-	<GalleryPage page={page}></GalleryPage>
+	<GalleryPage page={page} starPosts={starPosts}></GalleryPage>
 </MainGridLayout>

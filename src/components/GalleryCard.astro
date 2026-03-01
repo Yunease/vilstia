@@ -11,6 +11,7 @@ interface Props {
 	image: string;
 	published: Date;
 	category: string | null;
+	isStar?: boolean;
 	class?: string;
 	style?: string;
 }
@@ -22,6 +23,7 @@ const {
 	image,
 	published,
 	category,
+	isStar = false,
 	class: className,
 	style,
 } = Astro.props;
@@ -37,7 +39,14 @@ const formatDate = (date: Date) => {
 };
 ---
 
-<div class:list={["gallery-card group relative rounded-xl overflow-hidden cursor-pointer", className]} style={style}>
+<div
+	class:list={[
+		"gallery-card group relative rounded-xl overflow-hidden cursor-pointer",
+		className,
+		isStar && "gallery-star-card"
+	]}
+	style={style}
+>
 	<a href={url} class="block w-full h-full" aria-label={title}>
 		<!-- Image Container -->
 		<div class="relative w-full aspect-square bg-[var(--card-bg)] overflow-hidden">
@@ -64,7 +73,7 @@ const formatDate = (date: Date) => {
 		<!-- Title Overlay (always visible at bottom) -->
 		<div class="absolute bottom-0 left-0 right-0 p-3 z-10">
 			<div class="bg-black/40 backdrop-blur-sm rounded-lg p-2 transition-all duration-300 group-hover:bg-black/60">
-				<h3 class="text-white font-medium text-sm line-clamp-2 leading-tight">
+				<h3 class:list={["text-white font-medium leading-tight", isStar ? "text-lg" : "text-sm line-clamp-2"]}>
 					{title}
 				</h3>
 				<div class="flex items-center gap-2 mt-1 text-white/70 text-xs">
@@ -84,5 +93,9 @@ const formatDate = (date: Date) => {
 	.gallery-card {
 		break-inside: avoid;
 		margin-bottom: 1rem;
+	}
+
+	.gallery-star-card {
+		margin-bottom: 0;
 	}
 </style>

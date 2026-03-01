@@ -3,6 +3,7 @@ import type { CollectionEntry } from "astro:content";
 import { getPostUrlBySlug } from "@utils/url-utils";
 import GalleryCard from "./GalleryCard.astro";
 import CustomPagination from "./control/CustomPagination.astro";
+import type { GalleryPost } from "../utils/gallery-utils";
 
 interface Props {
 	page: {
@@ -14,9 +15,10 @@ interface Props {
 			next: string | null;
 		};
 	};
+	starPosts?: GalleryPost[];
 }
 
-const { page } = Astro.props;
+const { page, starPosts = [] } = Astro.props;
 
 const len = page.data.length;
 let delay = 0;
@@ -40,6 +42,25 @@ const interval = 50;
 			漫步于回廊之间，遇见过去的自己。
 		</p>
 	</div>
+
+	<!-- Star Posts (Large Gallery) - Only on first page -->
+	{starPosts.length > 0 && (
+		<div class="gallery-star-grid mb-8">
+			{starPosts.map((entry) => (
+				<GalleryCard
+					entry={entry}
+					title={entry.data.title}
+					url={getPostUrlBySlug(entry.slug)}
+					image={entry.data.image}
+					published={entry.data.published}
+					category={entry.data.category}
+					isStar={true}
+					class="onload-animation"
+					style={`animation-delay: calc(var(--content-delay) + ${delay++ * interval}ms);`}
+				></GalleryCard>
+			))}
+		</div>
+	)}
 
 	<!-- Pixiv-style Grid Layout -->
 	<div class="gallery-grid mb-4">
@@ -66,6 +87,20 @@ const interval = 50;
 </div>
 
 <style>
+	/* Star posts: 2 columns large display */
+	.gallery-star-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 1rem;
+	}
+
+	@media (min-width: 768px) {
+		.gallery-star-grid {
+			grid-template-columns: repeat(2, 1fr);
+			gap: 1.5rem;
+		}
+	}
+
 	/* Fixed 4-column grid layout for gallery */
 	.gallery-grid {
 		display: grid;

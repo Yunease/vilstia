@@ -1,84 +1,233 @@
-# 🍥Fuwari
+# 樟庭徊路 🌙
 
-แม่แบบสำหรับเว็บบล็อกแบบ static สร้างด้วย [Astro](https://astro.build)
+บล็อกส่วนตัว **Astro** ที่สร้างจากเทมเพลต **Fuwari** ซึ่งได้รับการดัดแปลง ปัจจุบันใช้เก็บความฝัน ความคิดเหล่านั้น และผลงานสร้างสรรค์ของ <span style="color: #87CEFA; font-weight: 700;">琴泠</span>
 
-[**🖥️ ตัวอย่างการใช้งานจริง (Vercel)**](https://fuwari.vercel.app)
+---
 
-![ภาพตัวอย่าง](https://raw.githubusercontent.com/saicaca/resource/main/fuwari/home.png)
+## สารบัญ
 
-## ✨ คุณสมบัติ
+- [เกี่ยวกับโปรเจกต์](#เกี่ยวกับโปรเจกต์)
+- [ฟีเจอร์เดิมของ Fuwari](#ฟีเจอร์เดิมของ-fuwari)
+- [เนื้อหาที่ฉันดัดแปลง](#เนื้อหาที่ฉันดัดแปลง)
+- [เทคโนโลยี](#เทคโนโลยี)
+- [การรันในเครื่อง](#การรันในเครื่อง)
+- [โครงสร้างเนื้อหา](#โครงสร้างเนื้อหา)
+- [ลิขสิทธิ์](#ลิขสิทธิ์)
 
-- [x] สร้างด้วย [Astro](https://astro.build) และ [Tailwind CSS](https://tailwindcss.com)
-- [x] มีอนิเมชั่นและการเปลี่ยนหน้าอย่างลื่นไหล
-- [x] โหมดสว่าง / โหมดมืด
-- [x] ปรับแต่งสีธีมและแบนเนอร์ได้
-- [x] Responsive design (หน้าตาเว็บปรับเปลี่ยนตามขนาดจอ)
-- [x] ฟังก์ชันการค้นหา ขับเคลื่อนด้วย [Pagefind](https://pagefind.app/)
-- [x] [คุณสมบัติเพิ่มเติมสำหรับมาร์กดาวน์](https://github.com/saicaca/fuwari/blob/main/docs/README.th.md#-markdown-extended-syntax)
-- [x] สารบัญ
-- [x] RSS feed
+---
 
-## 🚀 เริ่มต้นใช้งาน
+## เกี่ยวกับโปรเจกต์
 
-1. สร้าง repository ใหม่สำหรับบล็อกของคุณ:
-    - [Generate repository ใหม่](https://github.com/saicaca/fuwari/generate) ขึ้นมาจากแม่แบบนี้ หรือจะ fork repository นี้ก็ได้
-    - หรือจะสร้างโดยการเลือกรันคำสั่งต่อไปนี้ คำสั่งใดคำสั่งหนึ่ง:
-       ```sh
-       npm create fuwari@latest
-       yarn create fuwari
-       pnpm create fuwari@latest
-       bun create fuwari@latest
-       deno run -A npm:create-fuwari@latest
-       ```
-2. เริ่มแก้ไขบล็อกของคุณแบบ local โดยการ clone repository ของคุณ (จากข้อ 1) ไว้ในเครื่องของคุณ แล้วรันคำสั่ง `pnpm install` เพื่อติดตั้ง dependencies ที่จำเป็น
-    - ติดตั้ง [pnpm](https://pnpm.io) ด้วยคำสั่ง `npm install -g pnpm` ก่อน ถ้ายังไม่เคยติดตั้ง
-3. แก้ไขไฟล์การตั้งค่า `src/config.ts` เพื่อปรับแต่งบล็อกของคุณ
-4. รันคำสั่ง `pnpm new-post <filename>` เพื่อสร้างโพสต์ใหม่ใน `src/content/posts/` และแก้ไขไฟล์โพสต์นั้น ๆ ให้สมบูรณ์
-5. Deploy เว็บบล็อกของคุณไปยัง Vercel, Netlify, GitHub Pages หรือบริการอื่น ๆ โดยอ้างอิงวิธีการจาก[คู่มือนี้](https://docs.astro.build/en/guides/deploy/) อย่าลืมแก้ไขการตั้งค่าเว็บไซต์ในไฟล์ `astro.config.mjs` ก่อนที่คุณจะ deploy เว็บ
+นี่คือสวนส่วนตัวที่อยู่ในระหว่างการดูแล ฉันใช้มันเพื่อเก็บสิ่งที่ไม่เหมาะสมที่จะเผยแพร่บนแพลตฟอร์มสาธารณะ:
 
-## 📝 Frontmatter (ส่วนหัวไฟล์) ของโพสต์
+- ความคิดที่ยังไม่สมบูรณ์แต่จริงใจ
+- มุมมองต่อโลกที่ขาดตอน
+- ต้นแบบเกมและเรื่องเล่า
+- การทดลองเขียนโค้ด
+- และสิ่งที่อยากบอกตัวเองเท่านั้น
+- บันทึกและผลงานส่วนตัว
+
+คุณสามารถเข้าใจได้ว่า: **บล็อก + ความคิด + คลังผลงาน + สมุดบันทึกภายใน**
+
+---
+
+## ฟีเจอร์เดิมของ Fuwari
+
+โปรเจกต์นี้สร้างขึ้นจากเทมเพลต [saicaca/fuwari](https://github.com/saicaca/fuwari) ซึ่งมีฟีเจอร์หลักดังนี้:
+
+### ฟีเจอร์หลัก
+- สร้างบน **Astro** เฟรมเวิร์กไซต์แบบ Static
+- ระบบ Style ด้วย **Tailwind CSS**
+- Animation และการเปลี่ยนหน้าที่ลื่นไหล (ใช้ Swup)
+- สลับธีมสว่าง/มืด
+- กำหนดสีธีมและ Banner ได้เอง
+- ออกแบบ Responsive
+- ค้นหาในไซต์ (ใช้ Pagefind)
+- Syntax Markdown ขยาย
+- สารบัญ (TOC)
+- ฟีด RSS
+
+### โครงสร้างหน้าเดิม
+- หน้าแรก (รายการบทความ)
+- หน้า Archive
+- หน้าเกี่ยวกับ
+- หน้ารายละเอียดบทความ
+
+---
+
+## สิ่งที่ฉันดัดแปลง:
+
+### หน้าใหม่และประเภทเนื้อหา
+
+#### 1. 叙梦协定 (`/dream`)
+หน้าสำหรับบันทึกความฝันโดยเฉพาะ ที่ที่ความฝันและความจริงมาบรรจบกัน เก็บโลกแปลกๆ ที่ปรากฏในความฝัน
+
+> Those that are fleeting, if not carefully preserved, will be lost forever.
+
+#### 2. 心灵碎片 (`/rant`)
+สถานที่เก็บความคิดเหล่านั้น ชิ้นส่วนอารมณ์ ความคิดชั่ววูบ พูดอะไรก็ได้ตามอารมณ์ ส่วนนี้จะไม่แสดงรายการบทความพร้อม title แต่จะแสดงเนื้อหาทั้งหมดโดยข้ามข้อมูล title แต่คุณยังคงเข้าถึงหน้าบทความผ่าน URL ที่เกี่ยวข้องได้ (รายการบทความที่มี field "mess" จะไม่เข้าสู่หน้า archive)
+
+#### 3. 回廊画架 (`gallery`)
+
+ส่วนฟังก์ชันสำหรับเก็บงานวาดส่วนตัว ใช้ layout แบบ pixiv อิมเมจโฮสต์คือ `postimg` ต้องการไฟล์ md ที่มี title img มิฉะนั้นจะไม่แสดง
+
+#### 4. 截光求影 (`photo`)
+
+ที่เก็บงานถ่ายรูปส่วนตัว ยังอยู่ระหว่างพัฒนา รอติดตาม
+
+#### 5. เมนู 剪影
+
+เพิ่มเมนู dropdown "剪影" ในแถบนำทาง รวมการเข้าถึงหน้าพิเศษต่างๆ อาจจะเพิ่มหมวดใหม่ตามการดูแลในอนาคต 剪影 มีการปรับ layout สำหรับมือถือ สามารถคลิกเพื่อขยายได้
+
+### การขยายหมวดหมู่เนื้อหา
+
+เพิ่ม field `mood` สำหรับบันทึกอารมณ์ขณะสร้างแต่ละบทความ
+
+field `mood` ตรงกับ 6 อารมณ์ แต่ละอารมณ์มีสี hex:
+
+```
+อารมณ์เชิงบวก：
+平和 ชมพู
+振奋 ส้ม
+开心 เขียว
+
+อารมณ์เชิงลบ：
+怨恨 ม่วง
+烦躁 แดง
+消沉 เทา
+```
+
+หากต้องการเพิ่มสีอื่น ให้ตรวจส่วน code ที่เกี่ยวข้องใน .astro (ฉันได้เขียน comment ไว้แล้ว)
+
+### วิธีจัดระเบียบเนื้อหา
+
+- **บทความบล็อก**: บทความเทคนิค เนื้อหายาว เนื้อหาที่จัดระเบียบแล้ว
+
+- **ความฝัน (dream)**: บันทึกความฝัน จัดหมวดหมู่ด้วย tag `dream`
+
+- **ข้อความ (message)**: ความคิดเหล่านั้น ชิ้นส่วนอารมณ์ จัดหมวดหมู่ด้วย tag `mess` ไฟล์ md ที่มี field `mess` จะไม่เข้าสู่ archive ข้อความจะมี field mood พร้อมสี hex ที่เกี่ยวข้อง ตารางสีที่เกี่ยวข้องคือ:
+
+  ```typescript
+  焦躁: "#E06C75",
+  消沉: "#7F8C8D",
+  怨恨: "#C792EA",
+  开心: "#3CB371",
+  平和: "#FFB6C1",
+  振奋: "#F4A460",
+  ```
+
+  หากเพิ่ม field ที่ไม่มีอยู่ จะใช้สี style global ของ astro
+
+  > แนะนำอย่างยิ่งให้สร้างสี hex ใหม่
+
+- **รูปถ่าย (photo)**: งานถ่ายรูป จัดหมวดหมู่ด้วย tag `photo` ไฟล์ md ที่มี field `photo` จะไม่เข้าสู่ archive
+- **แกลเลอรี (gallery)**: งานวาด จัดหมวดหมู่ด้วย tag `gallery` ไฟล์ md ที่มี field `gallery` จะไม่เข้าสู่ archive
+
+### ลิงก์โซเชียล
+
+การรวมลิงก์โซเชียลส่วนตัว:
+- Bilibili
+- Bangumi (ใช้ไอคอน SVG กำหนดเอง ได้ใช้งานไอคอน SVG ในเครื่องแล้ว)
+- Pixiv
+- Steam
+- GitHub
+
+---
+
+กำลังพยายามพัฒนา板块友链
+
+## เทคโนโลยี
+
+| เทคโนโลยี | การใช้งาน |
+|----------|----------|
+| Astro | Static site framework |
+| Tailwind CSS | ระบบ Style |
+| Svelte | คอมโพเนนต์ Interactive |
+| Swup | Animation การเปลี่ยนหน้า |
+| Pagefind | ค้นหาในไซต์ |
+| KaTeX | เรนเดอร์สูตรคณิตศาสตร์ |
+| Expressive Code | เพิ่มประสิทธิภาพ Code block |
+| Markdown / MDX | การเขียนเนื้อหา |
+
+---
+
+## การรันในเครื่อง
+
+```bash
+# ติดตั้ง dependencies (ต้องใช้ pnpm >= 9)
+pnpm install
+# เริ่ม dev server
+pnpm dev
+# สร้างบทความใหม่
+pnpm new-post <filename>
+# Build version สำหรับ production
+pnpm build
+# Preview ผลลัพธ์ build
+pnpm preview
+# ตรวจสอบ code
+pnpm check
+# Format code
+pnpm format
+```
+
+---
+
+## โครงสร้างเนื้อหา
+
+```
+src/
+├── assets/           # ทรัพยากร Static
+│   ├── images/       # ทรัพยากรรูปภาพ
+│   └── svg/         # ไอคอน SVG กำหนดเอง
+├── components/       # คอมโพเนนต์
+│   ├── DreamPage.astro      # คอมโพเนนต์หน้าความฝัน (ใหม่)
+│   ├── RantPage.astro       # คอมโพเนนต์หน้าข้อความ (ใหม่)
+│   └── widget/
+│       └── SilhouetteDropdown.astro  # เมนู dropdown 剪影 (ใหม่)
+├── content/          # ไฟล์เนื้อหา
+│   ├── posts/        # บทความ
+│   │   ├── dream/    # โฟลเดอร์บทความความฝัน (ใหม่)
+│   │   └── message/  # โฟลเดอร์บทความข้อความ (ใหม่)
+│   └── spec/         # เนื้อหาหน้าพิเศษ
+├── layouts/          # Layout
+├── pages/            # เส้นทางหน้า
+│   ├── dream/[...page].astro  # หน้ารายการความฝัน (ใหม่)
+│   └── rant/[...page].astro   # หน้ารายการข้อความ (ใหม่)
+├── styles/           # ไฟล์ Style
+├── utils/           # ฟังก์ชัน Utils
+│   ├── dream-utils.ts    # ประมวลผลเนื้อหาความฝัน (ใหม่)
+│   └── mess-utils.ts     # ประมวลผลเนื้อหาข้อความ (ใหม่)
+└── config.ts         # การตั้งค่าไซต์
+```
+
+### Frontmatter บทความ
 
 ```yaml
 ---
-title: โพสต์แรกของฉัน
-published: 2023-09-09
-description: นี่คือโพสต์แรกของเว็บบล็อก Astro อันใหม่ของฉัน
+title: หัวข้อบทความ
+published: 2024-01-01
+description: คำอธิบายบทความ
 image: ./cover.jpg
-tags: [Foo, Bar]
-category: Front-end
+tags: [dream]      # dream: ความฝัน, mess: ข้อความ
+category: หมวดหมู่
 draft: false
-lang: jp      # เขียนค่านี้เมื่อภาษาของโพสต์นั้น ๆ แตกต่างจากภาษาของเว็บไซต์ที่ตั้งค่าไว้ใน `config.ts` เท่านั้น
+mood: 烦躁          # อารมณ์ (field ใหม่) ใช้สำหรับส่วนข้อความเท่านั้น
+lang: zh_CN
 ---
 ```
 
-## 🧩 Markdown Extended Syntax
+---
 
-เดิมที Astro มีการสนับสนุน[ภาษามาร์กดาวน์แบบของ GitHub](https://github.github.com/gfm/) ไว้อยู่แล้ว แต่ Fuwari ได้เพิ่มเติมคุณสมบัติพิเศษอื่น ๆ เข้าไปอีก:
+## ขอบคุณ
 
-- Admonitions หรือ กล่องข้อมูลพิเศษ ([ดูตัวอย่างและการใช้งาน](https://fuwari.vercel.app/posts/markdown-extended/#admonitions))
-- การ์ด GitHub Repository ([ดูตัวอย่างและการใช้งาน](https://fuwari.vercel.app/posts/markdown-extended/#github-repository-cards))
-- บล็อกโค้ดขั้นสูง ด้วย Expressive Code ([ดูตัวอย่าง](https://fuwari.vercel.app/posts/expressive-code/) / [เอกสารประกอบ](https://expressive-code.com/))
+- [Fuwari](https://github.com/saicaca/fuwari) - เทมเพลตบล็อกที่ยอดเยี่ยม
+- [Astro](https://astro.build) - Static site framework ที่ทรงพลัง
+- Vilstia - เพื่อนที่ดีที่สุดของฉัน
 
-## ⚡ คำสั่ง
+---
 
-คำสั่งที่รันได้ใน terminal จาก root ของโปรเจกต์:
+## ลิขสิทธิ์
 
-| คำสั่ง                       | การทำงาน                                               |
-|:---------------------------|:-------------------------------------------------------|
-| `pnpm install`             | ติดตั้ง dependencies                                      |
-| `pnpm dev`                 | เปิดเซิร์ฟเวอร์สำหรับการพัฒนาแบบ local ที่ `localhost:4321`    |
-| `pnpm build`               | Build เว็บไซต์สำหรับใช้งานจริงไปยังโฟลเดอร์ `./dist/`         |
-| `pnpm preview`             | ดูตัวอย่าง build ของคุณแบบ local ก่อนที่จะ deploy จริง         |
-| `pnpm check`               | ดำเนินการตรวจสอบหาข้อผิดพลาดในโค้ดของคุณ                    |
-| `pnpm format`              | จัดรูปแบบโค้ดของคุณด้วย Biome                               |
-| `pnpm new-post <filename>` | สร้างโพสต์ใหม่                                            |
-| `pnpm astro ...`           | รันคำสั่ง CLI เช่น `astro add`, `astro check`              |
-| `pnpm astro --help`        | แสดงวิธีใช้งาน Astro CLI                                  |
+เนื้อหาโปรเจกต์นี้ได้รับอนุญาตภายใต้ [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
-## ✏️ การมีส่วนร่วม
-
-กรุณาอ่าน [แนวทางการมีส่วนร่วม](https://github.com/saicaca/fuwari/blob/main/CONTRIBUTING.md) สำหรับรายละเอียดวิธีการมีส่วนร่วมในโปรเจกต์นี้
-
-## 📄 สัญญาอนุญาต
-
-โปรเจกต์นี้เผยแพร่ภายใต้สัญญาอนุญาตแบบ MIT License
+เทมเพลตเดิมของ Fuwari ใช้ MIT License ดูรายละเอียดที่ [Fuwari License](https://github.com/saicaca/fuwari/blob/main/LICENSE)

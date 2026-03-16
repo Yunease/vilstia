@@ -1,106 +1,230 @@
-# 🍥 Fuwari
+# 樟庭徊路 🌙
 
-Template blog statis yang dibangun dengan [Astro](https://astro.build).
+Sebuah blog pribadi **Astro** berbasis模板 **Fuwari** yang telah dimodifikasi, saat ini menyimpan mimpi, pikiran acak, dan kreasi dari <span style="color: #87CEFA; font-weight: 700;">琴泠</span>.
 
-[**🖥️ Demo Langsung (Vercel)**](https://fuwari.vercel.app)
+---
 
-![Gambar Pratinjau](https://raw.githubusercontent.com/saicaca/resource/main/fuwari/home.png)
+## Daftar Isi
 
-🌏 README dalam
-[**中文**](https://github.com/saicaca/fuwari/blob/main/docs/README.zh-CN.md) /
-[**日本語**](https://github.com/saicaca/fuwari/blob/main/docs/README.ja.md) /
-[**한국어**](https://github.com/saicaca/fuwari/blob/main/docs/README.ko.md) /
-[**Español**](https://github.com/saicaca/fuwari/blob/main/docs/README.es.md) /
-[**ไทย**](https://github.com/saicaca/fuwari/blob/main/docs/README.th.md) /
-[**Tiếng Việt**](https://github.com/saicaca/fuwari/blob/main/docs/README.vi.md) /
-**Bahasa Indonesia (ini)** (Disediakan oleh komunitas, mungkin tidak selalu paling mutakhir)
+- [Tentang Proyek](#tentang-proyek)
+- [Fitur Asli Fuwari](#fitur-asli-fuwari)
+- [Konten yang Saya Modifikasi](#konten-yang-saya-modifikasi)
+- [Tech Stack](#tech-stack)
+- [Jalankan Lokal](#jalankan-lokal)
+- [Struktur Konten](#struktur-konten)
+- [Lisensi](#lisensi)
 
-## ✨ Fitur
+---
 
-- [x] Dibangun dengan [Astro](https://astro.build) dan [Tailwind CSS](https://tailwindcss.com)
-- [x] Animasi dan transisi halaman yang halus
-- [x] Mode terang / gelap
-- [x] Warna tema & banner yang bisa dikustomisasi
-- [x] Desain responsif
-- [x] Fitur pencarian dengan [Pagefind](https://pagefind.app/)
-- [x] [Fitur markdown tambahan](#-markdown-sintaks-ekstensi)
-- [x] Daftar isi (Table of Contents)
-- [x] RSS feed
+## Tentang Proyek
 
-## 🚀 Memulai
+Ini adalah situs taman pribadi yang saat ini dalam pemeliharaan. Saya menggunakannya untuk menyimpan hal-hal yang tidak cocok untuk diposting di platform publik:
 
-1. Buat repositori blog kamu:
-    - [Generate repositori baru](https://github.com/saicaca/fuwari/generate) dari template ini atau fork repositori ini.
-    - Atau jalankan salah satu perintah berikut:
-       ```sh
-        # npm
-        npm create fuwari@latest.
+- Pemikiran yang belum matang tapi jujur
+- Pandangan dunia yang terputus-putus
+- Prototipe game dan cerita
+- Eksperimen kode
+- Dan hal-hal yang hanya ingin saya katakan kepada diri sendiri
+- Jurnal dan karya pribadi
 
-        # yarn
-        yarn create fuwari.
+Anda bisa memahami ini sebagai: **Blog + Pikiran + Repositori Kreasi + Memo Internal**
 
-        # pnpm
-        pnpm create fuwari@latest
+---
 
-        # bun
-        bun create fuwari@latest
+## Fitur Asli Fuwari
 
-        # deno
-        deno run -A npm:create-fuwari@latest
-        ```
-2. Untuk mengedit blog secara lokal, klon repositori kamu, jalankan `pnpm install` untuk instalasi dependensi.
-    - Install [pnpm](https://pnpm.io) `npm install -g pnpm` jika belum punya.
-3. Edit file konfigurasi `src/config.ts` untuk menyesuaikan blog.
-4. Jalankan `pnpm new-post <nama-file>` untuk membuat postingan baru dan edit di `src/content/posts/`.
-5. Deploy blog ke Vercel, Netlify, GitHub Pages, dll. sesuai [panduan](https://docs.astro.build/en/guides/deploy/). Jangan lupa edit konfigurasi situs di `astro.config.mjs` sebelum deploy.
+Proyek ini dibangun di atas template [saicaca/fuwari](https://github.com/saicaca/fuwari), yang menyediakan fitur inti berikut:
 
-## 📝 Frontmatter Postingan
+### Fitur Inti
+- Built on **Astro** static site framework
+- **Tailwind CSS** styling system
+- Animasi halus dan transisi halaman (berdasarkan Swup)
+- Pergantian tema terang/gelap
+- Warna tema & Banner yang dapat disesuaikan
+- Desain responsif
+- Pencarian di situs (berdasarkan Pagefind)
+- Sintaks Markdown yang diperluas
+- Daftar Isi (TOC)
+- Langganan RSS
+
+### Struktur Halaman Asli
+- Beranda (daftar artikel)
+- Halaman Arsip
+- Halaman Tentang
+- Halaman Detail Artikel
+
+---
+
+## Apa yang saya modifikasi:
+
+### Halaman Baru & Jenis Konten
+
+#### 1. 叙梦协定 (`/dream`)
+Halaman khusus untuk mencatat mimpi. Tempat mimpi dan kenyataan bersilangan, menyimpan dunia aneh yang muncul dalam tidur.
+
+>Those that are fleeting, if not carefully preserved, will be lost forever.
+
+#### 2. 心灵碎片 (`/rant`)
+Tempat untuk menyimpan吐槽 singkat, fragmen emosi, pemikiran langsung. Mengatakan apa saja, tergantung suasana hati. Bagian ini tidak akan menampilkan item artikel dengan title, melainkan menampilkan sepenuhnya mengabaikan informasi title, tetapi Anda masih dapat mengakses halaman artikel melalui URL yang sesuai (item artikel dengan field "mess" tidak akan masuk ke halaman arsip)
+
+#### 3. 回廊画架 (`gallery`)
+
+Bagian fungsi untuk menyimpan karya lukisan pribadi, menggunakan layout seperti pixiv. Image hosting adalah `postimg`, memerlukan file md memiliki title img, jika tidak tidak akan ditampilkan.
+
+#### 4. 截光求影 (`photo`)
+
+Tempat penyimpanan karya fotografi pribadi, masih dalam pengembangan, harap ditunggu.
+
+#### 5. Menu 剪影
+
+Menambahkan menu dropdown "剪影" di bilah navigasi, mengintegrasikan akses ke berbagai halaman khusus. Mungkin akan menambahkan板块 baru di masa depan berdasarkan pemeliharaan. 剪影 telah diadaptasi untuk tata letak seluler, dapat diklik untuk memperluas.
+
+### Perluasan Kategori Konten
+
+Menambahkan field `mood` untuk mencatat suasana hati setiap artikel.
+
+Field `mood` sesuai dengan enam emosi, masing-masing dengan warna heksadesimal:
+
+```
+Emosi Positif：
+平和 Merah muda
+振奋 Oranye
+开心 Hijau
+
+Emosi Negatif：
+怨恨 Ungu
+烦躁 Merah
+消沉 Abu -abu
+```
+
+Jika Anda ingin menambahkan warna berbeda, periksa bagian kode yang sesuai di .astro (saya sudah menambahkan catatan komentar)
+
+### Organisasi Konten
+
+- **Artikel Blog**: Artikel teknis, konten panjang, konten yang terorganisir
+
+- **Mimpi (dream)**: Mencatat mimpi, diklasifikasikan dengan tag `dream`
+
+- **Pesan (message)**:吐槽 singkat, fragmen emosi, diklasifikasikan dengan tag `mess`, file md dengan field `mess` tidak akan masuk ke arsip. Pesan memiliki field mood dengan warna heksadesimal yang sesuai, tabel warna yang sesuai adalah:
+
+  ```typescript
+  焦躁: "#E06C75",
+  消沉: "#7F8C8D",
+  怨恨: "#C792EA",
+  开心: "#3CB371",
+  平和: "#FFB6C1",
+  振奋: "#F4A460",
+  ```
+
+  Jika menambahkan field yang tidak ada, akan menggunakan warna gaya global astro.
+
+  > Sangat disarankan untuk membuat warna heksadesimal baru.
+
+- **Foto (photo)**: Karya fotografi, diklasifikasikan dengan tag `photo`, file md dengan field `photo` tidak akan masuk ke arsip
+- **Galeri (gallery)**: Karya lukisan, diklasifikasikan dengan tag `gallery`, file md dengan field `gallery` tidak akan masuk ke arsip
+
+### Tautan Sosial
+
+Integrasi tautan sosial pribadi:
+- Bilibili
+- Bangumi (menggunakan ikon SVG kustom, telah menggunakan ikon SVG lokal)
+- Pixiv
+- Sedang mencoba mengembangkan板块友链
+
+---
+
+## Tech Stack
+
+| Teknologi | Penggunaan |
+|-----------|------------|
+| Astro | Static site framework |
+| Tailwind CSS | Sistem styling |
+| Svelte | Komponen interaktif |
+| Swup | Animasi transisi halaman |
+| Pagefind | Pencarian di situs |
+| KaTeX | Rendering rumus matematika |
+| Expressive Code | Peningkatan blok kode |
+| Markdown / MDX | Penulisan konten |
+
+---
+
+## Jalankan Lokal
+
+```bash
+# Instal dependensi (membutuhkan pnpm >= 9)
+pnpm install
+# Mulai server pengembangan
+pnpm dev
+# Buat artikel baru
+pnpm new-post <filename>
+# Build versi produksi
+pnpm build
+# Pratinjau hasil build
+pnpm preview
+# Periksa kode
+pnpm check
+# Format kode
+pnpm format
+```
+
+---
+
+## Struktur Konten
+
+```
+src/
+├── assets/           # Aset statis
+│   ├── images/       # Sumber gambar
+│   └── svg/         # Ikon SVG kustom
+├── components/       # Komponen
+│   ├── DreamPage.astro      # Komponen halaman mimpi (baru)
+│   ├── RantPage.astro       # Komponen halaman pesan (baru)
+│   └── widget/
+│       └── SilhouetteDropdown.astro  # Menu dropdown 剪影 (baru)
+├── content/          # File konten
+│   ├── posts/        # Artikel
+│   │   ├── dream/    # Direktori artikel mimpi (baru)
+│   │   └── message/  # Direktori artikel pesan (baru)
+│   └── spec/         # Konten halaman khusus
+├── layouts/          # Tata letak
+├── pages/            # Rute halaman
+│   ├── dream/[...page].astro  # Halaman daftar mimpi (baru)
+│   └── rant/[...page].astro   # Halaman daftar pesan (baru)
+├── styles/           # File gaya
+├── utils/            # Fungsi utilitas
+│   ├── dream-utils.ts    # Pemrosesan konten mimpi (baru)
+│   └── mess-utils.ts     # Pemrosesan konten pesan (baru)
+└── config.ts         # Konfigurasi situs
+```
+
+### Frontmatter Artikel
 
 ```yaml
 ---
-title: Judul Postingan Pertama Saya
-published: 2023-09-09
-description: Ini adalah postingan pertama blog Astro saya.
+title: Judul artikel
+published: 2024-01-01
+description: Deskripsi artikel
 image: ./cover.jpg
-tags: [Foo, Bar]
-category: Front-end
+tags: [dream]      # dream: mimpi, mess: pesan
+category: Kategori
 draft: false
-lang: id   # Isi hanya jika bahasa postingan berbeda dari bahasa default di `config.ts`
+mood: 烦躁          # Suasana hati (field baru), hanya untuk bagian pesan
+lang: zh_CN
 ---
 ```
 
-## 🧩 Markdown Sintaks Ekstensi
+---
 
-Selain dukungan default Astro untuk [GitHub Flavored Markdown](https://github.github.com/gfm/), terdapat beberapa fitur tambahan:
+## Ucapan Terima Kasih
 
-- Admonisi ([Pratinjau & Cara Pakai](https://fuwari.vercel.app/posts/markdown-extended/#admonitions))
-- Kartu repositori GitHub ([Pratinjau & Cara Pakai](https://fuwari.vercel.app/posts/markdown-extended/#github-repository-cards))
-- Kode blok ekspresif lewat Expressive Code ([Pratinjau](https://fuwari.vercel.app/posts/expressive-code/) / [Dokumentasi](https://expressive-code.com/))
-
-## ⚡ Perintah
-
-Semua perintah dijalankan dari root proyek, via terminal:
-
-| Perintah                     | Aksi                                                      |
-|:-----------------------------|:----------------------------------------------------------|
-| `pnpm install`               | Instalasi dependensi                                      |
-| `pnpm dev`                   | Menjalankan server dev lokal di `localhost:4321`          |
-| `pnpm build`                 | Build untuk produksi ke folder `./dist/`                  |
-| `pnpm preview`               | Pratinjau hasil build sebelum deploy                      |
-| `pnpm check`                 | Cek error atau masalah di kode                            |
-| `pnpm format`                | Format kode dengan Biome                                  |
-| `pnpm new-post <nama-file>`  | Membuat postingan baru                                    |
-| `pnpm astro ...`             | Jalankan perintah CLI seperti `astro add`, `astro check`  |
-| `pnpm astro --help`          | Bantuan menggunakan Astro CLI                             |
-
-## ✏️ Kontribusi
-
-Lihat [Panduan Kontribusi](https://github.com/saicaca/fuwari/blob/main/CONTRIBUTING.md) untuk detail tentang cara berkontribusi ke proyek ini.
-
-## 📄 Lisensi
-
-Proyek ini dilisensikan di bawah MIT License.
+- [Fuwari](https://github.com/saicaca/fuwari) - Template blog yang luar biasa
+- [Astro](https://astro.build) - Static site framework yang kuat
+- Vilstia - Teman terbaik saya
 
 ---
 
-> Dokumentasi ini tersedia dalam Bahasa Indonesia. Untuk bahasa lain, lihat README di direktori docs.
+## Lisensi
+
+Konten proyek ini dilisensikan di bawah [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+
+Template asli Fuwari menggunakan Lisensi MIT, lihat [Fuwari License](https://github.com/saicaca/fuwari/blob/main/LICENSE) untuk detail.

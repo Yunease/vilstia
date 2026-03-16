@@ -1,85 +1,233 @@
-# 🍥Fuwari
+# 樟庭徊路 🌙
 
-[Astro](https://astro.build) で構築された静的ブログテンプレート
+**Fuwari** テンプレートに基づく**Astro**パーソナルブログをベースにした改造版的サイトで、現在は<span style="color: #87CEFA; font-weight: 700;">琴泠</span>の夢、雑多な考えごとと創作を载せています。
 
-[**🖥️ライブデモ (Vercel)**](https://fuwari.vercel.app)
+---
 
-![Preview Image](https://raw.githubusercontent.com/saicaca/resource/main/fuwari/home.png)
+## 目次
 
-## ✨ 特徴
+- [このプロジェクトについて](#このプロジェクトについて)
+- [Fuwari オリジナル機能](#fuwari-オリジナル機能)
+- [私の改造内容](#私の改造内容)
+- [技術スタック](#技術スタック)
+- [ローカル実行](#ローカル実行)
+- [コンテンツ構造](#コンテンツ構造)
+- [ライセンス](#ライセンス)
 
-- [x] [Astro](https://astro.build) 及び [Tailwind CSS](https://tailwindcss.com) で構築
-- [x] スムーズなアニメーションとページ遷移
-- [x] ライト/ダークテーマ対応
-- [x] カスタマイズ可能なテーマカラーとバナー
-- [x] レスポンシブデザイン
-- [ ] コメント機能
-- [x] 検索機能
-- [x] 目次
+---
 
-## 👀 以下が必要
+## このプロジェクトについて
 
-- Node.js <= 22
-- pnpm <= 9
+これは現在メンテナンス中のプライベートガーデンサイト公共のプラットフォームに载せるのに适さないものを保管するために使っています：
 
-## 🚀 使用方法 1
+- 成熟していないが真实な考え
+- 途切れ途切れの世界観
+- ゲームとストーリーのプロトタイプ
+- コード実験
+- 还有那些只想对自己说的话
+- 日記と个人作品
 
-[create-fuwari](https://github.com/L4Ph/create-fuwari)を使用して、ローカルにプロジェクトを初期化します。
+ここは**ブログ + 雑多な考えごと + 創作仓库 + 内心メモ**라고 이해하시면 됩니다。
 
-```sh
-# npm
-npm create fuwari@latest
+---
 
-# yarn
-yarn create fuwari
+## Fuwari オリジナル機能
 
-# pnpm
-pnpm create fuwari@latest
+このプロジェクトは [saicaca/fuwari](https://github.com/saicaca/fuwari) テンプレートに基づいて構築されており、以下のコア機能を提供しています：
 
-# bun
-bun create fuwari@latest
+### コア機能
+- **Astro** 静的サイトフレームワーク based
+- **Tailwind CSS** スタイリングシステム
+- Swup ベースのスムーズなアニメーションとページ遷移
+- ライト/ダークテーマ切り替え
+- カスタマイズ可能なテーマ色とBanner
+- レスポンシブデザイン
+- 站内検索（Pagefind ベース）
+- Markdown 拡張構文
+- 記事ディレクトリ（TOC）
+- RSS 購読
 
-# deno
-deno run -A npm:create-fuwari@latest
+### オリジナルページ構造
+- ホーム（記事リスト）
+- アーカイブページ
+- アバウトページ
+- 記事詳細ページ
+
+---
+
+## 私が書き换えた内容：
+
+### 新規ページとコンテンツタイプ
+
+#### 1. 叙梦协定 (`/dream`)
+梦境を記録する专用ページ。梦境と现実が交错する场所、あんな奇妙な世界收藏那些在睡梦中出现的奇妙世界。
+
+> 那些转瞬即逝的、如果不肯细心留下了，就永远的失去了。
+
+#### 2. 心灵碎片 (`/rant`)
+短いネガティブコメント、情绪片段、即座の想法を存储する场所。適当に何かを言う、心情による。这个板块不会呈现文章条目，而是忽略タイトル情報完整展示出来，但你仍可以通过对应的url访问文章页面（含有mess字段的文章条不会进入アーカイブページ）
+
+#### 3. 回廊画架（`gallery`）
+
+个人絵画作品存储機能版、pixivレイアウトを模倣。图床为 `postimg` 、mdファイル必须有title img，否则表示不出来。
+
+#### 4. 截光求影（`photo`）
+
+个人写真作品保管场所、まだ开发中乞，期待您。
+
+#### 5. 剪影メニュー
+
+导航栏に「剪影」ドロップダウンメニューを追加、各種特殊ページへのアクセスを統合、将来メンテナンスに応じて新しい板块を追加するかもしれません。剪影做了移动端布局适配，可以直接点击展开。
+
+### コンテンツ分類拡張
+
+各記事の创作時の気分を記録するための `mood` フィールドを追加。
+
+moodフィールド对应六种情绪，并有分别对应的十六进制颜色：
+
+```
+正面情绪：
+平和 ピンク
+振奋 オレンジ
+开心 绿色
+
+负面情绪：
+怨恨 紫
+烦躁 赤
+消沉 灰色
 ```
 
-1. `src/config.ts` ファイルを編集する事でブログを自分好みにカスタマイズ出来ます。
-2. `pnpm new-post <filename>` で新しい記事を作成し、`src/content/posts/`.フォルダ内で編集します。
-3. 作成したブログをVercel、Netlify、GitHub Pagesなどにデプロイするには[ガイド](https://docs.astro.build/ja/guides/deploy/)に従って下さい。加えて、別途デプロイを行う前に `astro.config.mjs` を編集してサイト構成を変更する必要があります。
+新しい十六进制颜色を追加したい场合は、.astroの対応するコード段をチェックしてください（我已经写明了注释）
 
-## 🚀 使用方法 2
+### コンテンツ组织方式
 
-1. [テンプレート](https://github.com/saicaca/fuwari/generate)から新しいリポジトリを作成するかCloneをします。
-2. ブログをローカルで編集するには、リポジトリをクローンした後、`pnpm install` と `pnpm add sharp` を実行して依存関係をインストールします。  
-   - [pnpm](https://pnpm.io) がインストールされていない場合は `npm install -g pnpm` で導入可能です。
-3. `src/config.ts` ファイルを編集する事でブログを自分好みにカスタマイズ出来ます。
-4. `pnpm new-post <filename>` で新しい記事を作成し、`src/content/posts/`.フォルダ内で編集します。
-5. 作成したブログをVercel、Netlify、GitHub Pagesなどにデプロイするには[ガイド](https://docs.astro.build/ja/guides/deploy/)に従って下さい。加えて、別途デプロイを行う前に `astro.config.mjs` を編集してサイト構成を変更する必要があります。
+- **ブログ記事**：技術文、長文、整理过的内容
 
-## ⚙️ 記事のフロントマター
+- **梦境 (dream)**：梦境記録、`dream` タグで分類
+
+- **碎碎念 (message)**：短いネガティブコメント、心情碎片、`mess` タグで分類、`mess` フィールドを持つmdファイルはアーカイブに入らない。碎碎念的mood字段会有对应的十六进制颜色，其对应的颜色表为：
+
+  ```typescript
+  焦躁: "#E06C75",
+  消沉: "#7F8C8D",
+  怨恨: "#C792EA",
+  开心: "#3CB371",
+  平和: "#FFB6C1",
+  振奋: "#F4A460",
+  ```
+
+  存在しないフィールドを追加した場合、astroグローバルスタイル颜色を使用する。
+
+  > 新しい十六进制颜色を追加することを强烈おすすめします。
+
+- **写真（photo）**: 写真作品、`photo` タグで分類、`photo` フィールドを持つmdファイルはアーカイブに入らない
+- **画廊（gallery）**: 絵画作品、`gallery` タグで分類、`gallery` フィールドを持つmdファイルはアーカイブに入らない
+
+### ソーシャルリンク
+
+个人ソーシャルリンク統合：
+- Bilibili
+- Bangumi (カスタムSVGアイコン使用、ローカルsvgアイコン的使用済み)
+- Pixiv
+- Steam
+- GitHub
+
+---
+
+友链板块を開発中
+
+## 技術スタック
+
+| 技術 | 用途 |
+|------|------|
+| Astro | 静的サイトフレームワーク |
+| Tailwind CSS | スタイリングシステム |
+| Svelte | インタラクティブコンポーネント |
+| Swup | ページ遷移アニメーション |
+| Pagefind | 站内検索 |
+| KaTeX | 数式レンダリング |
+| Expressive Code | コードブロック enhancement |
+| Markdown / MDX | コンテンツ記述 |
+
+---
+
+## ローカル実行
+
+```bash
+# 依存関係インストール (pnpm >= 9 必要)
+pnpm install
+# 開発サーバー起動
+pnpm dev
+# 新規記事作成
+pnpm new-post <filename>
+# 本番バージョン構築
+pnpm build
+# 構築結果プレビュー
+pnpm preview
+# コードチェック
+pnpm check
+# コードフォーマット
+pnpm format
+```
+
+---
+
+## コンテンツ構造
+
+```
+src/
+├── assets/           # 静的リソース
+│   ├── images/       # 画像リソース
+│   └── svg/          # カスタム SVG アイコン
+├── components/       # コンポーネント
+│   ├── DreamPage.astro      # 梦境ページコンポーネント (新規)
+│   ├── RantPage.astro       # 碎碎念ページコンポーネント (新規)
+│   └── widget/
+│       └── SilhouetteDropdown.astro  # 剪影ドロップダウンメニュー (新規)
+├── content/          # コンテンツファイル
+│   ├── posts/        # 記事
+│   │   ├── dream/    # 梦境記事ディレクトリ (新規)
+│   │   └── message/  # 碎碎念記事ディレクトリ (新規)
+│   └── spec/         # 特殊ページコンテンツ
+├── layouts/          # レイアウト
+├── pages/            # ページルート
+│   ├── dream/[...page].astro  # 梦境リストページ (新規)
+│   └── rant/[...page].astro   # 碎碎念リストページ (新規)
+├── styles/           # スタイルファイル
+├── utils/            # ユーティリティ関数
+│   ├── dream-utils.ts    # 梦境コンテンツ処理 (新規)
+│   └── mess-utils.ts     # 碎碎念コンテンツ処理 (新規)
+└── config.ts         # サイト設定
+```
+
+### 記事 Frontmatter
 
 ```yaml
 ---
-title: My First Blog Post
-published: 2023-09-09
-description: This is the first post of my new Astro blog.
-image: /images/cover.jpg
-tags: [Foo, Bar]
-category: Front-end
+title: 記事タイトル
+published: 2024-01-01
+description: 記事の説明
+image: ./cover.jpg
+tags: [dream]      # dream: 梦境, mess: 碎碎念
+category: 分类
 draft: false
+mood: 烦躁          # 気分 (新規フィールド)、messネガティブコメント专用
+lang: zh_CN
 ---
 ```
 
-## 🧞 コマンド
+---
 
-すべてのコマンドは、ターミナルでプロジェクトのルートから実行する必要があります:
+## 謝辞
 
-| Command                             | Action                                      |
-|:------------------------------------|:--------------------------------------------|
-| `pnpm install` AND `pnpm add sharp` | 依存関係のインストール                                 |
-| `pnpm dev`                          | `localhost:4321` で開発用ローカルサーバーを起動            |
-| `pnpm build`                        | `./dist/` にビルド内容を出力                         |
-| `pnpm preview`                      | デプロイ前の内容をローカルでプレビュー                         |
-| `pnpm new-post <filename>`          | 新しい投稿を作成                                    |
-| `pnpm astro ...`                    | `astro add`, `astro check` の様なコマンドを実行する際に使用 |
-| `pnpm astro --help`                 | Astro CLIのヘルプを表示                            |
+- [Fuwari](https://github.com/saicaca/fuwari) - 優れたブログテンプレート
+- [Astro](https://astro.build) - 強力な静的サイトフレームワーク
+- Vilstia - 最も 친しい友達
+
+---
+
+## ライセンス
+
+このプロジェクトのコンテンツは [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) ライセンスの下で公开されています。
+
+Fuwari 元テンプレートは MIT License 采用、詳細は [Fuwari License](https://github.com/saicaca/fuwari/blob/main/LICENSE) をご参照。

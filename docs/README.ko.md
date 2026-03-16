@@ -1,82 +1,233 @@
-# 🍥Fuwari
+# 樟庭徊路 🌙
 
-[Astro](https://astro.build)로 구축된 정적 블로그 템플릿입니다.
+**Fuwari** 템플릿을 기반으로 한 **Astro** 개인 블로그로, 일정 수준의 개조가 되어 있으며 현재 <span style="color: #87CEFA; font-weight: 700;">琴泠</span>의 꿈, 잡설과 창작을 담고 있습니다.
 
-[**🖥️미리보기 (Vercel)**](https://fuwari.vercel.app)
+---
 
-![Preview Image](https://raw.githubusercontent.com/saicaca/resource/main/fuwari/home.png)
+## 목차
 
-## ✨ 특징
+- [프로젝트 소개](#프로젝트-소개)
+- [Fuwari 원본 기능](#fuwari-원본-기능)
+- [내改造 내용](#내改造-내용)
+- [기술 스택](#기술-스택)
+- [로컬 실행](#로컬-실행)
+- [콘텐츠 구조](#콘텐츠-구조)
+- [라이선스](#라이선스)
 
-- [x] [Astro](https://astro.build) 및 [Tailwind CSS](https://tailwindcss.com)로 구축됨
-- [x] 부드러운 애니메이션 및 페이지 전환
-- [x] 라이트 모드 / 다크 모드
-- [x] 사용자 정의 가능한 테마 색상 및 배너
-- [x] 반응형 디자인
-- [x] [Pagefind](https://pagefind.app/)를 이용한 검색 기능
-- [x] [Markdown 확장 기능](https://github.com/saicaca/fuwari?tab=readme-ov-file#-markdown-extended-syntax)
-- [x] 목차
-- [x] RSS 피드
+---
 
-## 🚀 시작하기
-1. 블로그 저장소를 생성하세요:
-   - 이 템플릿에서 [새 저장소를 생성](https://github.com/saicaca/fuwari/generate)하거나 이 저장소를 포크하세요.
-   - 또는 다음 명령어 중 하나를 실행하세요:
-   ```sh
-       npm create fuwari@latest
-       yarn create fuwari
-       pnpm create fuwari@latest
-       bun create fuwari@latest
-       deno run -A npm:create-fuwari@latest
-   ```
-2. 로컬에서 블로그를 수정하려면, 저장소를 복제하고 `pnpm install`을 실행하여 종속성을 설치하세요.
-   - [pnpm](https://pnpm.io)이 설치되어 있지 않다면 `npm install -g pnpm`을 실행하여 설치하세요.
-3. `src/config.ts`설정 파일을 수정하여 블로그를 커스터마이징하세요.
-4. `pnpm new-post <filename>`을 실행하여 새 게시물을 만들고 `src/content/posts/`에서 수정하세요.
-5. [가이드](https://docs.astro.build/en/guides/deploy/)에 따라 블로그를 Vercel, Netlify, Github Pages 등에 배포하세요. 배포하기 전에 `astro.config.mjs`에서 사이트 구성을 수정해야 합니다.
+## 프로젝트 소개
 
-## ⚙️ 게시물의 머리말 설정
+현재 유지 관리 중인 개인 정원 스타일 사이트입니다. 공공 플랫폼에 게시하기에 적합하지 않은 것을 저장하는 데 사용합니다:
+
+- 성숙하지 않지만 진실된 생각
+- 끊�임없는 세계관
+- 게임과 이야기의 프로토타입
+- 코드 실험
+- 그리고 나 자신에게만 말하고 싶은 것들
+- 일기와 개인 작품
+
+이곳을 **블로그 + 잡설 + 창작 저장소 + 마음의 메모장**으로 이해하시면 됩니다.
+
+---
+
+## Fuwari 원본 기능
+
+이 프로젝트는 [saicaca/fuwari](https://github.com/saicaca/fuwari) 템플릿을 기반으로 구축되었으며, 원 템플릿은 다음 핵심 기능을 제공합니다:
+
+### 핵심 기능
+- **Astro** 정적 사이트 프레임워크 기반
+- **Tailwind CSS** 스타일 시스템
+- Swup 기반 부드러운 애니메이션과 페이지 전환
+- 라이트/다크 테마 전환
+- 사용자 정의 가능한 테마 색상 및 배너
+- 반응형 디자인
+-站内 검색 (Pagefind 기반)
+- Markdown 확장 구문
+- 文章 디렉토리 (TOC)
+- RSS 구독
+
+### 원본 페이지 구조
+- 홈（文章 목록）
+- 아카이브 페이지
+- 정보 페이지
+- 文章 상세 페이지
+
+---
+
+## 내가 새로 쓴 내용:
+
+###新增 페이지와 콘텐츠 유형
+
+#### 1. 叙梦协定 (`/dream`)
+꿈을 기록하는 전용 페이지입니다. 꿈과 현실이 교차하는 곳, 수면 중에 나타나는 기이한 세계를 수집합니다.
+
+>那些转瞬即逝的、如果不肯细心留下了，就永远的失去了。
+
+#### 2. 心灵碎片 (`/rant`)
+짧은吐kar, 감정 단편, 즉각적인 생각을 저장하는 곳입니다. 기분에 따라 아무 말이나 합니다. 이 섹션은文章 条을 표시하지 않고 title 정보를 완전히 무시하고 표시하지만, 해당 URL을 통해 여전히文章 페이지에 액세스할 수 있습니다 (mess 필드가 있는文章 条은 아카이브 페이지에 들어가지 않음)
+
+#### 3. 回廊画架 (`gallery`)
+
+개인 회화 작품을 저장하는 기능판으로, pixiv 레이아웃을模倣했습니다. 이미지 서버는 `postimg`이며, md 파일에 반드시 title img가 있어야 표시됩니다.
+
+#### 4. 截光求影 (`photo`)
+
+개인 사진 작품 보관소로, 아직 개발 중이니 기대해 주세요.
+
+#### 5. 剪影 메뉴
+
+네비게이션 바에「剪影」드롭다운 메뉴를 추가하여 다양한 특수 페이지へのアクセス를 통합했습니다.将来 유지 관리에 따라 새로운板块을 추가할 수 있습니다. 剪影은 모바일 레이아웃 적응이 되어 있어 직접 클릭하여 펼칠 수 있습니다.
+
+### 콘텐츠 분류 확장
+
+각 文章 창작 시의 기분을 기록하기 위한 `mood` 필드를新增했습니다.
+
+mood 필드는 6가지 감정에 해당하며 각각 16진수 색상이 있습니다:
+
+```
+긍정적 감정：
+평화 분홍
+격려 주황
+행복 녹색
+
+부정적 감정：
+원한 보라
+번민 적
+침울 회색
+```
+
+다른 색상을新增하려면 .astro의 해당 코드 단을 확인하세요 (이미 주석을 적어두었습니다)
+
+### 콘텐츠 조직 방식
+
+- **블로그 文章**：기술문, 장문, 정리된 내용
+
+- **꿈 (dream)**：꿈 기록, `dream` 태그로 분류
+
+- **잡설 (message)**：짧은吐kar, 감정 단편, `mess` 태그로 분류, `mess` 필드가 있는 md 파일은 아카이브에 들어가지 않음. 잡설의 mood 필드에 해당하는 16진수 색상이 있으며, 해당 색상표는:
+
+  ```typescript
+  초조: "#E06C75",
+  침울: "#7F8C8D",
+  원한: "#C792EA",
+  행복: "#3CB371",
+  평화: "#FFB6C1",
+  격려: "#F4A460",
+  ```
+
+  존재하지 않는 필드를 추가하면 astro 전역 스타일 색상을 사용합니다.
+
+  > 새로운 16진수 색상을新增하실 것을强烈 권장합니다.
+
+- **사진 (photo)**: 사진 작품, `photo` 태그로 분류, `photo` 필드가 있는 md 파일은 아카이브에 들어가지 않음
+- **갤러리 (gallery)**: 회화 작품, `gallery` 태그로 분류, `gallery` 필드가 있는 md 파일은 아카이브에 들어가지 않음
+
+### 소셜 링크
+
+개인 소셜 링크 통합:
+- Bilibili
+- Bangumi (사용자 정의 SVG 아이콘 사용, 로컬 svg 아이콘 사용 완료)
+- Pixiv
+- Steam
+- GitHub
+
+---
+
+友链板块를 개발 시도 중
+
+## 기술 스택
+
+| 기술 | 용도 |
+|------|------|
+| Astro | 정적 사이트 프레임워크 |
+| Tailwind CSS | 스타일 시스템 |
+| Svelte | 인터랙티브 컴포넌트 |
+| Swup | 페이지 전환 애니메이션 |
+| Pagefind |站内 검색 |
+| KaTeX | 수학 공식 렌더링 |
+| Expressive Code | 코드 블록 강화 |
+| Markdown / MDX | 콘텐츠 작성 |
+
+---
+
+## 로컬 실행
+
+```bash
+# 의존성 설치 (pnpm >= 9 필요)
+pnpm install
+# 개발 서버 시작
+pnpm dev
+# 새 文章 생성
+pnpm new-post <filename>
+# 프로덕션 버전 빌드
+pnpm build
+# 빌드 결과 미리보기
+pnpm preview
+# 코드 검사
+pnpm check
+# 코드 포맷
+pnpm format
+```
+
+---
+
+## 콘텐츠 구조
+
+```
+src/
+├── assets/           # 정적 리소스
+│   ├── images/       # 이미지 리소스
+│   └── svg/          # 사용자 정의 SVG 아이콘
+├── components/       # 컴포넌트
+│   ├── DreamPage.astro      # 꿈 페이지 컴포넌트 (新增)
+│   ├── RantPage.astro       # 잡설 페이지 컴포넌트 (新增)
+│   └── widget/
+│       └── SilhouetteDropdown.astro  # 剪影 드롭다운 메뉴 (新增)
+├── content/          # 콘텐츠 파일
+│   ├── posts/        # 文章
+│   │   ├── dream    # 꿈 文章 디렉토리 (新增)
+│   │   └── message  # 잡설 文章 디렉토리 (新增)
+│   └── spec/         # 특수 페이지 콘텐츠
+├── layouts/          # 레이아웃
+├── pages/            # 페이지 라우트
+│   ├── dream/[...page].astro  # 꿈 목록 페이지 (新增)
+│   └── rant/[...page].astro   # 잡설 목록 페이지 (新增)
+├── styles/           # 스타일 파일
+├── utils/            # 유틸리티 함수
+│   ├── dream-utils.ts    # 꿈 콘텐츠 처리 (新增)
+│   └── mess-utils.ts     # 잡설 콘텐츠 처리 (新增)
+└── config.ts         # 사이트 설정
+```
+
+### 文章 Frontmatter
 
 ```yaml
 ---
-title: 내 첫 블로그 게시물
-published: 2023-09-09
-description: 내 새로운 Astro 블로그의 첫 번째 게시물입니다!
+title: 文章 제목
+published: 2024-01-01
+description: 文章 설명
 image: ./cover.jpg
-tags: [Foo, Bar]
-category: Front-end
+tags: [dream]      # dream: 꿈, mess: 잡설
+category: 분류
 draft: false
-lang: jp      # 게시물의 언어가 `config.ts`의 사이트 언어와 다른 경우에만 설정합니다.
+mood: 번민          # 기분 (新增 필드), mess 잡설판 전용
+lang: zh_CN
 ---
 ```
-## 🧩 마크다운 확장 구문
-Astro의 기본 [GitHub Flavored Markdown](https://github.github.com/gfm/) 지원 외에도 몇 가지 추가적인 마크다운 기능이 포함되어 있습니다.
-- Admonitions ([미리보기 및 사용법](https://fuwari.vercel.app/posts/markdown-extended/#admonitions))
-- GitHub 저장소 카드 ([미리보기 및 사용법](https://fuwari.vercel.app/posts/markdown-extended/#github-repository-cards))
-- Expressive Code를 사용한 향상된 코드 블록 ([미리보기](https://fuwari.vercel.app/posts/expressive-code/) / [문서](https://expressive-code.com/))
 
+---
 
+## 감사
 
-## ⚡ 명령어
+- [Fuwari](https://github.com/saicaca/fuwari) - 우수한 블로그 템플릿
+- [Astro](https://astro.build) - 강력한 정적 사이트 프레임워크
+- Vilstia - 제 가장 친한 친구
 
-모든 명령어는 프로젝트 최상단, 터미널에서 실행됩니다:
+---
 
-| Command                             | Action                                           |
-|:------------------------------------|:-------------------------------------------------|
-| `pnpm install` | 종속성을 설치합니다.                            |
-| `pnpm dev`                          | `localhost:4321`에서 로컬 개발 서버를 시작합니다.      |
-| `pnpm build`                        | `./dist/`에 프로덕션 사이트를 구축합니다.         |
-| `pnpm check`                        | 코드에서 오류를 확인합니다.         |
-| `pnpm format`                        | Biome을 사용하여 코드를 포멧합니다.         |
-| `pnpm preview`                      | 배포하기 전에 로컬에서 빌드 미리보기     |
-| `pnpm new-post <filename>`          | 새 게시물 작성                                |
-| `pnpm astro ...`                    | `astro add`, `astro check`와 같은 CLI 명령어 실행 |
-| `pnpm astro --help`                 | Astro CLI를 사용하여 도움 받기                     |
+## 라이선스
 
-## ✏️ 기여
-이 프로젝트에 기여하는 방법에 대한 자세한 내용은 [기여 가이드](https://github.com/saicaca/fuwari/blob/main/CONTRIBUTING.md)를 확인하세요.
+이 프로젝트 콘텐츠는 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) 라이선스 하에 공개됩니다.
 
-## 📄 라이선스
-이 프로젝트는 MIT 라이선스에 따라 라이선스가 부여됩니다.
-
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fsaicaca%2Ffuwari.svg?type=large&issueType=license)](https://app.fossa.com/projects/git%2Bgithub.com%2Fsaicaca%2Ffuwari?ref=badge_large&issueType=license)
+Fuwari 원본 템플릿은 MIT 라이선스를 채택하며, 자세한 내용은 [Fuwari License](https://github.com/saicaca/fuwari/blob/main/LICENSE)를 참조하세요.

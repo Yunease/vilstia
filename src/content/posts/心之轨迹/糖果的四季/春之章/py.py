@@ -56,8 +56,8 @@ if __name__ == "__main__":
     # --------------------------
     # 【请修改这两个路径！】
     # --------------------------
-    INPUT_FILE = "巫女.md"    # 你的原始MD文件路径（例：C:/Desktop/笔记.md）
-    OUTPUT_FILE = "fixed_file.md"  # 处理后保存的路径（例：C:/Desktop/笔记_修复换行.md）
+    INPUT_FILE = "1.md"    # 你的原始MD文件路径（例：C:/Desktop/笔记.md）
+    OUTPUT_FILE = "沙漠蜻蜓的生日.md"  # 处理后保存的路径（例：C:/Desktop/笔记_修复换行.md）
     
     # 执行修复
     fix_md_line_breaks_double_newline(INPUT_FILE, OUTPUT_FILE)

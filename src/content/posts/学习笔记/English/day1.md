@@ -2,7 +2,7 @@
 title: "英语四级学习DAY1"
 published: 2026-03-10T23:54:01
 tags: [English]
-category: "外语学习"
+category: "学习"
 ---
 
 # 前言

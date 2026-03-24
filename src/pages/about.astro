@@ -1,25 +1,291 @@
 ---
 
-import { getEntry, render } from "astro:content";
-import Markdown from "@components/misc/Markdown.astro";
+import { getCollection } from "astro:content";
 import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
 import MainGridLayout from "../layouts/MainGridLayout.astro";
 
-const aboutPost = await getEntry("spec", "about");
+const aboutPosts = await getCollection("spec", ({ id }) => id.startsWith("about"));
 
-if (!aboutPost) {
-	throw new Error("About page content not found");
+// 按日期排序，最新的在前面
+const sortedPosts = aboutPosts.sort((a, b) =>
+	b.data.published.valueOf() - a.data.published.valueOf()
+);
+
+// 格式化日期
+function formatDate(date: Date): string {
+	return date.toLocaleDateString("zh-CN", {
+		year: "numeric",
+		month: "long",
+		day: "numeric",
+	});
 }
 
-const { Content } = await render(aboutPost);
+// 获取 slug（处理 about.md 和 about/xxx.md 的情况）
+function getSlug(id: string): string {
+	const slug = id
+		.replace("about", "")
+		.replace(/^\//, "")
+		.replace(/\.md$/, "");
+	return slug || "default";
+}
 ---
+
 <MainGridLayout title={i18n(I18nKey.about)} description={i18n(I18nKey.about)}>
-    <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
-        <div class="card-base z-10 px-9 py-6 relative w-full ">
-            <Markdown class="mt-2">
-                <Content />
-            </Markdown>
-        </div>
-    </div>
+	<div class="about-list-wrapper">
+		<div class="card-base z-10 px-6 py-4 relative w-full rounded-[var(--radius-large)]">
+			<ul class="about-list">
+				{
+					sortedPosts.map((post, index) => (
+						<li class="about-item-group group" data-index={index}>
+							<a
+								href={`/about/${getSlug(post.id)}/`}
+								class="about-item"
+								style={`--animation-delay: ${index * 50}ms`}
+							>
+								<span class="about-date">{formatDate(post.data.published)}</span>
+								<span class="about-title">{post.data.title}</span>
+								<span class="about-arrow">→</span>
+							</a>
+							{
+								index < sortedPosts.length - 1 && (
+									<div class="about-divider" data-total={sortedPosts.length - 1}>
+										{
+											Array.from({ length: 35 }, (_, i) => (
+												<div
+													class="about-dot"
+													data-dot-index={i}
+													style={`--dot-delay: ${i * 20}ms`}
+												></div>
+											))
+										}
+									</div>
+								)
+							}
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</div>
 </MainGridLayout>
+
+<style>
+	.about-list-wrapper {
+		animation: fade-in-up 300ms ease-out;
+		animation-fill-mode: forwards;
+	}
+
+	.about-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.about-item-group {
+		position: relative;
+		padding: 0 0.75rem;
+	}
+
+	.about-item {
+		display: flex;
+		align-items: center;
+		padding: 1.125rem 0.75rem;
+		text-decoration: none;
+		color: inherit;
+		border-radius: 0.5rem;
+		transition: background-color 200ms ease, transform 200ms ease;
+		animation: fade-in-up 300ms ease-out backwards;
+		animation-delay: var(--animation-delay);
+	}
+
+	.about-item:hover {
+		background-color: var(--btn-plain-bg-hover);
+		transform: translateX(4px);
+	}
+
+	.about-item:active {
+		background-color: var(--btn-plain-bg-active);
+		transform: translateX(2px);
+	}
+
+	.about-date {
+		flex-shrink: 0;
+		font-size: 1em;
+		font-weight: 700;
+		color: var(--meta-text);
+		min-width: 120px;
+	}
+
+	.about-title {
+		flex: 1;
+		font-weight: 400;
+		color: var(--title-text);
+	}
+
+	.about-arrow {
+		flex-shrink: 0;
+		opacity: 0;
+		transform: translateX(-8px);
+		transition: opacity 200ms ease, transform 200ms ease;
+		color: var(--primary);
+	}
+
+	.about-item:hover .about-arrow {
+		opacity: 1;
+		transform: translateX(0);
+	}
+
+	/* 横向分隔线 - 小圆点容器 */
+	.about-divider {
+		height: 1.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: relative;
+	}
+
+	.about-dot {
+		flex: 1;
+		height: 2px;
+		position: relative;
+	}
+
+	/* 小圆点 */
+	.about-dot::before {
+		content: "";
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 6px;
+		height: 6px;
+		border-radius: 50%;
+		background: oklch(0.70 0.14 var(--hue) / 0.8);
+		transition: all 150ms ease;
+		top: 50%;
+		margin-top: -3px;
+	}
+
+	:global(.dark) .about-dot::before {
+		background: oklch(0.75 0.14 var(--hue) / 0.8);
+	}
+
+	/* 激活状态（变成直线） */
+	.about-dot.active::before {
+		width: 100%;
+		height: 4px;
+		border-radius: 0;
+		background: oklch(0.70 0.14 var(--hue));
+		margin-top: -2px;
+	}
+
+	:global(.dark) .about-dot.active::before {
+		background: oklch(0.75 0.14 var(--hue));
+	}
+
+	@keyframes fade-in-up {
+		0% {
+			transform: translateY(1rem);
+			opacity: 0;
+		}
+		100% {
+			transform: translateY(0);
+			opacity: 1;
+		}
+	}
+
+	/* 移动端适配 */
+	@media (max-width: 640px) {
+		.about-item-group {
+			padding: 0 0.5rem;
+		}
+
+		.about-item {
+			padding: 1rem 0.5rem;
+		}
+
+		.about-date {
+			min-width: 90px;
+			font-size: 0.9em;
+		}
+
+		.about-title {
+			font-size: 0.95em;
+		}
+
+		.about-divider {
+			padding: 0 0.5rem;
+		}
+	}
+</style>
+
+<script>
+	function initAboutDivider() {
+		const groups = document.querySelectorAll('.about-item-group');
+
+		groups.forEach(group => {
+			const item = group.querySelector('.about-item') as HTMLElement;
+			const divider = group.querySelector('.about-divider') as HTMLElement;
+			const dots = divider?.querySelectorAll('.about-dot');
+
+			if (!dots || dots.length === 0 || !item) return;
+
+			// 当前激活的索引范围
+			let activeRange: number[] = [];
+
+			function updateDots(hoveredDotIndex: number | null) {
+				if (hoveredDotIndex === null) {
+					// 重置所有圆点
+					dots.forEach(dot => dot.classList.remove('active'));
+					activeRange = [];
+					return;
+				}
+
+				// 计算区间 [-3, +3]
+				const start = Math.max(0, hoveredDotIndex - 3);
+				const end = Math.min(dots.length - 1, hoveredDotIndex + 3);
+
+				const newRange: number[] = [];
+				for (let i = start; i <= end; i++) {
+					newRange.push(i);
+				}
+
+				// 优化：只更新有变化的圆点
+				dots.forEach((dot, index) => {
+					const shouldBeActive = newRange.includes(index);
+					const isActive = dot.classList.contains('active');
+
+					if (shouldBeActive && !isActive) {
+						dot.classList.add('active');
+					} else if (!shouldBeActive && isActive) {
+						dot.classList.remove('active');
+					}
+				});
+
+				activeRange = newRange;
+			}
+
+			// 监听鼠标在列表项上的位置
+			item.addEventListener('mousemove', (e) => {
+				const rect = item.getBoundingClientRect();
+				const x = e.clientX - rect.left;
+				const percent = x / rect.width;
+				const dotIndex = Math.floor(percent * dots.length);
+
+				if (dotIndex >= 0 && dotIndex < dots.length) {
+					updateDots(dotIndex);
+				}
+			});
+
+			item.addEventListener('mouseleave', () => {
+				updateDots(null);
+			});
+		});
+	}
+
+	// 初始化
+	initAboutDivider();
+
+	// 如果使用 Swup 或其他 SPA 框架，需要重新初始化
+	document.addEventListener('astro:page-load', initAboutDivider);
+</script>

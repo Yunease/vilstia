@@ -1,0 +1,57 @@
+---
+
+import { getCollection, render } from "astro:content";
+import Markdown from "@components/misc/Markdown.astro";
+import I18nKey from "../../i18n/i18nKey";
+import { i18n } from "../../i18n/translation";
+import MainGridLayout from "../../layouts/MainGridLayout.astro";
+
+export async function getStaticPaths() {
+	const aboutPosts = await getCollection("spec", ({ id }) => id.startsWith("about"));
+	return aboutPosts.map((post) => {
+		// 去掉 "about" 前缀和 ".md" 后缀
+		const slug = post.id
+			.replace("about", "")
+			.replace(/^\//, "")
+			.replace(/\.md$/, "")
+			|| "default";
+		return {
+			params: { slug },
+			props: { post },
+		};
+	});
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<MainGridLayout title={post.data.title} description={post.data.description || i18n(I18nKey.about)}>
+    <div class="about-wrapper">
+        <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
+            <div class="card-base z-10 px-9 py-6 relative w-full ">
+                <Markdown class="mt-2">
+                    <Content />
+                </Markdown>
+            </div>
+        </div>
+    </div>
+</MainGridLayout>
+
+<style>
+    .about-wrapper {
+        animation: fade-in-up 300ms ease-out;
+        animation-fill-mode: forwards;
+    }
+
+    @keyframes fade-in-up {
+        0% {
+            transform: translateY(1rem);
+            opacity: 0;
+        }
+        100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+</style>

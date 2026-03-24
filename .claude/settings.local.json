@@ -25,7 +25,8 @@
       "Bash(git show:*)",
       "Bash(pnpm check)",
       "Bash(ls:*)",
-      "Bash(ls -la:*)"
+      "Bash(ls -la:*)",
+      "Bash(pnpm build:*)"
     ]
   }
 }

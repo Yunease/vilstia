@@ -26,7 +26,10 @@
       "Bash(pnpm check)",
       "Bash(ls:*)",
       "Bash(ls -la:*)",
-      "Bash(pnpm build:*)"
+      "Bash(pnpm build:*)",
+      "WebFetch(domain:zh.moegirl.org.cn)",
+      "WebFetch(domain:moegirl.uk)",
+      "WebFetch(domain:dic.pixiv.net)"
     ]
   }
 }

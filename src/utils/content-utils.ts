@@ -4,7 +4,7 @@ import { i18n } from "@i18n/translation";
 import { getCategoryUrl } from "@utils/url-utils.ts";
 
 // Tags to exclude from normal post lists (these go to special pages)
-const EXCLUDED_TAGS = ["mess", "gallery", "photo"];
+const EXCLUDED_TAGS = ["mess", "gallery", "photo", "anth"];
 
 // Retrieve posts and sort them by publication date
 async function getRawSortedPosts() {

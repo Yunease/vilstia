@@ -1,0 +1,83 @@
+---
+import type { CollectionEntry } from "astro:content";
+import CustomPagination from "./control/CustomPagination.astro";
+import AnthologyCard from "./AnthologyCard.astro";
+
+interface Props {
+	page: {
+		data: CollectionEntry<"posts">[];
+		currentPage: number;
+		lastPage: number;
+		url: {
+			prev: string | null;
+			next: string | null;
+		};
+	};
+}
+
+const { page } = Astro.props;
+
+// 预定义一组好看的颜色
+const PREDEFINED_COLORS = [
+	"#E06C75",
+	"#98C379",
+	"#61AFEF",
+	"#C678DD",
+	"#56B6C2",
+	"#E5C07B",
+	"#BE5046",
+	"#7F8C8D",
+	"#C792EA",
+	"#F4A460",
+	"#3CB371",
+	"#FFB6C1",
+	"#6495ED",
+	"#D9822B",
+	"#5A6FB2",
+];
+
+// 为每篇文章单独分配随机颜色
+const entryColors: { [slug: string]: string } = {};
+page.data.forEach((entry) => {
+	entryColors[entry.slug] =
+		PREDEFINED_COLORS[Math.floor(Math.random() * PREDEFINED_COLORS.length)];
+});
+
+const len = page.data.length;
+let delay = 0;
+const interval = 100;
+---
+
+<div class="flex flex-col">
+	<!-- Page Title and Description -->
+	<div class="card-base p-6 mb-8 onload-animation">
+		<h1 class="text-3xl font-bold text-[var(--primary)] mb-3">择摘拾玑</h1>
+		<p class="text-[var(--text-neutral)] dark:text-white/80 leading-relaxed">
+			摘录一些喜欢的句子、段落或灵感。<br>
+			它们来自于互联网上无人问津的僻静处，而我把它们留在这里了。<br>
+			//所有收藏都得到了发布人的许可//
+		</p>
+	</div>
+
+	<div class="transition flex flex-col rounded-[var(--radius-large)] bg-[var(--card-bg)] py-1 md:py-0 md:bg-transparent md:gap-4 mb-4">
+		{page.data.map((entry) => {
+			const author = entry.data.author || "匿名";
+			const authorColor = entryColors[entry.slug] || "#F6C177";
+			return (
+				<AnthologyCard
+					entry={entry}
+					class="onload-animation"
+					style={`animation-delay: calc(var(--content-delay) + ${delay++ * interval}ms);`}
+					customMood={author}
+					customMoodColor={authorColor}
+				></AnthologyCard>
+			);
+		})}
+	</div>
+	<CustomPagination
+		class="mx-auto onload-animation"
+		page={page}
+		basePath="/anthology"
+		style={`animation-delay: calc(var(--content-delay) + ${len * interval}ms)`}
+	></CustomPagination>
+</div>

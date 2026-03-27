@@ -1,0 +1,17 @@
+---
+import AnthologyPage from "@components/AnthologyPage.astro";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import type { GetStaticPaths } from "astro";
+import { getAnthologyPosts } from "../../utils/anthology-utils";
+
+export const getStaticPaths = (async ({ paginate }) => {
+	const anthologyPosts = await getAnthologyPosts();
+	return paginate(anthologyPosts, { pageSize: 12 });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+---
+
+<MainGridLayout title="择摘拾玑" description="摘录一些喜欢的句子、段落或灵感">
+	<AnthologyPage page={page}></AnthologyPage>
+</MainGridLayout>

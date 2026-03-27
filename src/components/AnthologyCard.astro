@@ -1,0 +1,72 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+	entry: CollectionEntry<"posts">;
+	class?: string;
+	style?: string;
+	customMood?: string;
+	customMoodColor?: string;
+}
+
+const {
+	entry,
+	class: className,
+	style,
+	customMood,
+	customMoodColor,
+} = Astro.props;
+
+const MOOD_COLORS: { [key: string]: string } = {
+	焦躁: "#E06C75",
+	消沉: "#7F8C8D",
+	怨恨: "#C792EA",
+	开心: "#3CB371",
+	平和: "#FFB6C1",
+	振奋: "#F4A460",
+};
+
+const mood = customMood || entry.data.mood || "烦躁";
+const moodColor = customMoodColor || MOOD_COLORS[mood] || "#F6C177";
+
+const publishedDate = entry.data.published;
+
+// Format: 月日 (MM.DD)
+const monthDay = `${publishedDate.getMonth() + 1}.${publishedDate.getDate()}`;
+
+// Format: 年份 (YYYY)
+const year = publishedDate.getFullYear().toString();
+---
+
+<div class:list={["flex gap-4 onload-animation", className]} {style}>
+	<!-- Timeline (left side) -->
+	<div class="flex flex-col items-center min-w-[4.5rem]  -space-y-0.5">
+		<div class="flex flex-col items-center">
+			<div class="w-3 h-3 rounded-full bg-[var(--primary)] relative z-10"></div>
+			<div class="text-sm font-medium text-[var(--primary)] tracking-wider">
+				{monthDay}
+			</div>
+			<div class="text-xs font-light text-[var(--text-neutral)] opacity-80" style="position: relative; top:-3px;">
+				{year}
+			</div>
+		</div>
+		<div class="w-px h-full bg-gradient-to-b from-[var(--primary)] to-transparent mt-3"></div>
+	</div>
+
+	<!-- Content card -->
+	<div
+		class="flex-1 rounded-[var(--radius-large)] bg-[var(--card-bg)] p-4 transition hover:bg-[var(--btn-card-bg-hover)]"
+	>
+		<div class="flex items-center gap-2 mb-2">
+			<span
+				class="text-sm font-bold px-2 py-0.5 rounded-full"
+				style={`color: ${moodColor}; background-color: ${moodColor}15;`}
+			>
+				{mood}
+			</span>
+		</div>
+		<div class="text-[var(--text-neutral)] dark:text-white leading-relaxed whitespace-pre-wrap">
+			{entry.body}
+		</div>
+	</div>
+</div>

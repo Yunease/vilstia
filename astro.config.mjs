@@ -58,18 +58,6 @@ export default defineConfig({
 		}),
 		expressiveCode({
 			themes: [expressiveCodeConfig.theme, expressiveCodeConfig.theme],
-			lans: [
-				{
-					id: "renpy",
-					alias: ["RENPY"],
-					loader: async () => {
-						const { default: pythonLang } = await import(
-							"shiki/langs/python.mjs"
-						);
-						return pythonLang;
-					},
-				},
-			],
 			plugins: [
 				pluginCollapsibleSections(),
 				pluginLineNumbers(),
@@ -127,7 +115,7 @@ export default defineConfig({
 			parseDirectiveNode,
 		],
 		rehypePlugins: [
-			rehypeKatex,
+			[rehypeKatex, { strict: "ignore" }],
 			rehypeSlug,
 			[
 				rehypeComponents,

@@ -29,7 +29,8 @@
       "Bash(pnpm build:*)",
       "WebFetch(domain:zh.moegirl.org.cn)",
       "WebFetch(domain:moegirl.uk)",
-      "WebFetch(domain:dic.pixiv.net)"
+      "WebFetch(domain:dic.pixiv.net)",
+      "WebFetch(domain:swup.js.org)"
     ]
   }
 }

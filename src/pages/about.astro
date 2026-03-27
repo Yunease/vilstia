@@ -283,25 +283,14 @@ function getSlug(id: string): string {
 		});
 	}
 
-	// 初始化
-	initAboutDivider();
-
-	/*
-	 * 原代码（保留但禁用）：
-	 * document.addEventListener('astro:page-load', initAboutDivider);
-	 *
-	 * 问题说明：
-	 * - 'astro:page-load' 是 Astro View Transitions 的事件
-	 * - 本项目使用的是 Swup SPA 框架，而非 View Transitions
-	 * - 直接进入页面时，Swup 可能还未初始化完成，导致事件不触发
-	 *
-	 * 修复方案：
-	 * - 使用 Swup 的 'swup:enable' 事件确保 Swup 就绪后再初始化
-	 * - 如果 Swup 已存在则直接执行
-	 */
+	// 使用 swup 事件确保在页面内容替换后初始化
+	// 参考 Layout.astro 中的模式
 	if (window.swup) {
 		initAboutDivider();
 	} else {
 		document.addEventListener('swup:enable', initAboutDivider);
 	}
+
+	// 每次页面导航后重新初始化
+	document.addEventListener('swup:content:replace', initAboutDivider);
 </script>

@@ -1,8 +1,12 @@
 ---
-title: About Me - 琴泠详解
+title: About Me - 琴泠详解（ai生成）
 published: 2026-03-26
 description: 一份关于灵魂的完整画像
 ---
+
+本篇完全由ai编写，旨在让路人能够快速了解我，本人不对以下内容负责。
+
+
 
 ## 基础属性
 

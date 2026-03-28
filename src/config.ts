@@ -105,7 +105,7 @@ export const expressiveCodeConfig: ExpressiveCodeConfig = {
 export const Stime = {
 	title: "樟庭徊路",
 	description: "",
-	buildTime: "2024-11-28 22:39:17", // 固定建站时间（格式：YYYY-MM-DD HH:mm:ss）
+	buildTime: "2026-01-24 22:39:17", // 固定建站时间（格式：YYYY-MM-DD HH:mm:ss）
 };
 
 export const friendsConfig: FriendConfig[] = [

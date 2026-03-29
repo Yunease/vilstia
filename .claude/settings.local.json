@@ -32,7 +32,8 @@
       "WebFetch(domain:dic.pixiv.net)",
       "WebFetch(domain:swup.js.org)",
       "WebFetch(domain:mzh.moegirl.org.cn)",
-      "Bash(find D:AstroVirstiasrccontentpostsmessage -type f \\\\\\(-name *.md -o -name *.txt \\\\\\))"
+      "Bash(find D:AstroVirstiasrccontentpostsmessage -type f \\\\\\(-name *.md -o -name *.txt \\\\\\))",
+      "WebFetch(domain:vilstia.pages.dev)"
     ]
   }
 }

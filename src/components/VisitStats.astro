@@ -10,7 +10,7 @@ const className = Astro.props.class;
 <!-- 引入 Vercount 脚本 -->
 <script defer src="https://events.vercount.one/js"></script>
 
-<a href="/rank/" class:list={[className, "block card-base p-5 rounded-lg onload-animation hover-card"]} style="animation-delay: 325ms">
+<div class:list={[className, "block card-base p-5 rounded-lg onload-animation hover-card"]} style="animation-delay: 325ms">
 	<h3 class="font-bold text-lg mb-4 flex items-center text-[var(--primary)]">
 		<Icon name="material-symbols:visibility" class="mr-2 text-xl" />
 		访问统计
@@ -20,7 +20,7 @@ const className = Astro.props.class;
 		<span class="text-sm text-neutral-700 dark:text-neutral-300">总浏览量</span>
 		<span id="vercount_value_site_pv" class="text-xl font-bold text-[var(--primary)]">Loading</span>
 	</div>
-</a>
+</div>
 
 <style>
 	.hover-card {

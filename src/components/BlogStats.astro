@@ -7,31 +7,30 @@ interface Props {
 }
 const className = Astro.props.class;
 
-// 核心：统计总文章数 + 总字数（排除指定tag的文章）
+// 核心：统计总文章数（排除指定tag）+ 总字数（包含所有文章）
 const calculateBlogStats = async () => {
-	// 1. 定义需要排除的标签列表（仅在文章筛选阶段使用）
-	const excludeTags = ["mess", "gallery", "photo"];
+	// 1. 定义需要排除的标签列表（仅在文章篇数统计中使用）
+	const excludeTags = ["mess", "gallery", "photo", "anth"];
 
-	// 2. 获取文章并过滤：排除草稿 + 排除指定tag的文章
-	const allPosts = await getCollection("posts", ({ data }) => {
-		// 过滤1：排除草稿文章
-		if (data.draft === true) return false;
+	// 2. 获取所有文章（仅排除草稿）
+	const [allPosts, allSpecs] = await Promise.all([
+		getCollection("posts", ({ data }) => data.draft !== true),
+		getCollection("spec", ({ data }) => data.draft !== true),
+	]);
 
-		// 过滤2：排除tag包含mess/gallery/photo的文章
-		const postTags = data.tags;
-		// 无tag的文章保留
+	// 合并 posts 和 spec 集合的文章
+	const allArticles = [...allPosts, ...allSpecs];
+
+	// 3. 总文章数（排除指定tag的文章）
+	const totalPosts = allArticles.filter((post) => {
+		const postTags = post.data.tags;
 		if (!postTags) return true;
-		// 统一转为数组（兼容tag是字符串的情况，比如 tags: "mess"）
 		const tagsArray = Array.isArray(postTags) ? postTags : [postTags];
-		// 检查是否包含排除标签：包含则过滤，不包含则保留
 		const hasExcludeTag = tagsArray.some(
-			(tag) => excludeTags.includes(tag.toLowerCase()), // 忽略大小写，比如 Mess/MESS 也会被排除
+			(tag) => excludeTags.includes(tag.toLowerCase()),
 		);
 		return !hasExcludeTag;
-	});
-
-	// 3. 总文章数（已排除指定tag）
-	const totalPosts = allPosts.length;
+	}).length;
 
 	// 4. 字数统计函数（完全保留你的逻辑，仅空值兜底，不过滤markdown标签）
 	const removeMarkdown = (content: string | undefined) => {
@@ -53,9 +52,9 @@ const calculateBlogStats = async () => {
 		return cleanedContent.length;
 	};
 
-	// 5. 统计总字数（仅统计过滤后的文章）
+	// 5. 字数统计（统计所有文章，包括被排除tag的文章）
 	let totalWords = 0;
-	for (const post of allPosts) {
+	for (const post of allArticles) {
 		totalWords += removeMarkdown(post.body);
 	}
 

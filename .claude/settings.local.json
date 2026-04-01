@@ -33,7 +33,17 @@
       "WebFetch(domain:swup.js.org)",
       "WebFetch(domain:mzh.moegirl.org.cn)",
       "Bash(find D:AstroVirstiasrccontentpostsmessage -type f \\\\\\(-name *.md -o -name *.txt \\\\\\))",
-      "WebFetch(domain:vilstia.pages.dev)"
+      "WebFetch(domain:vilstia.pages.dev)",
+      "Bash(pnpm astro:*)",
+      "Bash(sort -t/ -k1 -n)",
+      "Bash(xargs grep:*)",
+      "Bash(xargs -I{} grep ^mood: {})",
+      "Bash(grep:*)",
+      "Bash(npm run:*)",
+      "Bash(sed -i '179d' \"D:/Astro/Virstia/src/components/RantPage.astro\")",
+      "Bash(sed -i '271d' \"D:/Astro/Virstia/src/components/RantPage.astro\")",
+      "Bash(sed -n '177,182p' \"D:/Astro/Virstia/src/components/RantPage.astro\")",
+      "Bash(sed -n '268,276p' \"D:/Astro/Virstia/src/components/RantPage.astro\")"
     ]
   }
 }

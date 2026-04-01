@@ -65,7 +65,46 @@ const len = page.data.length;
 let delay = 0;
 const interval = 100;
 
-//获取一共有多少md文件，优化性能不用每次都计算
+// 情绪值计算：正面情绪=+1，负面情绪=-1
+const MOOD_VALUES: { [key: string]: number } = {
+	开心: 1,
+	平和: 1,
+	振奋: 1,
+	怨恨: -1,
+	消沉: -1,
+	焦躁: -1,
+};
+
+// 按年和月分组统计心情数据
+const monthlyData: {
+	[year: number]: {
+		[month: number]: {
+			count: number;
+			totalValue: number;
+			moodCounts: { [mood: string]: number };
+		};
+	};
+} = {};
+
+for (const post of allMessPosts) {
+	const date = new Date(post.data.published);
+	const year = date.getFullYear();
+	const month = date.getMonth() + 1; // 1-12
+	const mood = post.data.mood || "烦躁";
+
+	if (!monthlyData[year]) monthlyData[year] = {};
+	if (!monthlyData[year][month]) {
+		monthlyData[year][month] = { count: 0, totalValue: 0, moodCounts: {} };
+	}
+
+	monthlyData[year][month].count++;
+	const moodValue = MOOD_VALUES[mood] ?? 0;
+	monthlyData[year][month].totalValue += moodValue;
+	monthlyData[year][month].moodCounts[mood] =
+		(monthlyData[year][month].moodCounts[mood] || 0) + 1;
+}
+
+// 获取一共有多少md文件，优化性能不用每次都计算
 const totalCount = Object.values(moodCounts).reduce(
 	(sum, count) => sum + count,
 	0,
@@ -137,7 +176,107 @@ const totalCount = Object.values(moodCounts).reduce(
 		</div>
 	</div>
 
-	<div class="transition flex flex-col rounded-[var(--radius-large)] bg-[var(--card-bg)] py-1 md:py-0 md:bg-transparent md:gap-4 mb-4">
+	<!-- 心情折线图（独立 card-base） -->
+	<div class="card-base rounded-[var(--radius-large)] bg-[var(--card-bg)] p-6 mb-12 onload-animation">
+			<div id="mood-chart-section">
+				<div class="flex items-center justify-between mb-3">
+				<span class="text-sm font-bold text-[var(--text-neutral)] dark:text-white/80">心情变化趋势</span>
+				<div class="flex items-center gap-2">
+					<button
+						id="chart-prev-year"
+						class="w-7 h-7 flex items-center justify-center rounded-full text-sm transition hover:bg-[var(--btn-regular-bg)] hover:dark:bg-[var(--btn-regular-bg-hover)]"
+						aria-label="上一年"
+					>
+						‹
+					</button>
+					<span id="chart-year-label" class="text-sm font-bold text-[var(--primary)] min-w-[3rem] text-center"></span>
+					<button
+						id="chart-next-year"
+						class="w-7 h-7 flex items-center justify-center rounded-full text-sm transition hover:bg-[var(--btn-regular-bg)] hover:dark:bg-[var(--btn-regular-bg-hover)]"
+						aria-label="下一年"
+					>
+						›
+					</button>
+				</div>
+			</div>
+			<div class="relative">
+				<svg
+					id="mood-chart"
+					viewBox="0 0 520 240"
+					class="w-full h-auto"
+					aria-label="心情折线图"
+				>
+					<!-- 参考线：正面区域（浅红背景，开心/平和/振奋等正面情绪在上方） -->
+					<rect x="50" y="10" width="440" height="100" fill="var(--mood-positive-bg, rgba(224,108,117,0.08))" rx="4" />
+					<!-- 参考线：负面区域（浅绿背景，怨恨/消沉/焦躁等负面情绪在下方） -->
+					<rect x="50" y="110" width="440" height="100" fill="var(--mood-negative-bg, rgba(60,179,113,0.08))" rx="4" />
+					<!-- 每 0.2 一条水平虚线 -->
+					<g stroke="var(--mood-grid-line, #6b728030)" stroke-width="1" stroke-dasharray="3 3">
+						<line x1="50" y1="10" x2="490" y2="10" />
+						<line x1="50" y1="30" x2="490" y2="30" />
+						<line x1="50" y1="50" x2="490" y2="50" />
+						<line x1="50" y1="70" x2="490" y2="70" />
+						<line x1="50" y1="90" x2="490" y2="90" />
+						<line x1="50" y1="110" x2="490" y2="110" />
+						<line x1="50" y1="130" x2="490" y2="130" />
+						<line x1="50" y1="150" x2="490" y2="150" />
+						<line x1="50" y1="170" x2="490" y2="170" />
+						<line x1="50" y1="190" x2="490" y2="190" />
+						<line x1="50" y1="210" x2="490" y2="210" />
+					</g>
+					<!-- Y轴刻度标签：+1, 0, -1 大字，其余小字灰色 -->
+					<text x="44" y="10" class="chart-axis-label" fill="var(--chart-label)" text-anchor="end" dominant-baseline="hanging">+1</text>
+					<text x="44" y="30" class="chart-axis-label-muted" fill="var(--chart-label-muted)" text-anchor="end" dominant-baseline="middle">+0.8</text>
+					<text x="44" y="50" class="chart-axis-label-muted" fill="var(--chart-label-muted)" text-anchor="end" dominant-baseline="middle">+0.6</text>
+					<text x="44" y="70" class="chart-axis-label-muted" fill="var(--chart-label-muted)" text-anchor="end" dominant-baseline="middle">+0.4</text>
+					<text x="44" y="90" class="chart-axis-label-muted" fill="var(--chart-label-muted)" text-anchor="end" dominant-baseline="middle">+0.2</text>
+					<text x="44" y="110" class="chart-axis-label" fill="var(--chart-label)" text-anchor="end" dominant-baseline="middle">0</text>
+					<text x="44" y="130" class="chart-axis-label-muted" fill="var(--chart-label-muted)" text-anchor="end" dominant-baseline="middle">-0.2</text>
+					<text x="44" y="150" class="chart-axis-label-muted" fill="var(--chart-label-muted)" text-anchor="end" dominant-baseline="middle">-0.4</text>
+					<text x="44" y="170" class="chart-axis-label-muted" fill="var(--chart-label-muted)" text-anchor="end" dominant-baseline="middle">-0.6</text>
+					<text x="44" y="190" class="chart-axis-label-muted" fill="var(--chart-label-muted)" text-anchor="end" dominant-baseline="middle">-0.8</text>
+					<text x="44" y="210" class="chart-axis-label" fill="var(--chart-label)" text-anchor="end" dominant-baseline="auto">-1</text>
+					<!-- X轴月份标签（1月和12月向内缩） -->
+					<text x="59" y="228" class="chart-axis-label" fill="var(--chart-label)" text-anchor="middle">1月</text>
+					<text x="90" y="228" class="chart-axis-label" fill="var(--chart-label)" text-anchor="middle">2月</text>
+					<text x="130" y="228" class="chart-axis-label" fill="var(--chart-label)" text-anchor="middle">3月</text>
+					<text x="170" y="228" class="chart-axis-label" fill="var(--chart-label)" text-anchor="middle">4月</text>
+					<text x="210" y="228" class="chart-axis-label" fill="var(--chart-label)" text-anchor="middle">5月</text>
+					<text x="250" y="228" class="chart-axis-label" fill="var(--chart-label)" text-anchor="middle">6月</text>
+					<text x="290" y="228" class="chart-axis-label" fill="var(--chart-label)" text-anchor="middle">7月</text>
+					<text x="330" y="228" class="chart-axis-label" fill="var(--chart-label)" text-anchor="middle">8月</text>
+					<text x="370" y="228" class="chart-axis-label" fill="var(--chart-label)" text-anchor="middle">9月</text>
+					<text x="410" y="228" class="chart-axis-label" fill="var(--chart-label)" text-anchor="middle">10月</text>
+					<text x="450" y="228" class="chart-axis-label" fill="var(--chart-label)" text-anchor="middle">11月</text>
+					<text x="481" y="228" class="chart-axis-label" fill="var(--chart-label)" text-anchor="middle">12月</text>
+					<!-- 折线（通过 JS 动态生成） -->
+					<path id="chart-line" d="" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+					<!-- 数据点组 -->
+					<g id="chart-dots"></g>
+					<!-- Tooltip（SVG 内嵌，坐标直接在 viewBox 内计算） -->
+					<g id="chart-tooltip" visibility="hidden" pointer-events="none">
+						<rect id="tooltip-bg" x="0" y="0" width="130" height="70" rx="6" fill="var(--float-panel-bg)" stroke="var(--primary)" stroke-width="1" />
+						<text id="tooltip-title" x="8" y="16" font-size="11" font-weight="bold" fill="var(--primary)"></text>
+						<text id="tooltip-count" x="8" y="30" font-size="10" fill="var(--tooltip-text)"></text>
+						<text id="tooltip-dominant" x="8" y="44" font-size="10" fill="var(--tooltip-text)"></text>
+						<text id="tooltip-avg" x="8" y="58" font-size="10" font-weight="bold" fill="var(--tooltip-accent)"></text>
+					</g>
+				</svg>
+			</div>
+			<!-- 无数据提示 -->
+			<div id="chart-no-data" class="hidden text-center text-sm text-[var(--text-neutral)] dark:text-white/60 py-4">
+				该年暂无心情记录
+			</div>
+	</div>
+
+	<!-- 心情折线图数据注入 -->
+	<script is:inline define:vars={{ monthlyData }}>
+		window.__MONTHLY_DATA__ = monthlyData;
+	</script>
+</div>
+
+<div>
+		<div class="transition flex flex-col rounded-[var(--radius-large)] bg-[var(--card-bg)] py-1 md:py-0 md:bg-transparent md:gap-4 mb-4">
 		{page.data.map((entry) => (
 			<RantCard
 				entry={entry}
@@ -154,7 +293,7 @@ const totalCount = Object.values(moodCounts).reduce(
 	></CustomPagination>
 </div>
 
-<style>
+<style is:global>
 	.Uline{
 		margin-bottom:  30px;
 	}
@@ -162,4 +301,232 @@ const totalCount = Object.values(moodCounts).reduce(
 		color: #6495ED;
 		background-color: #6495ED15;
 	}
+	#mood-chart {
+		--chart-label: var(--text-neutral);
+		--chart-label-muted: var(--text-neutral);
+		--tooltip-text: var(--text-neutral);
+		--tooltip-accent: var(--primary);
+	}
+	html.dark #mood-chart {
+		--chart-label: #ffffff;
+		--chart-label-muted: #ffffff99;
+		--tooltip-text: #ffffffcc;
+		--tooltip-accent: #ffffff;
+	}
+	.chart-axis-label {
+		font-size: 11px;
+	}
+	.chart-axis-label-muted {
+		font-size: 9px;
+		opacity: 0.5;
+	}
+	.chart-dot{
+		cursor: pointer;
+		transition: r 0.15s ease;
+	}
+	.chart-dot:hover{
+		r: 6;
+	}
+	#chart-prev-year, #chart-next-year{
+		color: var(--primary);
+		background: transparent;
+		border: none;
+		cursor: pointer;
+		line-height: 1;
+		font-size: 1.2rem;
+	}
 </style>
+
+<script is:inline>
+	document.addEventListener("astro:page-load", () => {
+		// 月度心情数据（define:vars 注入，备用从 data 属性读取）
+		const rawMonthlyData =
+			typeof window.__MONTHLY_DATA__ !== "undefined"
+				? window.__MONTHLY_DATA__
+				: JSON.parse(document.getElementById("mood-chart-data")?.dataset?.monthlyData || "{}");
+
+		// 情绪颜色映射
+		const MOOD_COLORS = {
+			焦躁: "#E06C75",
+			消沉: "#7F8C8D",
+			怨恨: "#C792EA",
+			开心: "#3CB371",
+			平和: "#FFB6C1",
+			振奋: "#F4A460",
+		};
+
+		// SVG 尺寸参数（对应 viewBox）
+		const PADDING_LEFT = 50;
+		const PADDING_RIGHT = 490;
+		const PADDING_TOP = 10;
+		const PADDING_BOTTOM = 110;
+		const CHART_WIDTH = PADDING_RIGHT - PADDING_LEFT;
+		const CHART_HEIGHT = PADDING_BOTTOM - PADDING_TOP;
+		const MONTH_COUNT = 12;
+		const STEP_X = CHART_WIDTH / (MONTH_COUNT - 1);
+
+		function monthToX(month) {
+			return PADDING_LEFT + (month - 1) * STEP_X;
+		}
+
+		function valueToY(value) {
+			return 110 - value * 100;
+		}
+
+		// 生成平滑曲线路径（Catmull-Rom → cubic bezier）
+		function smoothPath(points) {
+			if (points.length < 2) return "";
+			let d = "M " + points[0].x + " " + points[0].y;
+			for (let i = 0; i < points.length - 1; i++) {
+				const p0 = points[Math.max(0, i - 1)];
+				const p1 = points[i];
+				const p2 = points[i + 1];
+				const p3 = points[Math.min(points.length - 1, i + 2)];
+				const cp1x = p1.x + (p2.x - p0.x) / 6;
+				const cp1y = p1.y + (p2.y - p0.y) / 6;
+				const cp2x = p2.x - (p3.x - p1.x) / 6;
+				const cp2y = p2.y - (p3.y - p1.y) / 6;
+				d += " C " + cp1x + " " + cp1y + ", " + cp2x + " " + cp2y + ", " + p2.x + " " + p2.y;
+			}
+			return d;
+		}
+
+		function getMonthStats(monthData) {
+			if (!monthData || monthData.count === 0) return null;
+			const avgValue = monthData.totalValue / monthData.count;
+			let dominantMood = "";
+			let maxCount = 0;
+			for (const [mood, count] of Object.entries(monthData.moodCounts)) {
+				if (count > maxCount) {
+					maxCount = count;
+					dominantMood = mood;
+				}
+			}
+			return {
+				count: monthData.count,
+				avgValue: Math.round(avgValue * 100) / 100,
+				dominantMood,
+			};
+		}
+
+		function renderChart(year) {
+			const yearData = rawMonthlyData[year];
+			const linePath = document.getElementById("chart-line");
+			const dotsGroup = document.getElementById("chart-dots");
+			const noDataEl = document.getElementById("chart-no-data");
+			const yearLabel = document.getElementById("chart-year-label");
+
+			if (!yearData || !linePath || !dotsGroup) return;
+
+			yearLabel.textContent = String(year);
+
+			const validPoints = [];
+			let hasAnyData = false;
+
+			for (let m = 1; m <= 12; m++) {
+				const stats = getMonthStats(yearData[m]);
+				const x = monthToX(m);
+				const y = stats ? valueToY(stats.avgValue) : valueToY(0);
+
+				if (stats) {
+					hasAnyData = true;
+					validPoints.push({ x, y, month: m });
+				}
+			}
+
+			noDataEl.classList.toggle("hidden", hasAnyData);
+
+			const sorted = [...validPoints].sort((a, b) => a.month - b.month);
+			linePath.setAttribute("d", smoothPath(sorted));
+
+			dotsGroup.innerHTML = "";
+			for (const { x, y, month } of validPoints) {
+				const stats = getMonthStats(yearData[month]);
+				const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+				circle.setAttribute("cx", String(x));
+				circle.setAttribute("cy", String(y));
+				circle.setAttribute("r", "4.5");
+				circle.setAttribute("fill", MOOD_COLORS[stats.dominantMood] || "var(--primary)");
+				circle.setAttribute("stroke", "var(--card-bg)");
+				circle.setAttribute("stroke-width", "2");
+				circle.classList.add("chart-dot");
+				circle.dataset.month = String(month);
+				circle.dataset.year = String(year);
+				dotsGroup.appendChild(circle);
+			}
+
+			const allDots = dotsGroup.querySelectorAll("circle");
+			allDots.forEach((dot) => {
+				dot.addEventListener("mouseenter", (e) => {
+					const target = e.currentTarget;
+					const m = parseInt(target.dataset.month || "0");
+					const stats = getMonthStats(yearData[m]);
+					if (!stats) return;
+
+					const sign = stats.avgValue >= 0 ? "+" : "";
+					const dotX = parseFloat(target.getAttribute("cx") || "0");
+					const dotY = parseFloat(target.getAttribute("cy") || "0");
+
+					// 更新 SVG tooltip 内容
+					document.getElementById("tooltip-title").textContent = year + "年" + m + "月";
+					document.getElementById("tooltip-count").textContent = "发布 " + stats.count + " 条";
+					document.getElementById("tooltip-dominant").textContent = "主导情绪：" + stats.dominantMood;
+					document.getElementById("tooltip-avg").textContent = "平均：" + sign + stats.avgValue.toFixed(2);
+
+					// 计算 tooltip 位置（直接用 SVG viewBox 坐标）
+					// tooltip 宽130，定位在数据点右侧/上方，保持在图表内
+					let tx = dotX + 10;
+					let ty = dotY - 50;
+					// 右侧越界则放左侧
+					if (tx + 130 > 490) tx = dotX - 140;
+					// 上方越界则放下方
+					if (ty < 10) ty = dotY + 10;
+
+					const tooltipG = document.getElementById("chart-tooltip");
+					tooltipG.setAttribute("transform", "translate(" + tx + "," + ty + ")");
+					tooltipG.setAttribute("visibility", "visible");
+				});
+
+				dot.addEventListener("mouseleave", () => {
+					document.getElementById("chart-tooltip").setAttribute("visibility", "hidden");
+				});
+			});
+		}
+
+		const years = Object.keys(rawMonthlyData)
+			.map(Number)
+			.sort((a, b) => b - a);
+		let currentYearIndex = 0;
+
+		function updateYearButtons() {
+			const prevBtn = document.getElementById("chart-prev-year");
+			const nextBtn = document.getElementById("chart-next-year");
+			prevBtn.disabled = currentYearIndex >= years.length - 1;
+			nextBtn.disabled = currentYearIndex <= 0;
+			prevBtn.style.opacity = prevBtn.disabled ? "0.3" : "1";
+			nextBtn.style.opacity = nextBtn.disabled ? "0.3" : "1";
+		}
+
+		document.getElementById("chart-prev-year").addEventListener("click", () => {
+			if (currentYearIndex < years.length - 1) {
+				currentYearIndex++;
+				renderChart(years[currentYearIndex]);
+				updateYearButtons();
+			}
+		});
+
+		document.getElementById("chart-next-year").addEventListener("click", () => {
+			if (currentYearIndex > 0) {
+				currentYearIndex--;
+				renderChart(years[currentYearIndex]);
+				updateYearButtons();
+			}
+		});
+
+		if (years.length > 0) {
+			currentYearIndex = 0;
+			renderChart(years[0]);
+			updateYearButtons();
+		}
+	});
+</script>

@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls ./*.md)",
+      "Bash(for f:*)",
+      "Bash(do echo:*)",
+      "Read(//d/Astro/Virstia/src/content/posts/message/**)",
+      "Bash(done)"
+    ]
+  }
+}

@@ -21,6 +21,7 @@ const MOOD_COLORS: { [key: string]: string } = {
 
 const mood = entry.data.mood || "烦躁";
 const moodColor = MOOD_COLORS[mood] || "#F6C177";
+const moodLevel = entry.data.mood_level ?? 1;
 
 const publishedDate = entry.data.published;
 
@@ -67,6 +68,14 @@ const timeStr = `${hours}:${minutes}`;
 			>
 				{mood}
 			</span>
+			{moodLevel !== null && (
+				<span
+					class="text-sm font-bold px-2 py-0.5 rounded-full"
+					style={`color: ${moodColor}; background-color: ${moodColor}15;`}
+				>
+					Lv：{moodLevel}
+				</span>
+			)}
 		</div>
 		<div class="text-[var(--text-neutral)] dark:text-white leading-relaxed whitespace-pre-wrap">
 			{entry.body}

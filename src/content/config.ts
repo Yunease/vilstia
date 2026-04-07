@@ -12,6 +12,7 @@ const postsCollection = defineCollection({
 		category: z.string().optional().nullable().default(""),
 		lang: z.string().optional().default(""),
 		mood: z.string().optional().default("烦躁"),
+		mood_level: z.number().optional().nullable(),
 		author: z.string().optional().default(""),
 
 		/* For internal use */

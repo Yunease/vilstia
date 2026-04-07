@@ -65,7 +65,7 @@ const len = page.data.length;
 let delay = 0;
 const interval = 100;
 
-// 情绪值计算：正面情绪=+1，负面情绪=-1
+// 情绪极性映射：正面=+1，负面=-1
 const MOOD_VALUES: { [key: string]: number } = {
 	开心: 1,
 	平和: 1,
@@ -80,7 +80,11 @@ const monthlyData: {
 	[year: number]: {
 		[month: number]: {
 			count: number;
-			totalValue: number;
+			totalLevel: number;
+			positiveLevelSum: number;
+			negativeLevelSum: number;
+			positiveCount: number;
+			negativeCount: number;
 			moodCounts: { [mood: string]: number };
 		};
 	};
@@ -91,15 +95,32 @@ for (const post of allMessPosts) {
 	const year = date.getFullYear();
 	const month = date.getMonth() + 1; // 1-12
 	const mood = post.data.mood || "烦躁";
+	const moodValue = MOOD_VALUES[mood] ?? 0;
+	const level = (post.data.mood_level ?? 1);
 
 	if (!monthlyData[year]) monthlyData[year] = {};
 	if (!monthlyData[year][month]) {
-		monthlyData[year][month] = { count: 0, totalValue: 0, moodCounts: {} };
+		monthlyData[year][month] = {
+			count: 0,
+			totalLevel: 0,
+			positiveLevelSum: 0,
+			negativeLevelSum: 0,
+			positiveCount: 0,
+			negativeCount: 0,
+			moodCounts: {},
+		};
 	}
 
 	monthlyData[year][month].count++;
-	const moodValue = MOOD_VALUES[mood] ?? 0;
-	monthlyData[year][month].totalValue += moodValue;
+	monthlyData[year][month].totalLevel += level;
+	// 分别统计正负面 level 总和
+	if (moodValue > 0) {
+		monthlyData[year][month].positiveCount++;
+		monthlyData[year][month].positiveLevelSum += level;
+	} else if (moodValue < 0) {
+		monthlyData[year][month].negativeCount++;
+		monthlyData[year][month].negativeLevelSum += level;
+	}
 	monthlyData[year][month].moodCounts[mood] =
 		(monthlyData[year][month].moodCounts[mood] || 0) + 1;
 }
@@ -236,8 +257,8 @@ const totalCount = Object.values(moodCounts).reduce(
 					<text x="44" y="170" class="chart-axis-label-muted" fill="var(--chart-label-muted)" text-anchor="end" dominant-baseline="middle">-0.6</text>
 					<text x="44" y="190" class="chart-axis-label-muted" fill="var(--chart-label-muted)" text-anchor="end" dominant-baseline="middle">-0.8</text>
 					<text x="44" y="210" class="chart-axis-label" fill="var(--chart-label)" text-anchor="end" dominant-baseline="auto">-1</text>
-					<!-- X轴月份标签（1月和12月向内缩） -->
-					<text x="59" y="228" class="chart-axis-label" fill="var(--chart-label)" text-anchor="middle">1月</text>
+					<!-- X轴月份标签（1月和12月向内聚拢） -->
+					<text x="65" y="228" class="chart-axis-label" fill="var(--chart-label)" text-anchor="middle">1月</text>
 					<text x="90" y="228" class="chart-axis-label" fill="var(--chart-label)" text-anchor="middle">2月</text>
 					<text x="130" y="228" class="chart-axis-label" fill="var(--chart-label)" text-anchor="middle">3月</text>
 					<text x="170" y="228" class="chart-axis-label" fill="var(--chart-label)" text-anchor="middle">4月</text>
@@ -248,7 +269,9 @@ const totalCount = Object.values(moodCounts).reduce(
 					<text x="370" y="228" class="chart-axis-label" fill="var(--chart-label)" text-anchor="middle">9月</text>
 					<text x="410" y="228" class="chart-axis-label" fill="var(--chart-label)" text-anchor="middle">10月</text>
 					<text x="450" y="228" class="chart-axis-label" fill="var(--chart-label)" text-anchor="middle">11月</text>
-					<text x="481" y="228" class="chart-axis-label" fill="var(--chart-label)" text-anchor="middle">12月</text>
+					<text x="475" y="228" class="chart-axis-label" fill="var(--chart-label)" text-anchor="middle">12月</text>
+					<!-- 正面情绪占比柱状图（通过 JS 动态生成） -->
+					<g id="chart-bars"></g>
 					<!-- 折线（通过 JS 动态生成） -->
 					<path id="chart-line" d="" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
 					<!-- 数据点组 -->
@@ -302,9 +325,9 @@ const totalCount = Object.values(moodCounts).reduce(
 		background-color: #6495ED15;
 	}
 	#mood-chart {
-		--chart-label: var(--text-neutral);
-		--chart-label-muted: var(--text-neutral);
-		--tooltip-text: var(--text-neutral);
+		--chart-label: #333333;
+		--chart-label-muted: #333333cc;
+		--tooltip-text: #333333cc;
 		--tooltip-accent: var(--primary);
 	}
 	html.dark #mood-chart {
@@ -364,9 +387,11 @@ const totalCount = Object.values(moodCounts).reduce(
 		const CHART_HEIGHT = PADDING_BOTTOM - PADDING_TOP;
 		const MONTH_COUNT = 12;
 		const STEP_X = CHART_WIDTH / (MONTH_COUNT - 1);
+		// 月份位置微调：1月和12月向内聚拢，避免溢出
+		const MONTH_POSITIONS = [65, 90, 130, 170, 210, 250, 290, 330, 370, 410, 450, 475];
 
 		function monthToX(month) {
-			return PADDING_LEFT + (month - 1) * STEP_X;
+			return MONTH_POSITIONS[month - 1];
 		}
 
 		function valueToY(value) {
@@ -393,7 +418,21 @@ const totalCount = Object.values(moodCounts).reduce(
 
 		function getMonthStats(monthData) {
 			if (!monthData || monthData.count === 0) return null;
-			const avgValue = monthData.totalValue / monthData.count;
+			// 方案B：极性 × level均值
+			// Y轴 = (正面level总和 - 负面level总和) / 条数
+			// 区间 [-5, +5]，需要归一化到 [-1, +1]
+			const normalizedValue = monthData.count > 0
+				? (monthData.positiveLevelSum - monthData.negativeLevelSum) / monthData.count / 5
+				: 0;
+			// level 平均值（区间 [1, 5]）
+			const levelAvg = monthData.count > 0
+				? monthData.totalLevel / monthData.count
+				: 0;
+			// 正面情绪占比（用于柱状图）
+			const positiveRatio = monthData.count > 0
+				? monthData.positiveCount / monthData.count
+				: 0;
+
 			let dominantMood = "";
 			let maxCount = 0;
 			for (const [mood, count] of Object.entries(monthData.moodCounts)) {
@@ -402,10 +441,26 @@ const totalCount = Object.values(moodCounts).reduce(
 					dominantMood = mood;
 				}
 			}
+
+			// 情绪强度判断（基于 level 平均值）
+			// 0-1.5 平淡，1.5-3 起伏，3-5 强烈
+			let intensityLabel = "平淡";
+			if (levelAvg >= 3) {
+				intensityLabel = "强烈";
+			} else if (levelAvg >= 1.5) {
+				intensityLabel = "起伏";
+			}
+
+			// 输出到控制台方便调试
+			console.log(`levelAvg: ${levelAvg.toFixed(2)}`, intensityLabel, `positiveRatio: ${(positiveRatio * 100).toFixed(0)}%`);
+
 			return {
 				count: monthData.count,
-				avgValue: Math.round(avgValue * 100) / 100,
+				normalizedValue: Math.round(normalizedValue * 100) / 100,
+				levelAvg: Math.round(levelAvg * 100) / 100,
+				positiveRatio,
 				dominantMood,
+				intensityLabel,
 			};
 		}
 
@@ -426,7 +481,8 @@ const totalCount = Object.values(moodCounts).reduce(
 			for (let m = 1; m <= 12; m++) {
 				const stats = getMonthStats(yearData[m]);
 				const x = monthToX(m);
-				const y = stats ? valueToY(stats.avgValue) : valueToY(0);
+				// 使用归一化后的情绪值作为 Y 轴
+				const y = stats ? valueToY(stats.normalizedValue) : valueToY(0);
 
 				if (stats) {
 					hasAnyData = true;
@@ -438,6 +494,31 @@ const totalCount = Object.values(moodCounts).reduce(
 
 			const sorted = [...validPoints].sort((a, b) => a.month - b.month);
 			linePath.setAttribute("d", smoothPath(sorted));
+
+			// 绘制正面情绪占比柱状图
+			const barsGroup = document.getElementById("chart-bars");
+			barsGroup.innerHTML = "";
+			for (let m = 1; m <= 12; m++) {
+				const stats = getMonthStats(yearData[m]);
+				if (!stats) continue;
+				const x = monthToX(m);
+				// 柱条宽度
+				const barWidth = 20;
+				// 柱状图始终从底部 y=210 向上延伸
+				// 高度 = 正面占比 * 200px（总范围），最小5px
+				const barHeight = Math.max(stats.positiveRatio * 200, 5);
+				const barX = x - barWidth / 2;
+				const barY = 210 - barHeight;
+				const bar = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+				bar.setAttribute("x", String(barX));
+				bar.setAttribute("y", String(barY));
+				bar.setAttribute("width", String(barWidth));
+				bar.setAttribute("height", String(barHeight));
+				bar.setAttribute("fill", "var(--primary)");
+				bar.setAttribute("fill-opacity", "0.5");
+				bar.setAttribute("rx", "3");
+				barsGroup.appendChild(bar);
+			}
 
 			dotsGroup.innerHTML = "";
 			for (const { x, y, month } of validPoints) {
@@ -463,7 +544,7 @@ const totalCount = Object.values(moodCounts).reduce(
 					const stats = getMonthStats(yearData[m]);
 					if (!stats) return;
 
-					const sign = stats.avgValue >= 0 ? "+" : "";
+					const sign = stats.normalizedValue >= 0 ? "+" : "";
 					const dotX = parseFloat(target.getAttribute("cx") || "0");
 					const dotY = parseFloat(target.getAttribute("cy") || "0");
 
@@ -471,7 +552,9 @@ const totalCount = Object.values(moodCounts).reduce(
 					document.getElementById("tooltip-title").textContent = year + "年" + m + "月";
 					document.getElementById("tooltip-count").textContent = "发布 " + stats.count + " 条";
 					document.getElementById("tooltip-dominant").textContent = "主导情绪：" + stats.dominantMood;
-					document.getElementById("tooltip-avg").textContent = "平均：" + sign + stats.avgValue.toFixed(2);
+					// 显示情绪强度文字和归一化值
+					document.getElementById("tooltip-avg").textContent =
+						"情绪强度：" + stats.intensityLabel + " | " + sign + stats.normalizedValue.toFixed(2);
 
 					// 计算 tooltip 位置（直接用 SVG viewBox 坐标）
 					// tooltip 宽130，定位在数据点右侧/上方，保持在图表内

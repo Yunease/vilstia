@@ -443,11 +443,11 @@ const totalCount = Object.values(moodCounts).reduce(
 			}
 
 			// 情绪强度判断（基于 level 平均值）
-			// 0-1.5 平淡，1.5-3 起伏，3-5 强烈
+			// 0-2 平淡，2-3 起伏，3-5 强烈
 			let intensityLabel = "平淡";
 			if (levelAvg >= 3) {
 				intensityLabel = "强烈";
-			} else if (levelAvg >= 1.5) {
+			} else if (levelAvg >= 2) {
 				intensityLabel = "起伏";
 			}
 

@@ -2,6 +2,7 @@
 title: 忘记带钥匙
 tags: [mess]
 mood: 焦躁
+mood_level: 3
 published: 2026-01-23T01:30:02
 ---
 

@@ -1,7 +1,8 @@
 ---
 title: mess
 tags: [mess]
-mood: 平和
+mood: 振奋
+mood_level: 3
 published: 2022-03-04T23:54:01
 ---
 

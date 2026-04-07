@@ -2,6 +2,7 @@
 title: mess
 tags: [mess]
 mood: 振奋
+mood_level: 4
 published: 2022-01-20T11:19:01
 ---
 

@@ -2,6 +2,7 @@
 title: mess
 tags: [mess]
 mood: 开心
+mood_level: 2
 published: 2025-12-27T12:05:01
 ---
 

@@ -2,6 +2,7 @@
 title: mess
 tags: [mess]
 mood: 消沉
+mood_level: 3
 published: 2024-07-17T04:20:01
 ---
 

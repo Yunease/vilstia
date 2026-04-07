@@ -2,6 +2,7 @@
 title: mess
 tags: [mess]
 mood: 焦躁
+mood_level: 3
 published: 2025-12-08T19:43:01
 ---
 

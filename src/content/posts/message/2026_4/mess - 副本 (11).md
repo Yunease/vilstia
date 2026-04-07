@@ -2,6 +2,7 @@
 title: mess
 tags: [mess]
 mood: 怨恨
+mood_level: 5
 published: 2026-04-04T21:04:01
 ---
 

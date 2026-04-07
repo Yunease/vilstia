@@ -2,6 +2,7 @@
 title: mess
 tags: [mess]
 mood: 平和
+mood_level: 4
 published: 2023-09-11T05:50:01
 ---
 

@@ -43,7 +43,12 @@
       "Bash(sed -i '179d' \"D:/Astro/Virstia/src/components/RantPage.astro\")",
       "Bash(sed -i '271d' \"D:/Astro/Virstia/src/components/RantPage.astro\")",
       "Bash(sed -n '177,182p' \"D:/Astro/Virstia/src/components/RantPage.astro\")",
-      "Bash(sed -n '268,276p' \"D:/Astro/Virstia/src/components/RantPage.astro\")"
+      "Bash(sed -n '268,276p' \"D:/Astro/Virstia/src/components/RantPage.astro\")",
+      "Bash([)",
+      "Bash(/g, '')",
+      "Bash(>\\\\-\\\\[\\\\])",
+      "Bash(]/g, '')",
+      "Bash(mv:*)"
     ]
   }
 }

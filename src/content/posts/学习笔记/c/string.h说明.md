@@ -5,39 +5,58 @@ category: 学习
 published: 2023-10-29T19:32:42
 ---
 
-Strlen：返回字符串的长度。
+# string.h 说明
 
-Size_t strlen(const char*s);//返回数组s的长度（不包含末尾的0
+## strlen 函数
 
-Strcmp：用于比较两个字符串。可以比较出两个字符串的大小。
+返回字符串的长度。
 
-S1==s2  0
+```c
+size_t strlen(const char*s);  // 返回数组s的长度（不包含末尾的0）
+```
 
-S1>s2  1
+## strcmp 函数
 
-S1<s2  -1
+用于比较两个字符串。可以比较出两个字符串的大小。
 
-Int strcmp()
+```c
+// 返回值：
+// s1 == s2  -> 0
+// s1 > s2   -> 1
+// s1 < s2   -> -1
+int strcmp()
+```
 
 输出两个不相等字符的差值。
 
-Strcpy：把第二个字符串里的字符拷贝到第一个字符串里，结果返回第一个字符串
+## strcpy 函数
 
-Char *strcpy(char* a,char* b)
+把第二个字符串里的字符拷贝到第一个字符串里，结果返回第一个字符串。
 
-把b拷贝进a里。
+```c
+char *strcpy(char* a, char* b);  // 把b拷贝进a里
+```
 
-复制一个字符串：
+### 复制字符串示例
 
-Char *dst = （char*）malloc（strlen（src）+1）
+```c
+char *dst = (char*)malloc(strlen(src) + 1);
+```
 
-动态申请内存的时候，由于数组的长度最后是有\0，所以必须多申请一位。
+动态申请内存的时候，由于数组的长度最后是有`\0`，所以必须多申请一位。
 
-Strchr(const char *s,int c);
+## strchr 函数
+
+```c
+strchr(const char *s, int c);
+```
 
 这个函数是用来查找在字符串s里c第一次出现的位置。
 
-比如：  char *a = strchr(s, ‘t’);
+例如：
 
-就是查找在字符串s里t第一次出现的位置，返回的是一个地址
+```c
+char *a = strchr(s, 't');
+```
 
+就是查找在字符串s里t第一次出现的位置，返回的是一个地址。

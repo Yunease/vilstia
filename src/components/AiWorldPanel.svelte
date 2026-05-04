@@ -42,6 +42,10 @@ let lastMessageTyping = $state(false);
 // DOM
 let chatContainer: HTMLDivElement | undefined = $state();
 
+function isImage(avatar: string) {
+    return avatar.startsWith("http") || avatar.startsWith("/") || avatar.startsWith("assets/");
+}
+
 // --- Scroll ---
 function scrollToBottom() {
     if (chatContainer) {
@@ -439,7 +443,11 @@ async function generateSummary() {
             {#each characters as char}
                 <div class="flex items-center gap-2 px-3 py-1.5 rounded-full text-sm
                            bg-[var(--btn-regular-bg)] border border-[var(--line-divider)]">
-                    <span class="text-base">{char.avatar}</span>
+                    {#if isImage(char.avatar)}
+                        <img src={char.avatar} alt={char.name} class="w-8 h-8 rounded-full object-cover" />
+                    {:else}
+                        <span class="text-base">{char.avatar}</span>
+                    {/if}
                     <span class="text-[var(--deep-text)]">{char.name}</span>
                 </div>
             {/each}
@@ -477,11 +485,15 @@ async function generateSummary() {
             {:else if msg.role === "npc"}
                 <div class="flex items-start gap-2.5 max-w-[80%]">
                     <div
-                        class="flex-shrink-0 w-9 h-9 rounded-full flex items-center
-                               justify-center text-lg bg-[var(--btn-regular-bg)]"
+                        class="flex-shrink-0 w-12 h-12 rounded-full flex items-center
+                               justify-center text-lg bg-[var(--btn-regular-bg)] overflow-hidden"
                         style="border: 2px solid {msg.characterColor || 'var(--line-divider)'}"
                     >
-                        {msg.characterAvatar || "?"}
+                        {#if isImage(msg.characterAvatar || "")}
+                            <img src={msg.characterAvatar} alt={msg.characterName} class="w-full h-full object-cover" />
+                        {:else}
+                            {msg.characterAvatar || "?"}
+                        {/if}
                     </div>
                     <div class="min-w-0">
                         <div class="text-xs font-bold mb-1" style="color: {msg.characterColor || 'var(--primary)'}">
@@ -552,7 +564,7 @@ async function generateSummary() {
     <!-- Participants -->
     {#if speakingOrder.length > 0 && phase !== "idle"}
         <div class="flex items-center justify-end mt-3 px-2 text-xs text-black/40 dark:text-white/40">
-            参与者：{speakingOrder.map((c) => `${c.avatar} ${c.name}`).join("、")}
+            参与者：{speakingOrder.map((c) => isImage(c.avatar) ? c.name : `${c.avatar} ${c.name}`).join("、")}
         </div>
     {/if}
 </div>

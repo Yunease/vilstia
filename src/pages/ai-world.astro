@@ -1,0 +1,8 @@
+---
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import AiWorldPanel from "@components/AiWorldPanel.svelte";
+---
+
+<MainGridLayout title="AI小世界" description="一个由AI角色组成的思维空间">
+    <AiWorldPanel client:only="svelte"></AiWorldPanel>
+</MainGridLayout>

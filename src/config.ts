@@ -48,6 +48,10 @@ export const navBarConfig: NavBarConfig = {
 		LinkPreset.Friends,
 		LinkPreset.Silhouette,
 		{
+			name: "AI小世界",
+			url: "/ai-world/",
+		},
+		{
 			name: "GitHub",
 			url: "https://github.com/Yunease/vilstia", // Internal links should not include the base path, as it is automatically added
 			external: true, // Show an external link icon and will open in a new tab

@@ -48,7 +48,10 @@
       "Bash(/g, '')",
       "Bash(>\\\\-\\\\[\\\\])",
       "Bash(]/g, '')",
-      "Bash(mv:*)"
+      "Bash(mv:*)",
+      "Bash(pnpm list *)",
+      "Bash(grep -r \"cloudflare\\\\|wrangler\\\\|adapter\" package.json)",
+      "Bash(npx tsc *)"
     ]
   }
 }

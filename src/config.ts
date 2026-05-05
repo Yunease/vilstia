@@ -124,4 +124,11 @@ export const friendsConfig: FriendConfig[] = [
 		url: "https://physnya.top",
 		bio: "TA好像喜欢保持沉默",
 	},
+	{
+		name: "k",
+		avatar:
+			"https://i.postimg.cc/XYrgsPfF/b-ea94acad8a9b1dc38548f7e7b4ce02ea.jpg",
+		url: "https://kandhisk.github.io",
+		bio: "一天到晚都在迷失的人",
+	},
 ];

@@ -1,0 +1,11 @@
+---
+import PhotoPage from "@components/PhotoPage.astro";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { getPhotoAlbums } from "../../utils/photo-utils";
+
+const albums = await getPhotoAlbums();
+---
+
+<MainGridLayout title="截光求影" description="摄影作品集">
+	<PhotoPage albums={albums}></PhotoPage>
+</MainGridLayout>

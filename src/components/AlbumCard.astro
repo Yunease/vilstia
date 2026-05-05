@@ -1,0 +1,132 @@
+---
+import ImageWrapper from "./misc/ImageWrapper.astro";
+import { url } from "../utils/url-utils";
+
+interface Props {
+	name: string;
+	coverImage: string;
+	count: number;
+	latestDate: Date;
+	class?: string;
+	style?: string;
+}
+
+const { name, coverImage, count, latestDate, class: className, style } = Astro.props;
+
+const formatDate = (date: Date) => {
+	const year = date.getFullYear();
+	const month = (date.getMonth() + 1).toString().padStart(2, "0");
+	const day = date.getDate().toString().padStart(2, "0");
+	return `${year}-${month}-${day}`;
+};
+
+const albumUrl = url(`/photo/${encodeURIComponent(name)}/`);
+---
+
+<a href={albumUrl} class:list={["album-card-wrapper group block", className]} style={style}>
+	<div class="album-stack">
+		<!-- Bottom layer card (left tilt) -->
+		<div class="album-layer album-layer-1"></div>
+		<!-- Middle layer card (right tilt) -->
+		<div class="album-layer album-layer-2"></div>
+		<!-- Main card -->
+		<div class="album-main">
+			<div class="relative w-full aspect-square overflow-hidden rounded-xl">
+				{coverImage ? (
+					<ImageWrapper
+						src={coverImage}
+						alt={name}
+						class="w-full h-full transition-transform duration-500 group-hover:scale-110"
+					/>
+				) : (
+					<div class="w-full h-full bg-[var(--card-bg)] flex items-center justify-center">
+						<svg class="w-12 h-12 text-black/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+						</svg>
+					</div>
+				)}
+				<!-- Gradient overlay -->
+				<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+				<!-- Info overlay -->
+				<div class="absolute bottom-0 left-0 right-0 p-3">
+					<h3 class="text-white font-bold text-base leading-tight mb-1">{name}</h3>
+					<div class="flex items-center gap-2 text-white/70 text-xs">
+						<span class="px-1.5 py-0.5 bg-white/20 rounded">{count} 张</span>
+						<span>{formatDate(latestDate)}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</a>
+
+<style>
+	.album-card-wrapper {
+		cursor: pointer;
+	}
+
+	.album-stack {
+		position: relative;
+		padding-top: 8px;
+		padding-left: 8px;
+	}
+
+	.album-layer {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: calc(100% - 16px);
+		aspect-ratio: 1;
+		border-radius: 0.75rem;
+		background: linear-gradient(135deg, color-mix(in srgb, var(--primary) 8%, white), color-mix(in srgb, var(--primary) 4%, white));
+		border: 1.5px solid color-mix(in srgb, var(--primary) 15%, transparent);
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+		transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+					box-shadow 0.4s ease;
+	}
+
+	.album-layer-1 {
+		transform: rotate(-4deg);
+		z-index: 1;
+		opacity: 0.9;
+	}
+
+	.album-layer-2 {
+		transform: rotate(2deg);
+		z-index: 2;
+		opacity: 0.95;
+	}
+
+	.album-main {
+		position: relative;
+		z-index: 3;
+		transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+					box-shadow 0.4s ease;
+		border-radius: 0.75rem;
+		overflow: hidden;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	}
+
+	/* Hover: lift and spread */
+	.album-card-wrapper:hover .album-main {
+		transform: translateY(-6px);
+		box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+	}
+
+	.album-card-wrapper:hover .album-layer-1 {
+		transform: rotate(-8deg) translateX(-6px) translateY(-2px);
+		box-shadow: -4px 4px 16px rgba(0, 0, 0, 0.12);
+	}
+
+	.album-card-wrapper:hover .album-layer-2 {
+		transform: rotate(5deg) translateX(6px) translateY(-2px);
+		box-shadow: 4px 4px 16px rgba(0, 0, 0, 0.12);
+	}
+
+	/* Dark mode layer colors */
+	:global(.dark) .album-layer {
+		background: linear-gradient(135deg, color-mix(in srgb, var(--primary) 12%, #1a1a2e), color-mix(in srgb, var(--primary) 6%, #1a1a2e));
+		border-color: color-mix(in srgb, var(--primary) 20%, transparent);
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+	}
+</style>

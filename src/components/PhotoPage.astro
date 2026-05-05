@@ -1,26 +1,16 @@
 ---
-import type { CollectionEntry } from "astro:content";
-import { getPostUrlBySlug } from "@utils/url-utils";
-import PhotoCard from "./PhotoCard.astro";
-import CustomPagination from "./control/CustomPagination.astro";
+import type { PhotoAlbum } from "../utils/photo-utils";
+import AlbumCard from "./AlbumCard.astro";
 
 interface Props {
-	page: {
-		data: CollectionEntry<"posts">[];
-		currentPage: number;
-		lastPage: number;
-		url: {
-			prev: string | null;
-			next: string | null;
-		};
-	};
+	albums: PhotoAlbum[];
 }
 
-const { page } = Astro.props;
+const { albums } = Astro.props;
 
-const len = page.data.length;
+const len = albums.length;
 let delay = 0;
-const interval = 50;
+const interval = 80;
 ---
 
 <div class="flex flex-col">
@@ -41,65 +31,53 @@ const interval = 50;
 		</p>
 	</div>
 
-	<!-- Grid Layout (same as gallery) -->
-	<div class="photo-grid mb-4">
-		{page.data.map((entry) => (
-			<PhotoCard
-				entry={entry}
-				title={entry.data.title}
-				url={getPostUrlBySlug(entry.slug)}
-				image={entry.data.image}
-				published={entry.data.published}
-				category={entry.data.category}
+	<!-- Album Grid -->
+	<div class="album-grid mb-4">
+		{albums.map((album) => (
+			<AlbumCard
+				name={album.name}
+				coverImage={album.coverImage}
+				count={album.count}
+				latestDate={album.latestDate}
 				class="onload-animation"
 				style={`animation-delay: calc(var(--content-delay) + ${delay++ * interval}ms);`}
-			></PhotoCard>
+			/>
 		))}
 	</div>
-
-	<CustomPagination
-		class="mx-auto onload-animation"
-		page={page}
-		basePath="/photo"
-		style={`animation-delay: calc(var(--content-delay) + ${len * interval}ms)`}
-	></CustomPagination>
 </div>
 
 <style>
-	/* Fixed 4-column grid layout for photo */
-	.photo-grid {
+	.album-grid {
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
-		gap: 0.75rem;
+		gap: 1.5rem;
 	}
 
-	/* Mobile: 2 columns */
 	@media (min-width: 480px) {
-		.photo-grid {
-			grid-template-columns: repeat(3, 1fr);
-			gap: 1rem;
+		.album-grid {
+			grid-template-columns: repeat(2, 1fr);
+			gap: 1.75rem;
 		}
 	}
 
-	/* Tablet and above: 4 columns (fixed) */
 	@media (min-width: 768px) {
-		.photo-grid {
-			grid-template-columns: repeat(4, 1fr);
-			gap: 1.25rem;
+		.album-grid {
+			grid-template-columns: repeat(3, 1fr);
+			gap: 2rem;
 		}
 	}
 
 	@media (min-width: 1024px) {
-		.photo-grid {
-			grid-template-columns: repeat(4, 1fr);
-			gap: 1.5rem;
+		.album-grid {
+			grid-template-columns: repeat(3, 1fr);
+			gap: 2.25rem;
 		}
 	}
 
 	@media (min-width: 1280px) {
-		.photo-grid {
+		.album-grid {
 			grid-template-columns: repeat(4, 1fr);
-			gap: 1.75rem;
+			gap: 2.5rem;
 		}
 	}
 </style>

@@ -1,0 +1,96 @@
+---
+import type { GetStaticPaths } from "astro";
+import type { CollectionEntry } from "astro:content";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { getPostUrlBySlug } from "@utils/url-utils";
+import { getPhotoAlbums } from "../../utils/photo-utils";
+import PhotoCard from "@components/PhotoCard.astro";
+
+export const getStaticPaths = (async () => {
+	const albums = await getPhotoAlbums();
+	return albums.map((album) => ({
+		params: { album: album.name },
+		props: { album },
+	}));
+}) satisfies GetStaticPaths;
+
+interface Props {
+	album: {
+		name: string;
+		posts: CollectionEntry<"posts">[];
+		count: number;
+	};
+}
+
+const { album } = Astro.props;
+
+let delay = 0;
+const interval = 50;
+---
+
+<MainGridLayout title={`${album.name} - 截光求影`} description={`${album.name} 相册`}>
+	<div class="flex flex-col">
+		<!-- Album Header -->
+		<div class="card-base p-6 mb-8 onload-animation">
+			<div class="flex items-center gap-3 mb-3">
+				<a href="/photo/" class="text-[var(--primary)] hover:underline text-sm">← 返回相册列表</a>
+			</div>
+			<h1 class="text-3xl font-bold text-[var(--primary)] mb-2">{album.name}</h1>
+			<p class="text-[var(--text-neutral)] dark:text-white/80 leading-relaxed">
+				共 {album.count} 张照片
+			</p>
+		</div>
+
+		<!-- Photo Grid (same layout as gallery) -->
+		<div class="photo-grid mb-4">
+			{album.posts.map((entry) => (
+				<PhotoCard
+					entry={entry}
+					title={entry.data.title}
+					url={getPostUrlBySlug(entry.slug)}
+					image={entry.data.image}
+					published={entry.data.published}
+					category={entry.data.category}
+					class="onload-animation"
+					style={`animation-delay: calc(var(--content-delay) + ${delay++ * interval}ms);`}
+				/>
+			))}
+		</div>
+	</div>
+</MainGridLayout>
+
+<style>
+	.photo-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 0.75rem;
+	}
+
+	@media (min-width: 480px) {
+		.photo-grid {
+			grid-template-columns: repeat(3, 1fr);
+			gap: 1rem;
+		}
+	}
+
+	@media (min-width: 768px) {
+		.photo-grid {
+			grid-template-columns: repeat(4, 1fr);
+			gap: 1.25rem;
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.photo-grid {
+			grid-template-columns: repeat(4, 1fr);
+			gap: 1.5rem;
+		}
+	}
+
+	@media (min-width: 1280px) {
+		.photo-grid {
+			grid-template-columns: repeat(4, 1fr);
+			gap: 1.75rem;
+		}
+	}
+</style>

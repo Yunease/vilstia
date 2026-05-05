@@ -7,10 +7,13 @@ import MainGridLayout from "../layouts/MainGridLayout.astro";
 
 const aboutPosts = await getCollection("spec", ({ id }) => id.startsWith("about"));
 
-// 按日期排序，最新的在前面
-const sortedPosts = aboutPosts.sort((a, b) =>
-	b.data.published.valueOf() - a.data.published.valueOf()
-);
+// category 为 star 的文章置顶，其余按日期降序排列
+const sortedPosts = aboutPosts.sort((a, b) => {
+	const aStar = a.data.category === "star" ? 1 : 0;
+	const bStar = b.data.category === "star" ? 1 : 0;
+	if (aStar !== bStar) return bStar - aStar;
+	return b.data.published.valueOf() - a.data.published.valueOf();
+});
 
 // 格式化日期
 function formatDate(date: Date): string {

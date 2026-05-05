@@ -1,7 +1,8 @@
 ---
-title: 我猜聪明的人会点击进来！
-published: 9999-03-24
+title: About Me
+published: 2026-03-24
 description: 关于我们
+category: star
 ---
 
 # About Me

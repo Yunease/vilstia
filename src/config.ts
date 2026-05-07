@@ -131,4 +131,10 @@ export const friendsConfig: FriendConfig[] = [
 		url: "https://kandhisk.github.io",
 		bio: "一天到晚都在迷失的人",
 	},
+	{
+		name: "萑澈",
+		avatar: "https://hxcn.cnies.org/",
+		url: "https://gastigado.cnies.org/d/elements/hxcn_transparent_240.png",
+		bio: "就是为了这点醋才包的这顿饺子",
+	},
 ];

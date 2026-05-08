@@ -7,13 +7,30 @@ import MainGridLayout from "../layouts/MainGridLayout.astro";
 
 const aboutPosts = await getCollection("spec", ({ id }) => id.startsWith("about"));
 
-// category 为 star 的文章置顶，其余按日期降序排列
-const sortedPosts = aboutPosts.sort((a, b) => {
-	const aStar = a.data.category === "star" ? 1 : 0;
-	const bStar = b.data.category === "star" ? 1 : 0;
-	if (aStar !== bStar) return bStar - aStar;
-	return b.data.published.valueOf() - a.data.published.valueOf();
-});
+// 按 tag 分组
+const groups: Record<string, typeof aboutPosts> = { me: [], like: [], oc: [] };
+for (const post of aboutPosts) {
+	const tag = post.data.tag;
+	if (tag === "me") groups.me.push(post);
+	else if (tag === "like") groups.like.push(post);
+	else groups.oc.push(post);
+}
+
+// 每组内 star 置顶，其余按日期降序
+for (const key of Object.keys(groups)) {
+	groups[key].sort((a, b) => {
+		const aStar = a.data.category === "star" ? 1 : 0;
+		const bStar = b.data.category === "star" ? 1 : 0;
+		if (aStar !== bStar) return bStar - aStar;
+		return b.data.published.valueOf() - a.data.published.valueOf();
+	});
+}
+
+const sectionOrder: { key: string; title: string }[] = [
+	{ key: "me", title: "关于我" },
+	{ key: "like", title: "品味" },
+	{ key: "oc", title: "关于我的oc" },
+];
 
 // 格式化日期
 function formatDate(date: Date): string {
@@ -24,7 +41,7 @@ function formatDate(date: Date): string {
 	});
 }
 
-// 获取 slug（处理 about.md 和 about/xxx.md 的情况）
+// 获取 slug
 function getSlug(id: string): string {
 	const slug = id
 		.replace("about", "")
@@ -35,91 +52,106 @@ function getSlug(id: string): string {
 ---
 
 <MainGridLayout title={i18n(I18nKey.about)} description={i18n(I18nKey.about)}>
-	<div class="about-list-wrapper">
-		<div class="card-base z-10 px-6 py-4 relative w-full rounded-[var(--radius-large)]">
-			<ul class="about-list">
-				{
-					sortedPosts.map((post, index) => (
-						<li class="about-item-group group" data-index={index}>
+	<div class="card-base z-10 px-6 py-6 relative w-full">
+	<div class="about-wrapper flex flex-col gap-8">
+		{sectionOrder.map((section, si) => {
+			const posts = groups[section.key];
+			if (posts.length === 0) return null;
+			return (
+				<div class="about-section" style={`--section-delay: ${si * 100}ms`}>
+					<h2 class="about-section-title">{section.title}</h2>
+					<div class="about-section-cards flex flex-col gap-3">
+						{posts.map((post, index) => (
 							<a
 								href={`/about/${getSlug(post.id)}/`}
-								class="about-item"
-								style={`--animation-delay: ${index * 50}ms`}
+								class="about-card group"
+								style={`--card-delay: calc(var(--section-delay) + ${index * 60}ms)`}
 							>
-								<span class="about-date">{formatDate(post.data.published)}</span>
-								<span class="about-title">{post.data.title}</span>
-								<span class="about-arrow">→</span>
+								<div class="about-card-inner">
+									<span class="about-card-date">{formatDate(post.data.published)}</span>
+									<span class="about-card-title">{post.data.title}</span>
+									<span class="about-card-arrow">→</span>
+								</div>
 							</a>
-						</li>
-					))
-				}
-			</ul>
-		</div>
+						))}
+					</div>
+				</div>
+			);
+		})}
+	</div>
 	</div>
 </MainGridLayout>
 
 <style>
-	.about-list-wrapper {
+	.about-wrapper {
 		animation: fade-in-up 300ms ease-out;
 		animation-fill-mode: forwards;
 	}
 
-	.about-list {
-		list-style: none;
-		padding: 0;
-		margin: 0;
+	.about-section {
+		animation: fade-in-up 400ms ease-out backwards;
+		animation-delay: var(--section-delay);
 	}
 
-	.about-item-group {
-		position: relative;
-		padding: 0 0.75rem;
+	.about-section-title {
+		font-size: 1.35rem;
+		font-weight: 700;
+		color: var(--primary);
+		margin-bottom: 0.75rem;
+		padding-left: 0.25rem;
 	}
 
-	.about-item {
-		display: flex;
-		align-items: center;
-		padding: 1.125rem 0.75rem;
+	.about-card {
+		display: block;
 		text-decoration: none;
 		color: inherit;
 		border-radius: 0.5rem;
 		transition: background-color 200ms ease, transform 200ms ease;
-		animation: fade-in-up 300ms ease-out backwards;
-		animation-delay: var(--animation-delay);
+		animation: fade-in-up 400ms ease-out backwards;
+		animation-delay: var(--card-delay);
 	}
 
-	.about-item:hover {
+	.about-card:hover {
 		background-color: var(--btn-plain-bg-hover);
 		transform: translateX(4px);
 	}
 
-	.about-item:active {
+	.about-card:active {
 		background-color: var(--btn-plain-bg-active);
 		transform: translateX(2px);
 	}
 
-	.about-date {
+	.about-card-inner {
+		display: flex;
+		align-items: center;
+		padding: 1.125rem 1.5rem;
+		gap: 1rem;
+	}
+
+	.about-card-date {
 		flex-shrink: 0;
-		font-size: 1em;
-		font-weight: 700;
-		color: var(--meta-text);
-		min-width: 120px;
+		font-size: 0.9em;
+		font-weight: 600;
+		color: var(--meta-text, var(--text-50));
+		min-width: 110px;
 	}
 
-	.about-title {
+	.about-card-title {
 		flex: 1;
-		font-weight: 400;
-		color: var(--title-text);
+		font-weight: 500;
+		color: var(--title-text, inherit);
 	}
 
-	.about-arrow {
+	.about-card-arrow {
 		flex-shrink: 0;
 		opacity: 0;
 		transform: translateX(-8px);
 		transition: opacity 200ms ease, transform 200ms ease;
 		color: var(--primary);
+		font-weight: 600;
 	}
 
-	.about-item:hover .about-arrow {
+	.about-card:hover .about-card-arrow {
 		opacity: 1;
 		transform: translateX(0);
 	}
@@ -137,25 +169,18 @@ function getSlug(id: string): string {
 
 	/* 移动端适配 */
 	@media (max-width: 640px) {
-		.about-item-group {
-			padding: 0 0.5rem;
+		.about-card-inner {
+			padding: 1rem 1rem;
+			gap: 0.75rem;
 		}
 
-		.about-item {
-			padding: 1rem 0.5rem;
+		.about-card-date {
+			min-width: 85px;
+			font-size: 0.85em;
 		}
 
-		.about-date {
-			min-width: 90px;
-			font-size: 0.9em;
-		}
-
-		.about-title {
+		.about-card-title {
 			font-size: 0.95em;
-		}
-
-		.about-divider {
-			padding: 0 0.5rem;
 		}
 	}
 </style>

@@ -29,6 +29,7 @@ const specCollection = defineCollection({
 		published: z.date(),
 		description: z.string().optional().default(""),
 		category: z.string().optional().default(""),
+		tag: z.string().optional().default(""),
 	}),
 });
 export const collections = {

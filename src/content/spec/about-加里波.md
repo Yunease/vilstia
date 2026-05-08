@@ -2,6 +2,7 @@
 title: 加里波（Galibo）
 published: 2026-03-28
 description: 加里波的详细介绍
+tag: oc
 ---
 
 # 加里波（Galibo）

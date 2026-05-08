@@ -1,5 +1,5 @@
 ---
-title: 西塔菈（Sitara）
+title: 诗怜
 published: 2026-03-28
 description: 西塔菈的详细介绍
 tag: oc

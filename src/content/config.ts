@@ -32,7 +32,16 @@ const specCollection = defineCollection({
 		tag: z.string().optional().default(""),
 	}),
 });
+const chronicleCollection = defineCollection({
+	schema: z.object({
+		title: z.string(),
+		date: z.date(),
+		icon: z.string().optional().default(""),
+		category: z.string().optional().default(""),
+	}),
+});
 export const collections = {
 	posts: postsCollection,
 	spec: specCollection,
+	chronicle: chronicleCollection,
 };

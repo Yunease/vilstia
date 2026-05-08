@@ -1,5 +1,5 @@
 ---
-title: 薇尔（Vistia）
+title: 薇尔（Vilstia）
 published: 2026-03-28
 description: 琴泠的tulpa薇尔的详细介绍
 tag: me

@@ -133,8 +133,8 @@ export const friendsConfig: FriendConfig[] = [
 	},
 	{
 		name: "萑澈",
-		avatar: "https://hxcn.cnies.org/",
-		url: "https://gastigado.cnies.org/d/elements/hxcn_transparent_240.png",
+		avatar: "https://gastigado.cnies.org/d/elements/hxcn_transparent_240.png",
+		url: "https://hxcn.cnies.org/",
 		bio: "就是为了这点醋才包的这顿饺子",
 	},
 ];

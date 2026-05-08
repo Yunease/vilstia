@@ -1,0 +1,15 @@
+---
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import ChroniclePanel from "@components/ChroniclePanel.svelte";
+import { getChronicleEvents } from "../utils/chronicle-utils";
+
+const events = (await getChronicleEvents()).map((e) => ({
+    id: e.id,
+    data: e.data,
+    body: e.body,
+}));
+---
+
+<MainGridLayout title="层岩叠纪" description="站点大事记，记录从创立至今的每一个重要足迹">
+    <ChroniclePanel events={events} client:only="svelte"></ChroniclePanel>
+</MainGridLayout>

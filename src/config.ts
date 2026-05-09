@@ -137,4 +137,10 @@ export const friendsConfig: FriendConfig[] = [
 		url: "https://hxcn.cnies.org/",
 		bio: "就是为了这点醋才包的这顿饺子",
 	},
+	{
+		name: "Lain is writing",
+		avatar: "https://lain.today/favicon.jpg",
+		url: "https://lain.today/",
+		bio: "有关幻想的一切。记录项目、想法与生活。",
+	},
 ];

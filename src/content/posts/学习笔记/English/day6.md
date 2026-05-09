@@ -3,6 +3,7 @@ title: "英语四级学习DAY6"
 published: 2026-03-26T09:52:01
 tags: [English]
 category: "学习"
+description: "前言 每日励志一句：Keep going, you can do it. 正文 课程进度：听力基础-四下 新闻数据题 基数词 20 以上的基数词的读法 - 25 — twenty-five - 56 — fifty-six - 99 — ninety-nine 100 以上的基数词的读法 - ..."
 ---
 
 # 前言

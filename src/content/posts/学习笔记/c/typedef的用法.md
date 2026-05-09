@@ -3,6 +3,7 @@ title: typedef的用法
 tags: [C语言]
 category: 学习
 published: 2023-11-23T13:03:11
+description: "typedef的用法 基本概念 typedef关键字的作用：起别名，方便。 基本用法 例如： typedef int nmsl; nmsl a;  // 在这之后的nmsl就和int同样效果了 a = 1; 可以给类型起别名。 它的使用规范是： typedef + 类型 + 别名 效果就是使用..."
 ---
 
 # typedef的用法

@@ -4,6 +4,7 @@ tags: [mess]
 mood: 消沉
 mood_level: 3
 published: 2026-01-24T23:40:01
+description: "ai给我的改的也太烂了，无语了，还是自己写吧。"
 ---
 
 ai给我的改的也太烂了，无语了，还是自己写吧。

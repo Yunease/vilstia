@@ -4,6 +4,7 @@ tags: [mess]
 mood: 怨恨
 mood_level: 4
 published: 2024-06-26T02:40:01
+description: "从他们的影子中走出来，步入下一个温婉的黄昏。"
 ---
 
 从他们的影子中走出来，步入下一个温婉的黄昏。

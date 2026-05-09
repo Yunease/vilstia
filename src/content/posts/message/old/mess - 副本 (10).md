@@ -4,6 +4,7 @@ tags: [mess]
 mood: 怨恨
 mood_level: 4
 published: 2025-12-20T11:55:01
+description: "憎恨篡改了，来时的路都被铺住。 无灯的小径，随它能去什么地方吧。"
 ---
 
 憎恨篡改了，来时的路都被铺住。

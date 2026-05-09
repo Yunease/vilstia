@@ -3,6 +3,7 @@ title: 初识renpy
 published: 2026-02-10T14:12:01
 tags: [博客文章]
 category: 'renpy开发日志'
+description: "大家好，这里是小琴。 我参与开发的国产AVG文游 “你是如此特别” （暂称） 在今天正式立项准备参与开发，我也将在这个系列中更新自己的开发日志。 一切起始之时 我们尝试一个简单的小游戏： label start: \"vilstia\" \"烧灼，蔓延。\" \"yunease\" \"杀戮，钻孔\" lab..."
 ---
 
 大家好，这里是小琴。

@@ -3,6 +3,7 @@ title: css编写位置
 tags: [css]
 category: 学习
 published: 2023-12-02T14:15:48
+description: "CSS 编写位置 一、行内样式（内联样式） - 只能对一个标签生效 - 样式发生变化后需要一个一个改 - 不方便维护和修改 二、内部样式表 将样式写在 head 标签下的 style 标签里。 示例代码 <!DOCTYPE html> <html lang=\"en\"> <head> <meta..."
 ---
 
 # CSS 编写位置

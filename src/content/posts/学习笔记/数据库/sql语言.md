@@ -3,6 +3,7 @@ title: sql语言
 tags: [数据库]
 category: 学习
 published: 2025-06-22T13:40:42
+description: "SQL语言 创建表 创建表的基本语法： Create table <表名>（<列名><数据类型>[列级完整性约束条件]， <列名><数据类型>[列级完整性约束条件]， … [，<表级完整性约束条件>]）； 示例：创建学生成绩表SC Create table sc ( Sno char (9)，..."
 ---
 
 # SQL语言

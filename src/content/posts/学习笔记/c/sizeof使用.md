@@ -3,6 +3,7 @@ title: sizeof使用
 tags: [C语言]
 category: 学习
 published: 2023-10-08T19:34:13
+description: "sizeof使用 基本用法 sizeof可以注明使用了多少个字节。 使用方法： sizeof(int)  // 表明int在内存里占据了多少字节 sizeof(i)    // 表明了变量i在内存里占据了多少字节 sizeof是一个静态运算符，在编译完之后就固定了。 数据类型字节数 常见数据类..."
 ---
 
 # sizeof使用

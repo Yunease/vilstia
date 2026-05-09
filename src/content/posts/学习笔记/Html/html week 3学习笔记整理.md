@@ -3,6 +3,7 @@ title: "[html3学习笔记]页面图片，视频，音频"
 published: 2024-02-25T00:19:01
 tags: [Html,Web开发]
 category: "学习"
+description: "> 注：原笔记是在word文档中编写，部分注释无法被直接复制，是空的，后续请看分享的百度链接查看word文档。 HTML Week 3 学习笔记 图片路径 img 标签属性 <img src='图片路径' width='宽度' height='高度' title='鼠标悬停提示' alt='图..."
 ---
 
 > 注：原笔记是在word文档中编写，部分注释无法被直接复制，是空的，后续请看分享的百度链接查看word文档。

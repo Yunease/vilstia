@@ -3,6 +3,7 @@ title: "html week 2 学习笔记整理"
 published: 2024-02-25T00:20:01
 tags: [Html,Web开发]
 category: "学习"
+description: "HTML Week 2 学习笔记 图片标签 按下 img + 回车之后会快捷出现 img 标签的基础框架： <img src=\"\" alt=\"\"> 属性说明 - src：指定图片路径（可以是相对路径也可以是绝对路径） - alt：当图片无法正常显示的时候出现的提示文字 图片居中 图片标签 im..."
 ---
 
 # HTML Week 2 学习笔记

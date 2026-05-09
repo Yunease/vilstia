@@ -3,6 +3,7 @@ title: JavaScript Day4
 tags: [Java, JavaScript]
 category: 学习
 published: 2024-02-01T18:47:41
+description: "函数: 开发中使用函数是为了方便. 函数：把公共部分抽取封装，可以随时使用。 声明： Function xxx() { xxx } 调用： Xxx() 重复调用： For（…） 函数：执行特定任务的代码块，可以包含相似或相同逻辑的代码。 Alert，prompt等就是函数 函数格式： Func..."
 ---
 
 函数:

@@ -3,6 +3,7 @@ title: "英语四级学习DAY3"
 published: 2026-03-18T10:01:01
 tags: [English]
 category: "学习"
+description: "前言 每日励志一句：Learn from yesterday, live for today, hope for tomorrow. 正文 课程进度：听力基础-二下，听力基础-三上 同义替换方法论的核心是意义对等 包含四种对等形式： 1. 词与词对等（同义词 / 近义词替换） 2. 词与短语对..."
 ---
 
 # 前言

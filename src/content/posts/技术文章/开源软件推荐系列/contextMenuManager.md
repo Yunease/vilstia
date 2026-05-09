@@ -3,6 +3,7 @@ title: contextMenuManager
 tags: [博客文章, 开源软件]
 category: 学习
 published: 2026-03-29T08:54:01
+description: "最近Win11毛病太多了，不止我一个人发现vs code的右键菜单直接消失了。 这下可好啦，没有右键菜单，我们怎么快捷使用vs code呢？ 孩子们别怕！今天我来推荐一款开源软件——contextMenuManager，专门为了解决右键菜单而生。 下载地址：[contextMenuManage..."
 ---
 
 最近Win11毛病太多了，不止我一个人发现vs code的右键菜单直接消失了。

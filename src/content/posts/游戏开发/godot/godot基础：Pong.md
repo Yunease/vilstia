@@ -3,6 +3,7 @@ title: godot基础：Pong
 published: 2026-04-08T09:54:01
 tags: [博客文章, godot]
 category: 'godot开发日志'
+description: "来试试一些实战性的东西吧！ Pong！ Pong是世界上最古老的电子游戏之一。 1      0"
 ---
 
 来试试一些实战性的东西吧！

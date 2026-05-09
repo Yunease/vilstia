@@ -3,6 +3,7 @@ title: "[html5学习笔记]文档声明"
 published: 2024-02-24T23:54:01
 tags: [Html,Web开发]
 category: "学习"
+description: "HTML5 文档声明与基础结构 报错说明 系统报错信息：link parse error（链接解析错误） --- DOCTYPE 声明 用于告诉浏览器当前网页的解析方式与 HTML 版本。 <!DOCTYPE html> 要点 - 作用：声明当前为 HTML5 文档 - 位置：必须写在第一行，..."
 ---
 
 # HTML5 文档声明与基础结构

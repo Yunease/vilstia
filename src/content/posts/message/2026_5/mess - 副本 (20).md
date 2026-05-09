@@ -4,6 +4,7 @@ tags: [mess]
 mood: 怨恨
 mood_level: 4
 published: 2026-05-08T12:36:01
+description: "怎么办？只有杀戮"
 ---
 
 怎么办？只有杀戮

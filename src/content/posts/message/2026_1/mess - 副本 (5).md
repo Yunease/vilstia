@@ -4,6 +4,7 @@ tags: [mess]
 mood: 怨恨
 mood_level: 2
 published: 2026-01-25T03:43:01
+description: "罂粟在发光，害得我睡不着了。"
 ---
 
 罂粟在发光，害得我睡不着了。

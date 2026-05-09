@@ -3,6 +3,7 @@ title: "html week 5 学习笔记整理"
 published: 2024-02-25T00:17:01
 tags: [Html,Web开发, css]
 category: "学习"
+description: "CSS 基础与选择器学习笔记 优先级 行内样式 > 内部样式 ≈ 外部样式 --- Link 标签 引入外部 CSS 文件或网页图标： <link rel=\"stylesheet\" href=\"styles.css\"> <link rel=\"icon\" href=\"baidu.com\"> --..."
 ---
 
 # CSS 基础与选择器学习笔记

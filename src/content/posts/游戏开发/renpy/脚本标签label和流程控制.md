@@ -3,6 +3,7 @@ title: 脚本标签label和流程控制
 published: 2026-02-21T16:06:01
 tags: [博客文章]
 category: 'renpy开发日志'
+description: "大家早上好中午好晚上好哦！小琴现在开心极了，那么我们快一些开始吧！ label语句 label语句允许使用一个自定义的标签声明一个程序点位，有点类似goto语句，允许使用在renpy中，也可以使用在python里。 label sample1: \"这是一个'sample1'脚本标签。\" lab..."
 ---
 
 大家早上好中午好晚上好哦！小琴现在开心极了，那么我们快一些开始吧！

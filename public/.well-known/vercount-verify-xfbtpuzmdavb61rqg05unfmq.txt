@@ -1,1 +1,1 @@
-Vercount-domain-verify=Vilstia.org,xfbtpuzmDAVb61RQG05unfmq
+vercount-domain-verify=vilstia.org,xfbtpuzmdavb61rqg05unfmq

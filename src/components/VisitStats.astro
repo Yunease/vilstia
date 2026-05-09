@@ -7,18 +7,22 @@ interface Props {
 const className = Astro.props.class;
 ---
 
-<!-- 引入 Vercount 脚本 -->
-<script defer src="https://events.vercount.one/js"></script>
-
 <div class:list={[className, "block card-base p-5 rounded-lg onload-animation hover-card"]} style="animation-delay: 325ms">
 	<h3 class="font-bold text-lg mb-4 flex items-center text-[var(--primary)]">
 		<Icon name="material-symbols:visibility" class="mr-2 text-xl" />
 		访问统计
 	</h3>
-	<div class="flex flex-col items-center justify-center p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
-		<Icon name="material-symbols:eye-tracking" class="text-[var(--primary)] text-2xl mb-1" />
-		<span class="text-sm text-neutral-700 dark:text-neutral-300">总浏览量</span>
-		<span id="vercount_value_site_pv" class="text-xl font-bold text-[var(--primary)]">Loading</span>
+	<div class="flex flex-row gap-3">
+		<div class="flex-1 flex flex-col items-center justify-center p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
+			<Icon name="material-symbols:eye-tracking" class="text-[var(--primary)] text-xl mb-1" />
+			<span class="text-xs text-neutral-700 dark:text-neutral-300">总浏览</span>
+			<span id="vercount_value_site_pv" class="text-lg font-bold text-[var(--primary)]">--</span>
+		</div>
+		<div class="flex-1 flex flex-col items-center justify-center p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
+			<Icon name="material-symbols:group" class="text-[var(--primary)] text-xl mb-1" />
+			<span class="text-xs text-neutral-700 dark:text-neutral-300">总访客</span>
+			<span id="vercount_value_site_uv" class="text-lg font-bold text-[var(--primary)]">--</span>
+		</div>
 	</div>
 </div>
 
@@ -32,40 +36,3 @@ const className = Astro.props.class;
 		box-shadow: 0 8px 20px -4px var(--primary);
 	}
 </style>
-
-<script>
-	// 标记是否已经处理过，避免重复执行
-	let hasProcessed = false;
-
-	function addBaseCount() {
-		if (hasProcessed) return;
-		hasProcessed = true;
-
-		const element = document.getElementById('vercount_value_site_pv');
-		if (!element) return;
-
-		// 等待 Vercount 设置值（轮询检查）
-		const checkInterval = setInterval(() => {
-			const text = element.textContent;
-			if (text && text !== 'Loading' && text !== 'NaN') {
-				clearInterval(checkInterval);
-
-				const currentCount = parseInt(text.replace(/,/g, ''), 10);
-				// 暂时移除 +3000，方便调试
-				// const newCount = currentCount + 3000;
-				// element.textContent = newCount.toLocaleString();
-				element.textContent = currentCount.toLocaleString();
-			}
-		}, 500);
-
-		// 最多等待 5 秒
-		setTimeout(() => {
-			clearInterval(checkInterval);
-		}, 5000);
-	}
-
-	// 页面加载后延迟执行
-	window.addEventListener('load', () => {
-		setTimeout(addBaseCount, 1000);
-	});
-</script>

@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(cat)",
-      "Bash(python /tmp/add_descriptions.py)"
+      "Bash(python /tmp/add_descriptions.py)",
+      "Bash(python *)"
     ]
   }
 }

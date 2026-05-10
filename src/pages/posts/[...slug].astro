@@ -181,21 +181,27 @@ const jsonLd = {
 	const fetchStats = async () => {
 		try {
 			if (!shareToken) await getShare();
-			const url = window.location.pathname;
+			const path = window.location.pathname;
 			const now = Date.now();
-			const stats = await fetchJson(
-				`${ANALYTICS_HOST}/api/websites/${WEBSITE_ID}/stats?startAt=0&endAt=${now}&url=${encodeURIComponent(url)}`,
+			const data = await fetchJson(
+				`${ANALYTICS_HOST}/api/websites/${WEBSITE_ID}/pageviews?startAt=0&endAt=${now}&unit=all&url=${encodeURIComponent(path)}`,
 				getHeaders()
 			);
-			el.textContent = stats.pageviews ?? "--";
+			const total = (data.pageviews || []).reduce((sum, d) => sum + (d.y || 0), 0);
+			el.textContent = total || "--";
 		} catch {
 			shareToken = "";
 			shareId = "";
 		}
 	};
 
+	const isFirstLoad = !window.__umamiArticleStatsTimer;
 	window.clearInterval(window.__umamiArticleStatsTimer);
-	fetchStats();
+	if (isFirstLoad) {
+		setTimeout(fetchStats, 3000);
+	} else {
+		fetchStats();
+	}
 	const timer = window.setInterval(fetchStats, 30000);
 	window.__umamiArticleStatsTimer = timer;
 })();

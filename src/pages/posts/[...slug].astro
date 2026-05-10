@@ -181,10 +181,10 @@ const jsonLd = {
 	const fetchStats = async () => {
 		try {
 			if (!shareToken) await getShare();
-			const path = decodeURIComponent(window.location.pathname);
+			const path = window.location.pathname;
 			const now = Date.now();
 			const data = await fetchJson(
-				`${ANALYTICS_HOST}/api/websites/${WEBSITE_ID}/pageviews?startAt=0&endAt=${now}&unit=all&url=${encodeURIComponent(path)}`,
+				`${ANALYTICS_HOST}/api/websites/${WEBSITE_ID}/pageviews?startAt=0&endAt=${now}&unit=all&url=${path}`,
 				getHeaders()
 			);
 			const total = (data.pageviews || []).reduce((sum, d) => sum + (d.y || 0), 0);

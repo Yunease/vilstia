@@ -147,8 +147,10 @@ const bannerOffset =
 
 		<link rel="alternate" type="application/rss+xml" title={profileConfig.name} href={`${Astro.site}rss.xml`}/>
 
-		<!-- Vercount Analytics -->
+		<!-- Vercount Analytics (total site visits) -->
 		<script defer src="https://events.vercount.one/js" data-swup-reload-script></script>
+		<!-- Umami Analytics (per-article stats) -->
+		<script defer src="https://analytics.hxcn.dev/script.js" data-website-id="1d49f872-1814-4036-81b4-39302f678190" data-swup-reload-script></script>
 
 	</head>
 	<body class=" min-h-screen transition " class:list={[{"lg:is-home": isHomePage, "enable-banner": enableBanner}]}

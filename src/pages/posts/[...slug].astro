@@ -76,10 +76,7 @@ const jsonLd = {
                     <div class="transition h-6 w-6 rounded-md bg-black/5 dark:bg-white/10 text-black/50 dark:text-white/50 flex items-center justify-center mr-2">
                         <Icon name="material-symbols:visibility"></Icon>
                     </div>
-                    <!-- Vercount: hidden display, still counts in background -->
-                    <span id="vercount_value_page_pv" class="text-sm hidden">--</span>
-                    <!-- Umami: displayed per-article page views -->
-                    <span id="umami_page_pv" class="text-sm">--</span>
+                    <span id="vercount_value_page_pv" class="text-sm">--</span>
                 </div>
             </div>
 
@@ -148,61 +145,3 @@ const jsonLd = {
     </div>
 
 </MainGridLayout>
-
-<script is:inline data-astro-rerun>
-(() => {
-	const ANALYTICS_HOST = "https://analytics.hxcn.dev";
-	const SHARE_SLUG = "p8xz7fJixSOSxkNy";
-	const WEBSITE_ID = "1d49f872-1814-4036-81b4-39302f678190";
-
-	const el = document.getElementById("umami_page_pv");
-	if (!el) return;
-
-	let shareToken = "";
-	let shareId = "";
-
-	const fetchJson = async (url, headers = {}) => {
-		const res = await fetch(url, { headers, cache: "no-store" });
-		if (!res.ok) throw new Error(`Umami request failed: ${res.status}`);
-		return res.json();
-	};
-
-	const getShare = async () => {
-		const share = await fetchJson(`${ANALYTICS_HOST}/api/share/${SHARE_SLUG}`);
-		shareToken = share.token;
-		shareId = share.shareId;
-	};
-
-	const getHeaders = () => ({
-		"x-umami-share-token": shareToken,
-		"x-umami-share-context": JSON.stringify({ shareId, shareType: 1 }),
-	});
-
-	const fetchStats = async () => {
-		try {
-			if (!shareToken) await getShare();
-			const path = window.location.pathname;
-			const now = Date.now();
-			const data = await fetchJson(
-				`${ANALYTICS_HOST}/api/websites/${WEBSITE_ID}/pageviews?startAt=0&endAt=${now}&unit=all&path=${encodeURIComponent(path)}`,
-				getHeaders()
-			);
-			const total = (data.pageviews || []).reduce((sum, d) => sum + (d.y || 0), 0);
-			el.textContent = total || "--";
-		} catch {
-			shareToken = "";
-			shareId = "";
-		}
-	};
-
-	const isFirstLoad = !window.__umamiArticleStatsTimer;
-	window.clearInterval(window.__umamiArticleStatsTimer);
-	if (isFirstLoad) {
-		setTimeout(fetchStats, 3000);
-	} else {
-		fetchStats();
-	}
-	const timer = window.setInterval(fetchStats, 30000);
-	window.__umamiArticleStatsTimer = timer;
-})();
-</script>

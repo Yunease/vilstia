@@ -184,7 +184,7 @@ const jsonLd = {
 			const path = window.location.pathname;
 			const now = Date.now();
 			const data = await fetchJson(
-				`${ANALYTICS_HOST}/api/websites/${WEBSITE_ID}/pageviews?startAt=0&endAt=${now}&unit=all&url=${path}`,
+				`${ANALYTICS_HOST}/api/websites/${WEBSITE_ID}/pageviews?startAt=0&endAt=${now}&unit=all&path=${encodeURIComponent(path)}`,
 				getHeaders()
 			);
 			const total = (data.pageviews || []).reduce((sum, d) => sum + (d.y || 0), 0);

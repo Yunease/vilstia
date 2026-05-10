@@ -51,7 +51,9 @@
       "Bash(mv:*)",
       "Bash(pnpm list *)",
       "Bash(grep -r \"cloudflare\\\\|wrangler\\\\|adapter\" package.json)",
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "WebFetch(domain:umami.is)",
+      "Bash(python3 -c \"import sys,json; [print\\(x['name']\\) for x in json.loads\\(sys.stdin.read\\(\\)\\)]\")"
     ]
   }
 }

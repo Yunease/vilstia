@@ -53,7 +53,10 @@
       "Bash(grep -r \"cloudflare\\\\|wrangler\\\\|adapter\" package.json)",
       "Bash(npx tsc *)",
       "WebFetch(domain:umami.is)",
-      "Bash(python3 -c \"import sys,json; [print\\(x['name']\\) for x in json.loads\\(sys.stdin.read\\(\\)\\)]\")"
+      "Bash(python3 -c \"import sys,json; [print\\(x['name']\\) for x in json.loads\\(sys.stdin.read\\(\\)\\)]\")",
+      "Bash(pkill -f \"astro dev\")",
+      "Bash(pnpm dev *)",
+      "Bash(xargs -I {} sh -c 'echo \"=== {} ===\" && head -10 \"{}\" | grep -E \"^\\(title|published\\):\"')"
     ]
   }
 }

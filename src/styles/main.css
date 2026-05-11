@@ -112,6 +112,66 @@
     }
 }
 
+/* Featured Toggle Styles */
+#featured-toggle {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.featured-toggle-btn {
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.featured-toggle-btn:hover {
+    opacity: 0.9;
+}
+
+#featured-slider {
+    pointer-events: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Featured Toggle Icon (Mobile) */
+#featured-toggle-icon {
+    position: relative;
+}
+
+#featured-toggle-icon .featured-icon-active,
+#featured-toggle-icon .featured-icon-inactive {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s ease;
+}
+
+#featured-toggle-icon .featured-icon-active {
+    opacity: 0;
+}
+
+#featured-toggle-icon .featured-icon-inactive {
+    opacity: 1;
+}
+
+#featured-toggle-icon.active .featured-icon-active {
+    opacity: 1;
+}
+
+#featured-toggle-icon.active .featured-icon-inactive {
+    opacity: 0;
+}
+
+/* Empty state message */
+.featured-empty-message {
+    background: var(--card-bg);
+    border-radius: var(--radius-large);
+    padding: 3rem 1.5rem;
+    text-align: center;
+    color: var(--text-color-50);
+}
+
 .custom-md img, #post-cover img {
     @apply cursor-zoom-in
 }

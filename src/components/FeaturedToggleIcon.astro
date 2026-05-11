@@ -1,0 +1,79 @@
+---
+// FeaturedToggleIcon - Mobile version for navbar
+// Only shown on homepage
+import { Icon } from "astro-icon/components";
+
+interface Props {
+    isHome?: boolean;
+}
+const { isHome = false } = Astro.props;
+---
+
+{isHome && (
+    <button
+        id="featured-toggle-icon"
+        aria-label="Toggle Featured Posts"
+        class="btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90 md:!hidden"
+    >
+        <Icon name="material-symbols:star-rounded" class="text-[1.25rem] featured-icon-inactive" />
+        <Icon name="material-symbols:star-rounded" class="text-[1.25rem] featured-icon-active text-[var(--primary)]" />
+    </button>
+)}
+
+<style>
+    .featured-icon-active {
+        display: none;
+    }
+    .featured-icon-inactive {
+        display: block;
+    }
+
+    #featured-toggle-icon.active .featured-icon-active {
+        display: block;
+    }
+    #featured-toggle-icon.active .featured-icon-inactive {
+        display: none;
+    }
+</style>
+
+<script>
+function initFeaturedToggleIcon() {
+    const btn = document.getElementById('featured-toggle-icon');
+    if (!btn) return;
+
+    // Get current mode from localStorage, default to 'featured'
+    const currentMode = localStorage.getItem('featuredMode') || 'featured';
+
+    // Update UI based on current mode
+    function updateUI(mode: string) {
+        if (!btn) return;
+        if (mode === 'featured') {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    }
+
+    // Initialize UI
+    updateUI(currentMode);
+
+    // Handle click
+    btn.addEventListener('click', () => {
+        const currentMode = localStorage.getItem('featuredMode') || 'featured';
+        const newMode = currentMode === 'featured' ? 'all' : 'featured';
+        localStorage.setItem('featuredMode', newMode);
+        updateUI(newMode);
+
+        // Dispatch custom event for PostPage to listen
+        document.dispatchEvent(new CustomEvent('featuredModeChanged', {
+            detail: { mode: newMode }
+        }));
+    });
+}
+
+// Initialize on load
+initFeaturedToggleIcon();
+
+// Re-initialize after swup page transitions
+document.addEventListener('swup:content', initFeaturedToggleIcon);
+</script>

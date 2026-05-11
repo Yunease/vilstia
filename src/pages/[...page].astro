@@ -1,10 +1,12 @@
 ---
 import type { GetStaticPaths } from "astro";
+import type { CollectionEntry } from "astro:content";
 import Pagination from "../components/control/Pagination.astro";
-import PostPage from "../components/PostPage.astro";
+import PostCard from "../components/PostCard.astro";
 import { PAGE_SIZE } from "../constants/constants";
 import MainGridLayout from "../layouts/MainGridLayout.astro";
 import { getSortedPosts } from "../utils/content-utils";
+import { getPostUrlBySlug } from "../utils/url-utils";
 
 export const getStaticPaths = (async ({ paginate }) => {
 	const allBlogPosts = await getSortedPosts();
@@ -15,9 +17,100 @@ export const getStaticPaths = (async ({ paginate }) => {
 const { page } = Astro.props;
 
 const len = page.data.length;
+
+// Get all posts and filter featured ones (for homepage only)
+const allPosts = await getSortedPosts();
+const featuredPosts = allPosts.filter((entry: CollectionEntry<"posts">) =>
+	entry.data.tags && entry.data.tags.includes("精选")
+);
 ---
 
-<MainGridLayout>
-    <PostPage page={page}></PostPage>
-    <Pagination class="mx-auto onload-animation" page={page} style={`animation-delay: calc(var(--content-delay) + ${(len)*50}ms)`}></Pagination>
+<MainGridLayout isHome={true}>
+    <!-- All posts view -->
+    <div id="posts-all" class="transition flex flex-col rounded-[var(--radius-large)] bg-[var(--card-bg)] py-1 md:py-0 md:bg-transparent md:gap-4 mb-4">
+        {page.data.map((entry: CollectionEntry<"posts">, index: number) => (
+            <PostCard
+                    entry={entry}
+                    title={entry.data.title}
+                    tags={entry.data.tags}
+                    category={entry.data.category}
+                    published={entry.data.published}
+                    updated={entry.data.updated}
+                    url={getPostUrlBySlug(entry.slug)}
+                    image={entry.data.image}
+                    description={entry.data.description}
+                    draft={entry.data.draft}
+                    class:list="onload-animation"
+                    style={`animation-delay: calc(var(--content-delay) + ${index * 50}ms);`}
+            ></PostCard>
+        ))}
+    </div>
+
+    <!-- Featured posts view -->
+    <div id="posts-featured" class="hidden transition flex-col rounded-[var(--radius-large)] bg-[var(--card-bg)] py-1 md:py-0 md:bg-transparent md:gap-4 mb-4">
+        {featuredPosts.length > 0 ? (
+            featuredPosts.map((entry: CollectionEntry<"posts">, index: number) => (
+                <PostCard
+                        entry={entry}
+                        title={entry.data.title}
+                        tags={entry.data.tags}
+                        category={entry.data.category}
+                        published={entry.data.published}
+                        updated={entry.data.updated}
+                        url={getPostUrlBySlug(entry.slug)}
+                        image={entry.data.image}
+                        description={entry.data.description}
+                        draft={entry.data.draft}
+                        class:list="onload-animation"
+                        style={`animation-delay: calc(var(--content-delay) + ${index * 50}ms);`}
+                ></PostCard>
+            ))
+        ) : (
+            <div class="text-center text-50 text-lg py-12">暂无精选文章</div>
+        )}
+    </div>
+
+    <Pagination class="mx-auto onload-animation pagination-wrapper" page={page} style={`animation-delay: calc(var(--content-delay) + ${(len)*50}ms)`}></Pagination>
 </MainGridLayout>
+
+<script>
+function initPostView() {
+    const mode = localStorage.getItem('featuredMode') || 'featured';
+    switchView(mode);
+}
+
+function switchView(mode: string) {
+    const allView = document.getElementById('posts-all');
+    const featuredView = document.getElementById('posts-featured');
+    const pagination = document.querySelector('.pagination-wrapper');
+
+    if (!allView || !featuredView) return;
+
+    if (mode === 'featured') {
+        allView.classList.add('hidden');
+        allView.classList.remove('flex');
+        featuredView.classList.remove('hidden');
+        featuredView.classList.add('flex');
+        // Hide pagination in featured mode
+        if (pagination) pagination.style.display = 'none';
+    } else {
+        featuredView.classList.add('hidden');
+        featuredView.classList.remove('flex');
+        allView.classList.remove('hidden');
+        allView.classList.add('flex');
+        // Show pagination in all mode
+        if (pagination) pagination.style.display = '';
+    }
+}
+
+// Initialize on load
+initPostView();
+
+// Listen for mode changes
+document.addEventListener('featuredModeChanged', (e: any) => {
+    switchView(e.detail.mode);
+});
+
+// Re-initialize after swup page transitions
+document.addEventListener('swup:content', initPostView);
+</script>

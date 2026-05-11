@@ -1,0 +1,99 @@
+---
+// FeaturedToggle - Desktop version for banner area
+// Only shown on homepage
+interface Props {
+    isHome?: boolean;
+}
+const { isHome = false } = Astro.props;
+---
+
+{isHome && (
+    <div
+        id="featured-toggle"
+        class="onload-animation absolute flex items-center rounded-full bg-black/60 h-9 px-1.5 -top-[3.25rem] right-[10rem]"
+        style="animation-delay: 400ms;"
+    >
+        <div class="relative flex items-center gap-0.5">
+            <button
+                id="featured-btn-featured"
+                class="featured-toggle-btn relative z-10 px-2.5 py-1 text-xs font-medium transition-colors duration-300 text-white/90"
+                data-mode="featured"
+            >
+                精选
+            </button>
+            <button
+                id="featured-btn-all"
+                class="featured-toggle-btn relative z-10 px-2.5 py-1 text-xs font-medium transition-colors duration-300 text-white/60"
+                data-mode="all"
+            >
+                全部
+            </button>
+            <div
+                id="featured-slider"
+                class="absolute top-0.5 bottom-0.5 w-[calc(50%-2px)] rounded-full bg-[var(--primary)] transition-all duration-300 ease-in-out"
+                style="left: 2px;"
+            ></div>
+        </div>
+    </div>
+)}
+
+<script>
+function initFeaturedToggle() {
+    const toggle = document.getElementById('featured-toggle');
+    if (!toggle) return;
+
+    const btnFeatured = document.getElementById('featured-btn-featured');
+    const btnAll = document.getElementById('featured-btn-all');
+    const slider = document.getElementById('featured-slider');
+
+    if (!btnFeatured || !btnAll || !slider) return;
+
+    // Get current mode from localStorage, default to 'featured'
+    const currentMode = localStorage.getItem('featuredMode') || 'featured';
+
+    // Update UI based on current mode
+    function updateUI(mode: string) {
+        if (!slider || !btnFeatured || !btnAll) return;
+
+        if (mode === 'featured') {
+            slider.style.left = '2px';
+            btnFeatured.classList.remove('text-white/60');
+            btnFeatured.classList.add('text-white/90');
+            btnAll.classList.remove('text-white/90');
+            btnAll.classList.add('text-white/60');
+        } else {
+            slider.style.left = 'calc(50% + 1px)';
+            btnAll.classList.remove('text-white/60');
+            btnAll.classList.add('text-white/90');
+            btnFeatured.classList.remove('text-white/90');
+            btnFeatured.classList.add('text-white/60');
+        }
+    }
+
+    // Initialize UI
+    updateUI(currentMode);
+
+    // Handle clicks
+    function handleToggle(mode: string) {
+        const currentMode = localStorage.getItem('featuredMode') || 'featured';
+        if (currentMode === mode) return;
+
+        localStorage.setItem('featuredMode', mode);
+        updateUI(mode);
+
+        // Dispatch custom event for PostPage to listen
+        document.dispatchEvent(new CustomEvent('featuredModeChanged', {
+            detail: { mode }
+        }));
+    }
+
+    btnFeatured.addEventListener('click', () => handleToggle('featured'));
+    btnAll.addEventListener('click', () => handleToggle('all'));
+}
+
+// Initialize on load
+initFeaturedToggle();
+
+// Re-initialize after swup page transitions
+document.addEventListener('swup:content', initFeaturedToggle);
+</script>

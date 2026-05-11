@@ -16,7 +16,7 @@ const { title, pubDate } = Astro.props;
 const className = Astro.props.class;
 const profileConf = profileConfig;
 const licenseConf = licenseConfig;
-const postUrl = decodeURIComponent(Astro.url.toString());
+const postUrl = decodeURIComponent(Astro.url.toString()).replace('vilstia.pages.dev', 'vilstia.org');
 ---
 <div class={`relative transition overflow-hidden bg-[var(--license-block-bg)] py-5 px-6 ${className}`}>
     <div class="transition font-bold text-black/75 dark:text-white/75">

@@ -113,11 +113,6 @@
 }
 
 /* Featured Toggle Styles */
-#featured-toggle {
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-}
-
 .featured-toggle-btn {
     cursor: pointer;
     user-select: none;
@@ -130,7 +125,6 @@
 
 #featured-slider {
     pointer-events: none;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 /* Featured Toggle Icon (Mobile) */

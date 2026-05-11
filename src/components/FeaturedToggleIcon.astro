@@ -13,7 +13,7 @@ const { isHome = false } = Astro.props;
     <button
         id="featured-toggle-icon"
         aria-label="Toggle Featured Posts"
-        class="btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90 md:!hidden"
+        class="btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90 md:!hidden absolute left-1/2 -translate-x-1/2"
     >
         <Icon name="material-symbols:star-rounded" class="text-[1.25rem] featured-icon-inactive" />
         <Icon name="material-symbols:star-rounded" class="text-[1.25rem] featured-icon-active text-[var(--primary)]" />

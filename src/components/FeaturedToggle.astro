@@ -10,20 +10,21 @@ const { isHome = false } = Astro.props;
 {isHome && (
     <div
         id="featured-toggle"
-        class="onload-animation absolute flex items-center rounded-full bg-black/60 h-9 px-1.5 -top-[3.25rem] right-[10rem]"
+        class="group onload-animation transition-all absolute flex justify-center items-center rounded-full
+        px-3 right-[10rem] -top-[3.25rem] bg-black/60 hover:bg-black/70 h-9"
         style="animation-delay: 400ms;"
     >
-        <div class="relative flex items-center gap-0.5">
+        <div class="relative flex items-center">
             <button
                 id="featured-btn-featured"
-                class="featured-toggle-btn relative z-10 px-2.5 py-1 text-xs font-medium transition-colors duration-300 text-white/90"
+                class="featured-toggle-btn relative z-10 px-2.5 py-1 text-xs font-medium transition-colors duration-300 text-white/75 hover:text-white/90"
                 data-mode="featured"
             >
                 精选
             </button>
             <button
                 id="featured-btn-all"
-                class="featured-toggle-btn relative z-10 px-2.5 py-1 text-xs font-medium transition-colors duration-300 text-white/60"
+                class="featured-toggle-btn relative z-10 px-2.5 py-1 text-xs font-medium transition-colors duration-300 text-white/75 hover:text-white/90"
                 data-mode="all"
             >
                 全部
@@ -57,16 +58,16 @@ function initFeaturedToggle() {
 
         if (mode === 'featured') {
             slider.style.left = '2px';
-            btnFeatured.classList.remove('text-white/60');
             btnFeatured.classList.add('text-white/90');
+            btnFeatured.classList.remove('text-white/75');
             btnAll.classList.remove('text-white/90');
-            btnAll.classList.add('text-white/60');
+            btnAll.classList.add('text-white/75');
         } else {
             slider.style.left = 'calc(50% + 1px)';
-            btnAll.classList.remove('text-white/60');
             btnAll.classList.add('text-white/90');
+            btnAll.classList.remove('text-white/75');
             btnFeatured.classList.remove('text-white/90');
-            btnFeatured.classList.add('text-white/60');
+            btnFeatured.classList.add('text-white/75');
         }
     }
 

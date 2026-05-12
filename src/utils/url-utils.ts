@@ -21,6 +21,11 @@ export function getTagUrl(tag: string): string {
 	return url(`/archive/?tag=${encodeURIComponent(tag.trim())}`);
 }
 
+export function getCollectionUrl(collection: string): string {
+	if (!collection) return url("/archive/");
+	return url(`/archive/?collection=${encodeURIComponent(collection.trim())}`);
+}
+
 export function getCategoryUrl(category: string | null): string {
 	if (
 		!category ||

@@ -1,0 +1,112 @@
+---
+import { getCollection } from "astro:content";
+import { getPostUrlBySlug } from "@utils/url-utils";
+import { Icon } from "astro-icon/components";
+
+interface Props {
+	collection: string;
+	currentSlug: string;
+}
+
+const { collection, currentSlug } = Astro.props;
+
+// Get all posts in this collection, sorted by published date (newest first)
+const allPosts = await getCollection("posts", ({ data }) => {
+	return import.meta.env.PROD ? data.draft !== true : true;
+});
+
+const collectionPosts = allPosts
+	.filter((post) => post.data.collection === collection)
+	.sort((a, b) => new Date(b.data.published).getTime() - new Date(a.data.published).getTime());
+
+if (collectionPosts.length === 0) return;
+
+const currentIndex = collectionPosts.findIndex((post) => post.slug === currentSlug);
+const prevPost = currentIndex < collectionPosts.length - 1 ? collectionPosts[currentIndex + 1] : null;
+const nextPost = currentIndex > 0 ? collectionPosts[currentIndex - 1] : null;
+---
+
+<div class="card-base px-6 py-5 mt-4 onload-animation">
+    <div class="flex items-center gap-2 mb-3">
+        <span class="font-bold text-black/75 dark:text-white/75">文集：</span>
+        <a href={`/archive/?collection=${encodeURIComponent(collection)}`}
+           class="font-bold text-[var(--primary)] hover:underline">
+            {collection}
+        </a>
+    </div>
+
+    <div class="flex justify-between items-center gap-4 mb-2 -mx-2">
+        {prevPost ? (
+            <a href={getPostUrlBySlug(prevPost.slug)}
+               class="flex-1 w-full font-bold overflow-hidden active:scale-95 group">
+                <div class="btn-card rounded-2xl w-full h-[3.75rem] max-w-full px-4 flex items-center !justify-start gap-4" style="padding-left: 0px;">
+                    <Icon name="material-symbols:chevron-left-rounded" class="text-[2rem] text-[var(--primary)]" />
+                    <div class="overflow-hidden transition overflow-ellipsis whitespace-nowrap max-w-[calc(100%_-_3rem)] text-black/75 dark:text-white/75 group-hover:text-[var(--primary)]">
+                        {prevPost.data.title}
+                    </div>
+                </div>
+            </a>
+        ) : <div class="flex-1" />}
+
+        {nextPost ? (
+            <a href={getPostUrlBySlug(nextPost.slug)}
+               class="flex-1 w-full font-bold overflow-hidden active:scale-95 group">
+                <div class="btn-card rounded-2xl w-full h-[3.75rem] max-w-full px-4 flex items-center !justify-end gap-4" style="padding-right: 0px;">
+                    <div class="overflow-hidden transition overflow-ellipsis whitespace-nowrap max-w-[calc(100%_-_3rem)] text-black/75 dark:text-white/75 group-hover:text-[var(--primary)]">
+                        {nextPost.data.title}
+                    </div>
+                    <Icon name="material-symbols:chevron-right-rounded" class="text-[2rem] text-[var(--primary)]" />
+                </div>
+            </a>
+        ) : <div class="flex-1" />}
+    </div>
+
+    <div class="border-[var(--line-divider)] border-dashed border-t-[1px] pt-2">
+        <details class="group/details">
+            <summary class="flex items-center gap-1 w-fit cursor-pointer select-none text-30 hover:text-[var(--primary)] transition list-none [&::-webkit-details-marker]:hidden">
+                <Icon name="material-symbols:expand-more-rounded"
+                      class="text-[2rem] transition-transform group-open/details:rotate-180" />
+            </summary>
+            <ul class="mt-1 details-content-animate -mx-5">
+                {collectionPosts.map((post) => {
+                    const d = new Date(post.data.published);
+                    const dateStr = `${(d.getMonth() + 1).toString().padStart(2, "0")}-${d.getDate().toString().padStart(2, "0")}`;
+                    return (
+                    <li>
+                        <a href={getPostUrlBySlug(post.slug)}
+                           class:list={["group btn-plain !block h-10 w-full rounded-lg hover:text-[initial]", {"pointer-events-none": post.slug === currentSlug}]}>
+                            <div class="flex flex-row items-center h-full">
+                                <div class="w-[12%] md:w-[8%] transition text-sm text-right text-50">
+                                    {dateStr}
+                                </div>
+                                <div class="w-[8%] md:w-[5%] relative dash-line h-full flex items-center">
+                                    <div class:list={["transition-all mx-auto rounded outline outline-4 z-50 outline-[var(--card-bg)] group-hover:outline-[var(--btn-plain-bg-hover)] group-active:outline-[var(--btn-plain-bg-active)]",
+                                        post.slug === currentSlug
+                                            ? "w-1.5 h-1.5 bg-[var(--primary)] group-hover:bg-[var(--primary)]"
+                                            : "w-1 h-1 bg-[oklch(0.5_0.05_var(--hue))] group-hover:h-5 group-hover:bg-[var(--primary)]"
+                                    ]}></div>
+                                </div>
+                                <div class:list={["w-[80%] md:w-[87%] text-left font-bold group-hover:translate-x-1 transition-all group-hover:text-[var(--primary)] whitespace-nowrap overflow-ellipsis overflow-hidden",
+                                    post.slug === currentSlug ? "text-[var(--primary)]" : "text-75"
+                                ]}>
+                                    {post.data.title}
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    );
+                })}
+            </ul>
+        </details>
+    </div>
+</div>
+
+<style>
+@keyframes details-fade-in {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.details-content-animate {
+    animation: details-fade-in 0.2s ease-out;
+}
+</style>

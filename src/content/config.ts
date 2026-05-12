@@ -11,6 +11,7 @@ const postsCollection = defineCollection({
 		tags: z.array(z.string()).optional().default([]),
 		album: z.string().optional().default(""),
 		category: z.string().optional().nullable().default(""),
+		collection: z.string().optional().nullable().default(""),
 		lang: z.string().optional().default(""),
 		mood: z.string().optional().default("烦躁"),
 		mood_level: z.number().optional().nullable(),

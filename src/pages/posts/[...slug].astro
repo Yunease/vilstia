@@ -1,5 +1,6 @@
 ---
 import path from "node:path";
+import CollectionNav from "@components/CollectionNav.astro";
 import License from "@components/misc/License.astro";
 import Markdown from "@components/misc/Markdown.astro";
 import I18nKey from "@i18n/i18nKey";
@@ -143,5 +144,12 @@ const jsonLd = {
             </div>}
         </a>
     </div>
+
+    {entry.data.collection && (
+        <CollectionNav
+            collection={entry.data.collection}
+            currentSlug={entry.slug}
+        />
+    )}
 
 </MainGridLayout>

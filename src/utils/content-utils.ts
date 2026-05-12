@@ -1,7 +1,7 @@
 import { type CollectionEntry, getCollection } from "astro:content";
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
-import { getCategoryUrl } from "@utils/url-utils.ts";
+import { getCategoryUrl, getCollectionUrl } from "@utils/url-utils.ts";
 
 // Tags to exclude from normal post lists (these go to special pages)
 const EXCLUDED_TAGS = ["mess", "gallery", "photo", "anth"];
@@ -91,6 +91,12 @@ export type Category = {
 	url: string;
 };
 
+export type CollectionItem = {
+	name: string;
+	count: number;
+	url: string;
+};
+
 export async function getCategoryList(): Promise<Category[]> {
 	const allBlogPosts = await getCollection<"posts">("posts", ({ data }) => {
 		return import.meta.env.PROD ? data.draft !== true : true;
@@ -123,6 +129,40 @@ export async function getCategoryList(): Promise<Category[]> {
 			name: c,
 			count: count[c],
 			url: getCategoryUrl(c),
+		});
+	}
+	return ret;
+}
+
+export async function getCollectionList(): Promise<CollectionItem[]> {
+	const allBlogPosts = await getCollection<"posts">("posts", ({ data }) => {
+		return import.meta.env.PROD ? data.draft !== true : true;
+	});
+	const count: { [key: string]: number } = {};
+	allBlogPosts.forEach((post: { data: { collection: string | null; tags: string[] } }) => {
+		if (EXCLUDED_TAGS.some(tag => post.data.tags.includes(tag))) return;
+		if (!post.data.collection) return;
+
+		const collectionName =
+			typeof post.data.collection === "string"
+				? post.data.collection.trim()
+				: String(post.data.collection).trim();
+
+		if (collectionName) {
+			count[collectionName] = count[collectionName] ? count[collectionName] + 1 : 1;
+		}
+	});
+
+	const lst = Object.keys(count).sort((a, b) => {
+		return a.toLowerCase().localeCompare(b.toLowerCase());
+	});
+
+	const ret: CollectionItem[] = [];
+	for (const c of lst) {
+		ret.push({
+			name: c,
+			count: count[c],
+			url: getCollectionUrl(c),
 		});
 	}
 	return ret;

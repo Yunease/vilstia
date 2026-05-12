@@ -104,6 +104,11 @@ export type ExpressiveCodeConfig = {
 	theme: string;
 };
 
+export type Collection = {
+	name: string;
+	count: number;
+};
+
 export type FriendConfig = {
 	name: string;
 	avatar: string;

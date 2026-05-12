@@ -12,6 +12,7 @@ export let sortedPosts: Post[] = [];
 const params = new URLSearchParams(window.location.search);
 tags = params.has("tag") ? params.getAll("tag") : [];
 categories = params.has("category") ? params.getAll("category") : [];
+const collection = params.get("collection");
 const uncategorized = params.get("uncategorized");
 
 interface Post {
@@ -20,6 +21,7 @@ interface Post {
 		title: string;
 		tags: string[];
 		category?: string;
+		collection?: string;
 		published: Date;
 	};
 }
@@ -55,6 +57,12 @@ onMount(async () => {
 	if (categories.length > 0) {
 		filteredPosts = filteredPosts.filter(
 			(post) => post.data.category && categories.includes(post.data.category),
+		);
+	}
+
+	if (collection) {
+		filteredPosts = filteredPosts.filter(
+			(post) => post.data.collection && post.data.collection === collection,
 		);
 	}
 

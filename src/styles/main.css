@@ -127,36 +127,6 @@
     pointer-events: none;
 }
 
-/* Featured Toggle Icon (Mobile) */
-#featured-toggle-icon {
-    position: relative;
-}
-
-#featured-toggle-icon .featured-icon-active,
-#featured-toggle-icon .featured-icon-inactive {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    transition: opacity 0.3s ease;
-}
-
-#featured-toggle-icon .featured-icon-active {
-    opacity: 0;
-}
-
-#featured-toggle-icon .featured-icon-inactive {
-    opacity: 1;
-}
-
-#featured-toggle-icon.active .featured-icon-active {
-    opacity: 1;
-}
-
-#featured-toggle-icon.active .featured-icon-inactive {
-    opacity: 0;
-}
-
 /* Empty state message */
 .featured-empty-message {
     background: var(--card-bg);

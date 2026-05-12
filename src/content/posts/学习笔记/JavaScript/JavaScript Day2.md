@@ -3,7 +3,6 @@ title: JavaScript Day2
 tags: [Java, JavaScript]
 category: 学习
 published: 2024-01-29T19:50:08
-description: "JavaScript和c语言一样的赋值运算符: C语言: A+=1  a=a+1 Js: A+=1  a=a+1 作用:简化代码 一元运算符: Let num = 10 + 20 正号,负号都是一元运算符. 自增: A++  作用:让变量的值+1  常用于计数用. 自增分为前置自增(a++)和..."
 ---
 
 JavaScript和c语言一样的赋值运算符:

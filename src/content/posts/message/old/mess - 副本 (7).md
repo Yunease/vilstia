@@ -4,7 +4,6 @@ tags: [mess]
 mood: 怨恨
 mood_level: 3
 published: 2026-01-05T22:31:01
-description: "怨恨的尺度会混淆观测者的决心。"
 ---
 
 怨恨的尺度会混淆观测者的决心。

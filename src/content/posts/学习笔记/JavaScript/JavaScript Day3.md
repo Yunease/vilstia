@@ -3,7 +3,6 @@ title: JavaScript Day3
 tags: [Java, JavaScript]
 category: 学习
 published: 2024-01-30T15:16:51
-description: "数组就是储存一组数据用的: 关键字: arr Let arr = [‘1’,’2’] 使用: Console.log(arr[2]) 索引号是从零开始的.数组的遍历就是从索引号0到最后. Br可以换行 呃呃呃感觉好简单啊 声明数组: Let arr = [1,2,3,’a’,true]  可以..."
 ---
 
 数组就是储存一组数据用的:

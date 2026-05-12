@@ -3,7 +3,6 @@ title: "html week 1 学习笔记整理"
 published: 2024-02-24T23:57:01
 tags: [Html,Web开发]
 category: "学习"
-description: "HTML5 基础学习笔记 简介 Html是一种计算机语言，主要用于网页的开发中，我们学习的是html5，简称H5。 - 后缀是：.html - Java语言的代码写在后缀是 .java 的文件中 - CSS代码写在 .css 文件中 - JavaScript简称 JS，JS的代码写在 .js ..."
 ---
 
 # HTML5 基础学习笔记

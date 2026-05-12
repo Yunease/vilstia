@@ -3,7 +3,6 @@ title: 插叙：进程api
 tags: [操作系统]
 category: 学习
 published: 2024-10-09T14:39:14
-description: "插叙：进程API 关键问题 如何创建并控制进程？ Fork() 系统调用 系统调用fork用于创建新的进程，新创建的进程几乎和原有进程一样，但不再执行前面的语句块，而是执行fork之后的语句块，用代码表示如下： include <stdio.h> include <stdlib.h> incl..."
 ---
 
 # 插叙：进程API

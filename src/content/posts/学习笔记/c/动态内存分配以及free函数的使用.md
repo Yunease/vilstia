@@ -3,7 +3,6 @@ title: 动态内存分配以及free函数的使用
 tags: [C语言]
 category: 学习
 published: 2023-10-23T22:34:39
-description: "动态内存分配以及free函数的使用 malloc 函数 int a = (int )malloc(n  sizeof(int)); 在这里，我们要开辟一块儿新的地址。 开辟的新地址用来存放指针a。malloc返回的类型是void，a是int形的，所以要把类型转换成int，用了强制转换(int ..."
 ---
 
 # 动态内存分配以及free函数的使用

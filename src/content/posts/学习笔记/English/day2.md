@@ -3,7 +3,6 @@ title: "英语四级学习DAY2"
 published: 2026-03-16T09:41:01
 tags: [English]
 category: "学习"
-description: "前言 每日励志一句：Progress, not perfection. 正文 课程进度：听力基础-二上 Key Words | 英文单词 / 短语 | 音标          | 词性     | 中文释义         | | :-------------- | :------------..."
 ---
 
 # 前言

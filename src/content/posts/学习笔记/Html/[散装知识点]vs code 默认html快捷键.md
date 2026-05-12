@@ -3,7 +3,6 @@ title: "[散装知识点]vs code 默认html快捷键"
 published: 2024-02-25T00:17:01
 tags: [Html,Web开发]
 category: "学习"
-description: "散装知识点：VS Code 默认 HTML 快捷键 系统快捷键 | 快捷键 | 功能 | |--------|------| | Windows + d | 全部程序最小化（保留桌面） | 文件操作 | 快捷键 | 功能 | |--------|------| | Ctrl + s | 快速保..."
 ---
 
 # 散装知识点：VS Code 默认 HTML 快捷键

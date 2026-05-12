@@ -3,7 +3,6 @@ title: JavaScript Day1
 tags: [Java, JavaScript]
 category: 学习
 published: 2024-01-22T16:41:56
-description: "JavaScript书写位置： 内部JavaScript 写在html文件里，用script标签包住 规范：写在body标签的内部 Alert：弹出页面警示框，语法规范： Alert(‘xxx’)  输出xxx 注意事项：html解析代码是由上到下，所以最后加载JavaScript代码通常是最..."
 ---
 
 JavaScript书写位置：

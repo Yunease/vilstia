@@ -3,7 +3,6 @@ title: css的常用选择器
 tags: [css]
 category: 学习
 published: 2023-12-03T14:58:25
-description: "CSS 常用选择器 一、元素选择器 - 作用：根据标签名来选中指定的元素 - 语法：标签名 - 示例： p { color: red; } - 缺点：一变全都变 二、ID 选择器 - 作用：通过元素的 id 属性选择一个元素 - 语法：id属性值 - 示例： box { font-size: ..."
 ---
 
 # CSS 常用选择器

@@ -3,7 +3,6 @@ title: "英语四级学习DAY8"
 published: 2026-04-08T09:33:01
 tags: [English]
 category: "学习"
-description: "前言 每日励志一句：Keep going, you can do it. 正文 课程进度：听力基础-六上 职业常见词汇： - 通用常见职业： | 英文               | 音标                  | 中文释义     | | ------------------ |..."
 ---
 
 # 前言

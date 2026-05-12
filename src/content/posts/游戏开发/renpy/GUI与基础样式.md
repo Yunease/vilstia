@@ -3,7 +3,6 @@ title: GUI与基础样式
 published: 2026-02-10T14:12:01
 tags: [博客文章]
 category: 'renpy开发日志'
-description: "大家好，这里是小琴，朋友，愿真主赐我们成功。 接下来我们一起学习renpy的GUI部分，自定义也是很重要的。 GUI图形用户接口 默认创作者正在使用新样式的Ren’Py GUI(定制化配置包含在 gui.rpy 文件中)。使用老版本的GUI(使用 screens.rpy 文件进行定制化配置)的..."
 ---
 
 大家好，这里是小琴，朋友，愿真主赐我们成功。

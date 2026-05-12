@@ -4,7 +4,6 @@ tags: [mess]
 mood: 振奋
 mood_level: 3
 published: 2026-01-23T13:00:00
-description: "我如恶魔一般从地狱归来了。。。。"
 ---
 
 我如恶魔一般从地狱归来了。。。。

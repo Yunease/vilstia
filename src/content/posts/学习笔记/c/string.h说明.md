@@ -3,7 +3,6 @@ title: string.h说明
 tags: [C语言]
 category: 学习
 published: 2023-10-29T19:32:42
-description: "string.h 说明 strlen 函数 返回字符串的长度。 size_t strlen(const char*s);  // 返回数组s的长度（不包含末尾的0） strcmp 函数 用于比较两个字符串。可以比较出两个字符串的大小。 // 返回值： // s1 == s2  -> 0 // ..."
 ---
 
 # string.h 说明

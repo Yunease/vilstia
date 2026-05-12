@@ -3,7 +3,6 @@ title: WebGal教程大纲
 tags: [博客文章]
 category: webgal
 published: 2026-04-18T19:56:01
-description: "从hello world开始 为什么选择webgal，webgal适合什么样的人 下载最新版本的webgal和vscode 创建你的第一个webgal项目 引擎和编辑器 认识界面和文件夹 界面区 文件名规范 本地文件夹结构和相对路径 - 不要写中文名 - 介绍每个模块 代码编辑区以及vscod..."
 ---
 
 # 从hello world开始

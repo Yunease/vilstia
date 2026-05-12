@@ -3,7 +3,6 @@ title: "英语四级学习DAY5"
 published: 2026-03-23T09:16:01
 tags: [English]
 category: "学习"
-description: "前言 每日励志一句：Keep going, you can do it. 正文 课程进度：听力基础-四上 新闻题的做题方法略。 keywords | 英文单词        | 音标              | 词性    | 中文释义           | | -------------..."
 ---
 
 # 前言

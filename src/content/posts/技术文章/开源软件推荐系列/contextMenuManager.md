@@ -1,7 +1,8 @@
 ---
-title: contextMenuManager
+title: 彻底解决鼠标右键管理 | 一篇文章看懂contextMenuManager
 tags: [博客文章, 开源软件]
 category: 学习
+collection: '开源软件推荐系列'
 published: 2026-03-29T08:54:01
 ---
 
@@ -27,7 +28,7 @@ published: 2026-03-29T08:54:01
 
 
 
-# 设置vs code
+# 案例：设置vs code
 
 找到你的vs code的安装路径，我安装到了 `D:\Microsoft VS Code` 中，默认可能是c盘的。如果你不确定，可以在设置中找到vs code的安装路径。
 

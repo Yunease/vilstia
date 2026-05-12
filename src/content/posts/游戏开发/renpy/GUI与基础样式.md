@@ -2,7 +2,7 @@
 title: GUI与基础样式
 published: 2026-02-10T14:12:01
 tags: [博客文章]
-category: 'renpy开发日志'
+category: '开发日志'
 ---
 
 大家好，这里是小琴，朋友，愿真主赐我们成功。

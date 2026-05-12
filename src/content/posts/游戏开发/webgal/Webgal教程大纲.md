@@ -1,7 +1,7 @@
 ---
 title: WebGal教程大纲
 tags: [博客文章]
-category: webgal
+category: '开发日志'
 published: 2026-04-18T19:56:01
 ---
 

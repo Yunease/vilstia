@@ -2,7 +2,7 @@
 title: 脚本标签label和流程控制
 published: 2026-02-21T16:06:01
 tags: [博客文章]
-category: 'renpy开发日志'
+category: '开发日志'
 ---
 
 大家早上好中午好晚上好哦！小琴现在开心极了，那么我们快一些开始吧！

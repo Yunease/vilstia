@@ -2,7 +2,8 @@
 title: Dans la maison
 published: 2024-09-27T15:32:01
 tags: [随笔, 精选]
-category: '水蒸气蛋糕'
+category: '散文'
+collection: '水蒸气蛋糕'
 ---
 
 你带我来到了这里，现在又要独自到哪里去呢。

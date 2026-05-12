@@ -2,7 +2,7 @@
 title: godot基础：信号与await
 published: 2026-04-08T09:54:01
 tags: [博客文章, godot]
-category: 'godot开发日志'
+category: '开发日志'
 ---
 
 《事件和委托》

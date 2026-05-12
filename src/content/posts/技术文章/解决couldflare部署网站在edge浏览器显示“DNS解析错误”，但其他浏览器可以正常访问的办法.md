@@ -1,7 +1,7 @@
 ---
 title: 解决couldflare部署网站在edge浏览器显示“DNS解析错误”，但其他浏览器可以正常访问的办法
 tags: [博客文章, Web开发]
-category: 
+category: 开发日志
 published: 2026-03-16T10:35:01
 ---
 

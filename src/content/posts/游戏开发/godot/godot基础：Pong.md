@@ -2,7 +2,7 @@
 title: godot基础：Pong
 published: 2026-04-08T09:54:01
 tags: [博客文章, godot]
-category: 'godot开发日志'
+category: '开发日志'
 ---
 
 来试试一些实战性的东西吧！

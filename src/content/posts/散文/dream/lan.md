@@ -1,7 +1,8 @@
 ---
 title: lan
 tags: [dream, 精选]
-category: 叙梦协定
+category: 散文
+collection: '叙梦协定'
 published: 2025-04-11T23:10:02
 ---
 

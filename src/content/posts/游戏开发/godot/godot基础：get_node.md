@@ -2,7 +2,7 @@
 title: godot基础：get_node
 published: 2026-04-08T21:15:01
 tags: [博客文章, godot]
-category: 'godot开发日志'
+category: '开发日志'
 ---
 
 游戏场景中，还需要一些能够进行节点交互的协调工作，就需要用到`get_node()`，这一集内容，如果您写过前端开发，相信能够很快上手。

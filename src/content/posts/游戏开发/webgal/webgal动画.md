@@ -1,7 +1,7 @@
 ---
 title: 一篇文章彻底讲懂Webgal中的自定义动画编写 | webgal动画教程
 tags: [博客文章]
-category: webgal
+category: '开发日志'
 published: 2025-12-27T16:17:01
 ---
 

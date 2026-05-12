@@ -143,4 +143,10 @@ export const friendsConfig: FriendConfig[] = [
 		url: "https://lain.today/",
 		bio: "有关幻想的一切。记录项目、想法与生活。",
 	},
+	{
+		name: "阿罗纳克斯的博客",
+		avatar: "https://aronnax.site/images/avatar.jpeg",
+		url: "https://aronnax.site/",
+		bio: "代码 |科技 | 动漫 |影视",
+	},
 ];

@@ -149,4 +149,10 @@ export const friendsConfig: FriendConfig[] = [
 		url: "https://aronnax.site/",
 		bio: "代码 |科技 | 动漫 |影视",
 	},
+	{
+		name: "北河天文台",
+		avatar: "https://pediastrum.com/title.png",
+		url: "https://pediastrum.com/",
+		bio: "其实不是天文台",
+	},
 ];

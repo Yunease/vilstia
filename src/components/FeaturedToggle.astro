@@ -1,45 +1,57 @@
 ---
 // FeaturedToggle - Desktop version for banner area
-// Only shown on homepage
-interface Props {
-    isHome?: boolean;
-}
-const { isHome = false } = Astro.props;
+// Only shown on homepage (visibility controlled by JS)
 ---
 
-{isHome && (
-    <div
-        id="featured-toggle"
-        class="group onload-animation transition-all absolute flex justify-center items-center rounded-full
-        px-3 right-[10rem] -top-[3.25rem] bg-black/60 hover:bg-black/70 h-9"
-        style="animation-delay: 400ms;"
-    >
-        <div class="relative flex items-center">
-            <button
-                id="featured-btn-featured"
-                class="featured-toggle-btn relative z-10 px-2.5 py-1 text-xs font-medium transition-colors duration-300 text-white/75 hover:text-white/90"
-                data-mode="featured"
-            >
-                精选
-            </button>
-            <button
-                id="featured-btn-all"
-                class="featured-toggle-btn relative z-10 px-2.5 py-1 text-xs font-medium transition-colors duration-300 text-white/75 hover:text-white/90"
-                data-mode="all"
-            >
-                全部
-            </button>
-            <div
-                id="featured-slider"
-                class="absolute top-0.5 bottom-0.5 w-[calc(50%-2px)] rounded-full bg-[var(--primary)] transition-all duration-300 ease-in-out"
-                style="left: 2px;"
-            ></div>
-        </div>
+<div
+    id="featured-toggle"
+    class="group onload-animation transition-all absolute flex justify-center items-center rounded-full
+    px-3 right-[10rem] -top-[3.25rem] bg-black/60 hover:bg-black/70 h-9 hidden"
+    style="animation-delay: 400ms;"
+>
+    <div class="relative flex items-center">
+        <button
+            id="featured-btn-featured"
+            class="featured-toggle-btn relative z-10 px-2.5 py-1 text-xs font-medium transition-colors duration-300 text-white/75 hover:text-white/90"
+            data-mode="featured"
+        >
+            精选
+        </button>
+        <button
+            id="featured-btn-all"
+            class="featured-toggle-btn relative z-10 px-2.5 py-1 text-xs font-medium transition-colors duration-300 text-white/75 hover:text-white/90"
+            data-mode="all"
+        >
+            全部
+        </button>
+        <div
+            id="featured-slider"
+            class="absolute top-0.5 bottom-0.5 w-[calc(50%-2px)] rounded-full bg-[var(--primary)] transition-all duration-300 ease-in-out"
+            style="left: 2px;"
+        ></div>
     </div>
-)}
+</div>
 
 <script>
+function isHomePage(): boolean {
+    const path = location.pathname;
+    return path === '/' || path === '';
+}
+
+function updateToggleVisibility() {
+    const toggle = document.getElementById('featured-toggle');
+    if (!toggle) return;
+
+    if (isHomePage()) {
+        toggle.classList.remove('hidden');
+    } else {
+        toggle.classList.add('hidden');
+    }
+}
+
 function initFeaturedToggle() {
+    updateToggleVisibility();
+
     const toggle = document.getElementById('featured-toggle');
     if (!toggle) return;
 

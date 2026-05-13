@@ -19,6 +19,7 @@ import { defaultFavicons } from "../constants/icon";
 import type { Favicon } from "../types/config";
 import { pathsEqual, url } from "../utils/url-utils";
 import "katex/dist/katex.css";
+import "../styles/twikoo.css";
 
 interface Props {
 	title?: string;
@@ -153,6 +154,9 @@ const bannerOffset =
 		<script defer src="https://events.vercount.one/js" data-swup-reload-script></script>
 		<!-- Umami Analytics (per-article stats) -->
 		<script defer src="https://analytics.hxcn.dev/script.js" data-website-id="1d49f872-1814-4036-81b4-39302f678190" data-swup-reload-script></script>
+
+		<!-- Twikoo 评论系统 -->
+		<script defer src="https://cdn.jsdelivr.net/npm/twikoo@1.6.42/dist/twikoo.all.min.js" data-swup-reload-script></script>
 
 	</head>
 	<body class=" min-h-screen transition " class:list={[{"lg:is-home": isHomePage, "enable-banner": enableBanner}]}
@@ -466,6 +470,24 @@ const setup = () => {
             }
         }, 200)
 	});
+
+	// Twikoo 评论系统初始化
+	function initTwikoo() {
+		const container = document.getElementById('twikoo-container');
+		if (!container || typeof window.twikoo === 'undefined') return;
+		container.innerHTML = '';
+		window.twikoo.init({
+			envId: 'https://twikoodb.vercel.app',
+			el: '#twikoo-container',
+		});
+	}
+	function destroyTwikoo() {
+		const container = document.getElementById('twikoo-container');
+		if (container) container.innerHTML = '';
+	}
+	initTwikoo();
+	window.swup.hooks.on('page:view', () => { initTwikoo(); });
+	window.swup.hooks.on('content:replace', () => { destroyTwikoo(); }, { before: true });
 }
 if (window?.swup?.hooks) {
 	setup()

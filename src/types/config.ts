@@ -50,13 +50,14 @@ export enum LinkPreset {
 	About = 2,
 	Silhouette = 3,
 	Friends = 4,
+	Social = 5,
 }
 
 export type NavBarLink = {
 	name: string;
 	url: string;
 	external?: boolean;
-	type?: "silhouette";
+	type?: "silhouette" | "social";
 };
 
 export type NavBarConfig = {

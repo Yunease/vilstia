@@ -5,6 +5,9 @@ declare global {
 		// type from '@swup/astro' is incorrect
 		swup: AstroIntegration;
 		initRankPage?: () => Promise<void> | void;
+		twikoo?: {
+			init: (options: { envId: string; el: string; path?: string }) => void;
+		};
 		pagefind: {
 			search: (query: string) => Promise<{
 				results: Array<{

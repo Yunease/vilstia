@@ -59,7 +59,9 @@
       "Bash(xargs -I {} sh -c 'echo \"=== {} ===\" && head -10 \"{}\" | grep -E \"^\\(title|published\\):\"')",
       "Bash(git revert *)",
       "Bash(git rm *)",
-      "Bash(git stash *)"
+      "Bash(git stash *)",
+      "Bash(npx astro *)",
+      "WebFetch(domain:cdn.jsdelivr.net)"
     ]
   }
 }

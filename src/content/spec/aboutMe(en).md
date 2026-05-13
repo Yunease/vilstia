@@ -1,135 +1,135 @@
 ---
-title: About Me (zh-CN)
+title: About Me (en)
 published: 2026-03-24
-description: 关于我们
+description: About Us
 category: star
 tag: me
 ---
 
 # About Me
 
-<span style="font-size: 2.5em; font-weight: 700; line-height: 1.8; color: var(--text-primary);">"我是要成为宝可梦大师的人啊！"</span>
+<span style="font-size: 2.5em; font-weight: 700; line-height: 1.8; color: var(--text-primary);">"I'm going to become a Pokemon Master!"</span>
 
-你好，我们是&nbsp;<span style="color: #87CEFA; font-weight: 700;">琴泠 (Lumina Qin)</span>&nbsp;和&nbsp;<span style="color: #6A5ACD; font-weight: 700;">薇尔斯缇娅  (Vistia)</span>。  
+Hello, we are&nbsp;<span style="color: #87CEFA; font-weight: 700;">Lumina Qin (琴泠)</span>&nbsp;and&nbsp;<span style="color: #6A5ACD; font-weight: 700;">Vistia (薇尔斯缇娅)</span>.
 
-这里是我们的个人博客，主要用来记录一些有趣和琐碎的事情———没错，总有些东西值得记录下来。
+This is our personal blog, mainly used to record some interesting and trivial things — that's right, there's always something worth writing down.
 
-我们喜欢把零散的想法整理记录起来，您能通过心灵碎片窥见一些瑰丽荒诞的世界剪影——如果那样就太好了。
+We like to organize and record scattered thoughts. If you could catch a glimpse of some magnificent and fantastical world snapshots through these mental fragments — that would be wonderful.
 
-本站于2026年5月7日达成1w访问量！
+This site reached 10,000 visits on May 7, 2026!
 
-![贺图](https://i.postimg.cc/fTNzdQ53/Sprite-0002.png)
+![Celebration](https://i.postimg.cc/fTNzdQ53/Sprite-0002.png)
 
 ---
 
-## 🌿 我们在做什么
+## 🌿 What We're Doing
 
-- 🎓 目前身份：**[ 学生 ]**
-- 💻 专注方向：**[ 前端开发 / 游戏开发 / 像素艺术 / 写作 / 日语 ]**
+- 🎓 Current Status: **[ Student ]**
+- 💻 Focus Areas: **[ Frontend Development / Game Development / Pixel Art / Writing / Japanese ]**
 - 🌙 MBTI: **[ INFP-A ]**
-- 🧩 正在进行的项目：
-  - **[ 个人博客：樟庭徊路/苍白花院 ]**
-  - **[ 独立游戏《misen》 ]**
-  - **[ 独立游戏《卓面宠物-kudu》 ]**
-  - **[ 视觉小说《你好特别》 ]**
-  - **[ 视觉小说《交叠之夏》 ]**
-  - **[ 视觉小说《欢迎来到八股文学社》 ]**
-  - **[ 宝可梦同人本《心之轨迹》 ]**
-  - **[ 宝可梦同人小说《加里波的旅行见闻》 ]**
-  - **[ 散文集《如星空般深蓝》 ]**
-  - **[ 散文集《水蒸气蛋糕》 ]**
-  - **[ 同人小说《一觉醒来全世界空洞骑士水平下降一百万倍》 ]**
-  
-- 😊 已经完成的项目：
-  - **[ 视觉小说《苹物语》 ]**
-  - **[ windows卓面程序：时间胶囊 ]**
-  - **[ 个人诗集《中学时》 ]**
-  - **[ 山东师范大学文化发展战略研究中心网页的前端开发 ]**
+- 🧩 Ongoing Projects:
+  - **[ Personal Blog: Camphor Court Wanderings / Pale Blooms ]**
+  - **[ Indie Game "misen" ]**
+  - **[ Indie Game "Desktop Pet - kudu" ]**
+  - **[ Visual Novel "You're So Special" ]**
+  - **[ Visual Novel "Overlapping Summer" ]**
+  - **[ Visual Novel "Welcome to the Eight-Legged Essay Literature Club" ]**
+  - **[ Pokemon Fan Book "Traces of the Heart" ]**
+  - **[ Pokemon Fan Fiction "Garibaldi's Travel Notes" ]**
+  - **[ Essay Collection "Deep Blue Like the Starry Sky" ]**
+  - **[ Essay Collection "Steam Cake" ]**
+  - **[ Fan Fiction "Woke Up and Everyone's Hollow Knight Skill Dropped a Million Times" ]**
 
-- 📚 目前正在学习：
-  - **[ 英语 ]**
-  - **[ 日语 ]**
-  - **[ Renpy开发 ]**
-  - **[ Godot开发 ]**
+- 😊 Completed Projects:
+  - **[ Visual Novel "Apple Story" ]**
+  - **[ Windows Desktop App: Time Capsule ]**
+  - **[ Personal Poetry Collection "Middle School Days" ]**
+  - **[ Frontend Development for Shandong Normal University Cultural Development Strategy Research Center Website ]**
 
-- 🏆 迄今为止达成的成就：
-  - **[ Pixiv今日动图排行榜第74位(2024年6月21日) ]**
-  - **[ Pixiv今日动图排行榜第67位(2024年9月3日) ]**
-  - **[ BiliBili轻小说征文活动3等奖 ]**
+- 📚 Currently Learning:
+  - **[ English ]**
+  - **[ Japanese ]**
+  - **[ Renpy Development ]**
+  - **[ Godot Development ]**
+
+- 🏆 Achievements So Far:
+  - **[ Ranked #74 on Pixiv Daily Animation Chart (June 21, 2024) ]**
+  - **[ Ranked #67 on Pixiv Daily Animation Chart (September 3, 2024) ]**
+  - **[ 3rd Place in BiliBili Light Novel Writing Contest ]**
 
 ---
 
-## 🎮 兴趣与爱好
+## 🎮 Interests & Hobbies
 
-- 我喜欢：
+- Things I Like:
   - **[ ACGN ]**
   - **[ Pixel Art ]**
-  - **[ 现代诗 ]**
-  - **[ 散文 ]**
-  - **[ 卡林巴琴 ]**
-  - **[ 口琴 ]**
-  - **[ 烘培 ]**
-  - **[ 翻唱 ]**
-  - **[ 健身 ]**
+  - **[ Modern Poetry ]**
+  - **[ Essays ]**
+  - **[ Kalimba ]**
+  - **[ Harmonica ]**
+  - **[ Baking ]**
+  - **[ Cover Songs ]**
+  - **[ Fitness ]**
 
-- 最近我正在热衷于：
-  - **[ 动物森友会 ]**
-  - **[ 海市蜃楼之馆 ]**
-  - **[ 宝可梦ZA ]**
-  - **[ 歧路旅人 ]**
+- Currently Into:
+  - **[ Animal Crossing ]**
+  - **[ The House in Fata Morgana ]**
+  - **[ Pokemon Legends: Z-A ]**
+  - **[ Octopath Traveler ]**
 
-- 我已经达成了这些游戏的全成就/全收集：
-  - **[ 空洞骑士 ]**
-  - **[ PlantsVsZombies ]**
-  - **[ 宝可梦朱紫 本体+DLC全图鉴 ]**
+- Games I've 100% Completed:
+  - **[ Hollow Knight ]**
+  - **[ Plants vs. Zombies ]**
+  - **[ Pokemon Scarlet & Violet (Base + DLC Full Pokedex) ]**
   - **[ Apex Legends ]**
 
-- 与此同时，我是这些系列的忠实粉丝！
-  - **[ 宝可梦 ]**
-  - **[ 明日方舟 ]**
-  - **[ 文学少女 ]**
-  - **[ 泰拉瑞亚 ]**
+- Meanwhile, I'm a devoted fan of these series!
+  - **[ Pokemon ]**
+  - **[ Arknights ]**
+  - **[ A Literary Girl (Bungaku Shoujo) ]**
+  - **[ Terraria ]**
 
-如果您也喜欢这些内容，请大胆的和我来讨论吧！！
-
----
-
-## 🖼 关于这个网站
-
-- 我们将在这里放下庞杂的文章和图片，但大致是：
-  - 📄 技术文章（好吧其实我没什么技术，鲜花和掌声请给cline和claude code大人）
-  - 📙 同人小说（暂时还没更新，请期待）/（已经在更新了）
-  - 💭 叙梦协定
-  - 💬 日常吐槽
-- 这里的图库包含：
-  - 🎨 个人绘画
-  - 📷 摄影照片
-
-如果您能够喜欢我们的某些作品，对我们来说真的是莫大的幸运。
-
-**所有发表的内容未经授权禁止转载，特别禁止csdn转载**
+If you enjoy these things too, feel free to discuss with me!!
 
 ---
 
-## 📬 联系我
+## 🖼 About This Website
 
-您可以通过以下方式找到我们：
+- We'll post a variety of articles and images here, roughly:
+  - 📄 Tech Articles (well, I'm not really that technical — please give your flowers and applause to Cline and Claude Code)
+  - 📙 Fan Fiction (not updated yet, stay tuned) / (now updating!)
+  - 💭 Dream Narratives
+  - 💬 Daily Musings
+- The gallery here includes:
+  - 🎨 Personal Artwork
+  - 📷 Photography
 
-- 工作邮箱：**[ 2642076599@qq.com ]**
-- 个人 QQ ：**[ 298246974 ]**
+If you happen to enjoy any of our works, that would truly be a great honor for us.
 
-缘分会让我们会在更远更远的未来相遇。
+**All published content may not be reproduced without authorization. Reproduction on CSDN is strictly prohibited.**
 
 ---
 
-## 🧩 这个博客的意义
+## 📬 Contact Me
 
-> 让**我**能慢慢变得更清晰，在空旷的荒原留下自己的牌匾。
+You can find us through:
 
-如果您在这里看到了熟悉的元气、焦虑、憎恨、迷茫、释怀或憧憬，  
-那我们可能是同一类人，或者说是接近的人，你会在我身上看到属于过去的影子，或是探见一抹来自未来的光晕。
+- Work Email: **[ 2642076599@qq.com ]**
+- Personal QQ: **[ 298246974 ]**
 
-亲爱的网友，欢迎你。
+Fate will bring us together in the distant future.
+
+---
+
+## 🧩 The Meaning of This Blog
+
+> To let **me** gradually become clearer, leaving my own signpost in the vast wilderness.
+
+If you see familiar vitality, anxiety, hatred, confusion, acceptance, or longing here,
+then we might be the same kind of people, or at least close ones. You may see shadows of the past in me, or glimpse a halo from the future.
+
+Dear friend from the internet, welcome.
 
 ---
 
@@ -137,7 +137,7 @@ tag: me
 
 <p style="color: #b8b8b8; font-size: 0.85em; letter-spacing: 0.3em; margin-bottom: 0.5rem; font-family: 'Georgia', serif;">✦ ✦ ✦</p>
 
-<a href="https://pale-blooms.pages.dev/" style="color: #c0c0c0; text-decoration: none; font-size: 1.1em; letter-spacing: 0.2em; transition: color 0.3s ease;">苍白花院</a>
+<a href="https://pale-blooms.pages.dev/" style="color: #c0c0c0; text-decoration: none; font-size: 1.1em; letter-spacing: 0.2em; transition: color 0.3s ease;">pale blooms</a>
 
 <p style="color: #a0a0a0; font-size: 0.8em; letter-spacing: 0.2em; margin-top: 0.5rem; font-family: 'Georgia', serif;">⁂ ⁂ ⁂</p>
 

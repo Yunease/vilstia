@@ -2,7 +2,6 @@
 title: About Me (en)
 published: 2026-05-13
 description: About Us
-category: 
 tag: me
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: About Me
+title: About Me (zh-CN)
 published: 2026-03-24
 description: 关于我们
 category: star
@@ -10,7 +10,7 @@ tag: me
 
 <span style="font-size: 2.5em; font-weight: 700; line-height: 1.8; color: var(--text-primary);">"我是要成为宝可梦大师的人啊！"</span>
 
-你好，我们是&nbsp;<span style="color: #87CEFA; font-weight: 700;">琴泠</span>&nbsp;和&nbsp;<span style="color: #6A5ACD; font-weight: 700;">Vistia</span>。  
+你好，我们是&nbsp;<span style="color: #87CEFA; font-weight: 700;">琴泠 (Lumina Qin)</span>&nbsp;和&nbsp;<span style="color: #6A5ACD; font-weight: 700;">薇尔斯缇娅  (Vistia)</span>。  
 
 这里是我们的个人博客，主要用来记录一些有趣和琐碎的事情———没错，总有些东西值得记录下来。
 
@@ -37,8 +37,9 @@ tag: me
   - **[ 宝可梦同人本《心之轨迹》 ]**
   - **[ 宝可梦同人小说《加里波的旅行见闻》 ]**
   - **[ 散文集《如星空般深蓝》 ]**
+  - **[ 散文集《水蒸气蛋糕》 ]**
   - **[ 同人小说《一觉醒来全世界空洞骑士水平下降一百万倍》 ]**
-
+  
 - 😊 已经完成的项目：
   - **[ 视觉小说《苹物语》 ]**
   - **[ windows卓面程序：时间胶囊 ]**
@@ -129,8 +130,6 @@ tag: me
 那我们可能是同一类人，或者说是接近的人，你会在我身上看到属于过去的影子，或是探见一抹来自未来的光晕。
 
 亲爱的网友，欢迎你。
-（对不起我还没有开发后端，做不了留言功能，我是后端领域废物）
-（孩子们别怕，这个功能已经在想办法做了。）
 
 ---
 

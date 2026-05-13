@@ -9,8 +9,8 @@ import type {
 import { LinkPreset } from "./types/config";
 
 export const siteConfig: SiteConfig = {
-	title: "樟庭徊路",
-	subtitle: "晶栏处",
+	title: "樟庭徊路 晶栏处",
+	subtitle: "琴泠的个人博客网站",
 	lang: "zh_CN", // Language code, e.g. 'en', 'zh_CN', 'ja', etc.
 	themeColor: {
 		hue: 125, // Default hue for the theme color, from 0 to 360. e.g. red: 0, teal: 200, cyan: 250, pink: 345
@@ -57,7 +57,7 @@ export const navBarConfig: NavBarConfig = {
 
 export const profileConfig: ProfileConfig = {
 	avatar: "assets/images/qinling.png", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
-	name: "琴泠",
+	name: "琴泠 - Lumina Qin",
 	bio: "浮生两起千斤梦 怅思尤作归离恨",
 	links: [
 		{

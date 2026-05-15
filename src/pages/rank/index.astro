@@ -17,12 +17,15 @@ for (const post of allPosts) {
 	const realPath = `/posts/${post.slug}/`;
 	const title = post.data.title;
 
-	// 完整路径 → title
+	// 完整路径 → title（带斜杠和不带斜杠都注册）
 	titleMap[realPath] = title;
+	titleMap[realPath.replace(/\/$/, '')] = title;
 	// 简化路径 → title
 	const parts = post.slug.split('/');
 	if (parts.length > 1) {
-		titleMap[`/posts/${parts.slice(1).join('/')}/`] = title;
+		const shortPath = `/posts/${parts.slice(1).join('/')}/`;
+		titleMap[shortPath] = title;
+		titleMap[shortPath.replace(/\/$/, '')] = title;
 	}
 
 	// title → 真实路径（优先使用，不覆盖）

@@ -61,7 +61,8 @@
       "Bash(git rm *)",
       "Bash(git stash *)",
       "Bash(npx astro *)",
-      "WebFetch(domain:cdn.jsdelivr.net)"
+      "WebFetch(domain:cdn.jsdelivr.net)",
+      "Bash(awk -F'\"' '{print $4}')"
     ]
   }
 }

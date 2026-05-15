@@ -1,0 +1,86 @@
+---
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { getCollection } from "astro:content";
+import rankData from "../../../public/rank-data.json";
+
+// 获取所有文章，构建映射
+const allPosts = await getCollection("posts", ({ data }) => {
+	return import.meta.env.PROD ? data.draft !== true : true;
+});
+
+// path → title（用于显示标题）
+const titleMap: Record<string, string> = {};
+// title → 真实路径（用于生成链接）
+const titleToPath: Record<string, string> = {};
+
+for (const post of allPosts) {
+	const realPath = `/posts/${post.slug}/`;
+	const title = post.data.title;
+
+	// 完整路径 → title
+	titleMap[realPath] = title;
+	// 简化路径 → title
+	const parts = post.slug.split('/');
+	if (parts.length > 1) {
+		titleMap[`/posts/${parts.slice(1).join('/')}/`] = title;
+	}
+
+	// title → 真实路径（优先使用，不覆盖）
+	if (!titleToPath[title]) {
+		titleToPath[title] = realPath;
+	}
+}
+
+// 匹配标题
+function getTitle(path: string): string {
+	return titleMap[path] ?? path;
+}
+
+// 获取真实链接路径
+function getRealPath(umamiPath: string): string {
+	const title = titleMap[umamiPath];
+	if (title && titleToPath[title]) {
+		return titleToPath[title];
+	}
+	return umamiPath;
+}
+
+// 排序并取 TOP 10
+const top10 = rankData
+	.sort((a, b) => b.views - a.views)
+	.slice(0, 10);
+---
+
+<MainGridLayout title="访问排名" description="博客访问量排名统计">
+	<div class="flex flex-col">
+		<!-- 标题说明 -->
+		<div class="card-base p-6 mb-8 onload-animation">
+			<h1 class="text-3xl font-bold text-[var(--primary)] mb-3">访问排名</h1>
+			<p class="text-neutral-700 dark:text-neutral-300 leading-relaxed">
+				近 90 天文章访问量 TOP 10
+			</p>
+			<p class="text-neutral-500 dark:text-neutral-400 text-sm mt-2">
+				注：排名基于 Umami 统计数据，首页数据基于 Vercount 统计，不是实时刷新，存在一定误差，仅供参考。
+			</p>
+		</div>
+
+		<!-- 排行榜 -->
+		<div class="transition flex flex-col rounded-[var(--radius-large)] bg-[var(--card-bg)] py-1 md:py-0 md:bg-transparent md:gap-4 mb-4">
+			{top10.map((item, index) => (
+				<a href={`https://vilstia.org${getRealPath(item.path)}`} target="_blank" rel="noopener"
+				   class="card-base flex items-center gap-3 p-4 onload-animation
+						  hover:bg-[var(--btn-card-bg-hover)] transition-colors cursor-pointer">
+					<span class="text-lg w-8 text-center flex-shrink-0">
+						{index < 3 ? ['🥇', '🥈', '🥉'][index] : <span class="text-sm text-neutral-500">{index + 1}</span>}
+					</span>
+					<span class="flex-1 text-sm text-neutral-700 dark:text-neutral-300 truncate">
+						{getTitle(item.path)}
+					</span>
+					<span class="text-sm font-bold text-[var(--primary)] flex-shrink-0">
+						{item.views} 次
+					</span>
+				</a>
+			))}
+		</div>
+	</div>
+</MainGridLayout>

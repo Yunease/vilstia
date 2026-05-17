@@ -23,7 +23,7 @@ if (Number.isNaN(buildDateServer.getTime())) {
 ---
 
 <!-- 建站时长面板（样式和分类/标签组件统一） -->
-<div class:list={[className, "card-base p-4 rounded-lg onload-animation"]} style="animation-delay: 250ms">
+<a href="/memory/" class:list={[className, "block card-base p-4 rounded-lg onload-animation hover-card"]} style="animation-delay: 250ms">
     <!-- 标题 -->
     <h3 class="font-bold text-lg mb-3 flex items-center dark:text-white/80">
     <Icon name="material-symbols:timer-outline" class="mr-2 text-[var(--primary)]" />
@@ -40,7 +40,7 @@ if (Number.isNaN(buildDateServer.getTime())) {
         -- : -- : --
     </div>
     </div>
-</div>
+</a>
 
 <!-- 关键修复：用 define:vars 传递服务端变量到客户端 JS -->
 <script is:inline define:vars={{ buildTime: Stime.buildTime }}>
@@ -120,6 +120,16 @@ function updateSiteAge() {
 </script>
 
 <style>
+.hover-card {
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-card:hover {
+	transform: translateY(-4px);
+	box-shadow: 0 8px 20px -4px var(--primary);
+	cursor: pointer;
+}
+
 #site-age span {
     transition: all .2s ease;
 }

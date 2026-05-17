@@ -1,0 +1,217 @@
+---
+import Layout from "@layouts/Layout.astro";
+---
+
+<Layout title="2025 年度记录" description="2025 年博客站点变迁与个人成长记录">
+
+<!-- 全页背景层 -->
+<div class="r1-bg">
+	<div class="r1-bg-lines"></div>
+</div>
+
+<div class="r1-page">
+	<div class="r1-header">
+		<div class="r1-year">~ 2025 ~</div>
+		<div class="r1-subtitle">年度记录</div>
+	</div>
+
+	<div class="r1-divider">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</div>
+
+	<!-- 感言 -->
+	<div class="r1-quote">
+		<div class="r1-avatar"></div>
+		<div class="r1-quote-box">
+			<p>"这一年写了很多，也删了很多。留下来的，都是值得记住的。"</p>
+		</div>
+	</div>
+
+	<div class="r1-divider">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</div>
+
+	<!-- 基本信息 -->
+	<h2 class="r1-heading">[ 基本信息 ]</h2>
+	<table class="r1-table">
+		<tr><td>文章总数</td><td class="r1-val">128 篇</td></tr>
+		<tr><td>总字数</td><td class="r1-val">86,400 字</td></tr>
+		<tr><td>吐槽条数</td><td class="r1-val">365 条</td></tr>
+		<tr><td>最喜欢的文章</td><td class="r1-val">《关于Astro的一切》</td></tr>
+		<tr><td>最长的文章</td><td class="r1-val">《从零搭建博客的30天》(12,800字)</td></tr>
+		<tr><td>最满意的绘画</td><td class="r1-val">《星空下的少女》</td></tr>
+	</table>
+
+	<h3 class="r1-subheading">> 发布时间统计</h3>
+	<div class="r1-chart">
+		<div class="r1-bar" style="height:30%"><span>1</span></div>
+		<div class="r1-bar" style="height:50%"><span>2</span></div>
+		<div class="r1-bar" style="height:80%"><span>3</span></div>
+		<div class="r1-bar" style="height:60%"><span>4</span></div>
+		<div class="r1-bar" style="height:45%"><span>5</span></div>
+		<div class="r1-bar" style="height:70%"><span>6</span></div>
+		<div class="r1-bar" style="height:55%"><span>7</span></div>
+		<div class="r1-bar" style="height:90%"><span>8</span></div>
+		<div class="r1-bar" style="height:40%"><span>9</span></div>
+		<div class="r1-bar" style="height:65%"><span>10</span></div>
+		<div class="r1-bar" style="height:35%"><span>11</span></div>
+		<div class="r1-bar" style="height:75%"><span>12</span></div>
+	</div>
+
+	<div class="r1-divider">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</div>
+
+	<!-- 今年看过 -->
+	<h2 class="r1-heading">[ 今年看过 ]</h2>
+	<p class="r1-text">共观看 <strong>47</strong> 部 ACGN 作品</p>
+	<div class="r1-rec-box">
+		<div class="r1-rec-tag">最推荐的作品</div>
+		<div class="r1-rec-name">《葬送的芙莉莲》</div>
+		<p class="r1-rec-desc">"这不是一个关于冒险的故事，而是关于冒险结束后，如何与回忆共处的故事。每一集都像一首安静的诗。"</p>
+	</div>
+
+	<div class="r1-divider">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</div>
+
+	<!-- 词云 -->
+	<h2 class="r1-heading">[ 年度词云 ]</h2>
+	<div class="r1-cloud">
+		<span style="font-size:28px">成长</span>
+		<span style="font-size:22px">博客</span>
+		<span style="font-size:18px">Astro</span>
+		<span style="font-size:26px">记录</span>
+		<span style="font-size:15px">代码</span>
+		<span style="font-size:24px">生活</span>
+		<span style="font-size:17px">学习</span>
+		<span style="font-size:14px">前端</span>
+		<span style="font-size:28px">回忆</span>
+		<span style="font-size:16px">画画</span>
+		<span style="font-size:20px">音乐</span>
+		<span style="font-size:24px">心情</span>
+		<span style="font-size:14px">深夜</span>
+		<span style="font-size:18px">创作</span>
+	</div>
+
+	<div class="r1-footer">[ End of 2025 Record ]</div>
+</div>
+
+<style>
+/* ========== 全页背景 ========== */
+.r1-bg {
+	position: fixed;
+	top: 0; left: 0; right: 0; bottom: 0;
+	z-index: 0;
+	background: #060e1a;
+}
+.r1-bg-lines {
+	position: absolute;
+	top: 0; left: 0; right: 0; bottom: 0;
+	background-image:
+		repeating-linear-gradient(0deg, transparent, transparent 31px, rgba(26,58,107,0.25) 31px, rgba(26,58,107,0.25) 32px);
+}
+
+/* ========== 信纸主体 ========== */
+.r1-page {
+	position: relative;
+	z-index: 1;
+	max-width: 1040px;
+	margin: 20px auto;
+	background: #0a1628;
+	border: 2px solid #1a3a6b;
+	border-radius: 18px;
+	padding: 40px 48px;
+	box-shadow: 4px 4px 0 #0d2040, 0 0 40px rgba(30,60,120,0.15);
+}
+
+.r1-header { text-align: center; }
+.r1-year { font-size: 40px; font-weight: 700; color: #448aff; font-family: Georgia, serif; }
+.r1-subtitle { font-size: 13px; color: #3a6a9a; letter-spacing: 6px; margin-top: 4px; }
+
+.r1-divider { text-align: center; color: #1a3050; font-size: 12px; margin: 20px 0; letter-spacing: 2px; }
+
+.r1-quote { display: flex; align-items: center; gap: 16px; }
+.r1-avatar { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, #1a3a6b, #448aff); border: 2px solid #2a5090; flex-shrink: 0; }
+.r1-quote-box { background: #0e1e38; border: 1px dashed #1a3a6b; border-radius: 14px; padding: 14px 18px; }
+.r1-quote-box p { font-size: 15px; color: #8ab4ff; font-style: italic; line-height: 1.8; font-family: Georgia, serif; }
+
+.r1-heading { font-size: 16px; font-weight: 700; color: #448aff; margin: 24px 0 14px; font-family: Georgia, serif; }
+.r1-subheading { font-size: 13px; color: #3a6a9a; margin: 16px 0 10px; font-family: monospace; }
+
+.r1-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.r1-table td { padding: 8px 10px; border-bottom: 1px dotted #1a3050; color: #7aa0cc; }
+.r1-val { text-align: right; font-weight: 600; color: #a0c8ff; }
+
+.r1-chart { display: flex; align-items: flex-end; gap: 6px; height: 100px; margin: 10px 0; }
+.r1-bar { flex: 1; background: linear-gradient(to top, #1a3a6b, #448aff); border-radius: 5px 5px 0 0; min-height: 8px; position: relative; }
+.r1-bar span { position: absolute; bottom: -16px; left: 50%; transform: translateX(-50%); font-size: 10px; color: #3a6a9a; }
+
+.r1-text { font-size: 14px; color: #7aa0cc; margin: 8px 0; }
+.r1-text strong { color: #a0c8ff; }
+
+.r1-rec-box { background: #0e1e38; border: 1px solid #1a3a6b; border-radius: 14px; padding: 16px 18px; margin-top: 12px; }
+.r1-rec-tag { font-size: 10px; color: #3a6a9a; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+.r1-rec-name { font-size: 18px; font-weight: 700; color: #448aff; font-family: Georgia, serif; }
+.r1-rec-desc { font-size: 13px; color: #5a8abb; font-style: italic; line-height: 1.8; margin-top: 8px; }
+
+.r1-cloud { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px 14px; line-height: 1.4; color: #448aff; padding: 12px 0; }
+
+.r1-footer { text-align: center; font-size: 11px; color: #1a3050; margin-top: 28px; font-family: monospace; }
+</style>
+
+<script is:inline>
+	function is2025Page() {
+		return window.location.pathname.includes('/memory/2025');
+	}
+
+	function initFirework() {
+		if (!is2025Page()) return;
+		if (typeof window.firework !== 'function') return;
+		if (window.__fireworkInitialized) return;
+
+		window.__fireworkInitialized = true;
+		window.firework({
+			excludeElements: ["a", "button"],
+			particles: [
+				{
+					colors: ["#1a3a6b", "#1e5aa8", "#2962ff", "#448aff"],
+					duration: [1200, 1800],
+					easing: "easeOutExpo",
+					move: ["emit"],
+					number: 12,
+					shape: "circle",
+					shapeOptions: { alpha: [0.4, 0.7], radius: [8, 16] }
+				},
+				{
+					colors: ["#0d2f5e", "#153d7a", "#1a4fa0", "#2962ff"],
+					duration: [1000, 1500],
+					easing: "easeOutExpo",
+					move: ["emit"],
+					number: 6,
+					shape: "polygon",
+					shapeOptions: { alpha: [0.5, 0.8], radius: [6, 12], sides: 3 }
+				},
+				{
+					colors: ["#1e3a6e"],
+					duration: [1200, 1800],
+					easing: "easeOutExpo",
+					move: ["diffuse"],
+					number: 1,
+					shape: "circle",
+					shapeOptions: { alpha: [0.2, 0.4], lineWidth: 4, radius: 12 }
+				}
+			]
+		});
+	}
+
+	function cleanupFirework() {
+		window.__fireworkInitialized = false;
+	}
+
+	if (window.swup && window.swup.hooks) {
+		window.swup.hooks.on('page:view', () => { initFirework(); });
+		window.swup.hooks.on('content:replace', () => { cleanupFirework(); }, { before: true });
+	} else {
+		document.addEventListener('swup:enable', () => {
+			window.swup.hooks.on('page:view', () => { initFirework(); });
+			window.swup.hooks.on('content:replace', () => { cleanupFirework(); }, { before: true });
+		});
+		document.addEventListener('astro:page-load', () => { initFirework(); });
+	}
+	</script>
+
+	<script is:inline src="https://unpkg.com/mouse-firework@0.1.1/dist/index.umd.js" onload="initFirework()" data-swup-reload-script></script>
+</Layout>

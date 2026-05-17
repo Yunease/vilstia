@@ -7,11 +7,12 @@ interface Props {
 	coverImage: string;
 	count: number;
 	latestDate: Date;
+	basePath?: string;
 	class?: string;
 	style?: string;
 }
 
-const { name, coverImage, count, latestDate, class: className, style } = Astro.props;
+const { name, coverImage, count, latestDate, basePath = "/photo", class: className, style } = Astro.props;
 
 const formatDate = (date: Date) => {
 	const year = date.getFullYear();
@@ -20,7 +21,7 @@ const formatDate = (date: Date) => {
 	return `${year}-${month}-${day}`;
 };
 
-const albumUrl = url(`/photo/${encodeURIComponent(name)}/`);
+const albumUrl = url(`${basePath}/${encodeURIComponent(name)}/`);
 ---
 
 <a href={albumUrl} class:list={["album-card-wrapper group block", className]} style={style}>

@@ -1,0 +1,11 @@
+---
+import GalleryIndex from "@components/GalleryIndex.astro";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { getGalleryAlbums } from "../../utils/gallery-utils";
+
+const albums = await getGalleryAlbums();
+---
+
+<MainGridLayout title="回廊画架" description="时光的画廊">
+	<GalleryIndex albums={albums}></GalleryIndex>
+</MainGridLayout>

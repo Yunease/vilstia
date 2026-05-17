@@ -1,0 +1,84 @@
+---
+import type { GalleryAlbum } from "../utils/gallery-utils";
+import AlbumCard from "./AlbumCard.astro";
+
+interface Props {
+	albums: GalleryAlbum[];
+}
+
+const { albums } = Astro.props;
+
+const len = albums.length;
+let delay = 0;
+const interval = 80;
+---
+
+<div class="flex flex-col">
+	<!-- Page Title and Description -->
+	<div class="card-base p-6 mb-8 onload-animation">
+		<h1 class="text-3xl font-bold text-[var(--primary)] mb-3">回廊画架</h1>
+		<p class="text-neutral-700 dark:text-neutral-300 leading-relaxed">
+			时光的画廊，这里陈列着那些值得珍藏的瞬间与画面。
+		</p>
+		<p class="text-neutral-700 dark:text-neutral-300 leading-relaxed">
+			每一幅画都是一个故事，每一段光影都承载着回忆。
+		</p>
+		<p class="text-neutral-700 dark:text-neutral-300 leading-relaxed">
+			&nbsp;
+		</p>
+		<p class="text-neutral-700 dark:text-neutral-300 leading-relaxed">
+			漫步于回廊之间，遇见过去的自己。
+		</p>
+	</div>
+
+	<!-- Album Grid -->
+	<div class="album-grid mb-4">
+		{albums.map((album) => (
+			<AlbumCard
+				name={album.name}
+				coverImage={album.coverImage}
+				count={album.count}
+				latestDate={album.latestDate}
+				basePath="/gallery"
+				class="onload-animation"
+				style={`animation-delay: calc(var(--content-delay) + ${delay++ * interval}ms);`}
+			/>
+		))}
+	</div>
+</div>
+
+<style>
+	.album-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 1.5rem;
+	}
+
+	@media (min-width: 480px) {
+		.album-grid {
+			grid-template-columns: repeat(2, 1fr);
+			gap: 1.75rem;
+		}
+	}
+
+	@media (min-width: 768px) {
+		.album-grid {
+			grid-template-columns: repeat(3, 1fr);
+			gap: 2rem;
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.album-grid {
+			grid-template-columns: repeat(3, 1fr);
+			gap: 2.25rem;
+		}
+	}
+
+	@media (min-width: 1280px) {
+		.album-grid {
+			grid-template-columns: repeat(4, 1fr);
+			gap: 2.5rem;
+		}
+	}
+</style>

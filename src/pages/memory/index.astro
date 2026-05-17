@@ -2,9 +2,7 @@
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 
 // 年度记录列表（从 2025 年开始）
-const years = [
-	{ year: 2025, path: "/memory/2025/" },
-];
+const years = [{ year: 2025, path: "/memory/2025/" }];
 ---
 
 <MainGridLayout title="年度记录" description="我的博客网站与年度记录，从 2025 年开始">
@@ -21,6 +19,7 @@ const years = [
 		<div class="transition flex flex-col rounded-[var(--radius-large)] bg-[var(--card-bg)] py-1 md:py-0 md:bg-transparent md:gap-4 mb-4">
 			{years.map((item) => (
 				<a href={item.path}
+				   target="_blank"
 				   class="card-base flex items-center gap-3 p-5 onload-animation
 						  hover:bg-[var(--btn-card-bg-hover)] transition-colors cursor-pointer">
 					<span class="text-lg font-bold text-[var(--primary)] flex-shrink-0">
@@ -28,7 +27,7 @@ const years = [
 					</span>
 					<span class="text-neutral-400 flex-shrink-0">—</span>
 					<span class="text-sm text-neutral-700 dark:text-neutral-300">
-						至今
+						123
 					</span>
 				</a>
 			))}

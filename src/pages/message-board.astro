@@ -2,11 +2,80 @@
 import MainGridLayout from "../layouts/MainGridLayout.astro";
 ---
 
-<MainGridLayout title="留言板" description="留言板">
-    <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative mb-4">
-        <div class="card-base z-10 px-6 md:px-9 pt-6 pb-4 relative w-full">
-            <div class="text-lg font-bold text-black/80 dark:text-white/80 mb-4">留言板</div>
-            <div id="twikoo-container"></div>
-        </div>
+<MainGridLayout title="访讯留志" description="访讯留志">
+    <!-- 标题区域 -->
+    <div class="message-board-header card-base z-10 px-6 md:px-9 py-6 relative w-full mb-4">
+        <h1 class="text-3xl font-bold text-[var(--primary)] mb-3">访讯留志</h1>
+        <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+            欢迎来到这里，留下你的足迹吧。无论是想说的话、想分享的故事，还是简单的问候，都可以在这里留下。
+        </p>
+    </div>
+
+    <!-- 留言区域 -->
+    <div class="message-board-content card-base z-10 px-6 md:px-9 py-6 relative w-full">
+        <div id="twikoo-container"></div>
     </div>
 </MainGridLayout>
+
+<style>
+    .message-board-header {
+        animation: fade-in-up 300ms ease-out;
+        animation-fill-mode: forwards;
+    }
+
+    .message-board-content {
+        animation: fade-in-up 300ms ease-out backwards;
+        animation-delay: 100ms;
+    }
+
+    @keyframes fade-in-up {
+        0% {
+            transform: translateY(0.75rem);
+            opacity: 0;
+        }
+        100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    /* 移动端适配 */
+    @media (max-width: 640px) {
+        .message-board-header {
+            padding: 1rem 1rem;
+        }
+
+        .message-board-content {
+            padding: 1rem 1rem;
+        }
+    }
+</style>
+
+<!-- Twikoo 评论系统 -->
+<script>
+    // Twikoo 初始化逻辑
+    document.addEventListener('DOMContentLoaded', function() {
+        // 检查 twikoo 是否已加载
+        if (typeof window.twikoo !== 'undefined') {
+            initTwikoo();
+        } else {
+            // 动态加载 twikoo
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/twikoo@1.6.39/dist/twikoo.all.min.js';
+            script.onload = initTwikoo;
+            document.head.appendChild(script);
+        }
+    });
+
+    function initTwikoo() {
+        if (typeof window.twikoo !== 'undefined') {
+            window.twikoo.init({
+                envId: 'your-env-id', // 替换为你的环境ID
+                el: '#twikoo-container',
+                // 可选配置
+                // region: 'ap-shanghai',
+                // path: 'message-board',
+            });
+        }
+    }
+</script>

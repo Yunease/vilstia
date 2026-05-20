@@ -1,6 +1,6 @@
 ---
 title: hexo主题anzhiyu下载显示fatal destination path themesanzhiyu already exists......问题的解决办法
-tags: [博客文章, web开发]
+tags: [博客文章, Web开发]
 published: 2024-11-22T15:46:01
 ---
 

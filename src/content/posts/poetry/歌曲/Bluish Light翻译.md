@@ -5,9 +5,7 @@ category:
 published: 2024-03-18T16:54:01
 ---
 
-个人向歌词翻译——Bluish Light
-
-
+# 个人向歌词翻译——Bluish Light
 
 如一叶孤舟的我，在寂寥海洋中沉沦。
 

@@ -55,7 +55,7 @@ export const navBarConfig: NavBarConfig = {
 };
 
 export const profileConfig: ProfileConfig = {
-	avatar: "assets/images/qinling.png", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
+	avatar: "assets/images/qinlin.png", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
 	name: "琴泠 - Lumina Qin",
 	bio: "浮生两起千斤梦 怅思尤作归离恨",
 	links: [

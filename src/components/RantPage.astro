@@ -360,8 +360,8 @@ const totalCount = Object.values(moodCounts).reduce(
 	}
 </style>
 
-<script is:inline data-swup-ignore-script>
-	// 使用 astro:page-load 事件驱动初始化，确保 Swup 分页切换后图表重新渲染
+<script is:inline>
+	// 直接执行 + astro:page-load 双重保障，确保首屏和 Swup 分页切换后图表均正确渲染
 	function initMoodChart() {
 		const rawMonthlyData =
 			typeof window.__MONTHLY_DATA__ !== "undefined"
@@ -613,6 +613,9 @@ const totalCount = Object.values(moodCounts).reduce(
 	}
 	}
 
-	document.addEventListener("astro:page-load", initMoodChart);
+	if (!window.__moodChartReady) {
+		document.addEventListener("astro:page-load", initMoodChart);
+		window.__moodChartReady = true;
+	}
 	initMoodChart();
 </script>

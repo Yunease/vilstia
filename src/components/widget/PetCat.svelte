@@ -1,24 +1,31 @@
 <script lang="ts">
 import Icon from "@iconify/svelte";
 
-interface PetMessages {
-	messages: string[];
-}
+type PetMessages = Record<string, string[]>;
 
-const IDLE_PNG = "/images/pet/idle.png";
+const PET_IMG_PATH = "/images/pet/";
 const PET_SIZE = 172;
 const BUBBLE_DURATION = 4000;
 const BUBBLE_MAX_WIDTH = 200;
+const CAT_TYPES = ["Normal", "Rest", "Lost", "Shadow"];
+const CAT_IMAGE_MAP: Record<string, string> = {
+	Normal: "Idle_Normal",
+	Rest: "Idle_Rest",
+	Lost: "Idle_Lost",
+	Shadow: "Idle_Shawdo",
+};
 
 let { messages }: { messages: PetMessages } = $props();
 
 let visible = $state(true);
+let catType = $state("Normal");
+let hasBeenClosed = $state(false);
 let message = $state("");
 let showBubble = $state(false);
 let bubbleTimeout: ReturnType<typeof setTimeout> | null = null;
 
 function getRandomMessage(): string {
-	const msgs = messages.messages;
+	const msgs = messages[catType];
 	return msgs[Math.floor(Math.random() * msgs.length)];
 }
 
@@ -33,7 +40,15 @@ function handleDblClick() {
 }
 
 function toggleVisibility() {
-	visible = !visible;
+	if (visible) {
+		hasBeenClosed = true;
+		visible = false;
+	} else {
+		if (hasBeenClosed) {
+			catType = CAT_TYPES[Math.floor(Math.random() * CAT_TYPES.length)];
+		}
+		visible = true;
+	}
 }
 </script>
 
@@ -63,7 +78,7 @@ function toggleVisibility() {
 				aria-label="像素小猫"
 			>
 				<img
-					src={IDLE_PNG}
+					src="{PET_IMG_PATH}{CAT_IMAGE_MAP[catType]}.png"
 					alt="像素小猫"
 					width={PET_SIZE}
 					height={PET_SIZE}

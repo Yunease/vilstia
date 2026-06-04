@@ -1,16 +1,16 @@
 <script lang="ts">
-import { onMount, onDestroy } from "svelte";
 import Icon from "@iconify/svelte";
+import { onDestroy, onMount } from "svelte";
 
 interface ChronicleEvent {
-    id: string;
-    data: {
-        title: string;
-        date: Date;
-        icon?: string;
-        category?: string;
-    };
-    body?: string;
+	id: string;
+	data: {
+		title: string;
+		date: Date;
+		icon?: string;
+		category?: string;
+	};
+	body?: string;
 }
 
 const BATCH_SIZE = 3;
@@ -24,41 +24,41 @@ let sentinelEl: HTMLDivElement | undefined = $state();
 let observer: IntersectionObserver | undefined;
 
 function formatDate(date: Date) {
-    const d = date instanceof Date ? date : new Date(date);
-    const y = d.getFullYear();
-    const m = (d.getMonth() + 1).toString().padStart(2, "0");
-    const day = d.getDate().toString().padStart(2, "0");
-    return `${y}.${m}.${day}`;
+	const d = date instanceof Date ? date : new Date(date);
+	const y = d.getFullYear();
+	const m = (d.getMonth() + 1).toString().padStart(2, "0");
+	const day = d.getDate().toString().padStart(2, "0");
+	return `${y}.${m}.${day}`;
 }
 
 function loadNextBatch() {
-    if (loading || allLoaded) return;
-    loading = true;
-    setTimeout(() => {
-        const next = events.slice(
-            displayedEvents.length,
-            displayedEvents.length + BATCH_SIZE,
-        );
-        displayedEvents = [...displayedEvents, ...next];
-        if (displayedEvents.length >= events.length) {
-            allLoaded = true;
-            observer?.disconnect();
-        }
-        loading = false;
-    }, 300);
+	if (loading || allLoaded) return;
+	loading = true;
+	setTimeout(() => {
+		const next = events.slice(
+			displayedEvents.length,
+			displayedEvents.length + BATCH_SIZE,
+		);
+		displayedEvents = [...displayedEvents, ...next];
+		if (displayedEvents.length >= events.length) {
+			allLoaded = true;
+			observer?.disconnect();
+		}
+		loading = false;
+	}, 300);
 }
 
 onMount(() => {
-    if (allLoaded || !sentinelEl) return;
-    observer = new IntersectionObserver(
-        (entries) => {
-            if (entries[0].isIntersecting) {
-                loadNextBatch();
-            }
-        },
-        { rootMargin: "200px" },
-    );
-    observer.observe(sentinelEl);
+	if (allLoaded || !sentinelEl) return;
+	observer = new IntersectionObserver(
+		(entries) => {
+			if (entries[0].isIntersecting) {
+				loadNextBatch();
+			}
+		},
+		{ rootMargin: "200px" },
+	);
+	observer.observe(sentinelEl);
 });
 
 onDestroy(() => observer?.disconnect());

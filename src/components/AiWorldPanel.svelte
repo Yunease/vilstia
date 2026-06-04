@@ -1,29 +1,29 @@
 <script lang="ts">
-import {
-    characters,
-    pickRandomCharacters,
-    type AICharacter,
-} from "../config/ai-world/character";
-import { world, WORKER_API_BASE } from "../config/ai-world/world";
 import Icon from "@iconify/svelte";
+import {
+	type AICharacter,
+	characters,
+	pickRandomCharacters,
+} from "../config/ai-world/character";
+import { WORKER_API_BASE, world } from "../config/ai-world/world";
 
 interface ChatMessage {
-    role: "npc" | "user" | "system";
-    characterId?: string;
-    characterName?: string;
-    characterAvatar?: string;
-    characterColor?: string;
-    content: string;
-    timestamp: number;
+	role: "npc" | "user" | "system";
+	characterId?: string;
+	characterName?: string;
+	characterAvatar?: string;
+	characterColor?: string;
+	content: string;
+	timestamp: number;
 }
 
 type Phase =
-    | "idle"
-    | "generating-scenario"
-    | "npc-speaking"
-    | "generating-options"
-    | "user-choosing"
-    | "showing-summary";
+	| "idle"
+	| "generating-scenario"
+	| "npc-speaking"
+	| "generating-options"
+	| "user-choosing"
+	| "showing-summary";
 
 // --- State ---
 let phase: Phase = $state("idle");
@@ -43,380 +43,395 @@ let lastMessageTyping = $state(false);
 let chatContainer: HTMLDivElement | undefined = $state();
 
 function isImage(avatar: string) {
-    return avatar.startsWith("http") || avatar.startsWith("/") || avatar.startsWith("assets/");
+	return (
+		avatar.startsWith("http") ||
+		avatar.startsWith("/") ||
+		avatar.startsWith("assets/")
+	);
 }
 
 // --- Scroll ---
 function scrollToBottom() {
-    if (chatContainer) {
-        requestAnimationFrame(() => {
-            chatContainer!.scrollTop = chatContainer!.scrollHeight;
-        });
-    }
+	if (chatContainer) {
+		requestAnimationFrame(() => {
+			chatContainer!.scrollTop = chatContainer!.scrollHeight;
+		});
+	}
 }
 
 $effect(() => {
-    void messages.length;
-    void lastMessageTyping;
-    void currentOptions.length;
-    setTimeout(scrollToBottom, 50);
+	void messages.length;
+	void lastMessageTyping;
+	void currentOptions.length;
+	setTimeout(scrollToBottom, 50);
 });
 
 // --- Typewriter ---
 function startTypewriter(msgIndex: number) {
-    if (typewriterTimer) clearInterval(typewriterTimer);
-    typewriterIndex = 0;
-    typewriterDone = false;
-    lastMessageTyping = true;
+	if (typewriterTimer) clearInterval(typewriterTimer);
+	typewriterIndex = 0;
+	typewriterDone = false;
+	lastMessageTyping = true;
 
-    typewriterTimer = setInterval(() => {
-        if (typewriterIndex < fullTextBuffer.length) {
-            typewriterIndex++;
-            messages[msgIndex].content = fullTextBuffer.slice(0, typewriterIndex);
-            messages = [...messages];
-        } else {
-            if (typewriterTimer) clearInterval(typewriterTimer);
-            typewriterTimer = null;
-            typewriterDone = true;
-            lastMessageTyping = false;
-        }
-    }, 30);
+	typewriterTimer = setInterval(() => {
+		if (typewriterIndex < fullTextBuffer.length) {
+			typewriterIndex++;
+			messages[msgIndex].content = fullTextBuffer.slice(0, typewriterIndex);
+			messages = [...messages];
+		} else {
+			if (typewriterTimer) clearInterval(typewriterTimer);
+			typewriterTimer = null;
+			typewriterDone = true;
+			lastMessageTyping = false;
+		}
+	}, 30);
 }
 
 function skipTypewriter() {
-    if (!typewriterDone && typewriterTimer) {
-        clearInterval(typewriterTimer);
-        typewriterTimer = null;
-        const lastIdx = messages.length - 1;
-        if (lastIdx >= 0) {
-            messages[lastIdx].content = fullTextBuffer;
-            messages = [...messages];
-        }
-        typewriterDone = true;
-        lastMessageTyping = false;
-    }
+	if (!typewriterDone && typewriterTimer) {
+		clearInterval(typewriterTimer);
+		typewriterTimer = null;
+		const lastIdx = messages.length - 1;
+		if (lastIdx >= 0) {
+			messages[lastIdx].content = fullTextBuffer;
+			messages = [...messages];
+		}
+		typewriterDone = true;
+		lastMessageTyping = false;
+	}
 }
 
 function waitForTypewriter(): Promise<void> {
-    return new Promise((resolve) => {
-        if (typewriterDone) {
-            resolve();
-            return;
-        }
-        const check = setInterval(() => {
-            if (typewriterDone) {
-                clearInterval(check);
-                resolve();
-            }
-        }, 50);
-    });
+	return new Promise((resolve) => {
+		if (typewriterDone) {
+			resolve();
+			return;
+		}
+		const check = setInterval(() => {
+			if (typewriterDone) {
+				clearInterval(check);
+				resolve();
+			}
+		}, 50);
+	});
 }
 
 // --- API Calls ---
 async function fetchStreaming(
-    url: string,
-    body: object,
-    onChunk: (text: string) => void,
+	url: string,
+	body: object,
+	onChunk: (text: string) => void,
 ): Promise<void> {
-    const res = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-    });
+	const res = await fetch(url, {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify(body),
+	});
 
-    if (!res.ok) {
-        const errData = await res.json().catch(() => ({ error: "未知错误" }));
-        throw new Error(errData.error || `HTTP ${res.status}`);
-    }
+	if (!res.ok) {
+		const errData = await res.json().catch(() => ({ error: "未知错误" }));
+		throw new Error(errData.error || `HTTP ${res.status}`);
+	}
 
-    const reader = res.body!.getReader();
-    const decoder = new TextDecoder();
-    let buffer = "";
+	const reader = res.body!.getReader();
+	const decoder = new TextDecoder();
+	let buffer = "";
 
-    while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
+	while (true) {
+		const { done, value } = await reader.read();
+		if (done) break;
 
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split("\n");
-        buffer = lines.pop()!;
+		buffer += decoder.decode(value, { stream: true });
+		const lines = buffer.split("\n");
+		buffer = lines.pop()!;
 
-        for (const line of lines) {
-            const trimmed = line.trim();
-            if (!trimmed.startsWith("data: ")) continue;
-            const data = trimmed.slice(6);
-            if (data === "[DONE]") continue;
+		for (const line of lines) {
+			const trimmed = line.trim();
+			if (!trimmed.startsWith("data: ")) continue;
+			const data = trimmed.slice(6);
+			if (data === "[DONE]") continue;
 
-            try {
-                const parsed = JSON.parse(data);
-                if (parsed.type === "text") {
-                    onChunk(parsed.content);
-                } else if (parsed.type === "error") {
-                    throw new Error(parsed.content);
-                }
-            } catch (e) {
-                if (e instanceof SyntaxError) continue;
-                throw e;
-            }
-        }
-    }
+			try {
+				const parsed = JSON.parse(data);
+				if (parsed.type === "text") {
+					onChunk(parsed.content);
+				} else if (parsed.type === "error") {
+					throw new Error(parsed.content);
+				}
+			} catch (e) {
+				if (e instanceof SyntaxError) continue;
+				throw e;
+			}
+		}
+	}
 }
 
 async function fetchJSON(url: string, body: object): Promise<any> {
-    const res = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-    });
-    if (!res.ok) {
-        const errText = await res.text();
-        throw new Error(`HTTP ${res.status}: ${errText}`);
-    }
-    return res.json();
+	const res = await fetch(url, {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify(body),
+	});
+	if (!res.ok) {
+		const errText = await res.text();
+		throw new Error(`HTTP ${res.status}: ${errText}`);
+	}
+	return res.json();
 }
 
 // --- Conversation Logic ---
 async function startNewConversation() {
-    if (typewriterTimer) clearInterval(typewriterTimer);
-    typewriterTimer = null;
-    messages = [];
-    currentCharIndex = 0;
-    fullTextBuffer = "";
-    typewriterDone = true;
-    lastMessageTyping = false;
-    currentOptions = [];
+	if (typewriterTimer) clearInterval(typewriterTimer);
+	typewriterTimer = null;
+	messages = [];
+	currentCharIndex = 0;
+	fullTextBuffer = "";
+	typewriterDone = true;
+	lastMessageTyping = false;
+	currentOptions = [];
 
-    speakingOrder = pickRandomCharacters(3);
+	speakingOrder = pickRandomCharacters(3);
 
-    await generateScenario();
+	await generateScenario();
 }
 
 async function generateScenario() {
-    phase = "generating-scenario";
+	phase = "generating-scenario";
 
-    const charNames = speakingOrder.map((c) => c.name).join("、");
-    const msgIndex = messages.length;
+	const charNames = speakingOrder.map((c) => c.name).join("、");
+	const msgIndex = messages.length;
 
-    messages = [
-        ...messages,
-        { role: "system", content: "", timestamp: Date.now() },
-    ];
+	messages = [
+		...messages,
+		{ role: "system", content: "", timestamp: Date.now() },
+	];
 
-    fullTextBuffer = "";
+	fullTextBuffer = "";
 
-    try {
-        await fetchStreaming(
-            `${WORKER_API_BASE}/api/ai-world/chat`,
-            {
-                messages: [],
-                character: {
-                    id: "narrator",
-                    name: "旁白",
-                    systemPrompt: `你是一个旁白者。请生成一个开场场景。参与讨论的角色有：${charNames}`,
-                },
-                world,
-                round: 0,
-                isLastInRound: false,
-                isScenario: true,
-            },
-            (chunk) => {
-                fullTextBuffer += chunk;
-                if (typewriterDone) startTypewriter(msgIndex);
-            },
-        );
+	try {
+		await fetchStreaming(
+			`${WORKER_API_BASE}/api/ai-world/chat`,
+			{
+				messages: [],
+				character: {
+					id: "narrator",
+					name: "旁白",
+					systemPrompt: `你是一个旁白者。请生成一个开场场景。参与讨论的角色有：${charNames}`,
+				},
+				world,
+				round: 0,
+				isLastInRound: false,
+				isScenario: true,
+			},
+			(chunk) => {
+				fullTextBuffer += chunk;
+				if (typewriterDone) startTypewriter(msgIndex);
+			},
+		);
 
-        await waitForTypewriter();
-        await speakNextCharacter();
-    } catch (err) {
-        messages[msgIndex].content = `[场景生成失败: ${err instanceof Error ? err.message : "未知错误"}]`;
-        messages = [...messages];
-        phase = "idle";
-    }
+		await waitForTypewriter();
+		await speakNextCharacter();
+	} catch (err) {
+		messages[msgIndex].content =
+			`[场景生成失败: ${err instanceof Error ? err.message : "未知错误"}]`;
+		messages = [...messages];
+		phase = "idle";
+	}
 }
 
 async function speakNextCharacter() {
-    const char = speakingOrder[currentCharIndex];
-    phase = "npc-speaking";
+	const char = speakingOrder[currentCharIndex];
+	phase = "npc-speaking";
 
-    const history = messages
-        .filter((m) => m.role !== "system" || m === messages[0])
-        .map((m) => ({
-            role: m.role === "npc" ? "assistant" : "user",
-            content: m.content,
-        }));
+	const history = messages
+		.filter((m) => m.role !== "system" || m === messages[0])
+		.map((m) => ({
+			role: m.role === "npc" ? "assistant" : "user",
+			content: m.content,
+		}));
 
-    const msgIndex = messages.length;
-    fullTextBuffer = "";
+	const msgIndex = messages.length;
+	fullTextBuffer = "";
 
-    messages = [
-        ...messages,
-        {
-            role: "npc",
-            characterId: char.id,
-            characterName: char.name,
-            characterAvatar: char.avatar,
-            characterColor: char.color,
-            content: "",
-            timestamp: Date.now(),
-        },
-    ];
+	messages = [
+		...messages,
+		{
+			role: "npc",
+			characterId: char.id,
+			characterName: char.name,
+			characterAvatar: char.avatar,
+			characterColor: char.color,
+			content: "",
+			timestamp: Date.now(),
+		},
+	];
 
-    try {
-        await fetchStreaming(
-            `${WORKER_API_BASE}/api/ai-world/chat`,
-            {
-                messages: history,
-                character: {
-                    id: char.id,
-                    name: char.name,
-                    systemPrompt: char.systemPrompt,
-                },
-                world,
-                round: 1,
-                isLastInRound: false,
-                isScenario: false,
-            },
-            (chunk) => {
-                fullTextBuffer += chunk;
-                if (typewriterDone) startTypewriter(msgIndex);
-            },
-        );
+	try {
+		await fetchStreaming(
+			`${WORKER_API_BASE}/api/ai-world/chat`,
+			{
+				messages: history,
+				character: {
+					id: char.id,
+					name: char.name,
+					systemPrompt: char.systemPrompt,
+				},
+				world,
+				round: 1,
+				isLastInRound: false,
+				isScenario: false,
+			},
+			(chunk) => {
+				fullTextBuffer += chunk;
+				if (typewriterDone) startTypewriter(msgIndex);
+			},
+		);
 
-        await waitForTypewriter();
+		await waitForTypewriter();
 
-        if (currentCharIndex < speakingOrder.length - 1) {
-            currentCharIndex++;
-            await speakNextCharacter();
-        } else {
-            // All characters have spoken, generate options directly
-            await generateOptions();
-        }
-    } catch (err) {
-        messages[msgIndex].content = `[生成失败: ${err instanceof Error ? err.message : "未知错误"}]`;
-        messages = [...messages];
-        phase = "idle";
-    }
+		if (currentCharIndex < speakingOrder.length - 1) {
+			currentCharIndex++;
+			await speakNextCharacter();
+		} else {
+			// All characters have spoken, generate options directly
+			await generateOptions();
+		}
+	} catch (err) {
+		messages[msgIndex].content =
+			`[生成失败: ${err instanceof Error ? err.message : "未知错误"}]`;
+		messages = [...messages];
+		phase = "idle";
+	}
 }
 
 async function generateOptions() {
-    phase = "generating-options";
+	phase = "generating-options";
 
-    const history = messages
-        .filter((m) => m.role === "npc" || m.role === "user")
-        .map((m) => ({
-            role: m.role === "npc" ? "assistant" : "user",
-            content: m.content,
-        }));
+	const history = messages
+		.filter((m) => m.role === "npc" || m.role === "user")
+		.map((m) => ({
+			role: m.role === "npc" ? "assistant" : "user",
+			content: m.content,
+		}));
 
-    try {
-        console.log("[Options] Sending request with history:", JSON.stringify(history, null, 2));
-        const result = await fetchJSON(`${WORKER_API_BASE}/api/ai-world/options`, {
-            messages: history,
-            world,
-        });
-        console.log("[Options] Raw API response:", JSON.stringify(result, null, 2));
-        if (result.raw) console.log("[Options] Raw DeepSeek text:", result.raw);
-        if (result.error) console.error("[Options] Worker error:", result.error);
+	try {
+		console.log(
+			"[Options] Sending request with history:",
+			JSON.stringify(history, null, 2),
+		);
+		const result = await fetchJSON(`${WORKER_API_BASE}/api/ai-world/options`, {
+			messages: history,
+			world,
+		});
+		console.log("[Options] Raw API response:", JSON.stringify(result, null, 2));
+		if (result.raw) console.log("[Options] Raw DeepSeek text:", result.raw);
+		if (result.error) console.error("[Options] Worker error:", result.error);
 
-        currentOptions = result.options || [];
-        console.log("[Options] Parsed options:", currentOptions);
+		currentOptions = result.options || [];
+		console.log("[Options] Parsed options:", currentOptions);
 
-        if (currentOptions.length > 0) {
-            console.log("[Options] Showing options to user");
-            phase = "user-choosing";
-        } else {
-            console.log("[Options] No options found, going to summary");
-            await generateSummary();
-        }
-    } catch (err) {
-        console.error("[Options] Error:", err);
-        messages = [...messages, {
-            role: "system",
-            content: `[选项生成失败: ${err instanceof Error ? err.message : "未知错误"}]`,
-            timestamp: Date.now(),
-        }];
-        await generateSummary();
-    }
+		if (currentOptions.length > 0) {
+			console.log("[Options] Showing options to user");
+			phase = "user-choosing";
+		} else {
+			console.log("[Options] No options found, going to summary");
+			await generateSummary();
+		}
+	} catch (err) {
+		console.error("[Options] Error:", err);
+		messages = [
+			...messages,
+			{
+				role: "system",
+				content: `[选项生成失败: ${err instanceof Error ? err.message : "未知错误"}]`,
+				timestamp: Date.now(),
+			},
+		];
+		await generateSummary();
+	}
 }
 
 async function handleOptionClick(option: string) {
-    if (phase !== "user-choosing") return;
+	if (phase !== "user-choosing") return;
 
-    // Pick a random character to reply
-    const randomChar = speakingOrder[Math.floor(Math.random() * speakingOrder.length)];
+	// Pick a random character to reply
+	const randomChar =
+		speakingOrder[Math.floor(Math.random() * speakingOrder.length)];
 
-    // Add user message
-    messages = [
-        ...messages,
-        { role: "user", content: option, timestamp: Date.now() },
-    ];
+	// Add user message
+	messages = [
+		...messages,
+		{ role: "user", content: option, timestamp: Date.now() },
+	];
 
-    // Add canned NPC reply
-    const randomReply = randomChar.reply[Math.floor(Math.random() * randomChar.reply.length)];
-    messages = [
-        ...messages,
-        {
-            role: "npc",
-            characterId: randomChar.id,
-            characterName: randomChar.name,
-            characterAvatar: randomChar.avatar,
-            characterColor: randomChar.color,
-            content: randomReply,
-            timestamp: Date.now(),
-        },
-    ];
+	// Add canned NPC reply
+	const randomReply =
+		randomChar.reply[Math.floor(Math.random() * randomChar.reply.length)];
+	messages = [
+		...messages,
+		{
+			role: "npc",
+			characterId: randomChar.id,
+			characterName: randomChar.name,
+			characterAvatar: randomChar.avatar,
+			characterColor: randomChar.color,
+			content: randomReply,
+			timestamp: Date.now(),
+		},
+	];
 
-    currentOptions = [];
-    await generateSummary();
+	currentOptions = [];
+	await generateSummary();
 }
 
 async function generateSummary() {
-    phase = "generating-scenario";
+	phase = "generating-scenario";
 
-    const msgIndex = messages.length;
-    fullTextBuffer = "";
+	const msgIndex = messages.length;
+	fullTextBuffer = "";
 
-    messages = [
-        ...messages,
-        { role: "system", content: "", timestamp: Date.now() },
-    ];
+	messages = [
+		...messages,
+		{ role: "system", content: "", timestamp: Date.now() },
+	];
 
-    try {
-        await fetchStreaming(
-            `${WORKER_API_BASE}/api/ai-world/chat`,
-            {
-                messages: [
-                    ...messages
-                        .filter((m) => m.content)
-                        .map((m) => ({
-                            role: m.role === "npc" ? "assistant" : "user",
-                            content: m.content,
-                        })),
-                    { role: "user", content: "请用约30个字总结这次讨论的核心观点。" },
-                ],
-                character: {
-                    id: "system",
-                    name: "总结",
-                    systemPrompt: "你是一个简洁的总结者。请用约30个字总结讨论内容。不要加任何前缀。",
-                },
-                world,
-                round: 1,
-                isLastInRound: false,
-                isScenario: false,
-            },
-            (chunk) => {
-                fullTextBuffer += chunk;
-                if (typewriterDone) startTypewriter(msgIndex);
-            },
-        );
+	try {
+		await fetchStreaming(
+			`${WORKER_API_BASE}/api/ai-world/chat`,
+			{
+				messages: [
+					...messages
+						.filter((m) => m.content)
+						.map((m) => ({
+							role: m.role === "npc" ? "assistant" : "user",
+							content: m.content,
+						})),
+					{ role: "user", content: "请用约30个字总结这次讨论的核心观点。" },
+				],
+				character: {
+					id: "system",
+					name: "总结",
+					systemPrompt:
+						"你是一个简洁的总结者。请用约30个字总结讨论内容。不要加任何前缀。",
+				},
+				world,
+				round: 1,
+				isLastInRound: false,
+				isScenario: false,
+			},
+			(chunk) => {
+				fullTextBuffer += chunk;
+				if (typewriterDone) startTypewriter(msgIndex);
+			},
+		);
 
-        await waitForTypewriter();
-    } catch {
-        messages[msgIndex].content = "讨论结束。";
-        messages = [...messages];
-    }
+		await waitForTypewriter();
+	} catch {
+		messages[msgIndex].content = "讨论结束。";
+		messages = [...messages];
+	}
 
-    phase = "showing-summary";
+	phase = "showing-summary";
 }
 </script>
 

@@ -1,7 +1,7 @@
 ---
-import type { GetStaticPaths } from "astro";
 import DreamPage from "@components/DreamPage.astro";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
+import type { GetStaticPaths } from "astro";
 import { getDreamPosts } from "../../utils/dream-utils";
 
 export const getStaticPaths = (async ({ paginate }) => {

@@ -18,12 +18,16 @@ export async function getGalleryPosts(): Promise<GalleryPost[]> {
 	});
 
 	// Filter posts with "gallery" tag
-	const galleryPosts = allBlogPosts.filter((post) => post.data.tags.includes("gallery"));
+	const galleryPosts = allBlogPosts.filter((post) =>
+		post.data.tags.includes("gallery"),
+	);
 
 	//gallery_star" tag Mark posts with "
 	const galleryPostsWithStar = galleryPosts.map((post) => ({
 		...post,
-		isStar: post.data.tags.includes("gallery_star") || post.data.tags.includes("star"),
+		isStar:
+			post.data.tags.includes("gallery_star") ||
+			post.data.tags.includes("star"),
 	}));
 
 	// Sort by publication date (newest first)
@@ -77,7 +81,9 @@ export async function getGalleryAlbumNames(): Promise<string[]> {
 	return albums.map((a) => a.name);
 }
 
-export async function getGalleryPostsByAlbum(albumName: string): Promise<GalleryPost[]> {
+export async function getGalleryPostsByAlbum(
+	albumName: string,
+): Promise<GalleryPost[]> {
 	const galleryPosts = await getGalleryPosts();
 	const filtered = galleryPosts.filter((post) => {
 		const name = post.data.album || "未分类";

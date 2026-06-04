@@ -1,10 +1,10 @@
 ---
-import type { GetStaticPaths } from "astro";
 import GalleryCard from "@components/GalleryCard.astro";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 import { getPostUrlBySlug } from "@utils/url-utils";
-import { getGalleryAlbums } from "../../utils/gallery-utils";
+import type { GetStaticPaths } from "astro";
 import type { GalleryPost } from "../../utils/gallery-utils";
+import { getGalleryAlbums } from "../../utils/gallery-utils";
 
 export const getStaticPaths = (async () => {
 	const albums = await getGalleryAlbums();

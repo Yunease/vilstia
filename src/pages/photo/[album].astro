@@ -1,10 +1,10 @@
 ---
-import type { GetStaticPaths } from "astro";
 import type { CollectionEntry } from "astro:content";
+import PhotoCard from "@components/PhotoCard.astro";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 import { getPostUrlBySlug } from "@utils/url-utils";
+import type { GetStaticPaths } from "astro";
 import { getPhotoAlbums } from "../../utils/photo-utils";
-import PhotoCard from "@components/PhotoCard.astro";
 
 export const getStaticPaths = (async () => {
 	const albums = await getPhotoAlbums();

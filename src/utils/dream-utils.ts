@@ -6,7 +6,9 @@ export async function getDreamPosts(): Promise<CollectionEntry<"posts">[]> {
 	});
 
 	// Filter posts with "dream" tag
-	const dreamPosts = allBlogPosts.filter((post) => post.data.tags.includes("dream"));
+	const dreamPosts = allBlogPosts.filter((post) =>
+		post.data.tags.includes("dream"),
+	);
 
 	// Sort by publication date (newest first)
 	const sorted = dreamPosts.sort((a, b) => {

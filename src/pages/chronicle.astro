@@ -1,12 +1,12 @@
 ---
-import MainGridLayout from "@layouts/MainGridLayout.astro";
 import ChroniclePanel from "@components/ChroniclePanel.svelte";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
 import { getChronicleEvents } from "../utils/chronicle-utils";
 
 const events = (await getChronicleEvents()).map((e) => ({
-    id: e.id,
-    data: e.data,
-    body: e.body,
+	id: e.id,
+	data: e.data,
+	body: e.body,
 }));
 ---
 

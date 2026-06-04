@@ -1,9 +1,9 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { getPostUrlBySlug } from "@utils/url-utils";
-import GalleryCard from "./GalleryCard.astro";
-import CustomPagination from "./control/CustomPagination.astro";
 import type { GalleryPost } from "../utils/gallery-utils";
+import CustomPagination from "./control/CustomPagination.astro";
+import GalleryCard from "./GalleryCard.astro";
 
 interface Props {
 	page: {

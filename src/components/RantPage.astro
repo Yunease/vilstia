@@ -96,7 +96,7 @@ for (const post of allMessPosts) {
 	const month = date.getMonth() + 1; // 1-12
 	const mood = post.data.mood || "烦躁";
 	const moodValue = MOOD_VALUES[mood] ?? 0;
-	const level = (post.data.mood_level ?? 1);
+	const level = post.data.mood_level ?? 1;
 
 	if (!monthlyData[year]) monthlyData[year] = {};
 	if (!monthlyData[year][month]) {
@@ -360,23 +360,13 @@ const totalCount = Object.values(moodCounts).reduce(
 	}
 </style>
 
-<script is:inline>
-	// 方案 C（备选，可应对未来 astro:page-load 被多次触发的场景）：
-	// let chartInitialized = false;
-	// function initChart() {
-	//     if (chartInitialized) return;
-	//     chartInitialized = true;
-	//     // ... 下面的渲染逻辑 ...
-	// }
-	// document.addEventListener("DOMContentLoaded", initChart);
-	// document.addEventListener("astro:page-load", initChart);
-
-	// 直接执行：两个 is:inline 脚本按 HTML 顺序同步执行，数据注入在前，此处渲染在后
-	// 月度心情数据（define:vars 注入，备用从 data 属性读取）
-	const rawMonthlyData =
-		typeof window.__MONTHLY_DATA__ !== "undefined"
-			? window.__MONTHLY_DATA__
-			: JSON.parse(document.getElementById("mood-chart-data")?.dataset?.monthlyData || "{}");
+<script is:inline data-swup-ignore-script>
+	// 使用 astro:page-load 事件驱动初始化，确保 Swup 分页切换后图表重新渲染
+	function initMoodChart() {
+		const rawMonthlyData =
+			typeof window.__MONTHLY_DATA__ !== "undefined"
+				? window.__MONTHLY_DATA__
+				: JSON.parse(document.getElementById("mood-chart-data")?.dataset?.monthlyData || "{}");
 
 	// 情绪颜色映射
 	const MOOD_COLORS = {
@@ -621,4 +611,8 @@ const totalCount = Object.values(moodCounts).reduce(
 		renderChart(years[0]);
 		updateYearButtons();
 	}
+	}
+
+	document.addEventListener("astro:page-load", initMoodChart);
+	initMoodChart();
 </script>

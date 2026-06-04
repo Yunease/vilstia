@@ -26,8 +26,8 @@ const calculateBlogStats = async () => {
 		const postTags = post.data.tags;
 		if (!postTags) return true;
 		const tagsArray = Array.isArray(postTags) ? postTags : [postTags];
-		const hasExcludeTag = tagsArray.some(
-			(tag) => excludeTags.includes(tag.toLowerCase()),
+		const hasExcludeTag = tagsArray.some((tag) =>
+			excludeTags.includes(tag.toLowerCase()),
 		);
 		return !hasExcludeTag;
 	}).length;

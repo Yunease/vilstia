@@ -7,11 +7,11 @@ import MainGridLayout from "../layouts/MainGridLayout.astro";
 
 // 处理 URL，确保外链正确添加 https:// 前缀
 function processUrl(url: string): string {
-    if (!url) return "#";
-    if (url.startsWith("http://") || url.startsWith("https://")) {
-        return url;
-    }
-    return "https://" + url;
+	if (!url) return "#";
+	if (url.startsWith("http://") || url.startsWith("https://")) {
+		return url;
+	}
+	return "https://" + url;
 }
 ---
 

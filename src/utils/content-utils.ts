@@ -25,7 +25,9 @@ export async function getSortedPosts() {
 	const allPosts = await getRawSortedPosts();
 
 	// Filter out posts with excluded tags (mess, gallery)
-	const filteredPosts = allPosts.filter((post) => !EXCLUDED_TAGS.some(tag => post.data.tags.includes(tag)));
+	const filteredPosts = allPosts.filter(
+		(post) => !EXCLUDED_TAGS.some((tag) => post.data.tags.includes(tag)),
+	);
 
 	for (let i = 1; i < filteredPosts.length; i++) {
 		filteredPosts[i].data.nextSlug = filteredPosts[i - 1].slug;
@@ -47,7 +49,9 @@ export async function getSortedPostsList(): Promise<PostForList[]> {
 	const sortedFullPosts = await getRawSortedPosts();
 
 	// Filter out posts with excluded tags (mess, gallery)
-	const filteredPosts = sortedFullPosts.filter((post) => !EXCLUDED_TAGS.some(tag => post.data.tags.includes(tag)));
+	const filteredPosts = sortedFullPosts.filter(
+		(post) => !EXCLUDED_TAGS.some((tag) => post.data.tags.includes(tag)),
+	);
 
 	// delete post.body
 	const sortedPostsList = filteredPosts.map((post) => ({
@@ -70,7 +74,7 @@ export async function getTagList(): Promise<Tag[]> {
 	const countMap: { [key: string]: number } = {};
 	allBlogPosts.forEach((post: { data: { tags: string[] } }) => {
 		// Skip posts with excluded tags (mess, gallery) for tag list
-		if (EXCLUDED_TAGS.some(tag => post.data.tags.includes(tag))) return;
+		if (EXCLUDED_TAGS.some((tag) => post.data.tags.includes(tag))) return;
 		post.data.tags.forEach((tag: string) => {
 			if (!countMap[tag]) countMap[tag] = 0;
 			countMap[tag]++;
@@ -102,22 +106,24 @@ export async function getCategoryList(): Promise<Category[]> {
 		return import.meta.env.PROD ? data.draft !== true : true;
 	});
 	const count: { [key: string]: number } = {};
-	allBlogPosts.forEach((post: { data: { category: string | null; tags: string[] } }) => {
-		// Skip posts with excluded tags (mess, gallery, photo) for category stats
-		if (EXCLUDED_TAGS.some(tag => post.data.tags.includes(tag))) return;
-		if (!post.data.category) {
-			const ucKey = i18n(I18nKey.uncategorized);
-			count[ucKey] = count[ucKey] ? count[ucKey] + 1 : 1;
-			return;
-		}
+	allBlogPosts.forEach(
+		(post: { data: { category: string | null; tags: string[] } }) => {
+			// Skip posts with excluded tags (mess, gallery, photo) for category stats
+			if (EXCLUDED_TAGS.some((tag) => post.data.tags.includes(tag))) return;
+			if (!post.data.category) {
+				const ucKey = i18n(I18nKey.uncategorized);
+				count[ucKey] = count[ucKey] ? count[ucKey] + 1 : 1;
+				return;
+			}
 
-		const categoryName =
-			typeof post.data.category === "string"
-				? post.data.category.trim()
-				: String(post.data.category).trim();
+			const categoryName =
+				typeof post.data.category === "string"
+					? post.data.category.trim()
+					: String(post.data.category).trim();
 
-		count[categoryName] = count[categoryName] ? count[categoryName] + 1 : 1;
-	});
+			count[categoryName] = count[categoryName] ? count[categoryName] + 1 : 1;
+		},
+	);
 
 	const lst = Object.keys(count).sort((a, b) => {
 		return a.toLowerCase().localeCompare(b.toLowerCase());
@@ -139,19 +145,23 @@ export async function getCollectionList(): Promise<CollectionItem[]> {
 		return import.meta.env.PROD ? data.draft !== true : true;
 	});
 	const count: { [key: string]: number } = {};
-	allBlogPosts.forEach((post: { data: { collection: string | null; tags: string[] } }) => {
-		if (EXCLUDED_TAGS.some(tag => post.data.tags.includes(tag))) return;
-		if (!post.data.collection) return;
+	allBlogPosts.forEach(
+		(post: { data: { collection: string | null; tags: string[] } }) => {
+			if (EXCLUDED_TAGS.some((tag) => post.data.tags.includes(tag))) return;
+			if (!post.data.collection) return;
 
-		const collectionName =
-			typeof post.data.collection === "string"
-				? post.data.collection.trim()
-				: String(post.data.collection).trim();
+			const collectionName =
+				typeof post.data.collection === "string"
+					? post.data.collection.trim()
+					: String(post.data.collection).trim();
 
-		if (collectionName) {
-			count[collectionName] = count[collectionName] ? count[collectionName] + 1 : 1;
-		}
-	});
+			if (collectionName) {
+				count[collectionName] = count[collectionName]
+					? count[collectionName] + 1
+					: 1;
+			}
+		},
+	);
 
 	const lst = Object.keys(count).sort((a, b) => {
 		return a.toLowerCase().localeCompare(b.toLowerCase());

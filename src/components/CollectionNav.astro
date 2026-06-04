@@ -17,12 +17,21 @@ const allPosts = await getCollection("posts", ({ data }) => {
 
 const collectionPosts = allPosts
 	.filter((post) => post.data.collection === collection)
-	.sort((a, b) => new Date(b.data.published).getTime() - new Date(a.data.published).getTime());
+	.sort(
+		(a, b) =>
+			new Date(b.data.published).getTime() -
+			new Date(a.data.published).getTime(),
+	);
 
 if (collectionPosts.length === 0) return;
 
-const currentIndex = collectionPosts.findIndex((post) => post.slug === currentSlug);
-const prevPost = currentIndex < collectionPosts.length - 1 ? collectionPosts[currentIndex + 1] : null;
+const currentIndex = collectionPosts.findIndex(
+	(post) => post.slug === currentSlug,
+);
+const prevPost =
+	currentIndex < collectionPosts.length - 1
+		? collectionPosts[currentIndex + 1]
+		: null;
 const nextPost = currentIndex > 0 ? collectionPosts[currentIndex - 1] : null;
 ---
 

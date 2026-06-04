@@ -7,14 +7,14 @@ import { i18n } from "../../i18n/translation";
 import MainGridLayout from "../../layouts/MainGridLayout.astro";
 
 export async function getStaticPaths() {
-	const aboutPosts = await getCollection("spec", ({ id }) => id.startsWith("about"));
+	const aboutPosts = await getCollection("spec", ({ id }) =>
+		id.startsWith("about"),
+	);
 	return aboutPosts.map((post) => {
 		// 去掉 "about" 前缀和 ".md" 后缀
-		const slug = post.id
-			.replace("about", "")
-			.replace(/^\//, "")
-			.replace(/\.md$/, "")
-			|| "default";
+		const slug =
+			post.id.replace("about", "").replace(/^\//, "").replace(/\.md$/, "") ||
+			"default";
 		return {
 			params: { slug },
 			props: { post },

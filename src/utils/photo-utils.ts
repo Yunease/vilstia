@@ -6,7 +6,9 @@ export async function getPhotoPosts(): Promise<CollectionEntry<"posts">[]> {
 	});
 
 	// Filter posts with "photo" tag
-	const photoPosts = allBlogPosts.filter((post) => post.data.tags.includes("photo"));
+	const photoPosts = allBlogPosts.filter((post) =>
+		post.data.tags.includes("photo"),
+	);
 
 	// Sort by publication date (newest first)
 	const sorted = photoPosts.sort((a, b) => {
@@ -64,7 +66,9 @@ export async function getAlbumNames(): Promise<string[]> {
 	return albums.map((a) => a.name);
 }
 
-export async function getPostsByAlbum(albumName: string): Promise<CollectionEntry<"posts">[]> {
+export async function getPostsByAlbum(
+	albumName: string,
+): Promise<CollectionEntry<"posts">[]> {
 	const photoPosts = await getPhotoPosts();
 	return photoPosts.filter((post) => {
 		const name = post.data.album || "未分类";

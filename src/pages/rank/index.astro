@@ -1,6 +1,6 @@
 ---
-import MainGridLayout from "@layouts/MainGridLayout.astro";
 import { getCollection } from "astro:content";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
 import rankData from "../../../public/rank-data.json";
 
 // 获取所有文章，构建映射
@@ -19,13 +19,13 @@ for (const post of allPosts) {
 
 	// 完整路径 → title（带斜杠和不带斜杠都注册）
 	titleMap[realPath] = title;
-	titleMap[realPath.replace(/\/$/, '')] = title;
+	titleMap[realPath.replace(/\/$/, "")] = title;
 	// 简化路径 → title
-	const parts = post.slug.split('/');
+	const parts = post.slug.split("/");
 	if (parts.length > 1) {
-		const shortPath = `/posts/${parts.slice(1).join('/')}/`;
+		const shortPath = `/posts/${parts.slice(1).join("/")}/`;
 		titleMap[shortPath] = title;
-		titleMap[shortPath.replace(/\/$/, '')] = title;
+		titleMap[shortPath.replace(/\/$/, "")] = title;
 	}
 
 	// title → 真实路径（优先使用，不覆盖）
@@ -49,9 +49,7 @@ function getRealPath(umamiPath: string): string {
 }
 
 // 排序并取 TOP 10
-const top10 = rankData
-	.sort((a, b) => b.views - a.views)
-	.slice(0, 10);
+const top10 = rankData.sort((a, b) => b.views - a.views).slice(0, 10);
 ---
 
 <MainGridLayout title="访问排名" description="博客访问量排名统计">

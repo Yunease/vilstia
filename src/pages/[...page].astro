@@ -1,6 +1,6 @@
 ---
-import type { GetStaticPaths } from "astro";
 import type { CollectionEntry } from "astro:content";
+import type { GetStaticPaths } from "astro";
 import Pagination from "../components/control/Pagination.astro";
 import PostCard from "../components/PostCard.astro";
 import { PAGE_SIZE } from "../constants/constants";
@@ -20,8 +20,9 @@ const len = page.data.length;
 
 // Get all posts and filter featured ones (for homepage only)
 const allPosts = await getSortedPosts();
-const featuredPosts = allPosts.filter((entry: CollectionEntry<"posts">) =>
-	entry.data.tags && entry.data.tags.includes("精选")
+const featuredPosts = allPosts.filter(
+	(entry: CollectionEntry<"posts">) =>
+		entry.data.tags && entry.data.tags.includes("精选"),
 );
 ---
 

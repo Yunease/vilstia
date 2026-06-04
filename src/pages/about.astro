@@ -5,7 +5,9 @@ import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
 import MainGridLayout from "../layouts/MainGridLayout.astro";
 
-const aboutPosts = await getCollection("spec", ({ id }) => id.startsWith("about"));
+const aboutPosts = await getCollection("spec", ({ id }) =>
+	id.startsWith("about"),
+);
 
 // 按 tag 分组
 const groups: Record<string, typeof aboutPosts> = { me: [], like: [], oc: [] };
@@ -43,10 +45,7 @@ function formatDate(date: Date): string {
 
 // 获取 slug
 function getSlug(id: string): string {
-	const slug = id
-		.replace("about", "")
-		.replace(/^\//, "")
-		.replace(/\.md$/, "");
+	const slug = id.replace("about", "").replace(/^\//, "").replace(/\.md$/, "");
 	return slug || "default";
 }
 ---

@@ -6,7 +6,9 @@ export async function getAnthologyPosts(): Promise<CollectionEntry<"posts">[]> {
 	});
 
 	// Filter posts with "anth" tag
-	const anthologyPosts = allBlogPosts.filter((post) => post.data.tags.includes("anth"));
+	const anthologyPosts = allBlogPosts.filter((post) =>
+		post.data.tags.includes("anth"),
+	);
 
 	// Sort by publication date (newest first)
 	const sorted = anthologyPosts.sort((a, b) => {

@@ -1,6 +1,6 @@
 ---
-import ImageWrapper from "./misc/ImageWrapper.astro";
 import { url } from "../utils/url-utils";
+import ImageWrapper from "./misc/ImageWrapper.astro";
 
 interface Props {
 	name: string;
@@ -12,7 +12,15 @@ interface Props {
 	style?: string;
 }
 
-const { name, coverImage, count, latestDate, basePath = "/photo", class: className, style } = Astro.props;
+const {
+	name,
+	coverImage,
+	count,
+	latestDate,
+	basePath = "/photo",
+	class: className,
+	style,
+} = Astro.props;
 
 const formatDate = (date: Date) => {
 	const year = date.getFullYear();

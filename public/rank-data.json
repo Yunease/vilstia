@@ -17,7 +17,7 @@
   },
   {
     "path": "/posts/renpy/4",
-    "views": 153
+    "views": 154
   },
   {
     "path": "/posts/散文/如星空般深蓝/零七蓝与飞夷笛矣",
@@ -44,239 +44,995 @@
     "views": 51
   },
   {
+    "path": "/posts/技术文章/快捷键们背后的故事/",
+    "views": 26
+  },
+  {
+    "path": "/posts/散文/dream/斑点决战荒原/",
+    "views": 23
+  },
+  {
+    "path": "/posts/技术文章/开源软件推荐系列/mintword/",
+    "views": 17
+  },
+  {
+    "path": "/posts/poetry/夜雨叠影/",
+    "views": 16
+  },
+  {
+    "path": "/posts/散文/如星空般深蓝/十三蓝与音无域合/",
+    "views": 15
+  },
+  {
     "path": "/posts/散文/水蒸气蛋糕/青涩恋爱别离于深棕之夜/",
+    "views": 14
+  },
+  {
+    "path": "/posts/技术文章/计算机编码/",
+    "views": 13
+  },
+  {
+    "path": "/posts/段子/止战之殇/",
+    "views": 11
+  },
+  {
+    "path": "/posts/日记本/洋红电磁波/2026-05/22/",
+    "views": 11
+  },
+  {
+    "path": "/posts/技术文章/网易云音乐听歌排行爬虫/",
+    "views": 11
+  },
+  {
+    "path": "/posts/散文/dream/爆炸牙齿历险记/",
+    "views": 11
+  },
+  {
+    "path": "/posts/poetry/雨霁/",
+    "views": 11
+  },
+  {
+    "path": "/posts/杂文/魔法少女的思维余烬/",
+    "views": 11
+  },
+  {
+    "path": "/posts/游戏开发/webgal/webgal动画/",
+    "views": 10
+  },
+  {
+    "path": "/posts/杂文/被弱智老板折磨疯了/",
+    "views": 10
+  },
+  {
+    "path": "/posts/散文/如星空般深蓝/零四蓝与如霜携影/",
+    "views": 10
+  },
+  {
+    "path": "/posts/技术文章/流媒体时代的去中心化下载/",
+    "views": 9
+  },
+  {
+    "path": "/posts/游戏开发/webgal/webgal杂谈苹物语/",
+    "views": 9
+  },
+  {
+    "path": "/posts/poetry/卜算子末考苦雨/",
+    "views": 9
+  },
+  {
+    "path": "/posts/日记本/洋红电磁波/2026-05/19/",
+    "views": 9
+  },
+  {
+    "path": "/posts/杂文/10000访问庆祝/",
+    "views": 8
+  },
+  {
+    "path": "/posts/散文/如星空般深蓝/十七蓝与茫疫夜循/",
+    "views": 8
+  },
+  {
+    "path": "/posts/poetry/生活的边缘在加速/",
+    "views": 7
+  },
+  {
+    "path": "/posts/日记本/洋红电磁波/2026-05/26/",
+    "views": 7
+  },
+  {
+    "path": "/posts/raw/絮语/",
+    "views": 7
+  },
+  {
+    "path": "/posts/学习笔记/计算机网络/期末试卷3的复习/",
+    "views": 7
+  },
+  {
+    "path": "/posts/poetry/中学时/我所钟爱的昨日啊/",
+    "views": 7
+  },
+  {
+    "path": "/posts/小厨灶时间/海鲜粥/",
+    "views": 7
+  },
+  {
+    "path": "/posts/poetry/永遇乐挂科愁/",
+    "views": 7
+  },
+  {
+    "path": "/posts/学习笔记/信息技术教学论/第三章/",
+    "views": 7
+  },
+  {
+    "path": "/posts/poetry/涧啼集/1/",
+    "views": 6
+  },
+  {
+    "path": "/posts/poetry/涧啼集/3/",
+    "views": 6
+  },
+  {
+    "path": "/posts/poetry/蝶恋花怠学/",
+    "views": 6
+  },
+  {
+    "path": "/posts/同人文/心之轨迹/旅行见闻/第六节-缪拉的指导对战/",
+    "views": 6
+  },
+  {
+    "path": "/posts/poetry/中学时/书兮墨兮/",
+    "views": 6
+  },
+  {
+    "path": "/posts/杂文/实习日志/我恨抽烟的/",
+    "views": 6
+  },
+  {
+    "path": "/posts/学习笔记/信息技术教学论/第一章/",
+    "views": 6
+  },
+  {
+    "path": "/posts/日记本/洋红电磁波/2026-05/23/",
+    "views": 6
+  },
+  {
+    "path": "/posts/同人文/全世界空洞骑士水平下降/22/",
+    "views": 6
+  },
+  {
+    "path": "/posts/杂文/实习日志/实习日常之小学生观察/",
+    "views": 6
+  },
+  {
+    "path": "/posts/散文/如星空般深蓝/零七蓝与飞夷笛矣/",
+    "views": 6
+  },
+  {
+    "path": "/posts/散文/水蒸气蛋糕/晒太阳的时候会让我有一种我是我的错觉/",
+    "views": 6
+  },
+  {
+    "path": "/posts/poetry/浪淘沙与友人庆生/",
+    "views": 5
+  },
+  {
+    "path": "/posts/学习笔记/算法期末笔记/动态规划/",
+    "views": 5
+  },
+  {
+    "path": "/posts/poetry/中学时/海眠之下/",
+    "views": 5
+  },
+  {
+    "path": "/posts/同人文/全世界空洞骑士水平下降/1/",
+    "views": 5
+  },
+  {
+    "path": "/posts/杂文/实习日志/实习那些事/",
+    "views": 5
+  },
+  {
+    "path": "/posts/日记本/洋红电磁波/2026-05/20/",
+    "views": 5
+  },
+  {
+    "path": "/posts/日记本/洋红电磁波/2026-05/24/",
+    "views": 5
+  },
+  {
+    "path": "/posts/学习笔记/english/day9/",
+    "views": 5
+  },
+  {
+    "path": "/posts/散文/dream/宽容时摆的偏差/",
+    "views": 5
+  },
+  {
+    "path": "/posts/学习笔记/其他/基于轻量化卷积神经网络的图像分类对比研究/",
+    "views": 5
+  },
+  {
+    "path": "/posts/同人文/心之轨迹/糖果的四季/冬之章/皮丘皮卡丘雷丘/",
+    "views": 5
+  },
+  {
+    "path": "/posts/同人文/other/网恋奔现可我只是一只迷拟丘/",
     "views": 5
   },
   {
     "path": "/posts/散文/水蒸气蛋糕/深海恐惧症/",
-    "views": 3
+    "views": 5
   },
   {
-    "path": "/posts/散文/如星空般深蓝/十三蓝与音无域合/",
-    "views": 3
+    "path": "/posts/学习笔记/算法期末笔记/重点-二叉堆问题/",
+    "views": 4
   },
   {
-    "path": "/posts/技术文章/快捷键们背后的故事/",
-    "views": 3
+    "path": "/posts/poetry/中学时/以终年不息的北风为誓/",
+    "views": 4
   },
   {
-    "path": "/posts/技术文章/网易云音乐听歌排行爬虫/",
-    "views": 3
+    "path": "/posts/学习笔记/css/复合选择器/#二并集选择器",
+    "views": 4
   },
   {
-    "path": "/posts/同人文/other/网恋奔现可我只是一只迷拟丘/",
-    "views": 3
+    "path": "/posts/散文/如星空般深蓝/十一蓝与败堕合约/",
+    "views": 4
   },
   {
-    "path": "/posts/杂文/魔法少女的思维余烬/",
-    "views": 3
+    "path": "/posts/段子/灰姑娘/",
+    "views": 4
   },
   {
-    "path": "/posts/poetry/中学时/我所钟爱的昨日啊/",
-    "views": 3
+    "path": "/posts/散文/水蒸气蛋糕/焚烧荒原的思恋/",
+    "views": 4
   },
   {
-    "path": "/posts/poetry/中学时/海眠之下/",
-    "views": 3
+    "path": "/posts/技术文章/old/hexo主题anzhiyu下载显示fatal-destination-path-themesanzhiyu-already-exists问题的解决办法/",
+    "views": 4
   },
   {
-    "path": "/posts/散文/dream/爆炸牙齿历险记/",
-    "views": 3
+    "path": "/posts/段子/恩情课文之将军取消了早操晚自习/",
+    "views": 4
   },
   {
-    "path": "/posts/散文/如星空般深蓝/十五蓝与层狸弥以/",
-    "views": 2
-  },
-  {
-    "path": "/posts/poetry/中学时/庭栏花/",
-    "views": 2
-  },
-  {
-    "path": "/posts/poetry/生活的边缘在加速/",
-    "views": 2
+    "path": "/posts/poetry/伏居半月寂念友人翔子与曾同好众等与往昔有所感/",
+    "views": 4
   },
   {
     "path": "/posts/poetry/中学时/无常/",
+    "views": 4
+  },
+  {
+    "path": "/posts/段子/左乐打虎/",
+    "views": 4
+  },
+  {
+    "path": "/posts/技术文章/old/操作系统-进程调度实验报告-代码详解/",
+    "views": 4
+  },
+  {
+    "path": "/posts/学习笔记/算法期末笔记/回溯法/",
+    "views": 4
+  },
+  {
+    "path": "/posts/poetry/歌曲/bluish-light翻译/",
+    "views": 4
+  },
+  {
+    "path": "/posts/散文/如星空般深蓝/十五蓝与层狸弥以/",
+    "views": 4
+  },
+  {
+    "path": "/posts/学习笔记/javascript/javascript-day2/",
+    "views": 4
+  },
+  {
+    "path": "/posts/游戏开发/webgal/webgal教程大纲/",
+    "views": 4
+  },
+  {
+    "path": "/posts/同人文/心之轨迹/旅行见闻/第一节--毕业然后捡到小不点/",
+    "views": 4
+  },
+  {
+    "path": "/posts/学习笔记/操作系统/操作系统介绍/",
+    "views": 4
+  },
+  {
+    "path": "/posts/学习笔记/信息技术教学论/第四章/",
+    "views": 4
+  },
+  {
+    "path": "/posts/技术文章/解决couldflare部署网站在edge浏览器显示dns解析错误但其他浏览器可以正常访问的办法/",
+    "views": 4
+  },
+  {
+    "path": "/posts/杂文/old/二刷巧克力本然而继续大失败呜呜呜/",
+    "views": 4
+  },
+  {
+    "path": "/posts/同人文/心之轨迹/糖果的四季/春之章/巫女/",
+    "views": 4
+  },
+  {
+    "path": "/posts/散文/如星空般深蓝/零零蓝与滞戮研灰/",
+    "views": 4
+  },
+  {
+    "path": "/posts/散文/dream/四方狭地/",
+    "views": 4
+  },
+  {
+    "path": "/posts/散文/水蒸气蛋糕/dans-la-maison/",
+    "views": 4
+  },
+  {
+    "path": "/posts/散文/dream/我恨室友/",
+    "views": 4
+  },
+  {
+    "path": "/posts/散文/水蒸气蛋糕/下雨的夜晚/",
+    "views": 4
+  },
+  {
+    "path": "/posts/同人文/心之轨迹/旅行见闻/第二节--阿罗拉的悠闲假日秘密基地和兼职打工/",
+    "views": 3
+  },
+  {
+    "path": "/posts/学习笔记/算法期末笔记/重点-n皇后问题/",
+    "views": 3
+  },
+  {
+    "path": "/posts/学习笔记/线性代数/线性代数框框课程/",
+    "views": 3
+  },
+  {
+    "path": "/posts/poetry/中学时/庭栏花/",
+    "views": 3
+  },
+  {
+    "path": "/posts/同人文/心之轨迹/旅行见闻/第四节--阿罗拉的缤纷假日不可思议的邂逅和迄今为止的第二次的对战/",
+    "views": 3
+  },
+  {
+    "path": "/posts/同人文/心之轨迹/糖果的四季/冬之章/很久很久以前的故事/",
+    "views": 3
+  },
+  {
+    "path": "/posts/学习笔记/计算机网络/网络层/",
+    "views": 3
+  },
+  {
+    "path": "/posts/学习笔记/高等数学/高阶无穷小与柯西中值定理/",
+    "views": 3
+  },
+  {
+    "path": "/posts/学习笔记/高等数学/高阶无穷小与柯西中值定理/#定理的地位",
+    "views": 3
+  },
+  {
+    "path": "/posts/技术文章/css抗锯齿/",
+    "views": 3
+  },
+  {
+    "path": "/posts/同人文/心之轨迹/糖果的四季/秋之章/麦田中的罗丝雷朵/",
+    "views": 3
+  },
+  {
+    "path": "/posts/技术文章/old/破解学习通鼠标移出屏幕自动暂停视网课播放/",
+    "views": 3
+  },
+  {
+    "path": "/posts/如星空般深蓝/零六蓝与殇也迭暮/",
+    "views": 3
+  },
+  {
+    "path": "/posts/技术文章/流媒体时代的去中心化下载/dongmanhuayuan.com/",
+    "views": 3
+  },
+  {
+    "path": "/posts/技术文章/流媒体时代的去中心化下载/kisssub.org/",
+    "views": 3
+  },
+  {
+    "path": "/posts/散文/dream/lan/",
+    "views": 3
+  },
+  {
+    "path": "/posts/学习笔记/c/stringh说明/",
+    "views": 3
+  },
+  {
+    "path": "/posts/散文/dream/循环长廊的无穷假设/",
+    "views": 3
+  },
+  {
+    "path": "/posts/poetry/中学时/葬昔之花/",
+    "views": 3
+  },
+  {
+    "path": "/posts/散文/dream/站在海面上/",
+    "views": 3
+  },
+  {
+    "path": "/posts/散文/如星空般深蓝/十九蓝与瑰红怨白/",
+    "views": 3
+  },
+  {
+    "path": "/posts/散文/如星空般深蓝/十二蓝与䥽激频迁/",
+    "views": 3
+  },
+  {
+    "path": "/posts/散文/水蒸气蛋糕/切方仪/",
+    "views": 3
+  },
+  {
+    "path": "/posts/散文/水蒸气蛋糕/天使は感動する/",
+    "views": 3
+  },
+  {
+    "path": "/posts/学习笔记/c/字符串/",
+    "views": 3
+  },
+  {
+    "path": "/posts/散文/水蒸气蛋糕/构成世界的根本/",
+    "views": 3
+  },
+  {
+    "path": "/posts/散文/水蒸气蛋糕/某方的伊甸园/",
+    "views": 3
+  },
+  {
+    "path": "/posts/学习笔记/c/结构与函数/",
+    "views": 3
+  },
+  {
+    "path": "/posts/杂文/old/在游戏里和好朋友们一起过了生日--̮--/",
+    "views": 3
+  },
+  {
+    "path": "/posts/杂文/old/工程规范文件/",
+    "views": 3
+  },
+  {
+    "path": "/posts/学习笔记/c/联合/",
+    "views": 3
+  },
+  {
+    "path": "/posts/杂文/一点想法/",
+    "views": 3
+  },
+  {
+    "path": "/posts/学习笔记/css/css的基本语法/",
+    "views": 3
+  },
+  {
+    "path": "/posts/poetry/俳句/7/",
+    "views": 3
+  },
+  {
+    "path": "/posts/杂文/英雄/",
+    "views": 3
+  },
+  {
+    "path": "/posts/段子/两近锋辩强/",
+    "views": 3
+  },
+  {
+    "path": "/posts/poetry/心无物造/",
+    "views": 3
+  },
+  {
+    "path": "/posts/段子/小魔王/",
+    "views": 3
+  },
+  {
+    "path": "/posts/poetry/涧啼集/10/",
+    "views": 3
+  },
+  {
+    "path": "/posts/poetry/涧啼集/2/",
+    "views": 3
+  },
+  {
+    "path": "/posts/水蒸气蛋糕/天使は感動する/",
+    "views": 3
+  },
+  {
+    "path": "/posts/poetry/涧啼集/5/",
+    "views": 3
+  },
+  {
+    "path": "/posts/水蒸气蛋糕/深海恐惧症/",
+    "views": 3
+  },
+  {
+    "path": "/posts/poetry/涧啼集/6/",
+    "views": 3
+  },
+  {
+    "path": "/posts/poetry/涧啼集/8/",
+    "views": 3
+  },
+  {
+    "path": "/posts/poetry/远离我吧/",
+    "views": 3
+  },
+  {
+    "path": "/posts/轻小说/东云同学浑身是迷/",
+    "views": 3
+  },
+  {
+    "path": "/posts/轻小说/小剧场家里蹲宅宅被猫娘报恩了/",
+    "views": 3
+  },
+  {
+    "path": "/posts/学习笔记/javascript/javascript-day4/",
+    "views": 3
+  },
+  {
+    "path": "/posts/轻小说/请杀死我/",
+    "views": 3
+  },
+  {
+    "path": "/posts/学习笔记/javascript/作用域和变量的访问原则/",
+    "views": 3
+  },
+  {
+    "path": "/posts/学习笔记/javascript/函数的基本使用/",
+    "views": 3
+  },
+  {
+    "path": "/posts/学习笔记/信息技术教学论/第七章/",
+    "views": 3
+  },
+  {
+    "path": "/posts/学习笔记/信息技术教学论/第二章/",
+    "views": 3
+  },
+  {
+    "path": "/posts/学习笔记/信息技术教学论/第六章/",
+    "views": 3
+  },
+  {
+    "path": "/posts/学习笔记/其他/从中国百年文学演变中看现代性和传统性的矛盾冲突演化和融合/",
+    "views": 3
+  },
+  {
+    "path": "/posts/学习笔记/其他/教育心理学名解简答论述/",
+    "views": 3
+  },
+  {
+    "path": "/posts/散文/如星空般深蓝/二一蓝与花云怨海/",
     "views": 2
   },
   {
-    "path": "/posts/散文/如星空般深蓝/零七蓝与飞夷笛矣/",
+    "path": "/posts/段子/apex高考零分作文专转传/",
     "views": 2
   },
   {
-    "path": "/posts/散文/如星空般深蓝/十七蓝与茫疫夜循/",
+    "path": "/posts/学习笔记/c/typedef的用法/",
+    "views": 2
+  },
+  {
+    "path": "/posts/段子/三只幻神/",
+    "views": 2
+  },
+  {
+    "path": "/posts/学习笔记/english/day1/",
+    "views": 2
+  },
+  {
+    "path": "/posts/同人文/全世界空洞骑士水平下降/2/",
+    "views": 2
+  },
+  {
+    "path": "/posts/如星空般深蓝/零零蓝与滞戮研灰/",
+    "views": 2
+  },
+  {
+    "path": "/posts/poetry/中学时/昨天的明日/",
+    "views": 2
+  },
+  {
+    "path": "/posts/如星空般深蓝/十二蓝与䥽激频迁/",
+    "views": 2
+  },
+  {
+    "path": "/posts/学习笔记/english/day4/",
+    "views": 2
+  },
+  {
+    "path": "/posts/段子/北冥有陈/",
+    "views": 2
+  },
+  {
+    "path": "/posts/学习笔记/english/day5/",
+    "views": 2
+  },
+  {
+    "path": "/posts/技术文章/开源软件推荐系列/contextmenumanager/",
+    "views": 2
+  },
+  {
+    "path": "/posts/学习笔记/english/day6/",
+    "views": 2
+  },
+  {
+    "path": "/posts/段子/宝可梦打油诗/",
+    "views": 2
+  },
+  {
+    "path": "/posts/学习笔记/其他/a等有信息搜索的理论及应用研究/",
+    "views": 2
+  },
+  {
+    "path": "/posts/段子/山东师范大学规则怪谈/",
+    "views": 2
+  },
+  {
+    "path": "/posts/技术文章/old/利用css实现前端背景图片切割/",
+    "views": 2
+  },
+  {
+    "path": "/posts/技术文章/old/vs-code背景图片设置教程新版-background插件20版本设置电脑小白向教程/",
+    "views": 2
+  },
+  {
+    "path": "/posts/段子/我感觉三重狙真的很温柔/",
+    "views": 2
+  },
+  {
+    "path": "/posts/学习笔记/english/day7/",
+    "views": 2
+  },
+  {
+    "path": "/posts/同人文/心之轨迹/糖果的四季/秋之章/树枕尾熊的噩梦/",
+    "views": 2
+  },
+  {
+    "path": "/posts/同人文/心之轨迹/糖果的四季/春之章/沙漠蜻蜓的生日/",
+    "views": 2
+  },
+  {
+    "path": "/posts/心之轨迹/旅行见闻/第六节-缪拉的指导对战/",
+    "views": 2
+  },
+  {
+    "path": "/posts/段子/琴泠讽老师纳谏/",
+    "views": 2
+  },
+  {
+    "path": "/posts/段子/赫德雷论战/",
+    "views": 2
+  },
+  {
+    "path": "/posts/同人文/心之轨迹/糖果的四季/春之章/春/",
+    "views": 2
+  },
+  {
+    "path": "/posts/同人文/心之轨迹/糖果的四季/夏之章/小伊布的睡前故事1/",
+    "views": 2
+  },
+  {
+    "path": "/posts/学习笔记/其他/从中国百年文学演变中看现代性和传统性的矛盾冲突演化和融合/#文学风格与表达手法的革新",
+    "views": 2
+  },
+  {
+    "path": "/posts/学习笔记/计算机网络/综合总复习/#星形网",
+    "views": 2
+  },
+  {
+    "path": "/posts/poetry/涧啼集/4/",
+    "views": 2
+  },
+  {
+    "path": "/posts/同人文/全世界空洞骑士水平下降/17/",
+    "views": 2
+  },
+  {
+    "path": "/posts/学习笔记/其他/心理学知识点/",
+    "views": 2
+  },
+  {
+    "path": "/posts/水蒸气蛋糕/覆雪之日/",
+    "views": 2
+  },
+  {
+    "path": "/posts/poetry/涧啼集/7/",
+    "views": 2
+  },
+  {
+    "path": "/posts/学习笔记/操作系统/储存器管理/",
+    "views": 2
+  },
+  {
+    "path": "/posts/poetry/涧啼集/9/",
+    "views": 2
+  },
+  {
+    "path": "/posts/游戏开发/renpy/1/",
+    "views": 2
+  },
+  {
+    "path": "/posts/游戏开发/renpy/2/",
+    "views": 2
+  },
+  {
+    "path": "/posts/游戏开发/renpy/3/",
+    "views": 2
+  },
+  {
+    "path": "/posts/学习笔记/html/html5学习笔记编码/#乱码场景与解决方案",
+    "views": 2
+  },
+  {
+    "path": "/posts/游戏开发/renpy/gui与基础样式/",
+    "views": 2
+  },
+  {
+    "path": "/posts/同人文/心之轨迹/糖果的四季/冬之章/圣诞快乐糖果镇的圣诞节/",
+    "views": 2
+  },
+  {
+    "path": "/posts/学习笔记/计算机网络/概论/#分组交换目前最常用的",
+    "views": 2
+  },
+  {
+    "path": "/posts/学习笔记/其他/教育心理学名解简答论述/#二调整情绪培养积极情绪情感体验",
+    "views": 2
+  },
+  {
+    "path": "/posts/学习笔记/计算机网络/概论/",
+    "views": 2
+  },
+  {
+    "path": "/posts/学习笔记/计算机网络/期末试卷4的复习/",
+    "views": 2
+  },
+  {
+    "path": "/posts/游戏开发/renpy/脚本标签label和流程控制/",
     "views": 2
   },
   {
     "path": "/posts/学习笔记/html/散装知识点vs-code-默认html快捷键/#带内容的生成",
-    "views": 1
+    "views": 2
   },
   {
-    "path": "/posts/学习笔记/信息技术教学论/第一章/",
-    "views": 1
+    "path": "/posts/学习笔记/java/基本程序设计/",
+    "views": 2
   },
   {
-    "path": "/posts/学习笔记/其他/教育心理学名解简答论述/",
-    "views": 1
+    "path": "/posts/poetry/中学时/忙碌的厨师/",
+    "views": 2
   },
   {
-    "path": "/posts/学习笔记/其他/教育心理学期末考试题目汇编/#四论述题-1",
-    "views": 1
+    "path": "/posts/学习笔记/java/计算机程序和java概述/",
+    "views": 2
   },
   {
-    "path": "/posts/学习笔记/操作系统/操作系统介绍/",
-    "views": 1
+    "path": "/posts/游戏开发/webgal/webgal教程大纲/#进阶css基础和scss",
+    "views": 2
   },
   {
-    "path": "/posts/学习笔记/数据库/sql语言/#嵌套查询",
-    "views": 1
+    "path": "/posts/学习笔记/javascript/api-1/",
+    "views": 2
   },
   {
-    "path": "/posts/学习笔记/计算机网络/期末试卷3的复习/",
-    "views": 1
+    "path": "/posts/poetry/中学时/如果我不曾见过太阳-个人翻译/#如果我不曾见过太阳",
+    "views": 2
   },
   {
-    "path": "/posts/学习笔记/计算机网络/概论/#分组交换目前最常用的",
-    "views": 1
+    "path": "/posts/poetry/中学时/如果我不曾见过太阳-个人翻译/",
+    "views": 2
   },
   {
-    "path": "/posts/学习笔记/计算机网络/综合总复习/#星形网",
-    "views": 1
+    "path": "/posts/poetry/中学时/多数人的暴力/",
+    "views": 2
   },
   {
-    "path": "/posts/学习笔记/计算机网络/网络层/",
-    "views": 1
+    "path": "/posts/学习笔记/操作系统/虚拟储存器/",
+    "views": 2
   },
   {
-    "path": "/posts/小厨灶时间/海鲜粥/",
-    "views": 1
+    "path": "/posts/学习笔记/算法期末笔记/重点-rsa算法问题/",
+    "views": 2
   },
   {
-    "path": "/posts/技术文章/流媒体时代的去中心化下载/",
-    "views": 1
+    "path": "/posts/学习笔记/其他/教育心理学期末复习/",
+    "views": 2
   },
   {
-    "path": "/posts/技术文章/解决couldflare部署网站在edge浏览器显示dns解析错误但其他浏览器可以正常访问的办法/",
-    "views": 1
+    "path": "/posts/renpy/4/#关键执行逻辑拆解",
+    "views": 2
   },
   {
-    "path": "/posts/技术文章/计算机编码/",
-    "views": 1
+    "path": "/posts/学习笔记/javascript/js事件/",
+    "views": 2
   },
   {
-    "path": "/posts/散文/dream/循环长廊的无穷假设/",
-    "views": 1
-  },
-  {
-    "path": "/posts/散文/dream/我恨室友/",
-    "views": 1
-  },
-  {
-    "path": "/posts/散文/如星空般深蓝/十一蓝与败堕合约/",
-    "views": 1
-  },
-  {
-    "path": "/posts/散文/如星空般深蓝/十二蓝与䥽激频迁/",
-    "views": 1
-  },
-  {
-    "path": "/posts/散文/如星空般深蓝/零六蓝与殇也迭暮/",
-    "views": 1
-  },
-  {
-    "path": "/posts/散文/如星空般深蓝/零四蓝与如霜携影/",
-    "views": 1
-  },
-  {
-    "path": "/posts/散文/如星空般深蓝/零零蓝与滞戮研灰/",
-    "views": 1
-  },
-  {
-    "path": "/posts/散文/水蒸气蛋糕/天使は感動する/",
-    "views": 1
-  },
-  {
-    "path": "/posts/散文/水蒸气蛋糕/构成世界的根本/",
-    "views": 1
-  },
-  {
-    "path": "/posts/散文/水蒸气蛋糕/某方的伊甸园/",
-    "views": 1
-  },
-  {
-    "path": "/posts/散文/水蒸气蛋糕/稻草人之舞/",
-    "views": 1
-  },
-  {
-    "path": "/posts/杂文/old/一点想法/",
-    "views": 1
-  },
-  {
-    "path": "/posts/杂文/old/二刷巧克力本然而继续大失败呜呜呜/",
-    "views": 1
-  },
-  {
-    "path": "/posts/杂文/old/今天我决定旷课/",
-    "views": 1
-  },
-  {
-    "path": "/posts/杂文/old/我喜欢蹦蹦跳跳的/",
-    "views": 1
-  },
-  {
-    "path": "/posts/杂文/old/我所期望的世界是什么样的呢/",
-    "views": 1
-  },
-  {
-    "path": "/posts/杂文/old/深夜念想/",
-    "views": 1
-  },
-  {
-    "path": "/posts/杂文/一点想法/",
-    "views": 1
-  },
-  {
-    "path": "/posts/杂文/实习日志/实习那些事/",
-    "views": 1
-  },
-  {
-    "path": "/posts/杂文/连裤袜测评/#33最不起眼的收纳",
-    "views": 1
-  },
-  {
-    "path": "/posts/段子/两近锋辩强/",
-    "views": 1
-  },
-  {
-    "path": "/posts/段子/全球异变而我因为看动漫在末世大杀四方/",
-    "views": 1
-  },
-  {
-    "path": "/posts/段子/我感觉三重狙真的很温柔/",
-    "views": 1
-  },
-  {
-    "path": "/posts/游戏开发/renpy/gui与基础样式/",
-    "views": 1
-  },
-  {
-    "path": "/posts/游戏开发/renpy/脚本标签label和流程控制/#执行结果对话顺序",
-    "views": 1
-  },
-  {
-    "path": "/posts/轻小说/东云同学浑身是迷/",
-    "views": 1
-  },
-  {
-    "path": "/posts/轻小说/未寄出的信/",
-    "views": 1
+    "path": "/posts/gallery/鼠标画/gallery---副本-9/",
+    "views": 2
   },
   {
     "path": "/posts/轻小说/风之妖精亚可蕾拉/",
-    "views": 1
+    "views": 2
+  },
+  {
+    "path": "/posts/poetry/中学时/受蒙蔽的/",
+    "views": 2
+  },
+  {
+    "path": "/posts/webgal/webgal杂谈苹物语/",
+    "views": 2
+  },
+  {
+    "path": "/posts/学习笔记/其他/计算机编码/",
+    "views": 2
+  },
+  {
+    "path": "/posts/学习笔记/算法期末笔记/分支界限法/",
+    "views": 2
+  },
+  {
+    "path": "/posts/同人文/全世界空洞骑士水平下降/21/",
+    "views": 2
+  },
+  {
+    "path": "/posts/学习笔记/数据库/过程性2题目复习/",
+    "views": 2
   },
   {
     "path": "/posts/gallery/gallery---副本-2/",
+    "views": 2
+  },
+  {
+    "path": "/posts/学习笔记/数据库/范式判断/#示例说明",
+    "views": 2
+  },
+  {
+    "path": "/posts/同人文/全世界空洞骑士水平下降/15/",
+    "views": 2
+  },
+  {
+    "path": "/posts/学习笔记/信息技术教学论/第八章/",
+    "views": 2
+  },
+  {
+    "path": "/posts/学习笔记/操作系统/操作系统引论/",
+    "views": 2
+  },
+  {
+    "path": "/posts/杂文/old/冬天是热乎乎的汤面的季节/",
+    "views": 2
+  },
+  {
+    "path": "/posts/学习笔记/实验室安全实践/4-6章复习/#废弃物处理",
+    "views": 2
+  },
+  {
+    "path": "/posts/学习笔记/实验室安全实践/4-6章复习/#有毒化学品溅到皮肤",
+    "views": 2
+  },
+  {
+    "path": "/posts/poetry/俳句/2/",
+    "views": 2
+  },
+  {
+    "path": "/posts/学习笔记/操作系统/插叙进程api/",
+    "views": 2
+  },
+  {
+    "path": "/posts/杂文/old/我要吃贡品/",
+    "views": 2
+  },
+  {
+    "path": "/posts/杂文/old/有一类人不适合产生交集/",
+    "views": 2
+  },
+  {
+    "path": "/posts/杂文/old/杀戮/",
+    "views": 2
+  },
+  {
+    "path": "/posts/杂文/old/深夜念想/",
+    "views": 2
+  },
+  {
+    "path": "/posts/杂文/old/生病的时候回忆起家里的温暖/",
+    "views": 2
+  },
+  {
+    "path": "/posts/poetry/俳句/3/",
+    "views": 2
+  },
+  {
+    "path": "/posts/杂文/old/今天我决定旷课/",
+    "views": 2
+  },
+  {
+    "path": "/posts/学习笔记/c/逻辑类型/#示例1条件为真",
+    "views": 2
+  },
+  {
+    "path": "/posts/学习笔记/c/逻辑运算/",
+    "views": 2
+  },
+  {
+    "path": "/posts/学习笔记/数据库/范式判断/",
+    "views": 2
+  },
+  {
+    "path": "/posts/学习笔记/c/本地变量/#无参数函数",
+    "views": 2
+  },
+  {
+    "path": "/posts/学习笔记/数据库/sql语言/#嵌套查询",
+    "views": 2
+  },
+  {
+    "path": "/posts/散文/水蒸气蛋糕/覆雪之日/",
+    "views": 2
+  },
+  {
+    "path": "/posts/学习笔记/css/css的基本语法/#声明块",
+    "views": 2
+  },
+  {
+    "path": "/posts/杂文/实习日志/县城的小文学家们/",
+    "views": 2
+  },
+  {
+    "path": "/posts/散文/水蒸气蛋糕/猫/",
+    "views": 2
+  },
+  {
+    "path": "/posts/poetry/俳句/1/",
+    "views": 2
+  },
+  {
+    "path": "/posts/学习笔记/css/css的常用选择器/#多-class-值",
+    "views": 2
+  },
+  {
+    "path": "/posts/散文/水蒸气蛋糕/你好啊时代的幸存者/",
+    "views": 2
+  },
+  {
+    "path": "/posts/学习笔记/css/关系选择器和属性选择器/",
+    "views": 2
+  },
+  {
+    "path": "/posts/散文/如星空般深蓝/零六蓝与殇也迭暮/",
+    "views": 2
+  },
+  {
+    "path": "/posts/学习笔记/c/一些函数/",
+    "views": 2
+  },
+  {
+    "path": "/posts/dream/lan/",
+    "views": 1
+  },
+  {
+    "path": "/posts/dream/四方狭地/",
+    "views": 1
+  },
+  {
+    "path": "/posts/gallery/gallery---副本-11/",
+    "views": 1
+  },
+  {
+    "path": "/posts/gallery/gallery---副本-12/",
+    "views": 1
+  },
+  {
+    "path": "/posts/gallery/gallery---副本-3/",
+    "views": 1
+  },
+  {
+    "path": "/posts/gallery/gallery---副本-5/",
     "views": 1
   },
   {
@@ -284,27 +1040,39 @@
     "views": 1
   },
   {
-    "path": "/posts/poetry/中学时/书兮墨兮/",
+    "path": "/posts/gallery/star/gallery/",
     "views": 1
   },
   {
-    "path": "/posts/poetry/中学时/以终年不息的北风为誓/",
+    "path": "/posts/gallery/像素画/gallery---副本-13/",
     "views": 1
   },
   {
-    "path": "/posts/poetry/中学时/受蒙蔽的/",
+    "path": "/posts/message",
     "views": 1
   },
   {
-    "path": "/posts/poetry/中学时/多数人的暴力/",
+    "path": "/posts/photo/高中毕业的旅行/2/",
     "views": 1
   },
   {
-    "path": "/posts/poetry/中学时/忙碌的厨师/",
+    "path": "/posts/poetry/中学时/埋下过去/",
     "views": 1
   },
   {
-    "path": "/posts/poetry/中学时/昨天的明日/",
+    "path": "/posts/poetry/中学时/声音响亮的/",
+    "views": 1
+  },
+  {
+    "path": "/posts/poetry/中学时/掠夺者们/",
+    "views": 1
+  },
+  {
+    "path": "/posts/poetry/中学时/文字的赞/",
+    "views": 1
+  },
+  {
+    "path": "/posts/poetry/中学时/树/#树",
     "views": 1
   },
   {
@@ -312,15 +1080,71 @@
     "views": 1
   },
   {
-    "path": "/posts/poetry/中学时/葬昔之花/",
+    "path": "/posts/poetry/中学时/繁花艳丽/",
     "views": 1
   },
   {
-    "path": "/posts/poetry/伏居半月寂念友人翔子与曾同好众等与往昔有所感/",
+    "path": "/posts/poetry/中学时/繁花艳丽/#无常个人译",
     "views": 1
   },
   {
-    "path": "/posts/poetry/卜算子末考苦雨/",
+    "path": "/posts/poetry/以终年不息的北风为誓/",
+    "views": 1
+  },
+  {
+    "path": "/posts/poetry/以终年不息的北风为誓/#以終年不息的北風為誓",
+    "views": 1
+  },
+  {
+    "path": "/posts/poetry/俳句/10/",
+    "views": 1
+  },
+  {
+    "path": "/posts/poetry/俳句/11/",
+    "views": 1
+  },
+  {
+    "path": "/posts/poetry/俳句/11/#最春夜",
+    "views": 1
+  },
+  {
+    "path": "/posts/poetry/俳句/12/",
+    "views": 1
+  },
+  {
+    "path": "/posts/poetry/俳句/13/",
+    "views": 1
+  },
+  {
+    "path": "/posts/poetry/俳句/14/",
+    "views": 1
+  },
+  {
+    "path": "/posts/poetry/俳句/5/",
+    "views": 1
+  },
+  {
+    "path": "/posts/poetry/俳句/5/#最慵懒",
+    "views": 1
+  },
+  {
+    "path": "/posts/poetry/俳句/6/",
+    "views": 1
+  },
+  {
+    "path": "/posts/poetry/俳句/8/",
+    "views": 1
+  },
+  {
+    "path": "/posts/poetry/俳句/9/",
+    "views": 1
+  },
+  {
+    "path": "/posts/poetry/卜算子末考苦雨/#卜算子末考苦雨",
+    "views": 1
+  },
+  {
+    "path": "/posts/poetry/我所钟爱的昨日啊/#我所钟爱的昨日啊",
     "views": 1
   },
   {
@@ -328,31 +1152,195 @@
     "views": 1
   },
   {
-    "path": "/posts/poetry/歌曲/bluish-light翻译/",
+    "path": "/posts/poetry/海眠之下/",
     "views": 1
   },
   {
-    "path": "/posts/poetry/永遇乐挂科愁/",
+    "path": "/posts/readme/",
     "views": 1
   },
   {
-    "path": "/posts/poetry/蝶恋花怠学/",
+    "path": "/posts/renpy/1/#使用defaultpython和if语句实现flag标识",
     "views": 1
   },
   {
-    "path": "/posts/raw/絮语/",
+    "path": "/posts/renpy/3/#文件",
     "views": 1
   },
   {
-    "path": "/posts/同人文/心之轨迹/糖果的四季/春之章/巫女/",
+    "path": "/posts/webgal/webgal动画/#4案例一个简单的nohover动画编写",
     "views": 1
   },
   {
-    "path": "/posts/同人文/心之轨迹/糖果的四季/秋之章/麦田中的罗丝雷朵/",
+    "path": "/posts/webgal/webgal杂谈苹物语/#webgal杂谈苹物语",
     "views": 1
   },
   {
-    "path": "/posts/如星空般深蓝/十二蓝与䥽激频迁/",
+    "path": "/posts/同人文/other/和澄闪的婚后生活/",
+    "views": 1
+  },
+  {
+    "path": "/posts/同人文/全世界空洞骑士水平下降/11/",
+    "views": 1
+  },
+  {
+    "path": "/posts/同人文/全世界空洞骑士水平下降/12/",
+    "views": 1
+  },
+  {
+    "path": "/posts/同人文/全世界空洞骑士水平下降/13/",
+    "views": 1
+  },
+  {
+    "path": "/posts/同人文/全世界空洞骑士水平下降/14/",
+    "views": 1
+  },
+  {
+    "path": "/posts/同人文/全世界空洞骑士水平下降/16/",
+    "views": 1
+  },
+  {
+    "path": "/posts/同人文/全世界空洞骑士水平下降/18/",
+    "views": 1
+  },
+  {
+    "path": "/posts/同人文/全世界空洞骑士水平下降/19/",
+    "views": 1
+  },
+  {
+    "path": "/posts/同人文/全世界空洞骑士水平下降/20/",
+    "views": 1
+  },
+  {
+    "path": "/posts/同人文/全世界空洞骑士水平下降/3/",
+    "views": 1
+  },
+  {
+    "path": "/posts/同人文/全世界空洞骑士水平下降/4/",
+    "views": 1
+  },
+  {
+    "path": "/posts/同人文/全世界空洞骑士水平下降/5/",
+    "views": 1
+  },
+  {
+    "path": "/posts/同人文/全世界空洞骑士水平下降/6/",
+    "views": 1
+  },
+  {
+    "path": "/posts/同人文/全世界空洞骑士水平下降/7/",
+    "views": 1
+  },
+  {
+    "path": "/posts/同人文/全世界空洞骑士水平下降/8/",
+    "views": 1
+  },
+  {
+    "path": "/posts/同人文/全世界空洞骑士水平下降/9/",
+    "views": 1
+  },
+  {
+    "path": "/posts/同人文/心之轨迹/旅行见闻",
+    "views": 1
+  },
+  {
+    "path": "/posts/同人文/心之轨迹/旅行见闻/第三节--阿罗拉的繁忙假日风情小吃和冰果的兼职冒险/",
+    "views": 1
+  },
+  {
+    "path": "/posts/同人文/心之轨迹/旅行见闻/第五节--乌拉乌拉岛和拉纳拉基山脉/",
+    "views": 1
+  },
+  {
+    "path": "/posts/同人文/心之轨迹/糖果的四季/夏之章/繁花与羽翼的约定1/",
+    "views": 1
+  },
+  {
+    "path": "/posts/同人文/心之轨迹/糖果的四季/秋之章/雷伊布和他的睡前故事/",
+    "views": 1
+  },
+  {
+    "path": "/posts/如星空般深蓝/十一蓝与败堕合约/",
+    "views": 1
+  },
+  {
+    "path": "/posts/如星空般深蓝/零七蓝与飞夷笛矣/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/c/for循环的应用/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/c/for循环的应用/#基本格式",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/c/sizeof使用/#原理说明",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/c/sqrt函数/#注意事项",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/c/stringh说明/#strchr-函数",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/c/typedef的用法/#基本用法",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/c/一些函数/#返回值",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/c/动态内存分配以及free函数的使用/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/c/动态内存分配以及free函数的使用/#地址发生变化后不能对原地址free",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/c/数据的类型转换/#强制类型转换",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/c/数组以一维数组为例/#函数与数组",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/c/数组以一维数组为例/#获取数组长度",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/c/数组多维数组/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/c/数组多维数组/#初始化",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/c/数组的集成初始化/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/c/条件运算和逗号运算/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/c/结构与函数/#完整示例",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/c/逃逸字符/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/c/逃逸字符/#常用逃逸字符",
     "views": 1
   },
   {
@@ -360,11 +1348,27 @@
     "views": 1
   },
   {
-    "path": "/posts/学习笔记/css/css的基本语法/",
+    "path": "/posts/学习笔记/css/css的基本语法/#基本结构",
     "views": 1
   },
   {
-    "path": "/posts/学习笔记/css/css的常用选择器/#多-class-值",
+    "path": "/posts/学习笔记/css/css的常用选择器/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/css/css的常用选择器/#为什么要用类选择器",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/css/css编写位置/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/css/复合选择器/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/css/最初的文档/",
     "views": 1
   },
   {
@@ -372,7 +1376,323 @@
     "views": 1
   },
   {
+    "path": "/posts/学习笔记/english/day1/#今日单词",
+    "views": 1
+  },
+  {
     "path": "/posts/学习笔记/english/day2/#后记",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/english/day2/#核心法则11--2-法则",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/english/day3/#来自听力原文的生词短语",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/english/day5/#后记",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/english/day7/#前言",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/english/day8/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/english/day9/#前言",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/html/html-week-1-学习笔记整理/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/html/html-week-1-学习笔记整理/#长度单位",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/html/html-week-2学习笔记整理/#列表标签特点",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/html/html-week-2学习笔记整理/#表格结构",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/html/html-week-3学习笔记整理/#网页布局",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/html/html-week-3学习笔记整理/#表单属性汇总",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/html/html-week-5学习笔记整理/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/html/html5学习笔记编码/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/html/html5学习笔记编码/#乱码",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/html/html5学习笔记页面图片视频音频/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/html/html5学习笔记页面图片视频音频/#基本写法-2",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/html/html5学习笔记页面图片视频音频/#视频标签",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/html/散装知识点html标签/#属性写法",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/html/散装知识点vs-code-默认html快捷键/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/javascript/javascript-day1/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/信息技术教学论/总复习/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/其他/a等有信息搜索的理论及应用研究/#总结与展望",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/其他/从中国百年文学演变中看现代性和传统性的矛盾冲突演化和融合/#新小说的历史意义",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/其他/从中国百年文学演变中看现代性和传统性的矛盾冲突演化和融合/#新诗的语言革新",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/其他/教育心理学名解简答论述/#四完善人格培养健康的自我意识",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/其他/教育心理学期末考试题目汇编/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/其他/教育心理学期末考试题目汇编/#三简答题-2",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/其他/教育心理学期末考试题目汇编/#四论述题-1",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/实验室安全实践/1-3章复习/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/实验室安全实践/1-3章复习/#电器灭火选择",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/实验室安全实践/4-6章复习/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/实验室安全实践/4-6章复习/#误食有毒化学品",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/操作系统/1-4章复习资料/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/操作系统/复习题组/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/操作系统/复习题组/#11-简述抖动产生的原因",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/操作系统/复习题组/#12-简述中断处理程序的处理过程",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/操作系统/操作系统引论/#处理机管理功能",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/操作系统/机制受限直接执行/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/操作系统/虚拟储存器/#虚拟性",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/操作系统/进程调度/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/操作系统/进程调度/#工作负载假设",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/数据库/sql语言/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/数据库/范式判断/#判断过程",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/数据库/选填复习/#安全控制方式",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/数据库/选填复习/#授权语句",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/物理/day1/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/算法期末笔记/递归和分治策略/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/算法期末笔记/重点-01背包问题/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/线性代数/线性代数期中复习/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/线性代数/线性代数期中复习/#矩阵的秩",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/线性代数/线性代数框框课程/#行列式",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/计算机网络/传输层/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/计算机网络/传输层/#详细过程",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/计算机网络/应用层/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/计算机网络/期末试卷2的复习/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/计算机网络/期末试卷3的复习/#填空题",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/计算机网络/期末试卷3的复习/#综合题",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/计算机网络/期末试卷4的复习/#流量控制层",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/计算机网络/期末试卷4的复习/#网络设备层次",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/计算机网络/物理层/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/计算机网络/综合总复习/",
+    "views": 1
+  },
+  {
+    "path": "/posts/学习笔记/高等数学/高阶无穷小与柯西中值定理/#定理内容",
+    "views": 1
+  },
+  {
+    "path": "/posts/实习日志/scrino-1/",
+    "views": 1
+  },
+  {
+    "path": "/posts/心之轨迹/旅行见闻/第一节--毕业然后捡到小不点/",
+    "views": 1
+  },
+  {
+    "path": "/posts/心之轨迹/旅行见闻/第三节--阿罗拉的繁忙假日风情小吃和冰果的兼职冒险/",
+    "views": 1
+  },
+  {
+    "path": "/posts/心之轨迹/旅行见闻/第五节--乌拉乌拉岛和拉纳拉基山脉/",
+    "views": 1
+  },
+  {
+    "path": "/posts/心之轨迹/糖果的四季/春之章/沙漠蜻蜓的生日/",
+    "views": 1
+  },
+  {
+    "path": "/posts/技术文章/old/c面向对象入门什么是类它可以做什么它都包含些什么/",
+    "views": 1
+  },
+  {
+    "path": "/posts/技术文章/old/godot2d拖拽窗口时窗口异常闪现及无法正确释放问题的结局办法/",
+    "views": 1
+  },
+  {
+    "path": "/posts/技术文章/old/vs-code背景图片设置教程新版-background插件20版本设置电脑小白向教程/#2下载更新background插件",
+    "views": 1
+  },
+  {
+    "path": "/posts/技术文章/old/vs-code背景图片设置教程新版-background插件20版本设置电脑小白向教程/#4配置全屏背景的background的json文件",
+    "views": 1
+  },
+  {
+    "path": "/posts/技术文章/快捷键们背后的故事/#11-打孔卡终端机与命令输入",
+    "views": 1
+  },
+  {
+    "path": "/posts/技术文章/快捷键们背后的故事/#45-win-键背后的商业原理和系统主权",
+    "views": 1
+  },
+  {
+    "path": "/posts/技术文章/快捷键们背后的故事/#46-如果这些键去拍摄特摄片",
+    "views": 1
+  },
+  {
+    "path": "/posts/技术文章/快捷键们背后的故事/#81-手机时代杀死了快捷键",
+    "views": 1
+  },
+  {
+    "path": "/posts/技术文章/快捷键们背后的故事/#一在没有鼠标的时候",
+    "views": 1
+  },
+  {
+    "path": "/posts/技术文章/快捷键们背后的故事/#五windows-图形化界面对快捷键提出了新的要求",
     "views": 1
   }
 ]

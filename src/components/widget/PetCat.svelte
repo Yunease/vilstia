@@ -1,6 +1,6 @@
 <script lang="ts">
 import { BUBBLE_DURATION, BUBBLE_MAX_WIDTH, PET_SIZE } from "@constants/pet";
-import petMessagesData from "@/data/pet-messages.json";
+import petMessagesData from "../../data/pet-messages.json";
 import Icon from "@iconify/svelte";
 import type { PetMessages } from "@/types/pet";
 

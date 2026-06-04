@@ -4,6 +4,7 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 
 import ConfigCarrier from "@components/ConfigCarrier.astro";
+import PetCat from "@components/widget/PetCat.svelte";
 import { profileConfig, siteConfig } from "@/config";
 import petMessages from "@/data/pet-messages.json";
 import {
@@ -166,104 +167,7 @@ const bannerOffset =
 		<ConfigCarrier></ConfigCarrier>
 		<slot />
 
-		<div
-			id="pet-cat"
-			class="hidden md:block fixed bottom-4 z-40 select-none transition-all duration-300 ease-out"
-			style="right: 1rem;"
-		>
-			<div class="relative flex flex-col items-end">
-				<div
-					id="pet-cat-bubble"
-					class="mb-2 px-3 py-2 rounded-xl text-sm leading-snug break-words card-base shadow-lg"
-					style="max-width:200px;display:none"
-				></div>
-				<div class="relative group">
-					<button
-						id="pet-cat-img-btn"
-						class="block cursor-pointer focus:outline-none active:scale-95 transition-transform"
-						aria-label="像素小猫"
-					>
-						<img
-							src="/images/pet/idle.png"
-							alt="像素小猫"
-							width="172"
-							height="172"
-							style="image-rendering:pixelated;image-rendering:crisp-edges"
-							draggable="false"
-						/>
-					</button>
-					<button
-						id="pet-cat-close"
-						class="absolute -top-2 -right-2 w-6 h-6 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200 bg-[var(--card-bg)] border border-[var(--line-divider)] shadow-sm hover:bg-[var(--btn-regular-bg-hover)] active:scale-90 text-[var(--btn-content)]"
-						aria-label="隐藏小猫"
-					>
-						<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
-					</button>
-				</div>
-			</div>
-		</div>
-
-		<button
-			id="pet-cat-show"
-			class="hidden md:flex fixed bottom-4 z-40 w-10 h-10 rounded-full card-base shadow-lg items-center justify-center text-lg transition-all duration-300 ease-out opacity-0 scale-90 pointer-events-none"
-			style="right: 1rem;"
-			aria-label="显示小猫"
-		>
-			🐱
-		</button>
-
-		<script type="application/json" id="pet-messages-data">{JSON.stringify(petMessages)}</script>
-
-		<script is:inline>
-		(function() {
-			var data = JSON.parse(document.getElementById('pet-messages-data').textContent);
-			var messages = data.messages;
-			var BUBBLE_DURATION = 4000;
-			var visible = true;
-			var bubbleTimeout = null;
-			var petCat = document.getElementById('pet-cat');
-			var petCatShow = document.getElementById('pet-cat-show');
-			var petCatBubble = document.getElementById('pet-cat-bubble');
-			var closeBtn = document.getElementById('pet-cat-close');
-
-			if (!petCat || !petCatShow || !petCatBubble) return;
-
-			function getRandomMessage() {
-				return messages[Math.floor(Math.random() * messages.length)];
-			}
-
-			function showCat() {
-				visible = true;
-				petCat.classList.remove('opacity-0','scale-90','pointer-events-none');
-				petCatShow.classList.add('opacity-0','scale-90','pointer-events-none');
-			}
-
-			function hideCat() {
-				visible = false;
-				petCat.classList.add('opacity-0','scale-90','pointer-events-none');
-				petCatShow.classList.remove('opacity-0','scale-90','pointer-events-none');
-			}
-
-			var imgBtn = document.getElementById('pet-cat-img-btn');
-			if (imgBtn) {
-				imgBtn.addEventListener('dblclick', function() {
-					if (!visible) return;
-					if (bubbleTimeout) clearTimeout(bubbleTimeout);
-					petCatBubble.textContent = getRandomMessage();
-					petCatBubble.style.display = 'block';
-					petCatBubble.classList.remove('animate-pet-fade-in');
-					void petCatBubble.offsetWidth;
-					petCatBubble.classList.add('animate-pet-fade-in');
-					bubbleTimeout = setTimeout(function() {
-						petCatBubble.style.display = 'none';
-					}, BUBBLE_DURATION);
-				});
-			}
-
-			if (closeBtn) closeBtn.addEventListener('click', hideCat);
-			if (petCatShow) petCatShow.addEventListener('click', showCat);
-		})();
-		</script>
+		<PetCat messages={petMessages} client:load />
 
 		<!-- increase the page height during page transition to prevent the scrolling animation from jumping -->
 		<div id="page-height-extend" class="hidden h-[300vh]"></div>
@@ -302,13 +206,6 @@ const bannerOffset =
 	.navbar-hidden {
 		@apply opacity-0 -translate-y-16
 	}
-}
-@keyframes pet-fade-in {
-	from { opacity: 0; transform: translateY(4px) scale(0.9); }
-	to   { opacity: 1; transform: translateY(0) scale(1); }
-}
-.animate-pet-fade-in {
-	animation: pet-fade-in 0.25s ease-out forwards;
 }
 </style>
 

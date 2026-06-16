@@ -21,10 +21,8 @@ def merge_all_md_recursive():
                     continue
 
                 # 加上文件路径作为标题
-                rel_path = os.path.relpath(md_path, current_dir)
-                all_content.append(f"\n# ====== {rel_path} ======\n")
                 all_content.append(content)
-                all_content.append("\n\n")
+                all_content.append("\n")
 
     # 写入合并结果
     with open(output_file, "w", encoding="utf-8") as f:

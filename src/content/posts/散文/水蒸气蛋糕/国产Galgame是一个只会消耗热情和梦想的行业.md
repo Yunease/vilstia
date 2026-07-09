@@ -3,7 +3,7 @@ title: 国产Galgame是一个只会消耗热情和梦想的行业
 tags: [随笔, 游戏开发]
 category: '散文'
 collection: '水蒸气蛋糕'
-published: 2024-10-10T08:32:01
+published: 2026-07-09T22:32:01
 ---
 
 > 要是，以后也能进入游戏行业，哪怕只是打打杂也好呀

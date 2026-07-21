@@ -62,7 +62,10 @@
       "Bash(git stash *)",
       "Bash(npx astro *)",
       "WebFetch(domain:cdn.jsdelivr.net)",
-      "Bash(awk -F'\"' '{print $4}')"
+      "Bash(awk -F'\"' '{print $4}')",
+      "Bash(python3 -c ' *)",
+      "Bash(echo \"Exit: $?\")",
+      "Bash(del /q D:\\\\Astro\\\\Virstia\\\\tmp_issues.json)"
     ]
   }
 }

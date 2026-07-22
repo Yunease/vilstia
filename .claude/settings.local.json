@@ -65,7 +65,13 @@
       "Bash(awk -F'\"' '{print $4}')",
       "Bash(python3 -c ' *)",
       "Bash(echo \"Exit: $?\")",
-      "Bash(del /q D:\\\\Astro\\\\Virstia\\\\tmp_issues.json)"
+      "Bash(del /q D:\\\\Astro\\\\Virstia\\\\tmp_issues.json)",
+      "WebFetch(domain:analytics.hxcn.dev)",
+      "Bash(npx playwright *)",
+      "Bash(npm ls *)",
+      "Bash(npm install *)",
+      "Bash(python3 *)",
+      "Bash(where python3 *)"
     ]
   }
 }

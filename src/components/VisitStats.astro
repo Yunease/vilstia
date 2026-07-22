@@ -7,9 +7,9 @@ interface Props {
 }
 const className = Astro.props.class;
 
-// 格式化数字（12345 → 1.2万）
+// 格式化数字（12345 → 1.23万）
 const formatNumber = (num: number) => {
-	if (num >= 10000) return `${(num / 10000).toFixed(1)}万`;
+	if (num >= 10000) return `${(num / 10000).toFixed(2)}万`;
 	return num.toLocaleString();
 };
 

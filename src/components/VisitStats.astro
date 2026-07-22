@@ -1,52 +1,20 @@
 ---
 import { Icon } from "astro-icon/components";
-import { Stime } from "@/config";
+import statsData from "../../public/umami-stats.json";
 
 interface Props {
 	class?: string;
 }
 const className = Astro.props.class;
 
-// === Umami 访问统计 (通过 Share Token 公开访问，无需账号密码) ===
-const UMAMI_BASE = "https://analytics.hxcn.dev";
-const SHARE_SLUG = "p8xz7fJixSOSxkNy";
-
-// 建站时间作为统计起始日期
-const buildTime = new Date(Stime.buildTime + " UTC+8").getTime();
-const now = Date.now();
-
-async function fetchUmamiStats() {
-	try {
-		// 1. 通过 share slug 获取 websiteId + token
-		const shareRes = await fetch(`${UMAMI_BASE}/api/share/${SHARE_SLUG}`);
-		if (!shareRes.ok) throw new Error(`Share API failed: ${shareRes.status}`);
-		const { websiteId, token } = await shareRes.json();
-
-		// 2. 用 token 获取建站至今的汇总统计
-		const statsRes = await fetch(
-			`${UMAMI_BASE}/api/websites/${websiteId}/stats?startAt=${buildTime}&endAt=${now}`,
-			{ headers: { Authorization: `Bearer ${token}` } },
-		);
-		if (!statsRes.ok) throw new Error(`Stats API failed: ${statsRes.status}`);
-		const stats = await statsRes.json();
-
-		return {
-			pageviews: stats.pageviews ?? 0,
-			visitors: stats.visitors ?? 0,
-		};
-	} catch (e) {
-		console.error("[VisitStats] Failed to fetch Umami stats:", e);
-		return { pageviews: 0, visitors: 0 };
-	}
-}
-
-const stats = await fetchUmamiStats();
-
 // 格式化数字（12345 → 1.2万）
 const formatNumber = (num: number) => {
 	if (num >= 10000) return `${(num / 10000).toFixed(1)}万`;
 	return num.toLocaleString();
 };
+
+const pageviews = statsData.pageviews ?? 0;
+const visitors = statsData.visitors ?? 0;
 ---
 
 <a href="/rank/" class:list={[className, "block card-base p-5 rounded-lg onload-animation hover-card"]} style="animation-delay: 325ms">
@@ -58,12 +26,12 @@ const formatNumber = (num: number) => {
 		<div class="flex-1 flex flex-col items-center justify-center p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
 			<Icon name="material-symbols:eye-tracking" class="text-[var(--primary)] text-xl mb-1" />
 			<span class="text-xs text-neutral-700 dark:text-neutral-300">总浏览</span>
-			<span class="text-lg font-bold text-[var(--primary)]">{formatNumber(stats.pageviews)}</span>
+			<span class="text-lg font-bold text-[var(--primary)]">{formatNumber(pageviews)}</span>
 		</div>
 		<div class="flex-1 flex flex-col items-center justify-center p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
 			<Icon name="material-symbols:group" class="text-[var(--primary)] text-xl mb-1" />
 			<span class="text-xs text-neutral-700 dark:text-neutral-300">总访客</span>
-			<span class="text-lg font-bold text-[var(--primary)]">{formatNumber(stats.visitors)}</span>
+			<span class="text-lg font-bold text-[var(--primary)]">{formatNumber(visitors)}</span>
 		</div>
 	</div>
 </a>

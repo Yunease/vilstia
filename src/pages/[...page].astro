@@ -35,6 +35,8 @@ const heatmapData = getPostActivityData(allPostsRaw);
 const serializedYears = heatmapData.years.map((y) => ({
 	year: y.year,
 	count: y.count,
+	articleCount: y.articleCount,
+	rantCount: y.rantCount,
 	data: Object.fromEntries(y.activityMap),
 }));
 const isFirstPage = page.currentPage === 1;

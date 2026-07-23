@@ -148,6 +148,8 @@ export type YearActivity = {
 	activityMap: Map<string, number>;
 	/** Total posts in this year */
 	count: number;
+	articleCount: number;
+	rantCount: number;
 };
 
 export type PostActivityData = {
@@ -201,7 +203,21 @@ export function getPostActivityData(
 	for (const [year, activityMap] of yearMap) {
 		let yearCount = 0;
 		for (const c of activityMap.values()) yearCount += c;
-		years.push({ year, activityMap, count: yearCount });
+		years.push({ year, activityMap, count: yearCount, articleCount: 0, rantCount: 0 });
+	}
+
+	// Classify posts as article (normal) vs rant (tagged "mess")
+	for (const post of posts) {
+		const d = new Date(post.data.published);
+		if (d.getFullYear() < 2000) continue;
+		const year = d.getFullYear();
+		const yr = years.find((y) => y.year === year);
+		if (!yr) continue;
+		if (post.data.tags.includes("mess")) {
+			yr.rantCount++;
+		} else {
+			yr.articleCount++;
+		}
 	}
 	years.sort((a, b) => a.year - b.year);
 

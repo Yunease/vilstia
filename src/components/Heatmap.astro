@@ -53,6 +53,8 @@ interface Mlabel {
 interface YearBlock {
 	year: number;
 	count: number;
+	articleCount: number;
+	rantCount: number;
 	w: number;
 	h: number;
 	cells: Cell[];
@@ -60,7 +62,7 @@ interface YearBlock {
 }
 
 const blocks: YearBlock[] = years.map((yr) => {
-	const { year, activityMap, count } = yr;
+	const { year, activityMap, count, articleCount, rantCount } = yr;
 	const ystart = new Date(year, 0, 1);
 	const yend = year === endDate.getFullYear() ? endDate : new Date(year, 11, 31);
 
@@ -103,7 +105,7 @@ const blocks: YearBlock[] = years.map((yr) => {
 
 	const w = nWeeks * STEP + PL + PR;
 	const h = 7 * STEP + PT + PB;
-	return { year, count, w, h, cells, mlabels };
+	return { year, count, articleCount, rantCount, w, h, cells, mlabels };
 });
 
 // ── Day labels (reused for all years) ───────────────────────────
@@ -127,7 +129,7 @@ const dlabels = DAYS.map((l, i) =>
 				<!-- Year header -->
 				<div class="flex items-baseline gap-2 mb-1.5">
 					<span class="font-bold text-sm text-[var(--primary)]">{blk.year}</span>
-					<span class="text-30 text-xs">{blk.count} 篇</span>
+					<span class="text-30 text-xs">{blk.articleCount} 篇文章{blk.rantCount ? '· ' : ''}{blk.rantCount ? <strong class="text-75">{blk.rantCount}</strong> : ''}{blk.rantCount ? ' 条动态' : ''}</span>
 				</div>
 
 				<!-- SVG grid for this year -->

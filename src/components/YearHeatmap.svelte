@@ -6,6 +6,8 @@
 	interface YearData {
 		year: number;
 		count: number;
+		articleCount: number;
+		rantCount: number;
 		data: Record<string, number>;
 	}
 
@@ -185,7 +187,8 @@
 		</a>
 		<span class="text-30 text-sm">·</span>
 		<span class="text-50 text-sm">
-			{selectedYear} 年 <strong class="text-75">{yearData?.count ?? 0}</strong> 篇
+			{selectedYear} 年 <strong class="text-75">{yearData?.articleCount ?? 0}</strong> 篇文章
+				{#if yearData?.rantCount}· <strong class="text-75">{yearData.rantCount}</strong> 条动态{/if}
 		</span>
 		<span class="ml-auto flex items-center gap-1 text-30 text-xs">
 			<span>少</span>

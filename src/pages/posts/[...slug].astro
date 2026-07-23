@@ -155,36 +155,28 @@ const jsonLd = {
 </MainGridLayout>
 
 <script>
-  // 通过 Umami Share Token 获取当前页面的历史总 PV
+  // 通过 Umami Share API 获取当前页面的历史总 PV（公开接口，无需认证）
   (async () => {
     const UMAMI_BASE = 'https://analytics.hxcn.dev';
     const SHARE_SLUG = 'p8xz7fJixSOSxkNy';
     const pagePath = window.location.pathname.replace(/\/$/, '') || '/';
 
     try {
-      // 1. 获取 share token
-      const shareRes = await fetch(`${UMAMI_BASE}/api/share/${SHARE_SLUG}`);
-      if (!shareRes.ok) return;
-      const { websiteId, token } = await shareRes.json();
-
-      // 2. 获取网站起始日期
-      const rangeRes = await fetch(`${UMAMI_BASE}/api/websites/${websiteId}/daterange`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      // 1. 获取网站起始日期（share API，无需 token）
+      const rangeRes = await fetch(`${UMAMI_BASE}/api/share/${SHARE_SLUG}/daterange`);
       if (!rangeRes.ok) return;
       const { startDate } = await rangeRes.json();
       const startAt = new Date(startDate).getTime();
       const endAt = Date.now();
 
-      // 3. 查询该路径的 metrics
+      // 2. 查询该路径的 metrics（share API，无需 token）
       const metricsRes = await fetch(
-        `${UMAMI_BASE}/api/websites/${websiteId}/metrics?startAt=${startAt}&endAt=${endAt}&type=path&limit=2000`,
-        { headers: { Authorization: `Bearer ${token}` } },
+        `${UMAMI_BASE}/api/share/${SHARE_SLUG}/metrics?startAt=${startAt}&endAt=${endAt}&type=path&limit=2000`,
       );
       if (!metricsRes.ok) return;
       const metrics = await metricsRes.json();
 
-      // 4. 匹配当前路径
+      // 3. 匹配当前路径
       const match = metrics.find(
         (m: { x: string; y: number }) => m.x === pagePath || m.x === pagePath + '/',
       );

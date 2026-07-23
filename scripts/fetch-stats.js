@@ -1,34 +1,22 @@
 import { writeFileSync } from 'node:fs';
 
 const UMAMI_BASE = 'https://analytics.hxcn.dev';
-const UMAMI_USER = 'yunease';
-const UMAMI_PASS = '12345678';
+const SHARE_SLUG = 'p8xz7fJixSOSxkNy';
 const OUTPUT_PATH = 'public/umami-stats.json';
 
 async function fetchStats() {
 	console.log('Fetching site stats from Umami...');
 
-	// 1. Login to get user token
-	const loginRes = await fetch(`${UMAMI_BASE}/api/auth/login`, {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({ username: UMAMI_USER, password: UMAMI_PASS }),
-	});
-	if (!loginRes.ok) throw new Error(`Login failed: ${loginRes.status}`);
-	const { token } = await loginRes.json();
-
-	// 2. Get websiteId from share slug
-	const shareRes = await fetch(`${UMAMI_BASE}/api/share/p8xz7fJixSOSxkNy`);
-	if (!shareRes.ok) throw new Error(`Share API failed: ${shareRes.status}`);
-	const { websiteId } = await shareRes.json();
-
-	// 3. Get all-time stats (use 90-day window for "recent" feel, or site build time for all-time)
+	// 1. 获取网站起始日期（share API，无需认证）
+	const rangeRes = await fetch(`${UMAMI_BASE}/api/share/${SHARE_SLUG}/daterange`);
+	if (!rangeRes.ok) throw new Error(`Daterange API failed: ${rangeRes.status}`);
+	const { startDate } = await rangeRes.json();
 	const endAt = Date.now();
-	const startAt = endAt - 90 * 24 * 60 * 60 * 1000; // last 90 days
+	const startAt = new Date(startDate).getTime();
 
+	// 2. 获取全量统计（share API，无需认证）
 	const statsRes = await fetch(
-		`${UMAMI_BASE}/api/websites/${websiteId}/stats?startAt=${startAt}&endAt=${endAt}`,
-		{ headers: { Authorization: `Bearer ${token}` } },
+		`${UMAMI_BASE}/api/share/${SHARE_SLUG}/stats?startAt=${startAt}&endAt=${endAt}`,
 	);
 	if (!statsRes.ok) throw new Error(`Stats API failed: ${statsRes.status}`);
 	const stats = await statsRes.json();

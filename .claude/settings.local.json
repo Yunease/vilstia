@@ -71,7 +71,9 @@
       "Bash(npm ls *)",
       "Bash(npm install *)",
       "Bash(python3 *)",
-      "Bash(where python3 *)"
+      "Bash(where python3 *)",
+      "Bash(git checkout *)",
+      "Bash(git remote *)"
     ]
   }
 }

@@ -1,5 +1,6 @@
 ---
 import path from "node:path";
+import { readFileSync } from "node:fs";
 import CollectionNav from "@components/CollectionNav.astro";
 import License from "@components/misc/License.astro";
 import Markdown from "@components/misc/Markdown.astro";
@@ -16,6 +17,24 @@ import ImageWrapper from "../../components/misc/ImageWrapper.astro";
 import PostMetadata from "../../components/PostMeta.astro";
 import { profileConfig, siteConfig } from "../../config";
 import { formatDateToYYYYMMDD } from "../../utils/date-utils";
+
+// 读取构建时预取的页面 PV 数据
+let pageViews: number | null = null;
+try {
+	const statsPath = new URL("../../../public/umami-stats.json", import.meta.url);
+	const statsData = JSON.parse(readFileSync(statsPath, "utf-8"));
+	if (statsData.paths) {
+		const urlPath = getPostUrlBySlug(entry.slug);
+		const match = statsData.paths.find((p: { path: string; views: number }) => {
+			const a = p.path.replace(/\/$/, "");
+			const b = urlPath.replace(/\/$/, "");
+			return a === b;
+		});
+		pageViews = match?.views ?? null;
+	}
+} catch {
+	// dev 模式下可能没有该文件，静默忽略
+}
 
 export async function getStaticPaths() {
 	const blogEntries = await getSortedPosts();
@@ -77,7 +96,7 @@ const jsonLd = {
                     <div class="transition h-6 w-6 rounded-md bg-black/5 dark:bg-white/10 text-black/50 dark:text-white/50 flex items-center justify-center mr-2">
                         <Icon name="material-symbols:visibility"></Icon>
                     </div>
-                    <span id="umami-page-pv" class="text-sm">--</span>
+                    <span class="text-sm">{pageViews !== null ? `${pageViews} 次浏览` : "--"}</span>
                 </div>
             </div>
 
@@ -154,39 +173,3 @@ const jsonLd = {
 
 </MainGridLayout>
 
-<script>
-  // 通过 Umami Share API 获取当前页面的历史总 PV（公开接口，无需认证）
-  (async () => {
-    const UMAMI_BASE = 'https://analytics.hxcn.dev';
-    const SHARE_SLUG = 'p8xz7fJixSOSxkNy';
-    const pagePath = window.location.pathname.replace(/\/$/, '') || '/';
-
-    try {
-      // 1. 获取网站起始日期（share API，无需 token）
-      const rangeRes = await fetch(`${UMAMI_BASE}/api/share/${SHARE_SLUG}/daterange`);
-      if (!rangeRes.ok) return;
-      const { startDate } = await rangeRes.json();
-      const startAt = new Date(startDate).getTime();
-      const endAt = Date.now();
-
-      // 2. 查询该路径的 metrics（share API，无需 token）
-      const metricsRes = await fetch(
-        `${UMAMI_BASE}/api/share/${SHARE_SLUG}/metrics?startAt=${startAt}&endAt=${endAt}&type=path&limit=2000`,
-      );
-      if (!metricsRes.ok) return;
-      const metrics = await metricsRes.json();
-
-      // 3. 匹配当前路径
-      const match = metrics.find(
-        (m: { x: string; y: number }) => m.x === pagePath || m.x === pagePath + '/',
-      );
-
-      const el = document.getElementById('umami-page-pv');
-      if (el) {
-        el.textContent = `${match?.y ?? 0} 次浏览`;
-      }
-    } catch (e) {
-      console.error('[Umami Page PV] Failed:', e);
-    }
-  })();
-</script>

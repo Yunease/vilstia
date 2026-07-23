@@ -1,0 +1,177 @@
+---
+import type { PostActivityData } from "../utils/content-utils";
+
+interface Props {
+	data: PostActivityData;
+}
+
+const { data } = Astro.props;
+const { years, totalCount, currentYearCount, endDate } = data;
+
+// ── Layout constants ────────────────────────────────────────────
+const CELL = 11;
+const GAP = 3;
+const STEP = CELL + GAP;
+const R = 2; // corner rounding
+const PL = 34;
+const PR = 8;
+const PT = 22;
+const PB = 0;
+const DAYS = ["", "Mon", "", "Wed", "", "Fri", ""];
+
+// ── Helpers ─────────────────────────────────────────────────────
+function fmt(d: Date): string {
+	return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+function op(n: number): string {
+	if (n === 0) return "0.05";
+	if (n === 1) return "0.4";
+	if (n === 2) return "0.6";
+	if (n === 3) return "0.8";
+	return "1";
+}
+function mon(d: Date): Date {
+	const r = new Date(d);
+	r.setHours(0, 0, 0, 0);
+	r.setDate(r.getDate() - (((r.getDay() + 6) % 7)));
+	return r;
+}
+function sun(d: Date): Date {
+	const r = new Date(d);
+	r.setHours(0, 0, 0, 0);
+	r.setDate(r.getDate() + (7 - ((r.getDay() + 6) % 7 + 1)));
+	return r;
+}
+
+// ── Build per-year grids ────────────────────────────────────────
+interface Cell {
+	x: number; y: number; op: string; tip: string;
+}
+interface Mlabel {
+	x: number; label: string;
+}
+interface YearBlock {
+	year: number;
+	count: number;
+	w: number;
+	h: number;
+	cells: Cell[];
+	mlabels: Mlabel[];
+}
+
+const blocks: YearBlock[] = years.map((yr) => {
+	const { year, activityMap, count } = yr;
+	const ystart = new Date(year, 0, 1);
+	const yend = year === endDate.getFullYear() ? endDate : new Date(year, 11, 31);
+
+	const gs = mon(ystart);
+	const ge = sun(yend);
+	const nWeeks = Math.max(1, Math.ceil((ge.getTime() - gs.getTime()) / (7 * 86400000)));
+
+	// Month labels
+	const mlabels: Mlabel[] = [];
+	const seen = new Set<number>();
+	for (let w = 0; w < nWeeks; w++) {
+		const d = new Date(gs);
+		d.setDate(d.getDate() + w * 7 + 3);
+		if (w === 0 || d.getMonth() !== new Date(gs.getTime() + (w - 1) * 7 * 86400000 + 3 * 86400000).getMonth()) {
+			const x = w * STEP + PL;
+			const b = Math.round(x / 5) * 5;
+			if (seen.has(b)) continue;
+			seen.add(b);
+			mlabels.push({ x, label: `${d.getMonth() + 1}月` });
+		}
+	}
+
+	// Cells
+	const cells: Cell[] = [];
+	for (let w = 0; w < nWeeks; w++) {
+		for (let d = 0; d < 7; d++) {
+			const cd = new Date(gs);
+			cd.setDate(cd.getDate() + w * 7 + d);
+			if (cd < ystart || cd > yend) continue;
+			const key = fmt(cd);
+			const n = activityMap.get(key) ?? 0;
+			cells.push({
+				x: w * STEP + PL,
+				y: d * STEP + PT,
+				op: op(n),
+				tip: n === 0 ? `无文章` : `${n} 篇 · ${key}`,
+			});
+		}
+	}
+
+	const w = nWeeks * STEP + PL + PR;
+	const h = 7 * STEP + PT + PB;
+	return { year, count, w, h, cells, mlabels };
+});
+
+// ── Day labels (reused for all years) ───────────────────────────
+const dlabels = DAYS.map((l, i) =>
+	l ? { x: PL - 6, y: i * STEP + PT + CELL / 2, label: l } : null,
+).filter(Boolean);
+---
+
+<div
+	class="card-base rounded-[var(--radius-large)] p-4 md:p-5 mb-4 onload-animation"
+	style="overflow-x: auto; animation-delay: 25ms"
+>
+	<h3 class="font-bold text-lg mb-4 flex items-center text-[var(--primary)] gap-2">
+		<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+		创作热力图
+	</h3>
+
+	<div class="flex flex-col gap-5">
+		{blocks.map((blk) => (
+			<div class="flex flex-col">
+				<!-- Year header -->
+				<div class="flex items-baseline gap-2 mb-1.5">
+					<span class="font-bold text-sm text-[var(--primary)]">{blk.year}</span>
+					<span class="text-30 text-xs">{blk.count} 篇</span>
+				</div>
+
+				<!-- SVG grid for this year -->
+				<svg width={blk.w} height={blk.h} style="display: block; max-width: 100%; height: auto; min-width: 620px">
+					<!-- Month labels -->
+					{blk.mlabels.map((ml) => (
+						<text x={ml.x} y={PT - 7} font-size="9" style="fill: var(--primary); fill-opacity: 0.5">{ml.label}</text>
+					))}
+
+					<!-- Day labels -->
+					{dlabels.map((dl: any) => (
+						<text x={dl.x} y={dl.y} font-size="9" style="fill: var(--primary); fill-opacity: 0.35" text-anchor="end" dominant-baseline="central">{dl.label}</text>
+					))}
+
+					<!-- Cells -->
+					{blk.cells.map((c) => (
+						<rect x={c.x} y={c.y} width={CELL} height={CELL} rx={R} style="fill: var(--primary)" opacity={c.op}>
+							<title>{c.tip}</title>
+						</rect>
+					))}
+				</svg>
+			</div>
+		))}
+	</div>
+
+	<!-- Footer stats -->
+	<div class="flex flex-wrap items-center gap-x-4 gap-y-1 mt-4 pt-3 border-t border-dashed border-[var(--line-color)]">
+		<span class="text-50 text-sm">
+			累计 <strong class="text-75">{totalCount}</strong> 篇
+		</span>
+		<span class="text-30 text-sm">·</span>
+		<span class="text-50 text-sm">
+			{endDate.getFullYear()} 年 <strong class="text-75">{currentYearCount}</strong> 篇
+		</span>
+
+		<!-- Legend -->
+		<span class="ml-auto flex items-center gap-1 text-30 text-xs">
+			<span>少</span>
+			{[0, 1, 2, 3, 5].map((n) => (
+				<svg width="10" height="10" viewBox="0 0 10 10" style="display: inline-block; vertical-align: middle">
+					<rect width="10" height="10" rx="1.5" style="fill: var(--primary)" opacity={op(n >= 8 ? 99 : n)} />
+				</svg>
+			))}
+			<span>多</span>
+		</span>
+	</div>
+</div>

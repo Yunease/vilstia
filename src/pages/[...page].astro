@@ -1,11 +1,13 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
 import type { GetStaticPaths } from "astro";
+import YearHeatmap from "../components/YearHeatmap.svelte";
 import Pagination from "../components/control/Pagination.astro";
 import PostCard from "../components/PostCard.astro";
 import { PAGE_SIZE } from "../constants/constants";
 import MainGridLayout from "../layouts/MainGridLayout.astro";
-import { getSortedPosts } from "../utils/content-utils";
+import { getPostActivityData, getSortedPosts } from "../utils/content-utils";
 import { getPostUrlBySlug } from "../utils/url-utils";
 
 export const getStaticPaths = (async ({ paginate }) => {
@@ -24,11 +26,31 @@ const featuredPosts = allPosts.filter(
 	(entry: CollectionEntry<"posts">) =>
 		entry.data.tags && entry.data.tags.includes("精选"),
 );
+
+// Heatmap: all non-draft posts (including special tags)
+const allPostsRaw = await getCollection("posts", ({ data }) => {
+	return import.meta.env.PROD ? data.draft !== true : true;
+});
+const heatmapData = getPostActivityData(allPostsRaw);
+const serializedYears = heatmapData.years.map((y) => ({
+	year: y.year,
+	count: y.count,
+	data: Object.fromEntries(y.activityMap),
+}));
+const isFirstPage = page.currentPage === 1;
 ---
 
 <MainGridLayout isHome={true}>
     <!-- All posts view -->
     <div id="posts-all" class="transition flex flex-col rounded-[var(--radius-large)] bg-[var(--card-bg)] py-1 md:py-0 md:bg-transparent md:gap-4 mb-4">
+        {isFirstPage && (
+            <YearHeatmap
+                years={serializedYears}
+                totalCount={heatmapData.totalCount}
+                currentYearCount={heatmapData.currentYearCount}
+                client:load
+            />
+        )}
         {page.data.map((entry: CollectionEntry<"posts">, index: number) => (
             <PostCard
                     entry={entry}

@@ -140,6 +140,79 @@ export async function getCategoryList(): Promise<Category[]> {
 	return ret;
 }
 
+// ─── Heatmap data ───────────────────────────────────────────────
+
+export type YearActivity = {
+	year: number;
+	/** Map of "YYYY-MM-DD" → post count */
+	activityMap: Map<string, number>;
+	/** Total posts in this year */
+	count: number;
+};
+
+export type PostActivityData = {
+	/** Per-year data, sorted ascending */
+	years: YearActivity[];
+	/** Grand total */
+	totalCount: number;
+	/** Current year's post count */
+	currentYearCount: number;
+	/** Earliest valid post date */
+	startDate: Date;
+	/** End of data range (latest post date or today) */
+	endDate: Date;
+};
+
+/**
+ * Accept all posts (already fetched), iterate once, produce per-year heatmap data.
+ * Skips posts with implausible dates (year < 2000).
+ * O(n) — no extra file scans, no DB, no cache.
+ */
+export function getPostActivityData(
+	posts: CollectionEntry<"posts">[],
+): PostActivityData {
+	const yearMap = new Map<number, Map<string, number>>();
+	const now = new Date();
+	const currentYear = now.getFullYear();
+	let totalCount = 0;
+	let currentYearCount = 0;
+	let startDate: Date = now;
+	let endDate: Date = new Date(0);
+
+	for (const post of posts) {
+		const d = new Date(post.data.published);
+		// Skip implausible dates (e.g. 0001-01-01 placeholder)
+		if (d.getFullYear() < 2000) continue;
+
+		const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+		const year = d.getFullYear();
+
+		if (!yearMap.has(year)) yearMap.set(year, new Map());
+		const ym = yearMap.get(year)!;
+		ym.set(dateStr, (ym.get(dateStr) ?? 0) + 1);
+
+		totalCount++;
+		if (year === currentYear) currentYearCount++;
+		if (d < startDate) startDate = d;
+		if (d > endDate) endDate = d;
+	}
+
+	const years: YearActivity[] = [];
+	for (const [year, activityMap] of yearMap) {
+		let yearCount = 0;
+		for (const c of activityMap.values()) yearCount += c;
+		years.push({ year, activityMap, count: yearCount });
+	}
+	years.sort((a, b) => a.year - b.year);
+
+	const today = new Date();
+	if (endDate < today) endDate = today;
+
+	return { years, totalCount, currentYearCount, startDate, endDate };
+}
+
+// ─── Existing code below ────────────────────────────────────────
+
 export async function getCollectionList(): Promise<CollectionItem[]> {
 	const allBlogPosts = await getCollection<"posts">("posts", ({ data }) => {
 		return import.meta.env.PROD ? data.draft !== true : true;

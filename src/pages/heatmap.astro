@@ -1,0 +1,17 @@
+---
+import MainGridLayout from "../layouts/MainGridLayout.astro";
+import Heatmap from "../components/Heatmap.astro";
+import { getCollection } from "astro:content";
+import { getPostActivityData } from "../utils/content-utils";
+
+const allPosts = await getCollection("posts", ({ data }) => {
+	return import.meta.env.PROD ? data.draft !== true : true;
+});
+const heatmapData = getPostActivityData(allPosts);
+---
+
+<MainGridLayout title="创作热力图" description="博客创作历史全览">
+	<div class="transition flex flex-col gap-4">
+		<Heatmap data={heatmapData} />
+	</div>
+</MainGridLayout>

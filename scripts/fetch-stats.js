@@ -41,21 +41,12 @@ async function fetchStats() {
 	if (!statsRes.ok) throw new Error(`Stats API failed: ${statsRes.status}`);
 	const stats = await statsRes.json();
 
-	// 5. Get per-path metrics for article-level PV
-	const metricsRes = await fetch(
-		`${UMAMI_BASE}/api/websites/${websiteId}/metrics?startAt=${startAt}&endAt=${endAt}&type=path`,
-		{ headers: { Authorization: `Bearer ${token}` } },
-	);
-	if (!metricsRes.ok) throw new Error(`Metrics API failed: ${metricsRes.status}`);
-	const metrics = await metricsRes.json();
-
 	const result = {
 		pageviews: stats.pageviews ?? 0,
 		visitors: stats.visitors ?? 0,
 		visits: stats.visits ?? 0,
 		bounces: stats.bounces ?? 0,
 		totaltime: stats.totaltime ?? 0,
-		paths: metrics.map(m => ({ path: m.x, views: m.y })),
 		updatedAt: new Date().toISOString(),
 	};
 
@@ -63,7 +54,6 @@ async function fetchStats() {
 	console.log(`Site stats saved to ${OUTPUT_PATH}`);
 	console.log(`  Pageviews: ${result.pageviews}`);
 	console.log(`  Visitors:  ${result.visitors}`);
-	console.log(`  Paths:     ${result.paths.length}`);
 }
 
 fetchStats().catch(err => {

@@ -1,6 +1,5 @@
 ---
 import path from "node:path";
-import { readFileSync } from "node:fs";
 import CollectionNav from "@components/CollectionNav.astro";
 import License from "@components/misc/License.astro";
 import Markdown from "@components/misc/Markdown.astro";
@@ -17,24 +16,6 @@ import ImageWrapper from "../../components/misc/ImageWrapper.astro";
 import PostMetadata from "../../components/PostMeta.astro";
 import { profileConfig, siteConfig } from "../../config";
 import { formatDateToYYYYMMDD } from "../../utils/date-utils";
-
-// 读取构建时预取的页面 PV 数据
-let pageViews: number | null = null;
-try {
-	const statsPath = new URL("../../../public/umami-stats.json", import.meta.url);
-	const statsData = JSON.parse(readFileSync(statsPath, "utf-8"));
-	if (statsData.paths) {
-		const urlPath = getPostUrlBySlug(entry.slug);
-		const match = statsData.paths.find((p: { path: string; views: number }) => {
-			const a = p.path.replace(/\/$/, "");
-			const b = urlPath.replace(/\/$/, "");
-			return a === b;
-		});
-		pageViews = match?.views ?? null;
-	}
-} catch {
-	// dev 模式下可能没有该文件，静默忽略
-}
 
 export async function getStaticPaths() {
 	const blogEntries = await getSortedPosts();
@@ -96,7 +77,7 @@ const jsonLd = {
                     <div class="transition h-6 w-6 rounded-md bg-black/5 dark:bg-white/10 text-black/50 dark:text-white/50 flex items-center justify-center mr-2">
                         <Icon name="material-symbols:visibility"></Icon>
                     </div>
-                    <span class="text-sm">{pageViews !== null ? `${pageViews} 次浏览` : "--"}</span>
+                    <span id="vercount_value_page_pv" class="text-sm">--</span>
                 </div>
             </div>
 

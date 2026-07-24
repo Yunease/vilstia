@@ -4,6 +4,9 @@ import { getCollection } from "astro:content";
 import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
 import MainGridLayout from "../layouts/MainGridLayout.astro";
+import { siteConfig } from "../config";
+import { absUrl, resolvePersonId } from "../utils/seo-utils";
+import { url } from "../utils/url-utils";
 
 const aboutPosts = await getCollection("spec", ({ id }) =>
 	id.startsWith("about"),
@@ -48,9 +51,25 @@ function getSlug(id: string): string {
 	const slug = id.replace("about", "").replace(/^\//, "").replace(/\.md$/, "");
 	return slug || "default";
 }
+
+const personId = await resolvePersonId(Astro.site);
+const siteUrl = absUrl(Astro.site, "/");
+const aboutUrl = absUrl(Astro.site, url("/about/"));
+const collectionPageJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "CollectionPage",
+	"@id": `${aboutUrl}#collection`,
+	url: aboutUrl,
+	name: i18n(I18nKey.about),
+	description: i18n(I18nKey.about),
+	inLanguage: siteConfig.lang.replace("_", "-"),
+	isPartOf: { "@id": `${siteUrl}#website` },
+	about: { "@id": personId },
+};
 ---
 
 <MainGridLayout title={i18n(I18nKey.about)} description={i18n(I18nKey.about)}>
+	<script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(collectionPageJsonLd)}></script>
 	<div class="card-base z-10 px-0 relative w-full overflow-hidden">
 	<div class="about-wrapper">
 		{sectionOrder.map((section, si) => {

@@ -5,6 +5,9 @@ import Markdown from "@components/misc/Markdown.astro";
 import I18nKey from "../../i18n/i18nKey";
 import { i18n } from "../../i18n/translation";
 import MainGridLayout from "../../layouts/MainGridLayout.astro";
+import { siteConfig } from "../../config";
+import { absUrl, resolvePersonId } from "../../utils/seo-utils";
+import { url } from "../../utils/url-utils";
 
 export async function getStaticPaths() {
 	const aboutPosts = await getCollection("spec", ({ id }) =>
@@ -24,9 +27,36 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
+
+const slug =
+	post.id.replace("about", "").replace(/^\//, "").replace(/\.md$/, "") ||
+	"default";
+const pageUrl = absUrl(Astro.site, url(`/about/${slug}/`));
+const personId = await resolvePersonId(Astro.site);
+const siteUrl = absUrl(Astro.site, "/");
+
+const aboutPageJsonLd: any = {
+	"@context": "https://schema.org",
+	"@type": "AboutPage",
+	"@id": `${pageUrl}#webpage`,
+	url: pageUrl,
+	name: post.data.title,
+	description: post.data.description || i18n(I18nKey.about),
+	inLanguage: siteConfig.lang.replace("_", "-"),
+	isPartOf: { "@id": `${siteUrl}#website` },
+};
+if (post.data.tag === "me") {
+	aboutPageJsonLd.about = { "@id": personId };
+} else {
+	aboutPageJsonLd.about = {
+		"@type": "Thing",
+		name: post.data.title,
+	};
+}
 ---
 
 <MainGridLayout title={post.data.title} description={post.data.description || i18n(I18nKey.about)}>
+	<script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(aboutPageJsonLd)}></script>
     <div class="about-wrapper">
         <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
             <div class="card-base z-10 px-9 py-6 relative w-full ">

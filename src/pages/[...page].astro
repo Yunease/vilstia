@@ -7,7 +7,9 @@ import Pagination from "../components/control/Pagination.astro";
 import PostCard from "../components/PostCard.astro";
 import { PAGE_SIZE } from "../constants/constants";
 import MainGridLayout from "../layouts/MainGridLayout.astro";
+import { siteConfig } from "../config";
 import { getPostActivityData, getSortedPosts } from "../utils/content-utils";
+import { absUrl, resolvePersonId } from "../utils/seo-utils";
 import { getPostUrlBySlug } from "../utils/url-utils";
 
 export const getStaticPaths = (async ({ paginate }) => {
@@ -40,9 +42,40 @@ const serializedYears = heatmapData.years.map((y) => ({
 	data: Object.fromEntries(y.activityMap),
 }));
 const isFirstPage = page.currentPage === 1;
+
+const personId = await resolvePersonId(Astro.site);
+const inLanguage = siteConfig.lang.replace("_", "-");
+const currentPageUrl = absUrl(Astro.site, Astro.url.pathname);
+const siteUrl = absUrl(Astro.site, "/");
+
+const blogJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "Blog",
+	"@id": `${siteUrl}#blog`,
+	url: siteUrl,
+	name: siteConfig.title,
+	description: siteConfig.subtitle,
+	inLanguage,
+	isPartOf: { "@id": `${siteUrl}#website` },
+	author: { "@id": personId },
+	publisher: { "@id": personId },
+};
+
+const webPageJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "WebPage",
+	"@id": `${currentPageUrl}#webpage`,
+	url: currentPageUrl,
+	name: isFirstPage ? siteConfig.title : `${siteConfig.title} · 第 ${page.currentPage} 页`,
+	isPartOf: { "@id": `${siteUrl}#blog` },
+	about: { "@id": personId },
+	inLanguage,
+};
 ---
 
 <MainGridLayout isHome={true}>
+    <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(blogJsonLd)}></script>
+    <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(webPageJsonLd)}></script>
     <!-- All posts view -->
     <div id="posts-all" class="transition flex flex-col rounded-[var(--radius-large)] bg-[var(--card-bg)] py-1 md:py-0 md:bg-transparent md:gap-4 mb-4">
         {isFirstPage && (

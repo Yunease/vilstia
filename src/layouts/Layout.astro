@@ -19,6 +19,7 @@ import {
 } from "../constants/constants";
 import { defaultFavicons } from "../constants/icon";
 import type { Favicon } from "../types/config";
+import { getPersonSchema, getWebSiteSchema } from "../utils/seo-utils";
 import { pathsEqual, url } from "../utils/url-utils";
 import "katex/dist/katex.css";
 import "../styles/twikoo.css";
@@ -59,6 +60,11 @@ if (title) {
 
 const favicons: Favicon[] =
 	siteConfig.favicon.length > 0 ? siteConfig.favicon : defaultFavicons;
+
+// Site-wide structured data (WebSite + Person).  Pages layer their own
+// page-level JSON-LD on top via the <slot name="head" />.
+const webSiteJsonLd = await getWebSiteSchema(Astro.site);
+const personJsonLd = await getPersonSchema(Astro.site);
 
 // const siteLang = siteConfig.lang.replace('_', '-')
 if (!lang) {
@@ -106,6 +112,14 @@ const bannerOffset =
 		<meta name="msvalidate.01" content="16C7561C7851F64290881394BCA45D09" />
 		<meta name="google-site-verification" content="w1qL_-Y6u6nA91YB8vw-AFA_gVcZQo-AcGByDQtWkqw" />
 		<meta name="generator" content={Astro.generator} />
+
+		{webSiteJsonLd && (
+			<script is:inline type="application/ld+json" set:html={JSON.stringify(webSiteJsonLd)}></script>
+		)}
+		{personJsonLd && (
+			<script is:inline type="application/ld+json" set:html={JSON.stringify(personJsonLd)}></script>
+		)}
+
 		{favicons.map(favicon => (
 			<link rel="icon"
 				  href={favicon.src.startsWith('/') ? url(favicon.src) : favicon.src}

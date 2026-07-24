@@ -3,6 +3,7 @@ title: "英语四级学习DAY9"
 published: 2026-05-21T09:21:01
 tags: [English]
 category: "学习"
+description: 英语四级备考Day9，转入阅读专项练习，学习定位词查找与同义替换在阅读理解中的应用。
 ---
 
 # 前言

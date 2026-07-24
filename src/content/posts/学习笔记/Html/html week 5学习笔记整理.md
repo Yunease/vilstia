@@ -3,6 +3,7 @@ title: "html week 5 学习笔记整理"
 published: 2024-02-25T00:17:01
 tags: [Html,Web开发, css]
 category: "学习"
+description: CSS基础入门笔记，介绍选择器（类、后代、子元素、兄弟、并集、交集）、优先级、字体样式、颜色表示与背景设置。
 ---
 
 # CSS 基础与选择器学习笔记

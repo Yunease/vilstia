@@ -2,6 +2,7 @@
 title: JavaScript Day4
 tags: [Java, JavaScript]
 category: 学习
+description: JavaScript第四课，深入学习函数的定义、传参、返回值、作用域、匿名函数与立即执行函数等核心概念。
 published: 2024-02-01T18:47:41
 ---
 

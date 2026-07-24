@@ -2,6 +2,7 @@
 title: for循环的应用
 tags: [C语言]
 category: 学习
+description: 讲解C语言for循环的结构、省略规则与使用技巧，包括多变量循环、求和求积初始化注意事项，以及for与while循环的适用场景对比。
 published: 2023-09-28T19:07:36
 ---
 

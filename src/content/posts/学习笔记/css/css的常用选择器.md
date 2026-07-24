@@ -2,6 +2,7 @@
 title: css的常用选择器
 tags: [css]
 category: 学习
+description: 介绍CSS常用选择器，包括元素选择器、ID选择器、类选择器和通配选择器的语法、作用及使用场景。
 published: 2023-12-03T14:58:25
 ---
 

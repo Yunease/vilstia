@@ -2,6 +2,7 @@
 title: JavaScript Day1
 tags: [Java, JavaScript]
 category: 学习
+description: JavaScript入门第一课，学习书写位置、注释、输入输出语法、变量声明、数组、常量、数据类型与类型转换等基础概念。
 published: 2024-01-22T16:41:56
 ---
 

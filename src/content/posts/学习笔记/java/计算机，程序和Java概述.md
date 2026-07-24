@@ -2,6 +2,7 @@
 title: 计算机，程序和Java概述
 tags: [Java]
 category: 学习
+description: 介绍计算机基础知识，包括硬件组成（CPU、内存、储存设备）、比特与字节概念，以及Java语言的初步认识。
 published: 2024-10-10T11:07:09
 ---
 

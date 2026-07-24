@@ -3,6 +3,7 @@ title: "[html3学习笔记]页面图片，视频，音频"
 published: 2024-02-25T00:19:01
 tags: [Html,Web开发]
 category: "学习"
+description: HTML第三周笔记，学习表格进阶（单元格合并、结构标签）、实体字符、表单标签与input各类type属性。
 ---
 
 > 注：原笔记是在word文档中编写，部分注释无法被直接复制，是空的，后续请看分享的百度链接查看word文档。

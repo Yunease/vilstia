@@ -2,6 +2,7 @@
 title: string.h说明
 tags: [C语言]
 category: 学习
+description: 介绍C语言string.h头文件中的常用字符串函数，包括strlen、strcmp、strcpy和strchr的功能与使用方法。
 published: 2023-10-29T19:32:42
 ---
 

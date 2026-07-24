@@ -2,6 +2,7 @@
 title: JavaScript Day2
 tags: [Java, JavaScript]
 category: 学习
+description: JavaScript第二课，学习运算符（赋值、比较、逻辑）、分支语句（if、三元、switch）、循环语句（while）与断点调试方法。
 published: 2024-01-29T19:50:08
 ---
 

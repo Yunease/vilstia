@@ -3,6 +3,7 @@ title: "英语四级学习DAY7"
 published: 2026-03-31T23:33:01
 tags: [English]
 category: "学习"
+description: 英语四级备考Day7，积累政治法律与社会治理类词汇，学习听力数字题中数字与名词对应的速记技巧。
 ---
 
 # 前言

@@ -3,6 +3,7 @@ title: "html week 2 学习笔记整理"
 published: 2024-02-25T00:20:01
 tags: [Html,Web开发]
 category: "学习"
+description: HTML第二周笔记，学习图片标签与路径、超链接、列表（有序、无序、定义）以及表格标签的结构与快捷生成。
 ---
 
 # HTML Week 2 学习笔记

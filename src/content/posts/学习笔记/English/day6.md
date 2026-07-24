@@ -3,6 +3,7 @@ title: "英语四级学习DAY6"
 published: 2026-03-26T09:52:01
 tags: [English]
 category: "学习"
+description: 英语四级备考Day6，系统学习听力数字题读法，涵盖基数词、序数词、分数百分比、时间日期与年份表达。
 ---
 
 # 前言

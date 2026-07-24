@@ -3,6 +3,7 @@ title: "英语四级学习DAY4"
 published: 2026-03-20T10:01:01
 tags: [English]
 category: "学习"
+description: 英语四级备考Day4，听力专项练习日，巩固视听一致与同义替换方法论，暂无新词汇笔记。
 ---
 
 # 前言

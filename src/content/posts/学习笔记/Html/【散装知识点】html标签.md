@@ -3,6 +3,7 @@ title: "【散装知识点】html标签"
 published: 2024-02-25T00:18:01
 tags: [Html,Web开发]
 category: "学习"
+description: HTML标签基础复习，包括双标签与单标签的区别、标签嵌套关系、属性语法以及Emmet快捷生成语法。
 ---
 
 # 散装知识点：HTML 标签

@@ -2,6 +2,7 @@
 title: 基于Hadoop+Spark的校园社团活动数据统计分析与可视化实现
 tags: [分布式, Hadoop, 云计算]
 category: 学习
+description: 提出基于Hadoop分布式存储与Spark内存计算的校园社团活动数据统计分析方案，并结合可视化技术展示分析结果。
 published: 2026-01-06T15:26:16
 ---
 

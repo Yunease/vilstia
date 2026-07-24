@@ -2,6 +2,7 @@
 title: 动态内存分配以及free函数的使用
 tags: [C语言]
 category: 学习
+description: 讲解C语言动态内存分配方法，介绍malloc申请内存、free释放内存的使用方式，以及野指针成因与制空处理的重要性。
 published: 2023-10-23T22:34:39
 ---
 

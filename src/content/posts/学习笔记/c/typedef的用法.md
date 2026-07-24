@@ -2,6 +2,7 @@
 title: typedef的用法
 tags: [C语言]
 category: 学习
+description: 讲解C语言typedef关键字的作用与用法，用于为类型起别名，包括基本类型和结构体别名的定义方式及批量修改优势。
 published: 2023-11-23T13:03:11
 ---
 

@@ -3,6 +3,7 @@ title: "英语四级学习DAY5"
 published: 2026-03-23T09:16:01
 tags: [English]
 category: "学习"
+description: 英语四级备考Day5，积累政治制度与选举类词汇，总结新闻题做题要点与信号词定位技巧。
 ---
 
 # 前言

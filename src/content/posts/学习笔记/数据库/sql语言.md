@@ -2,6 +2,7 @@
 title: sql语言
 tags: [数据库]
 category: 学习
+description: 介绍SQL语言的基本操作，包括创建表、修改表结构、单表查询、连接查询、嵌套查询与数据增删改语句。
 published: 2025-06-22T13:40:42
 ---
 

@@ -3,6 +3,7 @@ title: "[html5学习笔记]meta标签的使用"
 published: 2024-02-24T23:52:01
 tags: [Html,Web开发]
 category: "学习"
+description: 讲解字符编码的基本概念，列举ASCII、GBK、UTF-8等常见字符集，分析各种乱码场景的原因与解决方案。
 ---
 
 # HTML5 学习笔记：编码

@@ -2,6 +2,7 @@
 title: JavaScript Day3
 tags: [Java, JavaScript]
 category: 学习
+description: JavaScript第三课，学习数组的声明、遍历、增删改查操作，以及push、unshift、pop、shift、splice方法与冒泡排序。
 published: 2024-01-30T15:16:51
 ---
 

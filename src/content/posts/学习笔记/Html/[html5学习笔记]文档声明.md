@@ -3,6 +3,7 @@ title: "[html5学习笔记]文档声明"
 published: 2024-02-24T23:54:01
 tags: [Html,Web开发]
 category: "学习"
+description: 介绍HTML5文档声明DOCTYPE的作用与位置，以及包含charset、viewport、lang属性的完整HTML5基础骨架结构。
 ---
 
 # HTML5 文档声明与基础结构

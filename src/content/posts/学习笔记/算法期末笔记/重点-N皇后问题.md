@@ -2,6 +2,7 @@
 title: 重点-N皇后问题
 tags: [算法]
 category: 学习
+description: N皇后问题的回溯算法解法，包括递归框架与验证函数Place的实现逻辑。
 published: 2026-01-15T21:13:59
 ---
 

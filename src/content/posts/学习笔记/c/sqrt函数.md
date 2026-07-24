@@ -2,6 +2,7 @@
 title: sqrt函数
 tags: [C语言]
 category: 学习
+description: 说明C语言sqrt函数的使用方法，需包含math.h头文件，介绍其求非负数平方根的功能及返回double类型的注意事项。
 published: 2023-10-13T20:14:32
 ---
 

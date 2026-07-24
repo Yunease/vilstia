@@ -3,6 +3,7 @@ title: "英语四级学习DAY2"
 published: 2026-03-16T09:41:01
 tags: [English]
 category: "学习"
+description: 英语四级备考Day2，积累自然灾害与极端天气类词汇，学习同义替换方法论与show短语辨析。
 ---
 
 # 前言

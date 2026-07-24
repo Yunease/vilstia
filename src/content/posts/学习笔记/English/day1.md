@@ -3,6 +3,7 @@ title: "英语四级学习DAY1"
 published: 2026-03-10T23:54:01
 tags: [English]
 category: "学习"
+description: 英语四级备考Day1，积累恐怖袭击、战争军事类核心词汇，学习视听一致听力方法论与默读划线做题法。
 ---
 
 # 前言

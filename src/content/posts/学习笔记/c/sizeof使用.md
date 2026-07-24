@@ -2,6 +2,7 @@
 title: sizeof使用
 tags: [C语言]
 category: 学习
+description: 介绍C语言sizeof运算符的用法，用于计算数据类型或变量所占字节数，并列举char、int、short、long等常见类型的大小。
 published: 2023-10-08T19:34:13
 ---
 

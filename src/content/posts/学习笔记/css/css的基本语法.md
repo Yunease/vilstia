@@ -2,6 +2,7 @@
 title: css的基本语法
 tags: [css]
 category: 学习
+description: 介绍CSS基本语法结构，包括选择器与声明块的组成，以及样式名值对的书写格式和分号结尾规则。
 published: 2023-12-03T14:51:22
 ---
 

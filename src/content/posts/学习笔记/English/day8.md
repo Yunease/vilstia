@@ -3,6 +3,7 @@ title: "英语四级学习DAY8"
 published: 2026-04-08T09:33:01
 tags: [English]
 category: "学习"
+description: 英语四级备考Day8，系统积累常见职业词汇，涵盖通用职业、商业金融、学术科研与公共服务四大类别。
 ---
 
 # 前言

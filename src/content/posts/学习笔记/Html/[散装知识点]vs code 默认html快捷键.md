@@ -3,6 +3,7 @@ title: "[散装知识点]vs code 默认html快捷键"
 published: 2024-02-25T00:17:01
 tags: [Html,Web开发]
 category: "学习"
+description: 整理VS Code中HTML开发常用快捷键，包括代码注释、行操作、Emmet快捷生成标签与浏览器调试技巧。
 ---
 
 # 散装知识点：VS Code 默认 HTML 快捷键

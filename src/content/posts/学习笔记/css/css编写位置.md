@@ -2,6 +2,7 @@
 title: css编写位置
 tags: [css]
 category: 学习
+description: 介绍CSS的三种编写位置：行内样式、内部样式表和外部样式表，对比各自的优缺点及推荐使用方式。
 published: 2023-12-02T14:15:48
 ---
 

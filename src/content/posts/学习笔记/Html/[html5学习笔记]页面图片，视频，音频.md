@@ -3,6 +3,7 @@ title: "[html5学习笔记]页面图片，视频，音频"
 published: 2024-02-24T23:53:01
 tags: [Html,Web开发]
 category: "学习"
+description: 介绍HTML5中img图片标签、audio音频标签和video视频标签的使用方法，包括属性、controls控件与多格式兼容方案。
 ---
 
 # HTML5 页面图片、视频、音频

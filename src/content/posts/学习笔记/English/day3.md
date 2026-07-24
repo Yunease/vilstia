@@ -3,6 +3,7 @@ title: "英语四级学习DAY3"
 published: 2026-03-18T10:01:01
 tags: [English]
 category: "学习"
+description: 英语四级备考Day3，积累婚礼习俗与跨文化交际类词汇，总结新闻题做题方法与信号词技巧。
 ---
 
 # 前言

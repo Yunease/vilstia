@@ -3,6 +3,7 @@ title: "html week 1 学习笔记整理"
 published: 2024-02-24T23:57:01
 tags: [Html,Web开发]
 category: "学习"
+description: HTML入门第一周笔记，介绍HTML基本概念、标签分类、属性语法、文档结构以及VS Code快捷操作与标题标签。
 ---
 
 # HTML5 基础学习笔记

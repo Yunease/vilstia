@@ -2,6 +2,7 @@
 title: 插叙：进程api
 tags: [操作系统]
 category: 学习
+description: 介绍Unix进程API，包括fork创建进程、wait等待子进程、exec执行新程序及kill信号机制的使用方法。
 published: 2024-10-09T14:39:14
 ---
 

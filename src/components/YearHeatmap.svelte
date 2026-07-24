@@ -87,7 +87,7 @@
 		const ge = getSunday(yend);
 		const nWeeks = Math.max(1, Math.ceil((ge.getTime() - gs.getTime()) / (7 * 86400000)));
 
-		// Month labels
+		// Month labels — only odd months
 		const ml: Mlabel[] = [];
 		const seen = new Set<number>();
 		for (let w = 0; w < nWeeks; w++) {
@@ -98,7 +98,9 @@
 				const b = Math.round(x / 5) * 5;
 				if (seen.has(b)) continue;
 				seen.add(b);
-				ml.push({ x, label: `${d.getMonth() + 1}月` });
+				const monthNum = d.getMonth() + 1;
+				if (monthNum === 12 || monthNum % 2 === 0) continue;
+				ml.push({ x, label: `${monthNum}月` });
 			}
 		}
 		monthLabels = ml;
@@ -161,13 +163,13 @@
 	>
 			<!-- Month labels -->
 			{#each monthLabels as ml}
-				<text x={ml.x} y={PT - 7} font-size="9" style="fill: var(--primary); fill-opacity: 0.5">{ml.label}</text>
+				<text class="month-label" x={ml.x} y={PT - 10}>{ml.label}</text>
 			{/each}
 
 			<!-- Day labels -->
 			{#each DAYS as label, i}
 				{#if label}
-					<text x={PL - 6} y={i * STEP + PT + CELL / 2} font-size="9" style="fill: var(--primary); fill-opacity: 0.35" text-anchor="end" dominant-baseline="central">{label}</text>
+					<text class="day-label" x={PL - 6} y={i * STEP + PT + CELL / 2}>{label}</text>
 				{/if}
 			{/each}
 
@@ -257,5 +259,28 @@
 		margin-top: 12px;
 		padding-top: 10px;
 		border-top: 1px dashed var(--line-color, rgba(0,0,0,0.1));
+	}
+	.month-label {
+		font-size: 14px;
+		fill: var(--primary);
+		fill-opacity: 0.6;
+	}
+	.day-label {
+		font-size: 12px;
+		fill: var(--primary);
+		fill-opacity: 0.5;
+		text-anchor: end;
+		dominant-baseline: central;
+	}
+	/* Compensate for SVG scaling down on small screens.
+	   viewBox is in user units, so font-size scales with the SVG. */
+	@media (max-width: 640px) {
+		.month-label {
+			font-size: 15px;
+			y: 12;
+		}
+		.day-label {
+			font-size: 12px;
+		}
 	}
 </style>

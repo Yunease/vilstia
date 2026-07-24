@@ -76,7 +76,8 @@
       "Bash(git remote *)",
       "Bash(python -c \"print\\('hello'\\)\")",
       "Bash(python *)",
-      "Bash(xargs -I {} head -30 {})"
+      "Bash(xargs -I {} head -30 {})",
+      "Bash(echo \"exit: $?\")"
     ]
   }
 }

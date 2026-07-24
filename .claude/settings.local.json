@@ -73,7 +73,10 @@
       "Bash(python3 *)",
       "Bash(where python3 *)",
       "Bash(git checkout *)",
-      "Bash(git remote *)"
+      "Bash(git remote *)",
+      "Bash(python -c \"print\\('hello'\\)\")",
+      "Bash(python *)",
+      "Bash(xargs -I {} head -30 {})"
     ]
   }
 }

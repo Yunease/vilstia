@@ -3,6 +3,7 @@ title: godot基础：信号与await
 published: 2026-04-08T09:54:01
 tags: [博客文章, godot]
 category: '开发日志'
+description: 讲解godot信号机制的原理与使用方法，包括内置信号、自定义信号的声明与绑定，以及信号在解耦设计中的优势。
 ---
 
 《事件和委托》

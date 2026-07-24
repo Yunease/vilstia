@@ -3,6 +3,7 @@ title: godot基础：resource
 published: 2026-07-01T16:37:01
 tags: [博客文章, godot]
 category: '开发日志'
+description: 介绍godot中Resource资源文件的概念与用法，包括自定义数据资源、嵌套资源以及通过.tres文件管理游戏数据。
 ---
 
 resource是没有位置，没有生命周期的资源文件，它不在场景树中，只负责储存数据。

@@ -3,6 +3,7 @@ title: godot基础：get_node
 published: 2026-04-08T21:15:01
 tags: [博客文章, godot]
 category: '开发日志'
+description: 讲解godot中get_node()及其相关方法的使用，包括get_child、get_parent、get_children的语法与节点树遍历技巧。
 ---
 
 游戏场景中，还需要一些能够进行节点交互的协调工作，就需要用到`get_node()`，这一集内容，如果您写过前端开发，相信能够很快上手。

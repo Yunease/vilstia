@@ -3,6 +3,7 @@ title: godot基础：Pong
 published: 2026-04-08T09:54:01
 tags: [博客文章, godot]
 category: '开发日志'
+description: 在godot中从零实现经典Pong游戏，学习Area2D碰撞检测、Sprite2D贴图、Vector2坐标运算与自定义函数等基础操作。
 ---
 
 来试试一些实战性的东西吧！

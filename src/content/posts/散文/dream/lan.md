@@ -2,6 +2,7 @@
 title: lan
 tags: [dream, 精选]
 category: 散文
+description: 梦中名为lan的瘟疫将人化为蓝黑色粉尘，感染瘟疫的少女请求被制成颜料，画师用嘴叼笔画出她与天空。
 collection: '叙梦协定'
 published: 2025-04-11T23:10:02
 ---

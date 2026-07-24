@@ -3,6 +3,7 @@ title: Dans la maison
 published: 2024-09-27T15:32:01
 tags: [随笔, 精选]
 category: '散文'
+description: 以Vilstia与苍的记忆为线索，追忆幼时日记折痕中的愿望与宫廷园艺师的劝诫，探讨正确之事与折中之道。
 collection: '水蒸气蛋糕'
 ---
 

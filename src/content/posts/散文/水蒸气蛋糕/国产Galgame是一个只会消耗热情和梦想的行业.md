@@ -2,6 +2,7 @@
 title: 国产Galgame是一个只会消耗热情和梦想的行业
 tags: [随笔, 游戏开发]
 category: '散文'
+description: 记录独立游戏开发者的亲身经历，从满怀梦想到被制作人压榨、威胁起诉，揭示国产Galgame行业的残酷现实。
 collection: '水蒸气蛋糕'
 published: 2026-07-09T22:32:01
 ---

@@ -11,7 +11,7 @@ import { getGalleryPosts } from "@utils/gallery-utils";
 import { getPhotoPosts } from "@utils/photo-utils";
 import { getDir, getPostUrlBySlug } from "@utils/url-utils";
 import { Icon } from "astro-icon/components";
-import { licenseConfig } from "src/config";
+import { licenseConfig, siteConfig } from "src/config";
 import ImageWrapper from "../../components/misc/ImageWrapper.astro";
 import PostMetadata from "../../components/PostMeta.astro";
 import { getBlogPostingSchema } from "../../utils/seo-utils";
@@ -105,7 +105,7 @@ const jsonLd = await getBlogPostingSchema(entry, Astro.site, {
             <!-- always show cover as long as it has one -->
 
             {entry.data.image &&
-                <ImageWrapper id="post-cover" src={entry.data.image} basePath={path.join("content/posts/", getDir(entry.id))} class="mb-8 rounded-xl banner-container onload-animation"/>
+                <ImageWrapper id="post-cover" src={entry.data.image} basePath={path.join("content/posts/", getDir(entry.id))} class="mb-8 rounded-xl banner-container onload-animation" width={siteConfig.coverDisplay.width} height={siteConfig.coverDisplay.height} loading="eager"/>
             }
 
 

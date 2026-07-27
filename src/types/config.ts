@@ -43,6 +43,14 @@ export type SiteConfig = {
 		alt: string;
 	};
 
+	// Default display dimensions for external post covers.
+	// Used by ImageWrapper to set width/height on the <img> so the browser can
+	// reserve layout space and avoid CLS. Aspect ratio is preserved by CSS scaling.
+	coverDisplay: {
+		width: number;
+		height: number;
+	};
+
 	articleAuthor?: string;
 
 	favicon: Favicon[];

@@ -39,6 +39,13 @@ export const siteConfig: SiteConfig = {
 		height: 630,
 		alt: "琴泠的个人博客",
 	},
+	// Default display size for external post covers (16:9). ImageWrapper uses
+	// these as the <img> width/height so the browser reserves layout space
+	// and prevents CLS; CSS scales the image down on narrow viewports.
+	coverDisplay: {
+		width: 1200,
+		height: 675,
+	},
 	articleAuthor: "琴泠",
 	favicon: [
 		// Leave this array empty to use the default favicon

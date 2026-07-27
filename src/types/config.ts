@@ -36,6 +36,15 @@ export type SiteConfig = {
 		depth: 1 | 2 | 3;
 	};
 
+	ogImage: {
+		src: string;
+		width: number;
+		height: number;
+		alt: string;
+	};
+
+	articleAuthor?: string;
+
 	favicon: Favicon[];
 };
 

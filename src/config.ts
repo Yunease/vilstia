@@ -31,6 +31,15 @@ export const siteConfig: SiteConfig = {
 		enable: true, // Display the table of contents on the right side of the post
 		depth: 2, // Maximum heading depth to show in the table, from 1 to 3
 	},
+	ogImage: {
+		// Default share-preview image. Article pages override this with entry.data.image when present.
+		// Path is public-root absolute so it resolves to a full URL when concatenated with Astro.site.
+		src: "/og/og-default.png",
+		width: 1200,
+		height: 630,
+		alt: "琴泠的个人博客",
+	},
+	articleAuthor: "琴泠",
 	favicon: [
 		// Leave this array empty to use the default favicon
 		// {

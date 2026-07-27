@@ -29,9 +29,23 @@ interface Props {
 	description?: string;
 	lang?: string;
 	setOGTypeArticle?: boolean;
+	publishedTime?: Date;
+	author?: string;
+	postTags?: string[];
+	postImage?: string;
 }
 
-let { title, banner, description, lang, setOGTypeArticle } = Astro.props;
+let {
+	title,
+	banner,
+	description,
+	lang,
+	setOGTypeArticle,
+	publishedTime,
+	author,
+	postTags,
+	postImage,
+} = Astro.props;
 
 // apply a class to the body element to decide the height of the banner, only used for initial page load
 // Swup can update the body for each page visit, but it's after the page transition, causing a delay for banner height change
@@ -71,6 +85,30 @@ if (!lang) {
 }
 const siteLang = lang.replace("_", "-");
 
+// og:image source: page-specific image when provided, else the site default.
+// Accepts either an absolute URL or a public-root path; resolved against Astro.site.
+const rawOgImage = postImage?.trim() || siteConfig.ogImage.src;
+const ogImageUrl = /^https?:\/\//.test(rawOgImage)
+	? rawOgImage
+	: new URL(rawOgImage.startsWith("/") ? rawOgImage : `/${rawOgImage}`, Astro.site).href;
+const ogImageWidth = String(siteConfig.ogImage.width);
+const ogImageHeight = String(siteConfig.ogImage.height);
+const ogImageAlt = siteConfig.ogImage.alt;
+
+// Canonical URL: pathname only, drops query string and hash so shared links
+// always point at the clean article path.
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
+
+const isArticle = !!setOGTypeArticle;
+const articleAuthor = author?.trim() || siteConfig.articleAuthor || profileConfig.name;
+const articlePublishedISO =
+	publishedTime instanceof Date && !Number.isNaN(publishedTime.getTime())
+		? publishedTime.toISOString()
+		: undefined;
+const articleTags = (postTags ?? []).filter(
+	(tag): tag is string => typeof tag === "string" && tag.trim() !== "",
+);
+
 const bannerOffsetByPosition = {
 	top: `${BANNER_HEIGHT_EXTEND}vh`,
 	center: `${BANNER_HEIGHT_EXTEND / 2}vh`,
@@ -93,19 +131,34 @@ const bannerOffset =
 		<meta name="author" content={profileConfig.name}>
 
 		<meta property="og:site_name" content={siteConfig.title}>
-		<meta property="og:url" content={Astro.url}>
+		<meta property="og:url" content={canonicalUrl}>
 		<meta property="og:title" content={pageTitle}>
 		<meta property="og:description" content={description || siteConfig.description}>
-		{setOGTypeArticle ? (
-        <meta property="og:type" content="article" />
-        ) : (
-        <meta property="og:type" content="website" />
-        )}
+		<meta property="og:locale" content={siteConfig.lang}>
+
+		<meta property="og:image" content={ogImageUrl}>
+		<meta property="og:image:width" content={ogImageWidth}>
+		<meta property="og:image:height" content={ogImageHeight}>
+		<meta property="og:image:alt" content={ogImageAlt}>
+
+		{isArticle ? (
+			<>
+				<meta property="og:type" content="article" />
+				{articleAuthor && <meta property="og:article:author" content={articleAuthor} />}
+				{articlePublishedISO && <meta property="og:article:published_time" content={articlePublishedISO} />}
+				{articleTags.map((tag) => (
+					<meta property="og:article:tag" content={tag} />
+				))}
+			</>
+		) : (
+			<meta property="og:type" content="website" />
+		)}
 
 		<meta name="twitter:card" content="summary_large_image">
-		<meta property="twitter:url" content={Astro.url}>
+		<meta property="twitter:url" content={canonicalUrl}>
 		<meta name="twitter:title" content={pageTitle}>
-		<meta name="twitter:description" content={description || pageTitle}>
+		<meta name="twitter:description" content={description || siteConfig.description}>
+		<meta name="twitter:image" content={ogImageUrl}>
 
 		<meta name="viewport" content="width=device-width" />
 		<meta name="msvalidate.01" content="16C7561C7851F64290881394BCA45D09" />

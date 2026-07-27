@@ -77,7 +77,8 @@
       "Bash(python -c \"print\\('hello'\\)\")",
       "Bash(python *)",
       "Bash(xargs -I {} head -30 {})",
-      "Bash(echo \"exit: $?\")"
+      "Bash(echo \"exit: $?\")",
+      "Bash(xargs -I {} grep -l \"anth - 副本\" {})"
     ]
   }
 }

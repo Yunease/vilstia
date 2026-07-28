@@ -22,7 +22,7 @@ let links: NavBarLink[] = navBarConfig.links.map(
 	},
 );
 ---
-<div id="navbar" class="z-50 onload-animation">
+<nav id="navbar" class="z-50 onload-animation" aria-label="主导航">
     <div class="absolute h-8 left-0 right-0 -top-8 bg-[var(--card-bg)] transition"></div> <!-- used for onload animation -->
     <div class:list={[
         className,
@@ -91,7 +91,7 @@ let links: NavBarLink[] = navBarConfig.links.map(
         <NavMenuPanel links={links}></NavMenuPanel>
         <DisplaySettings client:only="svelte"></DisplaySettings>
     </div>
-</div>
+</nav>
 
 <script>
 function switchTheme() {

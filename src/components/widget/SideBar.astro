@@ -15,7 +15,7 @@ interface Props {
 
 const className = Astro.props.class;
 ---
-<div id="sidebar" class:list={[className, "w-full"]}>
+<aside id="sidebar" class:list={[className, "w-full"]} aria-label="侧边栏">
     <div class="flex flex-col w-full gap-4 mb-4">
         <Profile></Profile>
         <SiteAge></SiteAge> <!-- 新增：渲染建站时长板块 -->
@@ -27,4 +27,4 @@ const className = Astro.props.class;
         <Collections class="onload-animation" style="animation-delay: 175ms"></Collections>
         <Tag class="onload-animation" style="animation-delay: 200ms"></Tag>
     </div>
-</div>
+</aside>

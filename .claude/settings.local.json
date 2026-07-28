@@ -78,7 +78,10 @@
       "Bash(python *)",
       "Bash(xargs -I {} head -30 {})",
       "Bash(echo \"exit: $?\")",
-      "Bash(xargs -I {} grep -l \"anth - 副本\" {})"
+      "Bash(xargs -I {} grep -l \"anth - 副本\" {})",
+      "Bash(pnpm add *)",
+      "Bash(rm -f scripts/fonts/NotoSansSC-Regular.otf)",
+      "Bash(rmdir scripts/fonts)"
     ]
   }
 }

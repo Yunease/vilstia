@@ -81,7 +81,20 @@
       "Bash(xargs -I {} grep -l \"anth - 副本\" {})",
       "Bash(pnpm add *)",
       "Bash(rm -f scripts/fonts/NotoSansSC-Regular.otf)",
-      "Bash(rmdir scripts/fonts)"
+      "Bash(rmdir scripts/fonts)",
+      "Bash(echo \"PID: $!\")",
+      "Bash(powershell -Command 'Get-Process node -ErrorAction SilentlyContinue | Where-Object {$_.Id -eq 1577} | Stop-Process -Force -ErrorAction SilentlyContinue; Start-Sleep -Seconds 2; netstat -ano | Select-String '\\\\'':4325'\\\\''')",
+      "Bash(powershell *)",
+      "Bash(find node_modules/.pnpm/@astrojs+svelte* -name \"index.js\")",
+      "Bash(echo \"Started dev server, PID=$!\")",
+      "Bash(echo \"PID=$!\")",
+      "Bash(awk '/14:38:15\\\\.[5-7][0-9]+Z/' /tmp/dev3.log)",
+      "Bash(awk '{print $2}')",
+      "Bash(sed -n '14,22p' /d/Astro/Virstia/src/components/BlogStats.astro)",
+      "Bash(sed -n '11,20p' /d/Astro/Virstia/src/components/CollectionNav.astro)",
+      "Bash(sed -n '5,15p' /d/Astro/Virstia/src/pages/heatmap.astro)",
+      "Bash(sed -n '5,15p' /d/Astro/Virstia/src/pages/rank/index.astro)",
+      "Bash(sed -n '30,45p' /d/Astro/Virstia/src/pages/[...page].astro)"
     ]
   }
 }

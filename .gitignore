@@ -29,3 +29,7 @@ yarn.lock
 # ide
 .idea
 *.iml
+
+# Noto Sans SC font used by scripts/generate-og.mjs.  Auto-downloaded on first
+# run via the jsdelivr mirror in the script, so it doesn't need to live in git.
+scripts/fonts/

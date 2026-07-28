@@ -4,6 +4,11 @@ export type SiteConfig = {
 	title: string;
 	subtitle: string;
 	description: string;
+	// Shorter variant for social-share previews (og:description, twitter:description).
+	// Falls back to `description` when omitted.  Kept short because Chinese social
+	// platforms (WeChat / Weibo / QQ) truncate aggressively and the user targets
+	// the Chinese audience where concise copy reads better.
+	ogDescription?: string;
 
 	lang:
 		| "en"

@@ -133,7 +133,7 @@ const bannerOffset =
 		<meta property="og:site_name" content={siteConfig.title}>
 		<meta property="og:url" content={canonicalUrl}>
 		<meta property="og:title" content={pageTitle}>
-		<meta property="og:description" content={description || siteConfig.description}>
+		<meta property="og:description" content={description || siteConfig.ogDescription || siteConfig.description}>
 		<meta property="og:locale" content={siteConfig.lang}>
 
 		<meta property="og:image" content={ogImageUrl}>
@@ -157,7 +157,7 @@ const bannerOffset =
 		<meta name="twitter:card" content="summary_large_image">
 		<meta property="twitter:url" content={canonicalUrl}>
 		<meta name="twitter:title" content={pageTitle}>
-		<meta name="twitter:description" content={description || siteConfig.description}>
+		<meta name="twitter:description" content={description || siteConfig.ogDescription || siteConfig.description}>
 		<meta name="twitter:image" content={ogImageUrl}>
 
 		<meta name="viewport" content="width=device-width" />

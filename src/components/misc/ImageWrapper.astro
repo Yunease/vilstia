@@ -14,6 +14,9 @@ interface Props {
 	height?: number;
 	// Defaults to "lazy". Pass "eager" for above-the-fold / LCP images.
 	loading?: "eager" | "lazy";
+	// Hint for the browser's fetch priority. Use "high" for the LCP image
+	// (typically the hero/banner) so the browser starts loading it earlier.
+	fetchpriority?: "high" | "low" | "auto";
 }
 
 import { Image } from "astro:assets";
@@ -28,6 +31,7 @@ const {
 	width,
 	height,
 	loading = "lazy",
+	fetchpriority,
 } = Astro.props;
 const className = Astro.props.class;
 
@@ -73,6 +77,7 @@ const imageStyle = `object-position: ${position}`;
 		height={height}
 		loading={loading}
 		decoding="async"
+		fetchpriority={fetchpriority}
 	/>}
     {!isLocal && <img
 		src={isPublic ? url(src) : src}
@@ -83,5 +88,6 @@ const imageStyle = `object-position: ${position}`;
 		height={height}
 		loading={loading}
 		decoding="async"
+		fetchpriority={fetchpriority}
 	/>}
 </div>

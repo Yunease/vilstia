@@ -115,8 +115,8 @@ function updateSiteAge() {
 
   // 初始化执行一次
   updateSiteAge();
-  // 每秒更新（实现“时时打印”）
-  setInterval(updateSiteAge, 1000);
+  // 每 10 秒更新（秒级 UI 没必要，肉眼无差，省电）
+  setInterval(updateSiteAge, 10000);
 </script>
 
 <style>

@@ -1,19 +1,20 @@
 ---
-import { getCollection } from "astro:content";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 import rankData from "../../../public/rank-data.json";
+import { getCachedPosts } from "../../utils/datasource";
 
 // 获取所有文章，构建映射
-const allPosts = await getCollection("posts", ({ data }) => {
-	return import.meta.env.PROD ? data.draft !== true : true;
-});
+const allPosts = await getCachedPosts();
+const visiblePosts = import.meta.env.PROD
+	? allPosts.filter(({ data }) => data.draft !== true)
+	: allPosts;
 
 // path → title（用于显示标题）
 const titleMap: Record<string, string> = {};
 // title → 真实路径（用于生成链接）
 const titleToPath: Record<string, string> = {};
 
-for (const post of allPosts) {
+for (const post of visiblePosts) {
 	const realPath = `/posts/${post.slug}/`;
 	const title = post.data.title;
 

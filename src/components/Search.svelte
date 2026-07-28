@@ -121,7 +121,7 @@ onMount(() => {
 				console.log("Fallback: Initializing search after timeout.");
 				initializeSearch();
 			}
-		}, 2000); // Adjust timeout as needed
+		}, 500); // Pagefind 失败时快速回退,成功时不影响
 	}
 });
 

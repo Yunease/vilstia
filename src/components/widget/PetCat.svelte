@@ -34,12 +34,19 @@ let showMenu = $state(false);
 let bubbleTimeout: ReturnType<typeof setTimeout> | null = null;
 let fadeTimeout: ReturnType<typeof setTimeout> | null = null;
 let imgEl: HTMLImageElement | null = $state(null);
+let preloaded = $state(new Set<CatType>());
 
+// 懒加载:只在用户打开 radial 菜单(右键)时预加载所有图,
+// 避免首次加载页面就把 5 张 172px 像素图都下载下来。
 $effect(() => {
-	CAT_TYPES.forEach((type) => {
-		const img = new Image();
-		img.src = `${PET_IMG_PATH}${CAT_IMAGE_MAP[type]}.png`;
-	});
+	if (showMenu && preloaded.size < CAT_TYPES.length) {
+		CAT_TYPES.forEach((type) => {
+			if (preloaded.has(type)) return;
+			const img = new Image();
+			img.src = `${PET_IMG_PATH}${CAT_IMAGE_MAP[type]}.png`;
+			preloaded.add(type);
+		});
+	}
 });
 
 $effect(() => {

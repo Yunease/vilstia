@@ -1,7 +1,7 @@
 ---
-import { getCollection } from "astro:content";
 import { getPostUrlBySlug } from "@utils/url-utils";
 import { Icon } from "astro-icon/components";
+import { getCachedPosts } from "@utils/datasource";
 
 interface Props {
 	collection: string;
@@ -11,9 +11,10 @@ interface Props {
 const { collection, currentSlug } = Astro.props;
 
 // Get all posts in this collection, sorted by published date (newest first)
-const allPosts = await getCollection("posts", ({ data }) => {
-	return import.meta.env.PROD ? data.draft !== true : true;
-});
+const allPostsRaw = await getCachedPosts();
+const allPosts = import.meta.env.PROD
+	? allPostsRaw.filter(({ data }) => data.draft !== true)
+	: allPostsRaw;
 
 const collectionPosts = allPosts
 	.filter((post) => post.data.collection === collection)

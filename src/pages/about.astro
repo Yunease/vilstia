@@ -1,16 +1,15 @@
 ---
 
-import { getCollection } from "astro:content";
 import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
 import MainGridLayout from "../layouts/MainGridLayout.astro";
 import { siteConfig } from "../config";
+import { getCachedSpec } from "../utils/datasource";
 import { absUrl, resolvePersonId } from "../utils/seo-utils";
 import { url } from "../utils/url-utils";
 
-const aboutPosts = await getCollection("spec", ({ id }) =>
-	id.startsWith("about"),
-);
+const allSpec = await getCachedSpec();
+const aboutPosts = allSpec.filter(({ id }) => id.startsWith("about"));
 
 // 按 tag 分组
 const groups: Record<string, typeof aboutPosts> = { me: [], like: [], oc: [] };

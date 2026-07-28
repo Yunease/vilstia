@@ -1,8 +1,8 @@
 import { getImage } from "astro:assets";
-import { getCollection } from "astro:content";
 import { profileConfig, siteConfig } from "../config";
 import { formatDateToYYYYMMDD } from "./date-utils";
 import { getPostUrlBySlug } from "./url-utils";
+import { getCachedSpec } from "./datasource";
 import qinlinAvatar from "../assets/images/qinlin.png";
 
 /**
@@ -34,7 +34,8 @@ function getAboutSlug(id: string): string {
  */
 export async function resolvePersonId(site: URL | undefined): Promise<string> {
 	if (!site) return "";
-	const meZh = await getCollection("spec", ({ id }) => id === "aboutMe(zh-CN).md");
+	const allSpec = await getCachedSpec();
+	const meZh = allSpec.filter(({ id }) => id === "aboutMe(zh-CN).md");
 	const slug = meZh[0] ? getAboutSlug(meZh[0].id) : "default";
 	return absUrl(site, `/about/${encodeURIComponent(slug)}/`);
 }

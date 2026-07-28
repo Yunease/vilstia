@@ -18,7 +18,7 @@
 import satori from "satori";
 import { Resvg } from "@resvg/resvg-js";
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -29,20 +29,46 @@ const FONT_REGULAR = join(FONT_DIR, "NotoSansSC-Regular.otf");
 const OUT_DIR = join(ROOT, "public", "og");
 const OUT = join(OUT_DIR, "og-default.png");
 
-// The 8 MB font is .gitignored; download on first run so contributors don't
-// have to do it manually.  jsdelivr mirrors the notofonts/noto-cjk repo.
+// ============================================================================
+// 字体依赖: Noto Sans SC Regular (8 MB, .gitignored)
+// ----------------------------------------------------------------------------
+// 本脚本必须在 scripts/fonts/NotoSansSC-Regular.otf 存在时才能运行。
+// 这是 Noto CJK SC 的 OTF 子集字体,体积约 8 MB,所以不进 git,需要手动下载。
+//
+// 手动下载方式 (任选其一):
+//   1) jsdelivr 镜像(推荐,国内可用):
+//        https://cdn.jsdelivr.net/gh/notofonts/noto-cjk@main/Sans/SubsetOTF/SC/NotoSansSC-Regular.otf
+//   2) GitHub 原始地址:
+//        https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/SubsetOTF/SC/NotoSansSC-Regular.otf
+//   3) Google Fonts 仓库(同样的字体):
+//        https://github.com/notofonts/noto-cjk/tree/main/Sans/SubsetOTF/SC
+//
+// 下载后放到 scripts/fonts/NotoSansSC-Regular.otf 即可。重新运行本脚本。
+// 如果只是想用 og 图,不想下载字体,直接用 public/og/og-image.png 也行。
+// ============================================================================
 const FONT_URL =
 	"https://cdn.jsdelivr.net/gh/notofonts/noto-cjk@main/Sans/SubsetOTF/SC/NotoSansSC-Regular.otf";
 
 async function ensureFont() {
-	if (existsSync(FONT_REGULAR)) return;
-	console.log(`Font missing, downloading from ${FONT_URL}`);
-	const res = await fetch(FONT_URL);
-	if (!res.ok) throw new Error(`Font download failed: ${res.status}`);
-	const buf = Buffer.from(await res.arrayBuffer());
+	if (existsSync(FONT_REGULAR)) return true;
 	mkdirSync(FONT_DIR, { recursive: true });
-	writeFileSync(FONT_REGULAR, buf);
-	console.log(`Downloaded ${FONT_REGULAR.replace(ROOT, "")} (${(buf.length / 1024 / 1024).toFixed(1)} MB)`);
+	const relPath = relative(ROOT, FONT_REGULAR);
+	// 如果 og 图已存在(上次的产物),就跳过生成,构建仍能继续
+	if (existsSync(OUT)) {
+		console.warn(
+			`[generate-og] 字体缺失: ${relPath}\n` +
+				`  → 跳过 og 图重新生成,复用已有的 ${relative(ROOT, OUT)}。\n` +
+				`  → 如需重新生成,请手动下载 Noto Sans SC Regular 到上述路径:\n` +
+				`    ${FONT_URL}`,
+		);
+		return false;
+	}
+	throw new Error(
+		`字体缺失: ${relPath}\n` +
+			`本脚本依赖 Noto Sans SC Regular (≈8 MB) 来渲染中文 og 图。\n` +
+			`请手动下载到上述路径,下载地址:\n  ${FONT_URL}\n` +
+			`(或见脚本顶部 "字体依赖" 注释块里的备选源)`,
+	);
 }
 
 const W = 1200;
@@ -277,7 +303,8 @@ const element = t(
 
 async function main() {
 	mkdirSync(OUT_DIR, { recursive: true });
-	await ensureFont();
+	const hasFont = await ensureFont();
+	if (!hasFont) return; // 字体缺失且 og 图已存在,跳过生成
 
 	const fontRegularData = readFileSync(FONT_REGULAR);
 

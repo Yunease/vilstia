@@ -1,18 +1,18 @@
 ---
 
-import { getCollection, render } from "astro:content";
+import { render } from "astro:content";
 import Markdown from "@components/misc/Markdown.astro";
 import I18nKey from "../../i18n/i18nKey";
 import { i18n } from "../../i18n/translation";
 import MainGridLayout from "../../layouts/MainGridLayout.astro";
 import { siteConfig } from "../../config";
+import { getCachedSpec } from "../../utils/datasource";
 import { absUrl, resolvePersonId } from "../../utils/seo-utils";
 import { url } from "../../utils/url-utils";
 
 export async function getStaticPaths() {
-	const aboutPosts = await getCollection("spec", ({ id }) =>
-		id.startsWith("about"),
-	);
+	const allSpec = await getCachedSpec();
+	const aboutPosts = allSpec.filter(({ id }) => id.startsWith("about"));
 	return aboutPosts.map((post) => {
 		// 去掉 "about" 前缀和 ".md" 后缀
 		const slug =

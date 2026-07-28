@@ -1,6 +1,6 @@
 ---
-import { getCollection } from "astro:content";
 import { Icon } from "astro-icon/components";
+import { getCachedPosts, getCachedSpec } from "../utils/datasource";
 
 interface Props {
 	class?: string;
@@ -13,10 +13,12 @@ const calculateBlogStats = async () => {
 	const excludeTags = ["mess", "gallery", "photo", "anth"];
 
 	// 2. 获取所有文章（仅排除草稿）
-	const [allPosts, allSpecs] = await Promise.all([
-		getCollection("posts", ({ data }) => data.draft !== true),
-		getCollection("spec", ({ data }) => data.draft !== true),
+	const [allPostsRaw, allSpecsRaw] = await Promise.all([
+		getCachedPosts(),
+		getCachedSpec(),
 	]);
+	const allPosts = allPostsRaw.filter(({ data }) => data.draft !== true);
+	const allSpecs = allSpecsRaw.filter(({ data }) => data.draft !== true);
 
 	// 合并 posts 和 spec 集合的文章
 	const allArticles = [...allPosts, ...allSpecs];

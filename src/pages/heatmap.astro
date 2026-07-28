@@ -1,13 +1,15 @@
 ---
 import MainGridLayout from "../layouts/MainGridLayout.astro";
 import PostHeatmap from "../components/PostHeatmap.astro";
-import { getCollection } from "astro:content";
 import { getPostActivityData } from "../utils/content-utils";
+import { getCachedPosts } from "../utils/datasource";
 
-const allPosts = await getCollection("posts", ({ data }) => {
-	return import.meta.env.PROD ? data.draft !== true : true;
-});
-const heatmapData = getPostActivityData(allPosts);
+const allPosts = await getCachedPosts();
+const heatmapData = getPostActivityData(
+	import.meta.env.PROD
+		? allPosts.filter(({ data }) => data.draft !== true)
+		: allPosts,
+);
 ---
 
 <MainGridLayout title="创作热力图" description="博客创作历史全览">

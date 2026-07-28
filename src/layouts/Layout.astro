@@ -591,7 +591,16 @@ function scrollFunction() {
 		}
 	}
 }
-window.onscroll = scrollFunction
+let scrollTicking = false;
+const onScroll = () => {
+	if (scrollTicking) return;
+	scrollTicking = true;
+	requestAnimationFrame(() => {
+		scrollFunction();
+		scrollTicking = false;
+	});
+};
+window.addEventListener('scroll', onScroll, { passive: true });
 
 window.onresize = () => {
 	// calculate the --banner-height-extend, which needs to be a multiple of 4 to avoid blurry text
@@ -645,6 +654,10 @@ const setup = () => {
 		createPhotoSwipe()
 	}
 	window.swup.hooks.on("page:view", () => {
+		// 每次页面切换先销毁旧实例,再创建新的,避免快速切换时多个 lightbox 叠加
+		if (lightbox) {
+			lightbox.destroy();
+		}
 		createPhotoSwipe()
 	})
 

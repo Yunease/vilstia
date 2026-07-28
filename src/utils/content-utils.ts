@@ -1,16 +1,23 @@
-import { type CollectionEntry, getCollection } from "astro:content";
+import { type CollectionEntry } from "astro:content";
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import { getCategoryUrl, getCollectionUrl } from "@utils/url-utils.ts";
+import { getCachedPosts } from "@utils/datasource";
 
 // Tags to exclude from normal post lists (these go to special pages)
 const EXCLUDED_TAGS = ["mess", "gallery", "photo", "anth"];
 
+async function filterPublished(
+	posts: CollectionEntry<"posts">[],
+): Promise<CollectionEntry<"posts">[]> {
+	return import.meta.env.PROD
+		? posts.filter(({ data }) => data.draft !== true)
+		: posts;
+}
+
 // Retrieve posts and sort them by publication date
 async function getRawSortedPosts() {
-	const allBlogPosts = await getCollection("posts", ({ data }) => {
-		return import.meta.env.PROD ? data.draft !== true : true;
-	});
+	const allBlogPosts = await filterPublished(await getCachedPosts());
 
 	const sorted = allBlogPosts.sort((a, b) => {
 		const dateA = new Date(a.data.published);
@@ -67,9 +74,7 @@ export type Tag = {
 };
 
 export async function getTagList(): Promise<Tag[]> {
-	const allBlogPosts = await getCollection<"posts">("posts", ({ data }) => {
-		return import.meta.env.PROD ? data.draft !== true : true;
-	});
+	const allBlogPosts = await filterPublished(await getCachedPosts());
 
 	const countMap: { [key: string]: number } = {};
 	allBlogPosts.forEach((post: { data: { tags: string[] } }) => {
@@ -102,9 +107,7 @@ export type CollectionItem = {
 };
 
 export async function getCategoryList(): Promise<Category[]> {
-	const allBlogPosts = await getCollection<"posts">("posts", ({ data }) => {
-		return import.meta.env.PROD ? data.draft !== true : true;
-	});
+	const allBlogPosts = await filterPublished(await getCachedPosts());
 	const count: { [key: string]: number } = {};
 	allBlogPosts.forEach(
 		(post: { data: { category: string | null; tags: string[] } }) => {
@@ -230,9 +233,7 @@ export function getPostActivityData(
 // ─── Existing code below ────────────────────────────────────────
 
 export async function getCollectionList(): Promise<CollectionItem[]> {
-	const allBlogPosts = await getCollection<"posts">("posts", ({ data }) => {
-		return import.meta.env.PROD ? data.draft !== true : true;
-	});
+	const allBlogPosts = await filterPublished(await getCachedPosts());
 	const count: { [key: string]: number } = {};
 	allBlogPosts.forEach(
 		(post: { data: { collection: string | null; tags: string[] } }) => {

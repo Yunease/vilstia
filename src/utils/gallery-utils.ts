@@ -1,4 +1,13 @@
-import { type CollectionEntry, getCollection } from "astro:content";
+import { type CollectionEntry } from "astro:content";
+import { getCachedPosts } from "@utils/datasource";
+
+async function filterPublished(
+	posts: CollectionEntry<"posts">[],
+): Promise<CollectionEntry<"posts">[]> {
+	return import.meta.env.PROD
+		? posts.filter(({ data }) => data.draft !== true)
+		: posts;
+}
 
 export interface GalleryPost extends CollectionEntry<"posts"> {
 	isStar: boolean;
@@ -13,9 +22,7 @@ export interface GalleryAlbum {
 }
 
 export async function getGalleryPosts(): Promise<GalleryPost[]> {
-	const allBlogPosts = await getCollection("posts", ({ data }) => {
-		return import.meta.env.PROD ? data.draft !== true : true;
-	});
+	const allBlogPosts = await filterPublished(await getCachedPosts());
 
 	// Filter posts with "gallery" tag
 	const galleryPosts = allBlogPosts.filter((post) =>

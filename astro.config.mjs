@@ -51,9 +51,20 @@ export default defineConfig({
 		icon({
 			include: {
 				"preprocess: vitePreprocess(),": ["*"],
-				"fa6-brands": ["*"],
-				"fa6-regular": ["*"],
-				"fa6-solid": ["*"],
+				// 按需打包 fa6: 仅引入实际用到的图标,不再 ["*"] 拉整个集合 (合计 2700+ 图标)
+				"fa6-brands": [
+					"bilibili",
+					"creative-commons",
+					"github",
+					"pixiv",
+					"steam",
+				],
+				"fa6-regular": ["address-card"],
+				"fa6-solid": [
+					"arrow-rotate-left",
+					"arrow-up-right-from-square",
+					"chevron-right",
+				],
 			},
 		}),
 		expressiveCode({

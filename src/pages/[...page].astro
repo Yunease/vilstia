@@ -1,6 +1,5 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import { getCollection } from "astro:content";
 import type { GetStaticPaths } from "astro";
 import YearHeatmap from "../components/YearHeatmap.svelte";
 import Pagination from "../components/control/Pagination.astro";
@@ -9,6 +8,7 @@ import { PAGE_SIZE } from "../constants/constants";
 import MainGridLayout from "../layouts/MainGridLayout.astro";
 import { siteConfig } from "../config";
 import { getPostActivityData, getSortedPosts } from "../utils/content-utils";
+import { getCachedPosts } from "../utils/datasource";
 import { absUrl, resolvePersonId } from "../utils/seo-utils";
 import { getPostUrlBySlug } from "../utils/url-utils";
 
@@ -30,10 +30,12 @@ const featuredPosts = allPosts.filter(
 );
 
 // Heatmap: all non-draft posts (including special tags)
-const allPostsRaw = await getCollection("posts", ({ data }) => {
-	return import.meta.env.PROD ? data.draft !== true : true;
-});
-const heatmapData = getPostActivityData(allPostsRaw);
+const allPostsRaw = await getCachedPosts();
+const heatmapData = getPostActivityData(
+	import.meta.env.PROD
+		? allPostsRaw.filter(({ data }) => data.draft !== true)
+		: allPostsRaw,
+);
 const serializedYears = heatmapData.years.map((y) => ({
 	year: y.year,
 	count: y.count,

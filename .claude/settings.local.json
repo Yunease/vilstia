@@ -94,7 +94,15 @@
       "Bash(sed -n '11,20p' /d/Astro/Virstia/src/components/CollectionNav.astro)",
       "Bash(sed -n '5,15p' /d/Astro/Virstia/src/pages/heatmap.astro)",
       "Bash(sed -n '5,15p' /d/Astro/Virstia/src/pages/rank/index.astro)",
-      "Bash(sed -n '30,45p' /d/Astro/Virstia/src/pages/[...page].astro)"
+      "Bash(sed -n '30,45p' /d/Astro/Virstia/src/pages/[...page].astro)",
+      "Bash(git reflog *)",
+      "Bash(git log *)",
+      "Bash(git filter-branch *)",
+      "Bash(git ls-remote *)",
+      "Bash(git fetch *)",
+      "Bash(gh api *)",
+      "WebFetch(domain:stackoverflow.com)",
+      "WebFetch(domain:geo.sayori.org)"
     ]
   }
 }

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { onMount } from "svelte";
+
 	export let years: YearData[];
 	export let totalCount: number;
 	export let currentYearCount: number;
@@ -26,7 +28,7 @@
 		if (yearIdx < years.length - 1) selectedYear = years[yearIdx + 1].year;
 	}
 
-	// ── SVG constants ──────────────────────────────────────────
+	// ── SVG / Canvas constants ─────────────────────────────────
 	const CELL = 11;
 	const GAP = 3;
 	const STEP = CELL + GAP;
@@ -59,18 +61,26 @@
 		if (n === 3) return "0.8";
 		return "1";
 	}
-
-	// ── Reactive grid computation ──────────────────────────────
+	function opNum(n: number): number {
+		if (n === 0) return 0.05;
+		if (n === 1) return 0.4;
+		if (n === 2) return 0.6;
+		if (n === 3) return 0.8;
+		return 1;
+	}
 
 	interface Cell {
-		x: number; y: number; op: string; tip: string;
+		x: number;
+		y: number;
+		op: string;
+		tip: string;
 	}
 	interface Mlabel {
-		x: number; label: string;
+		x: number;
+		label: string;
 	}
 
 	// Fixed dimensions for consistent aspect ratio across all years.
-	// Always use 53 weeks so switching years never changes the SVG height.
 	const FIXED_W = 53 * STEP + PL + PR;
 	const FIXED_H = 7 * STEP + PT + PB;
 
@@ -123,7 +133,99 @@
 			}
 		}
 		cells = cc;
+	}
+
+	// ── Canvas rendering ─────────────────────────────────────────
+	let canvas: HTMLCanvasElement;
+	let ctx: CanvasRenderingContext2D | null = null;
+	let tooltip: { text: string; x: number; y: number; visible: boolean } = { text: "", x: 0, y: 0, visible: false };
+
+	function draw() {
+		if (!canvas || !ctx || !yearData) return;
+
+		// Scale for high-DPI displays. Keep the drawing buffer at FIXED_W/FIXED_H
+		// logical units; CSS max-w-full h-auto scales the display size responsively.
+		const dpr = window.devicePixelRatio || 1;
+		canvas.width = FIXED_W * dpr;
+		canvas.height = FIXED_H * dpr;
+		ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+		// Resolve the CSS variable to an actual color for canvas drawing.
+		const primaryColor = getComputedStyle(canvas).getPropertyValue("--primary").trim() || "oklch(0.55 0.12 125)";
+
+		// Clear
+		ctx.clearRect(0, 0, FIXED_W, FIXED_H);
+
+		// Month labels
+		ctx.font = "14px sans-serif";
+		ctx.textAlign = "center";
+		ctx.textBaseline = "middle";
+		ctx.fillStyle = primaryColor;
+		for (const ml of monthLabels) {
+			ctx.globalAlpha = 0.6;
+			ctx.fillText(ml.label, ml.x, PT - 10);
 		}
+		ctx.globalAlpha = 1;
+
+		// Day labels
+		ctx.font = "12px sans-serif";
+		ctx.textAlign = "right";
+		ctx.textBaseline = "middle";
+		ctx.fillStyle = primaryColor;
+		ctx.globalAlpha = 0.5;
+		DAYS.forEach((label, i) => {
+			if (label) {
+				ctx!.fillText(label, PL - 6, i * STEP + PT + CELL / 2);
+			}
+		});
+		ctx.globalAlpha = 1;
+
+		// Cells
+		ctx.fillStyle = primaryColor;
+		for (const c of cells) {
+			ctx.globalAlpha = opNum(parseFloat(c.op));
+			// draw rounded rect manually
+			const x = c.x;
+			const y = c.y;
+			const r = R;
+			ctx.beginPath();
+			ctx.moveTo(x + r, y);
+			ctx.arcTo(x + CELL, y, x + CELL, y + CELL, r);
+			ctx.arcTo(x + CELL, y + CELL, x, y + CELL, r);
+			ctx.arcTo(x, y + CELL, x, y, r);
+			ctx.arcTo(x, y, x + CELL, y, r);
+			ctx.closePath();
+			ctx.fill();
+		}
+		ctx.globalAlpha = 1;
+	}
+
+	function handleMouseMove(e: MouseEvent) {
+		if (!canvas || cells.length === 0) return;
+		const rect = canvas.getBoundingClientRect();
+		const scaleX = FIXED_W / rect.width;
+		const scaleY = FIXED_H / rect.height;
+		const x = (e.clientX - rect.left) * scaleX;
+		const y = (e.clientY - rect.top) * scaleY;
+
+		const cell = cells.find((c) => x >= c.x && x <= c.x + CELL && y >= c.y && y <= c.y + CELL);
+		if (cell) {
+			tooltip = { text: cell.tip, x: e.clientX - rect.left + 8, y: e.clientY - rect.top - 8, visible: true };
+		} else {
+			tooltip = { ...tooltip, visible: false };
+		}
+	}
+
+	function handleMouseLeave() {
+		tooltip = { ...tooltip, visible: false };
+	}
+
+	$: cells, monthLabels, canvas, draw();
+
+	onMount(() => {
+		ctx = canvas.getContext("2d");
+		draw();
+	});
 </script>
 
 <div class="heatmap-card rounded-[var(--radius-large)] bg-[var(--card-bg)] p-4 md:p-5">
@@ -153,33 +255,28 @@
 		</button>
 	</div>
 
-	<!-- SVG grid -->
+	<!-- Canvas grid -->
 	{#if yearData}
-		<svg
-		width={FIXED_W}
-		height={FIXED_H}
-		viewBox="0 0 {FIXED_W} {FIXED_H}"
-		style="display: block; max-width: 100%; height: auto"
-	>
-			<!-- Month labels -->
-			{#each monthLabels as ml}
-				<text class="month-label" x={ml.x} y={PT - 10}>{ml.label}</text>
-			{/each}
-
-			<!-- Day labels -->
-			{#each DAYS as label, i}
-				{#if label}
-					<text class="day-label" x={PL - 6} y={i * STEP + PT + CELL / 2}>{label}</text>
-				{/if}
-			{/each}
-
-			<!-- Cells -->
-			{#each cells as c}
-				<rect x={c.x} y={c.y} width={CELL} height={CELL} rx={R} style="fill: var(--primary)" opacity={c.op}>
-					<title>{c.tip}</title>
-				</rect>
-			{/each}
-		</svg>
+		<div class="relative" style="max-width: 100%; overflow-x: auto;">
+			<canvas
+				bind:this={canvas}
+				width={FIXED_W}
+				height={FIXED_H}
+				class="block max-w-full h-auto"
+				role="img"
+				aria-label={`${selectedYear} 年创作热力图，共 ${yearData?.articleCount ?? 0} 篇文章`}
+				on:mousemove={handleMouseMove}
+				on:mouseleave={handleMouseLeave}
+			></canvas>
+			{#if tooltip.visible}
+				<div
+					class="heatmap-tooltip absolute z-10 px-2 py-1 rounded text-xs bg-black/80 text-white pointer-events-none whitespace-nowrap"
+					style="left: {tooltip.x}px; top: {tooltip.y}px; transform: translate(-50%, -100%);"
+				>
+					{tooltip.text}
+				</div>
+			{/if}
+		</div>
 	{/if}
 
 	<!-- Legend + stats -->
@@ -191,7 +288,7 @@
 		<span class="text-50 text-sm">
 			{selectedYear} 年 <strong class="text-75">{yearData?.articleCount ?? 0}</strong> 篇文章
 				{#if yearData?.rantCount}· <strong class="text-75">{yearData.rantCount}</strong> 条动态{/if}
-		</span>
+			</span>
 		<span class="ml-auto flex items-center gap-1 text-30 text-xs">
 			<span>少</span>
 			{#each [0, 1, 2, 3, 5] as n}
@@ -260,27 +357,7 @@
 		padding-top: 10px;
 		border-top: 1px dashed var(--line-color, rgba(0,0,0,0.1));
 	}
-	.month-label {
-		font-size: 14px;
-		fill: var(--primary);
-		fill-opacity: 0.6;
-	}
-	.day-label {
-		font-size: 12px;
-		fill: var(--primary);
-		fill-opacity: 0.5;
-		text-anchor: end;
-		dominant-baseline: central;
-	}
-	/* Compensate for SVG scaling down on small screens.
-	   viewBox is in user units, so font-size scales with the SVG. */
-	@media (max-width: 640px) {
-		.month-label {
-			font-size: 15px;
-			y: 12;
-		}
-		.day-label {
-			font-size: 12px;
-		}
+	.heatmap-tooltip {
+		position: absolute;
 	}
 </style>

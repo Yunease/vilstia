@@ -237,6 +237,10 @@
 			‹
 		</button>
 
+		<a href="/heatmap/" class="view-more">
+			查看更多
+		</a>
+
 		{#each years as yr}
 			<button
 				class="year-tab"
@@ -278,9 +282,9 @@
 
 	<!-- Legend + stats -->
 	<div class="heatmap-footer">
-		<a href="/heatmap/" class="text-50 text-sm no-underline hover:text-[var(--primary)] transition-colors">
+		<span class="text-50 text-sm">
 			累计 <strong class="text-75">{totalCount}</strong> 篇
-		</a>
+		</span>
 		<span class="text-30 text-sm">·</span>
 		<span class="text-50 text-sm">
 			{selectedYear} 年 <strong class="text-75">{yearData?.articleCount ?? 0}</strong> 篇文章
@@ -321,6 +325,19 @@
 		font-weight: 500;
 	}
 	.year-tab:hover {
+		background: var(--btn-plain-bg-hover, oklch(0.95 0.025 var(--hue, 125)));
+	}
+	.view-more {
+		padding: 3px 10px;
+		font-size: 13px;
+		border-radius: 6px;
+		text-decoration: none;
+		color: var(--primary, oklch(0.55 0.12 var(--hue, 125)));
+		background: transparent;
+		transition: all 0.15s;
+		font-weight: 500;
+	}
+	.view-more:hover {
 		background: var(--btn-plain-bg-hover, oklch(0.95 0.025 var(--hue, 125)));
 	}
 	.year-tab.active {

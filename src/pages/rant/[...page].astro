@@ -12,8 +12,9 @@ export const getStaticPaths = (async ({ paginate }) => {
 }) satisfies GetStaticPaths;
 
 const { page } = Astro.props;
+const pageTitle = page.currentPage === 1 ? "心灵碎片" : `第 ${page.currentPage} 页 - 心灵碎片`;
 ---
 
-<MainGridLayout title="心灵碎片" description="随便说点什么">
+<MainGridLayout title={pageTitle} description="随便说点什么">
 	<RantPage page={page}></RantPage>
 </MainGridLayout>

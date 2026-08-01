@@ -10,8 +10,9 @@ export const getStaticPaths = (async ({ paginate }) => {
 }) satisfies GetStaticPaths;
 
 const { page } = Astro.props;
+const pageTitle = page.currentPage === 1 ? "叙梦协定" : `第 ${page.currentPage} 页 - 叙梦协定`;
 ---
 
-<MainGridLayout title="叙梦协定" description="记录我的梦境">
+<MainGridLayout title={pageTitle} description="记录我的梦境">
 	<DreamPage page={page}></DreamPage>
 </MainGridLayout>

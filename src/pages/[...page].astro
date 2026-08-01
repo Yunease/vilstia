@@ -44,6 +44,7 @@ const serializedYears = heatmapData.years.map((y) => ({
 	data: Object.fromEntries(y.activityMap),
 }));
 const isFirstPage = page.currentPage === 1;
+const pageTitle = isFirstPage ? undefined : `第 ${page.currentPage} 页`;
 
 const personId = await resolvePersonId(Astro.site);
 const inLanguage = siteConfig.lang.replace("_", "-");
@@ -75,7 +76,7 @@ const webPageJsonLd = {
 };
 ---
 
-<MainGridLayout isHome={true}>
+<MainGridLayout isHome={true} title={pageTitle}>
     <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(blogJsonLd)}></script>
     <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(webPageJsonLd)}></script>
     <!-- All posts view -->

@@ -36,13 +36,18 @@ const heatmapData = getPostActivityData(
 		? allPostsRaw.filter(({ data }) => data.draft !== true)
 		: allPostsRaw,
 );
-const serializedYears = heatmapData.years.map((y) => ({
+// Homepage heatmap only shows the last 3 years with posts; the full archive
+// is available on /heatmap. This reduces DOM/payload and keeps the widget focused.
+const recentYears = heatmapData.years.slice(-3);
+const serializedYears = recentYears.map((y) => ({
 	year: y.year,
 	count: y.count,
 	articleCount: y.articleCount,
 	rantCount: y.rantCount,
 	data: Object.fromEntries(y.activityMap),
 }));
+const recentTotalCount = recentYears.reduce((sum, y) => sum + y.count, 0);
+const recentCurrentYearCount = recentYears[recentYears.length - 1]?.count ?? 0;
 const isFirstPage = page.currentPage === 1;
 const pageTitle = isFirstPage ? undefined : `第 ${page.currentPage} 页`;
 
@@ -84,8 +89,8 @@ const webPageJsonLd = {
         {isFirstPage && (
             <YearHeatmap
                 years={serializedYears}
-                totalCount={heatmapData.totalCount}
-                currentYearCount={heatmapData.currentYearCount}
+                totalCount={recentTotalCount}
+                currentYearCount={recentCurrentYearCount}
                 client:visible
             />
         )}

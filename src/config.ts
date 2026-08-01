@@ -11,7 +11,7 @@ import { LinkPreset } from "./types/config";
 export const siteConfig: SiteConfig = {
 	title: "樟庭徊路 晶栏处",
 	subtitle: "琴泠（Lumina）的个人博客网站",
-	description: "樟庭徊路是琴泠（Lumina Qin）与薇尔（Vilstia）的数字花园，记录着我们的对话，还有软件开发、开源项目、AI 实验、前端技术探索以及文学创作。这里收藏诗歌、散文、小说、学习笔记与成长记录，见证从代码实践到思想表达的长期积累，探索技术、艺术与个人创造之间的连接。",
+	description: "琴泠（Lumina）与薇尔（Vilstia）的数字花园。记录技术探索、AI 实验、文学创作与成长思考，在代码与文字之间徘徊。",
 	ogDescription: "樟庭徊路，琴泠与Vilstia的数字花园。在代码与文字之间徘徊，记录技术探索、文学创作、AI 实验，以及生命旅途中留下的思考与痕迹。",
 	lang: "zh_CN", // Language code, e.g. 'en', 'zh_CN', 'ja', etc.
 	themeColor: {

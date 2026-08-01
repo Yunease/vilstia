@@ -1,19 +1,27 @@
 ---
-title: 从 commit 历史里赶走 Claude — 一次完整的 AI 共同作者清理实录
-tags: [Git, GitHub, 开发日志, 精选]
+title: 如何把 Claude 从 Contributor 中删掉 | 把Claude从我的Contributors中踢出去！
+tags: [git, 开发日志]
 category: 开发日志
+description: ""
 published: 2026-07-29T20:30:00
 ---
 
-# 前言 一个不请自来的共同作者
+# 前言 哥们你哪里来的？
 
-那天晚上照例打开 GitHub 翻看自己的仓库,突然在 commit 列表里瞥见了一个陌生的头像 —— **Claude**。我心里咯噔一下:我从来没有用过 Claude 啊?是 GitHub 给我推的 Copilot 自动加的?还是什么自动化的东西在背后偷偷给我"挂名"?
+昨晚在做一个项目的性能优化，做完之后提交了。今天早上（并非早上）发现点开仓库发现claude的出现在了贡献者里：
+（卧槽忘记截图了你们凑活看吧
+		Contributors：
+		头像  Lumina（我自己）
+		头像  Claude
+）
 
-更诡异的是,这个头像并没有出现在右侧的 Contributors 详情里(那里只有我一个人),也搜不到对应的 commit message。Claude 就像是**只存在于侧边栏的一个幽灵**,看得见,摸不着,却也删不掉。
+虽然我确实使用了claude code提交代码，但我也接的是deepseek，我怀疑claude code专门内置了这种提示词，不过我懒得去专门看了。
 
-这个发现开启了一段相当折腾的清理过程 —— 涉及 git 历史改写、强制推送、GitHub 内部缓存、甚至一个不太常规的分支重命名操作。这篇文章就把整个过程完整记录下来,既给未来的自己留个备忘,也希望能给踩到同一个坑的人一些参考。
+为了解决这个问题，我跑了不少社区查找解决办法，终于找到了一个稳定解决的方案，这个发现开启了一段相当折腾的清理过程 —— 涉及 git 历史改写、强制推送、GitHub 内部缓存、甚至一个不太常规的分支重命名操作。这篇文章就把整个过程完整记录下来，既给未来的自己留个备忘，也希望能给踩到同一个坑的人一些参考。
 
-> 这不是一个 5 分钟能搞定的"小问题",但**也不需要被它困住**。
+> 其实解决它很简单，你可以直接跳转到最后，但是折腾，定位这个问题才是最有意思的。
+
+
 
 ---
 
@@ -29,7 +37,7 @@ Co-Authored-By: Name <email@example.com>
 
 GitHub 就会在那个 commit 旁边多显示一个头像。
 
-我立刻检查了自己的 commit 历史:
+我于是检查了自己的 commit 历史:
 
 ```bash
 git log --all --format="%B" | grep -i "Co-Authored-By:.*Claude"
@@ -41,13 +49,21 @@ git log --all --format="%B" | grep -i "Co-Authored-By:.*Claude"
 Co-Authored-By: Claude <noreply@anthropic.com>
 ```
 
-7 个 commit,全部带这个 trailer,日期集中在 2026-07-28 那批 SEO/性能优化工作里。
+一共有7 个 commit，全部带这个 trailer，日期集中在 2026-07-28 那批 SEO/性能优化工作里。
+
+我仔细检查了一下更改内容，确定了不是bot的奇怪提交，看样子应该是A/的 Claude Code 发力了
+
+> 这里还是建议大家用OpenCode吧，cc不知道内置了什么奇怪的提示词。。。
+
+既然确认了问题，下一步就应该仔细分析一下了。
+
+
 
 ## 1.2 这些 trailer 怎么来的?
 
-回想起来,那批 commit 是在 Cursor 里写完代码,然后通过 Claude Code 辅助润色 message 时产生的。Claude Code 在生成 commit message 时,默认会**自动在末尾追加一个 `Co-Authored-By: Claude` 的 trailer**(也可能是某个 commit 模板带的)。
+回想起来，那批 commit 是在我当时在 Claude Code 里自动跑的，因为当时着急吃饭，没有仔细检查就直接让它写了 message 并提交。Claude Code 在生成 commit message 时，可能会**在末尾追加一个 `Co-Authored-By: Claude` 的 trailer**（我在此之前并没有遇到过这个情况，几个月内也没有升级 Claude Code ，因此我不太好定位它，但大概是这样的）。
 
-> 这是 Claude Code 当前的一个"行为":它默认把自己的贡献归到 commit 上。从功能角度说,这个 trailer 是**诚实的**(确实有 AI 参与了润色),但从项目归属角度说,我希望每个 commit 的共同作者都来自**真正参与的人**,而不是我用的工具。
+> 这是 Claude Code 当前的一个"行为"：它默认把自己的贡献归到 commit 上。从功能角度说,这个 trailer 是**诚实的**，AI参与的项目确实应该有标注，但我认为应该写进readme里，从项目归属角度说，我希望每个 commit 的共同作者都来自**真正参与的人**，而不是使用的工具。
 
 7 个 commit 的 SHA(被改写前的原始值):
 
@@ -62,6 +78,8 @@ b24cd8f  perf(seo): 优化首屏 banner LCP 与 alt 文案
 ```
 
 每个末尾都有同一行 `Co-Authored-By: Claude <noreply@anthropic.com>`。
+
+
 
 ---
 
@@ -80,6 +98,8 @@ b24cd8f  perf(seo): 优化首屏 banner LCP 与 alt 文案
 
 我选了 `filter-branch`,因为它原生可用,而且这次操作的范围明确(`8981420^..HEAD`),不会误伤。
 
+
+
 ## 2.2 改写命令
 
 ```bash
@@ -90,19 +110,21 @@ FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch -f \
 
 逐行解释:
 
-- `FILTER_BRANCH_SQUELCH_WARNING=1` —— 关掉 `filter-branch` 那段"我有很多陷阱"的警告文本
-- `-f` —— 强制执行(因为 `refs/original/` 里可能有旧备份)
-- `--msg-filter` —— 对每个 commit 的 message 应用过滤器
-- `grep -v -E "^Co-Authored-By:.*Claude"` —— 反向匹配,删除所有以 `Co-Authored-By:` 开头且包含 `Claude` 的行,其它行(包括空行、commit 主体内容)原样保留
-- `8981420^..HEAD` —— 范围:从 `8981420` 的**父提交**到 `HEAD`(包括 `8981420`)。这个范围刚好覆盖所有 7 个 commit
+- `FILTER_BRANCH_SQUELCH_WARNING=1` —— 关掉 `filter-branch` 那段"我有很多陷阱"的警告文本。
+- `-f` —— 强制执行。（因为 `refs/original/` 里可能有旧备份）
+- `--msg-filter` —— 对每个 commit 的 message 应用过滤器。
+- `grep -v -E "^Co-Authored-By:.*Claude"` —— 反向匹配，删除所有以 `Co-Authored-By:` 开头且包含 `Claude` 的行，其它行(包括空行、commit 主体内容)原样保留。
+- `8981420^..HEAD` —— 范围:从 `8981420` 的**父提交**到 `HEAD`(包括 `8981420`)。这个范围刚好覆盖所有 7 个 commit 。
+
+
 
 ## 2.3 一个有趣的"环境副作用"
 
-跑这个命令的时候,遇到了一个意料之外的小插曲:filter-branch 一直报 "You have unstaged changes"。
+跑这个命令的时候,遇到了一个意料之外的小插曲：filter-branch 一直报 "You have unstaged changes"。
 
-排查后发现,是**当前会话的工具**(Claude Code)在每次调用 bash 工具时,都会**自动把执行过的命令追加到 `.claude/settings.local.json` 的权限列表里**。也就是说,在我按回车执行 filter-branch 的**前一瞬间**,settings.local.json 已经被写入了一行新命令,git status 因此显示有 unstaged 改动,filter-branch 拒绝执行。
+排查后发现,是**当前会话的工具** （Claude Code） 在每次调用 bash 工具时，都会**自动把执行过的命令追加到 `.claude/settings.local.json` 的权限列表里**。也就是说，在我按回车执行 filter-branch 的**前一瞬间**，settings.local.json 已经被写入了一行新命令，git status 因此显示有 unstaged 改动，filter-branch 拒绝执行。
 
-解法是把"恢复工作区"和"filter-branch"串成一条命令:
+解法是把"恢复工作区"和"filter-branch"串成一条命令：
 
 ```bash
 git checkout HEAD -- .claude/settings.local.json && \
@@ -110,32 +132,34 @@ git checkout HEAD -- .claude/settings.local.json && \
   --msg-filter 'grep -v -E "^Co-Authored-By:.*Claude"' 8981420^..HEAD
 ```
 
-中间那一步 `git checkout` 会把 Claude Code 前置写入的权限行覆盖掉,filter-branch 启动时工作区就是干净的。
+中间那一步 `git checkout` 会把 Claude Code 前置写入的权限行覆盖掉，filter-branch 启动时工作区就是干净的。
 
-> 这个"前置写入"机制本身的目的是做权限审计,但对 git 这类需要"clean working tree"的工具来说会有点冲突。如果你也用类似工具,可能也会遇到 —— 知道这个机制,就好处理了。
+> 这个"前置写入"机制本身的目的是做权限审计，但对 git 这类需要"clean working tree"的工具来说会有点冲突。如果你也用类似工具，可能也会遇到 —— 知道这个机制，就好处理了。
+
+
 
 ## 2.4 改写结果
 
-filter-branch 跑完后,本地 `master` 的 10 个 commit(SHA 全部变了)message 都干净了:
+filter-branch 跑完后,本地 `master` 的 10 个 commit（SHA 全部变了）message 都干净了:
 
 ```bash
 $ git log master --format="%B" | grep -i "Co-Authored-By:.*Claude" || echo "✓ master 完全干净"
 ✓ master 完全干净
 ```
 
-清理 filter-branch 自动创建的 backup refs:
+清理 filter-branch 自动创建的 backup refs：
 
 ```bash
 git update-ref -d refs/original/refs/heads/master
 ```
 
-然后,关键的一步 —— 推送到 GitHub:
+然后，关键的一步 —— 推送到 GitHub：
 
 ```bash
 git push --force-with-lease origin master
 ```
 
-> 用 `--force-with-lease` 而不是 `--force`:**前者会检查远程 HEAD 是否还是我们预期的那样,如果别人在我们改写期间推了新东西,会拒绝覆盖**。这层"租约检查"是免费的安全网。
+> 用 `--force-with-lease` 而不是 `--force`：**前者会检查远程 HEAD 是否还是我们预期的那样，如果别人在我们改写期间推了新东西，会拒绝覆盖**。这层"租约检查"是免费的安全网。
 
 推送成功后输出:
 
@@ -145,7 +169,9 @@ git push --force-with-lease origin master
 
 远程 master 的 SHA 已经从 `1a7c14a` 变成 `a82354c`,commit message 不再含 `Co-Authored-By: Claude`。
 
-到这里,我以为事情就结束了。
+到这里，我以为事情就结束了。
+
+
 
 ---
 
@@ -153,33 +179,35 @@ git push --force-with-lease origin master
 
 ## 3.1 改写完了,但头像还在
 
-刷了一下 GitHub 仓库主页 —— commit 列表里 Claude 的头像**消失了**。很好。
+刷了一下 GitHub 仓库主页，发现右侧的 Contributors 侧边栏，**Claude 还在**。
 
-但是右侧的 Contributors 侧边栏,**Claude 还在**。
+我点进 `/graphs/contributors` 看 Insights 图表 —— 这时候 Claude 不在了。**这个页面是基于 author 字段实时算的,我们没改 author，只改了 message，本来就该是干净的。**
 
-我点进 `/graphs/contributors` 看 Insights 图表 —— Claude 不在了。**这个页面是基于 author 字段实时算的,我们没改 author,只改了 message,本来就该是干净的。**
+看样子侧边栏和 Insights 用的是**两套数据**。
 
-侧边栏和 Insights 用的是**两套数据**。
 
-## 3.2 经验上的诊断:不是缓存那么浅
 
-Ctrl+F5 硬刷新、无痕窗口访问、换手机用 4G 打开 —— Claude 头像**依然稳稳地坐在侧边栏里**。
+## 3.2 经验上的诊断：不是缓存那么浅
 
-后端数据层面我已经验证过:用 GitHub API 直接拉 100 个 commit,扫描 `Co-Authored-By.*Claude`,0 个命中。**HTML 渲染的 SSR 部分也只是个 skeleton placeholder**(占位骨架屏),真正数据由前端 JS 动态 fetch。
+先后尝试了Ctrl+F5 硬刷新、无痕窗口访问、换手机用 4G 打开 —— Claude 头像**依然稳稳地坐在侧边栏里**。
+
+后端数据层面我已经验证过：用 GitHub API 直接拉 100 个 commit，扫描 `Co-Authored-By.*Claude`,0 个命中。**HTML 渲染的 SSR 部分也只是个 skeleton placeholder**（占位骨架屏），真正数据由前端 JS 动态 fetch。
 
 这意味着:
 
-- 浏览器缓存、CDN 边缘缓存都排除了(手机上也没了 → 不是缓存)
+- 浏览器缓存、CDN 边缘缓存都排除了（手机上也没了 → 不是缓存）
 - 后端 commit message 数据已经干净
-- **侧边栏用的不是"commit history 实时聚合",而是 GitHub 维护的一个独立的、陈旧的索引**
+- **侧边栏用的不是"commit history 实时聚合"，而是 GitHub 维护的一个独立的、陈旧的索引**
 
-简单说:**GitHub 在仓库层面的"贡献者统计"是一个有滞后性的独立索引,跟 git 数据并不是实时同步的。**
+简单说：**GitHub 在仓库层面的"贡献者统计"是一个有滞后性的独立索引，跟 git 数据并不是实时同步的。**
+
+
 
 ---
 
 # 四、社区方案调研
 
-在动手试各种"刷新技巧"前,我去搜了一下 GitHub Community 的相关讨论。这个问题在社区里**有大量的反馈**,基本都是从 2026 年 4-5 月开始的(也正是 Claude Code、Cursor 等 AI 工具大规模普及、共同作者污染问题集中爆发的时间段)。
+在动手试各种"刷新技巧"前，我去搜了一下 GitHub Community 的相关讨论。这个问题在社区里**有大量的反馈**,基本都是从 2026 年 4-5 月开始的(也正是 Claude Code、Cursor 等 AI 工具大规模普及、共同作者污染问题集中爆发的时间段)。
 
 我重点读了几个高赞讨论,归纳出社区报告过的几种"刷新索引"方法:
 
@@ -187,7 +215,7 @@ Ctrl+F5 硬刷新、无痕窗口访问、换手机用 4G 打开 —— Claude �
 |---|---|---|
 | 推空 commit | `git commit --allow-empty -m "reindex" && git push` | 偶尔 |
 | 切换默认分支 | 切到别的分支再切回 | 偶有 |
-| 改名分支 | 把 `main` rename 成 `main1` 再改回 | **最常被报告"立即生效"** |
+| 改名分支 | 把 `main` rename 成 `main1` 再改回（或者master改名，道理一样，到时候记得改回去就行了） | **最常被报告"立即生效"** |
 | 切换 Private/Public | 改私有再改回公开 | 多次"立即刷新" |
 | 转让 ownership | Org 仓库:临时转给个人再转回 | Org 仓库有效 |
 | Block @claude 用户 | 在 github.com/claude 点 block | 报告不一致,有时头像变"已屏蔽"占位 |
@@ -196,7 +224,7 @@ Ctrl+F5 硬刷新、无痕窗口访问、换手机用 4G 打开 —— Claude �
 
 **官方 GitHub 员工 0 回答,文档 0 说明** —— 这就是 GitHub 服务端的一个未解决的 bug。
 
-> 顺带,这个 bug 不只影响 Claude。任何在历史 commit 里有"曾经存在但已不在 git 里"的 co-author 邮箱(比如删除了的 GitHub 账号、临时邮箱、改过 GitHub 用户名等),都可能触发同样的"幽灵头像"。
+> 顺带，这个 bug 不只影响 Claude。任何在历史 commit 里有"曾经存在但已不在 git 里"的 co-author 邮箱(比如删除了的 GitHub 账号、临时邮箱、改过 GitHub 用户名等)，都可能触发同样的"幽灵头像"。
 
 ---
 

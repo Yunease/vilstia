@@ -61,14 +61,6 @@
 		if (n === 3) return "0.8";
 		return "1";
 	}
-	function opNum(n: number): number {
-		if (n === 0) return 0.05;
-		if (n === 1) return 0.4;
-		if (n === 2) return 0.6;
-		if (n === 3) return 0.8;
-		return 1;
-	}
-
 	interface Cell {
 		x: number;
 		y: number;
@@ -180,21 +172,26 @@
 		});
 		ctx.globalAlpha = 1;
 
-		// Cells
+		// Cells — batch by opacity to reduce canvas state changes.
 		ctx.fillStyle = primaryColor;
+		const opacityGroups: Record<string, Cell[]> = {};
 		for (const c of cells) {
-			ctx.globalAlpha = opNum(parseFloat(c.op));
-			// draw rounded rect manually
-			const x = c.x;
-			const y = c.y;
-			const r = R;
+			(opacityGroups[c.op] ??= []).push(c);
+		}
+		for (const op of Object.keys(opacityGroups).sort()) {
+			ctx.globalAlpha = Number.parseFloat(op);
 			ctx.beginPath();
-			ctx.moveTo(x + r, y);
-			ctx.arcTo(x + CELL, y, x + CELL, y + CELL, r);
-			ctx.arcTo(x + CELL, y + CELL, x, y + CELL, r);
-			ctx.arcTo(x, y + CELL, x, y, r);
-			ctx.arcTo(x, y, x + CELL, y, r);
-			ctx.closePath();
+			for (const c of opacityGroups[op]) {
+				const x = c.x;
+				const y = c.y;
+				const r = R;
+				ctx.moveTo(x + r, y);
+				ctx.arcTo(x + CELL, y, x + CELL, y + CELL, r);
+				ctx.arcTo(x + CELL, y + CELL, x, y + CELL, r);
+				ctx.arcTo(x, y + CELL, x, y, r);
+				ctx.arcTo(x, y, x + CELL, y, r);
+				ctx.closePath();
+			}
 			ctx.fill();
 		}
 		ctx.globalAlpha = 1;

@@ -219,11 +219,6 @@ const bannerOffset =
 
 		<link rel="alternate" type="application/rss+xml" title={profileConfig.name} href={`${Astro.site}rss.xml`}/>
 
-		<!-- Vercount Analytics (per-article page views) -->
-		<script defer src="https://events.vercount.one/js" data-swup-reload-script></script>
-		<!-- Umami Analytics (total site stats) -->
-		<script defer src="https://analytics.hxcn.dev/script.js" data-website-id="1d49f872-1814-4036-81b4-39302f678190" data-swup-reload-script></script>
-
 	</head>
 	<body class=" min-h-screen transition " class:list={[{"lg:is-home": isHomePage, "enable-banner": enableBanner}]}
 		  data-overlayscrollbars-initialize
@@ -241,6 +236,12 @@ const bannerOffset =
 
 		<!-- increase the page height during page transition to prevent the scrolling animation from jumping -->
 		<div id="page-height-extend" class="hidden h-[300vh]"></div>
+
+		<!-- Analytics scripts moved to the end of body so they don't block initial render -->
+		<!-- Vercount Analytics (per-article page views) -->
+		<script defer src="https://events.vercount.one/js" data-swup-reload-script></script>
+		<!-- Umami Analytics (total site stats) -->
+		<script defer src="https://analytics.hxcn.dev/script.js" data-website-id="1d49f872-1814-4036-81b4-39302f678190" data-swup-reload-script></script>
 	</body>
 </html>
 

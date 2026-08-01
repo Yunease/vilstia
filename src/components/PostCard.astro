@@ -88,8 +88,9 @@ const { remarkPluginFrontmatter } = await entry.render();
                   class="transition opacity-0 group-hover:opacity-100 scale-50 group-hover:scale-100 text-white text-5xl">
             </Icon>
         </div>
-        <ImageWrapper src={image} basePath={path.join("content/posts/", getDir(entry.id))} alt="Cover Image of the Post"
-                  class="w-full h-full">
+        <ImageWrapper src={image} basePath={path.join("content/posts/", getDir(entry.id))} alt={title}
+                  class="w-full h-full" width={640} height={360} widths={[320, 640, 960]}
+                  sizes="(max-width: 768px) 100vw, 28vw">
         </ImageWrapper>
     </a>}
 

@@ -12,6 +12,11 @@ interface Props {
 	// can't infer aspect ratio. Also forwarded to the local <Image> as a hint.
 	width?: number;
 	height?: number;
+	// Responsive candidate widths for Astro <Image> to generate srcset.
+	// Only used for local images; ignored for external/public images.
+	widths?: number[];
+	// Sizes attribute for the <img> tag, describing the intended display width.
+	sizes?: string;
 	// Defaults to "lazy". Pass "eager" for above-the-fold / LCP images.
 	loading?: "eager" | "lazy";
 	// Hint for the browser's fetch priority. Use "high" for the LCP image
@@ -30,6 +35,8 @@ const {
 	basePath = "/",
 	width,
 	height,
+	widths,
+	sizes,
 	loading = "lazy",
 	fetchpriority,
 } = Astro.props;
@@ -75,6 +82,8 @@ const imageStyle = `object-position: ${position}`;
 		style={imageStyle}
 		width={width}
 		height={height}
+		widths={widths}
+		sizes={sizes}
 		loading={loading}
 		decoding="async"
 		fetchpriority={fetchpriority}
@@ -86,6 +95,7 @@ const imageStyle = `object-position: ${position}`;
 		style={imageStyle}
 		width={width}
 		height={height}
+		sizes={sizes}
 		loading={loading}
 		decoding="async"
 		fetchpriority={fetchpriority}

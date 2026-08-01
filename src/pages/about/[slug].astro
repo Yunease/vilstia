@@ -60,6 +60,7 @@ if (post.data.tag === "me") {
     <div class="about-wrapper">
         <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
             <div class="card-base z-10 px-9 py-6 relative w-full ">
+                <h1 class="text-3xl font-bold text-[var(--primary)] mb-4">{post.data.title}</h1>
                 <Markdown class="mt-2">
                     <Content />
                 </Markdown>

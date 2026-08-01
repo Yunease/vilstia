@@ -30,7 +30,7 @@ html.is-animating .transition-swup-fade {
 #sidebar {
     animation-delay: 100ms
 }
-#swup-container {
+main {
     outline: none;
 }
 #content-wrapper {

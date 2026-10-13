@@ -1,8 +1,8 @@
 ---
-title: 当我们离开以后
-tags: [dream]
-category: 散文
-description: 女孩梅莉安在电梯事故中失去了生命，但她似乎没有意识到这一切……
+title: After We Take Our Leave
+tags: [dream, 轻小说]
+category: 小说
+description: 女孩梅莉安在电梯事故中失去了生命，但她似乎没有意识到这一切……<在恍惚的歌与鲜花中随波逐流吧>
 collection: '叙梦协定'
 published: 2026-10-11T12:44:02
 ---

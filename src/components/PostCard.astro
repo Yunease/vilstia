@@ -92,7 +92,7 @@ const { remarkPluginFrontmatter } = await entry.render();
         </div>
         <ImageWrapper src={image} basePath={path.join("content/posts/", getDir(entry.id))} alt={title}
                   class="w-full h-full" width={640} height={360} widths={[320, 640, 960]}
-                  sizes="(max-width: 768px) 100vw, 28vw">
+                  sizes="(max-width: 768px) 100vw, 28vw" loading="lazy">
         </ImageWrapper>
     </a>}
 

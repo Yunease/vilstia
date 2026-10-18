@@ -25,6 +25,50 @@ import { remarkExcerpt } from "./src/plugins/remark-excerpt.js";
 import { remarkReadingTime } from "./src/plugins/remark-reading-time.mjs";
 import { rehypeShiftHeadings } from "./src/plugins/rehype-shift-headings.mjs";
 
+// Build a URL -> lastmod map from every post's frontmatter so the sitemap
+// can use `updated || published` as `lastmod` for each article. Slugs mirror
+// Astro's collection ids: the path relative to `src/content/posts`, minus the
+// `.md` extension, with backslashes normalized to `/`.
+import { readdirSync, readFileSync, statSync } from "node:fs";
+import { join, relative, sep } from "node:path";
+
+function collectPostFiles(dir) {
+	const out = [];
+	for (const name of readdirSync(dir)) {
+		const full = join(dir, name);
+		if (statSync(full).isDirectory()) {
+			out.push(...collectPostFiles(full));
+		} else if (name.endsWith(".md")) {
+			out.push(full);
+		}
+	}
+	return out;
+}
+
+function frontmatterDate(fm, key) {
+	const line = fm.split(/\r?\n/).find((l) => l.trim().startsWith(`${key}:`));
+	if (!line) return undefined;
+	const raw = line.split(":").slice(1).join(":").trim().replace(/["']/g, "");
+	if (!raw) return undefined;
+	const d = new Date(raw);
+	return Number.isNaN(d.getTime()) ? undefined : d.toISOString();
+}
+
+const postLastmodByUrl = new Map();
+const postsRoot = join(process.cwd(), "src", "content", "posts");
+for (const file of collectPostFiles(postsRoot)) {
+	const content = readFileSync(file, "utf8");
+	const match = content.match(/^---\s*\r?\n([\s\S]*?)\r?\n---/);
+	if (!match) continue;
+	const date = frontmatterDate(match[1], "updated") || frontmatterDate(match[1], "published");
+	if (!date) continue;
+	const rel = relative(postsRoot, file).replace(/\.md$/, "").split(sep).join("/");
+	// Match the sitemap's URL-encoded paths (e.g. Chinese slugs) by encoding
+	// each path segment, mirroring how Astro/Node URL-encode the route.
+	const encoded = rel.split("/").map(encodeURIComponent).join("/");
+	postLastmodByUrl.set(`https://vilstia.org/posts/${encoded}/`, date);
+}
+
 // https://astro.build/config
 export default defineConfig({
 	// site: "https://fuwari.vercel.app/",
@@ -114,7 +158,17 @@ export default defineConfig({
 			},
 		}),
 		svelte(),
-		sitemap(),
+		sitemap({
+			// Customize `lastmod` for blog posts: prefer the `updated` field,
+			// fall back to `published`, so search engines see accurate freshness.
+			serialize(item) {
+				const date = postLastmodByUrl.get(item.url);
+				if (date) {
+					return { ...item, lastmod: date };
+				}
+				return item;
+			},
+		}),
 	],
 	markdown: {
 		remarkPlugins: [

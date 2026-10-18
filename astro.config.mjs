@@ -114,6 +114,7 @@ export default defineConfig({
 		}),
 		expressiveCode({
 			themes: [expressiveCodeConfig.theme, expressiveCodeConfig.theme],
+			shiki: expressiveCodeConfig.shiki,
 			plugins: [
 				pluginCollapsibleSections(),
 				pluginLineNumbers(),

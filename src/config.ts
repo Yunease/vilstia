@@ -118,6 +118,21 @@ export const expressiveCodeConfig: ExpressiveCodeConfig = {
 	// Note: Some styles (such as background color) are being overridden, see the astro.config.mjs file.
 	// Please select a dark theme, as this blog theme currently only supports dark background color
 	theme: "github-dark",
+	shiki: {
+		// Shiki resolves code-block language tags case-sensitively and only
+		// against registered names/aliases. Map the variant spellings used in
+		// markdown (and the `gds` shorthand) to Shiki's built-in `gdscript`.
+		// RenPy has no bundled grammar, but its syntax is ~identical to Python,
+		// so alias it to `python` for highlighting.
+		langAlias: {
+			gds: "gdscript",
+			gdscript: "gdscript",
+			GDScript: "gdscript",
+			GDscript: "gdscript",
+			renpy: "python",
+			RENPY: "python",
+		},
+	},
 };
 
 export const Stime = {

@@ -126,6 +126,9 @@ export type BlogPostData = {
 
 export type ExpressiveCodeConfig = {
 	theme: string;
+	shiki?: {
+		langAlias?: Record<string, string>;
+	};
 };
 
 export type Collection = {

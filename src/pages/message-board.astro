@@ -16,6 +16,84 @@ import "../styles/twikoo.css";
     <div class="message-board-content card-base z-10 px-6 md:px-9 py-6 relative w-full">
         <div id="twikoo-container"></div>
     </div>
+
+    <!-- Twikoo 评论系统：仅在留言板页加载。
+         必须用 is:inline 并放在 <main> 槽内，否则 Astro 会把脚本提升到 <body> 末尾，
+         落在 swup 的 main 容器之外，导致客户端跳转到留言板时该脚本不会被重新执行。 -->
+    <script is:inline>
+        const TWIROO_URL = 'https://cdn.jsdelivr.net/npm/twikoo@1.6.42/dist/twikoo.all.min.js';
+        const TWIROO_ENV_ID = 'https://twikoodb.vercel.app';
+        const TWIROO_EL = 'twikoo-container';
+
+        let hooksBoundTo = null;
+
+        function initTwikoo() {
+            const container = document.getElementById(TWIROO_EL);
+            if (!container || typeof window.twikoo === 'undefined') return;
+            container.innerHTML = '';
+            window.twikoo.init({
+                envId: TWIROO_ENV_ID,
+                el: '#' + TWIROO_EL,
+            });
+        }
+
+        function destroyTwikoo() {
+            const container = document.getElementById(TWIROO_EL);
+            if (container) container.innerHTML = '';
+        }
+
+        let twikooLoading = false;
+        function loadTwikoo() {
+            if (typeof window.twikoo !== 'undefined') {
+                initTwikoo();
+                return;
+            }
+            if (twikooLoading) return;
+            twikooLoading = true;
+            const script = document.createElement('script');
+            script.src = TWIROO_URL;
+            script.onload = () => { twikooLoading = false; initTwikoo(); };
+            script.onerror = () => { twikooLoading = false; };
+            document.head.appendChild(script);
+        }
+
+        function setupSwupHooks(swup) {
+            if (!swup?.hooks || hooksBoundTo === swup) return;
+            hooksBoundTo = swup;
+            swup.hooks.on('page:view', loadTwikoo);
+            swup.hooks.on('content:replace', destroyTwikoo, { before: true });
+        }
+
+        // [验证 A] 记录模块执行与初始化关键节点，用于排查根因。
+        function twikooLog(...args) {
+            if (typeof console !== 'undefined') console.log('[Twikoo]', ...args);
+        }
+
+        function onSwupEnable() {
+            twikooLog('swup:enable received', {
+                readyState: document.readyState,
+                swupReady: !!window.swup?.hooks,
+            });
+            if (window.swup?.hooks) setupSwupHooks(window.swup);
+        }
+
+        function setup() {
+            twikooLog('setup() entry', {
+                readyState: document.readyState,
+                swupReady: !!window.swup?.hooks,
+                swupInstance: window.swup?.hooks ? 'exists' : 'none',
+            });
+            loadTwikoo();
+            document.addEventListener('swup:enable', onSwupEnable);
+            if (window.swup?.hooks) setupSwupHooks(window.swup);
+        }
+
+        twikooLog('module executed', {
+            readyState: document.readyState,
+            swupReady: !!window.swup?.hooks,
+        });
+        setup();
+    </script>
 </MainGridLayout>
 
 <style>
@@ -51,48 +129,3 @@ import "../styles/twikoo.css";
         }
     }
 </style>
-
-<!-- Twikoo 评论系统：仅在留言板页加载 -->
-<script>
-    const TWIROO_URL = 'https://cdn.jsdelivr.net/npm/twikoo@1.6.42/dist/twikoo.all.min.js';
-    const TWIROO_ENV_ID = 'https://twikoodb.vercel.app';
-    const TWIROO_EL = 'twikoo-container';
-
-    function initTwikoo() {
-        const container = document.getElementById(TWIROO_EL);
-        if (!container || typeof window.twikoo === 'undefined') return;
-        container.innerHTML = '';
-        window.twikoo.init({
-            envId: TWIROO_ENV_ID,
-            el: '#' + TWIROO_EL,
-        });
-    }
-
-    function destroyTwikoo() {
-        const container = document.getElementById(TWIROO_EL);
-        if (container) container.innerHTML = '';
-    }
-
-    function loadTwikoo() {
-        if (typeof window.twikoo !== 'undefined') {
-            initTwikoo();
-            return;
-        }
-        const script = document.createElement('script');
-        script.src = TWIROO_URL;
-        script.onload = initTwikoo;
-        document.head.appendChild(script);
-    }
-
-    function setup() {
-        loadTwikoo();
-        window.swup.hooks.on('page:view', loadTwikoo);
-        window.swup.hooks.on('content:replace', destroyTwikoo, { before: true });
-    }
-
-    if (window?.swup?.hooks) {
-        setup();
-    } else {
-        document.addEventListener('swup:enable', setup);
-    }
-</script>

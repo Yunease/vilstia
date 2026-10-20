@@ -87,9 +87,9 @@ const webPageJsonLd = {
     <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(blogJsonLd)}></script>
     <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(webPageJsonLd)}></script>
     <!-- Homepage self-description (GEO: boosts personal-blog recognition) -->
-    {isFirstPage && (
+    <!-- {isFirstPage && (
         <p class="transition text-center text-neutral-400 text-sm mb-4 leading-relaxed">这里是一个记录诗与文学、计算机技术学习、AI 应用开发、独立游戏实践与个人生活的博客，也分享原创作品和项目经验。</p>
-    )}
+    )} -->
     <!-- All posts view -->
     <div id="posts-all" class="transition flex flex-col rounded-[var(--radius-large)] bg-[var(--card-bg)] py-1 md:py-0 md:bg-transparent md:gap-4 mb-4">
         {isFirstPage && (

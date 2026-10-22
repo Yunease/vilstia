@@ -96,4 +96,128 @@ const stats = await calculateBlogStats();
       <span class="text-xl font-bold text-[var(--primary)]">{stats.totalWords}</span>
     </div>
   </div>
+  <div class="group mt-4 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg hover:bg-[var(--btn-regular-bg)] transition">
+    <button
+      id="random-explore-btn"
+      type="button"
+      title="随机跳转到网站中的任意一个页面"
+      class="w-full h-10 rounded-lg flex items-center justify-center gap-2 font-bold
+             bg-transparent hover:bg-transparent active:bg-transparent
+             active:scale-95
+             text-[var(--btn-content)] dark:text-white/75 transition
+             disabled:opacity-60 disabled:cursor-wait"
+    >
+      <Icon name="material-symbols:explore-outline-rounded" class="text-xl text-[var(--primary)] transition-transform group-hover:rotate-12" />
+      <span>随便看看</span>
+    </button>
+  </div>
 </div>
+
+<script>
+const RANDOM_PAGES_URL = `${import.meta.env.BASE_URL}random-pages.json`.replace(/\/{2,}/g, "/");
+
+let pagesCache: string[] | null = null;
+let pagesPromise: Promise<string[]> | null = null;
+
+function normalizePath(path: string): string {
+  return path.replace(/index\.html$/, "").replace(/\/+$/, "") || "/";
+}
+
+async function loadRandomPages(): Promise<string[]> {
+  if (pagesCache) return pagesCache;
+  if (!pagesPromise) {
+    pagesPromise = fetch(RANDOM_PAGES_URL, { cache: "no-cache" })
+      .then(async (res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data: unknown = await res.json();
+        if (!Array.isArray(data)) throw new Error("Invalid random-pages.json");
+        const pages = data.filter(
+          (page): page is string => typeof page === "string" && page.startsWith("/"),
+        );
+        if (pages.length === 0) throw new Error("random-pages.json is empty");
+        return pages;
+      })
+      .then((pages) => {
+        pagesCache = pages;
+        return pages;
+      })
+      .catch((error) => {
+        pagesPromise = null;
+        throw error;
+      });
+  }
+  return pagesPromise;
+}
+
+// Dev mode has no build output, so fall back to same-origin links on the page.
+function collectFallbackPages(): string[] {
+  const origin = window.location.origin;
+  const base = import.meta.env.BASE_URL;
+  const pages = new Set<string>();
+
+  document.querySelectorAll<HTMLAnchorElement>("a[href]").forEach((anchor) => {
+    const href = anchor.getAttribute("href");
+    if (!href || /^(#|mailto:|tel:|javascript:)/i.test(href)) return;
+
+    let url: URL;
+    try {
+      url = new URL(href, window.location.href);
+    } catch {
+      return;
+    }
+    if (url.origin !== origin || !url.pathname.startsWith(base)) return;
+    if (/\.[a-z0-9]+$/i.test(url.pathname)) return;
+
+    pages.add(url.pathname);
+  });
+
+  pages.add(window.location.pathname);
+  return [...pages];
+}
+
+function pickRandomPage(pages: string[]): string | null {
+  const current = normalizePath(window.location.pathname);
+  const alternatives = pages.filter((page) => normalizePath(page) !== current);
+  const pool = alternatives.length > 0 ? alternatives : pages;
+  return pool[Math.floor(Math.random() * pool.length)] ?? null;
+}
+
+function navigateTo(url: string) {
+  const swup = (window as unknown as { swup?: { navigate?: (target: string) => void } }).swup;
+  if (swup?.navigate) {
+    swup.navigate(url);
+  } else {
+    window.location.href = url;
+  }
+}
+
+async function goRandom() {
+  const button = document.getElementById("random-explore-btn") as HTMLButtonElement | null;
+  if (button?.disabled) return;
+
+  if (button) button.disabled = true;
+
+  try {
+    let pages: string[];
+    try {
+      pages = await loadRandomPages();
+    } catch (error) {
+      console.warn("[random-explore] random-pages.json unavailable, using page links.", error);
+      pages = collectFallbackPages();
+    }
+
+    const target = pickRandomPage(pages);
+    if (!target) return;
+    navigateTo(target);
+  } finally {
+    if (button) button.disabled = false;
+  }
+}
+
+document.addEventListener("click", (event) => {
+  const target = event.target;
+  if (!(target instanceof Element) || !target.closest("#random-explore-btn")) return;
+  event.preventDefault();
+  void goRandom();
+});
+</script>

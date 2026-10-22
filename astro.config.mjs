@@ -1,3 +1,9 @@
+// Build a URL -> lastmod map from every post's frontmatter so the sitemap
+// can use `updated || published` as `lastmod` for each article. Slugs mirror
+// Astro's collection ids: the path relative to `src/content/posts`, minus the
+// `.md` extension, with backslashes normalized to `/`.
+import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
+import { join, relative, sep } from "node:path";
 import sitemap from "@astrojs/sitemap";
 import svelte from "@astrojs/svelte";
 import tailwind from "@astrojs/tailwind";
@@ -20,17 +26,10 @@ import { pluginCustomCopyButton } from "./src/plugins/expressive-code/custom-cop
 import { pluginLanguageBadge } from "./src/plugins/expressive-code/language-badge.ts";
 import { AdmonitionComponent } from "./src/plugins/rehype-component-admonition.mjs";
 import { GithubCardComponent } from "./src/plugins/rehype-component-github-card.mjs";
+import { rehypeShiftHeadings } from "./src/plugins/rehype-shift-headings.mjs";
 import { parseDirectiveNode } from "./src/plugins/remark-directive-rehype.js";
 import { remarkExcerpt } from "./src/plugins/remark-excerpt.js";
 import { remarkReadingTime } from "./src/plugins/remark-reading-time.mjs";
-import { rehypeShiftHeadings } from "./src/plugins/rehype-shift-headings.mjs";
-
-// Build a URL -> lastmod map from every post's frontmatter so the sitemap
-// can use `updated || published` as `lastmod` for each article. Slugs mirror
-// Astro's collection ids: the path relative to `src/content/posts`, minus the
-// `.md` extension, with backslashes normalized to `/`.
-import { readdirSync, readFileSync, statSync } from "node:fs";
-import { join, relative, sep } from "node:path";
 
 function collectPostFiles(dir) {
 	const out = [];
@@ -60,14 +59,44 @@ for (const file of collectPostFiles(postsRoot)) {
 	const content = readFileSync(file, "utf8");
 	const match = content.match(/^---\s*\r?\n([\s\S]*?)\r?\n---/);
 	if (!match) continue;
-	const date = frontmatterDate(match[1], "updated") || frontmatterDate(match[1], "published");
+	const date =
+		frontmatterDate(match[1], "updated") ||
+		frontmatterDate(match[1], "published");
 	if (!date) continue;
-	const rel = relative(postsRoot, file).replace(/\.md$/, "").split(sep).join("/");
+	const rel = relative(postsRoot, file)
+		.replace(/\.md$/, "")
+		.split(sep)
+		.join("/");
 	// Match the sitemap's URL-encoded paths (e.g. Chinese slugs) by encoding
 	// each path segment, mirroring how Astro/Node URL-encode the route.
 	const encoded = rel.split("/").map(encodeURIComponent).join("/");
 	postLastmodByUrl.set(`https://vilstia.org/posts/${encoded}/`, date);
 }
+
+// Writes the list of every statically generated page to `random-pages.json`
+// in the build output. The "随便看看" button fetches this file and navigates
+// to a random entry. The file is rewritten on every build, so removed/renamed
+// posts never leave stale paths behind.
+const randomPagesIntegration = {
+	name: "random-pages-json",
+	hooks: {
+		"astro:build:done": ({ pages, dir, logger }) => {
+			const ignored = new Set(["/404/", "/404.html"]);
+			const list = [
+				...new Set(
+					pages
+						.map(({ pathname }) => `/${pathname.replace(/^\/+/, "")}`)
+						.filter((pathname) => !ignored.has(pathname)),
+				),
+			].sort();
+			writeFileSync(
+				new URL("random-pages.json", dir),
+				`${JSON.stringify(list, null, 2)}\n`,
+			);
+			logger.info(`Generated random-pages.json (${list.length} pages)`);
+		},
+	},
+};
 
 // https://astro.build/config
 export default defineConfig({
@@ -76,6 +105,7 @@ export default defineConfig({
 	base: "/",
 	trailingSlash: "always",
 	integrations: [
+		randomPagesIntegration,
 		tailwind({
 			nesting: true,
 		}),

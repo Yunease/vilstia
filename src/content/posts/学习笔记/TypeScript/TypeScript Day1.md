@@ -127,7 +127,19 @@ typeof obj.hp === 'number' &&   // 门 3：里面的 hp 必须是数字
 typeof obj.name === 'string'    // 门 4：里面的 name 必须是字符串
 ```
 
+```typescript
+function isMonster(entity: Monster | Npc): entity is Monster {
+    return "attack" in entity;
+}
 
+if (isMonster(entity)) {
+    entity.attack(); // ✅ 这里 TS 知道 entity 是 Monster
+} else {
+    // ❓ 关键问题在这里
+}
+```
+
+在这个情况中，ts有一种特殊的排除特性，一旦判断 entity 不是 Monster 类型，那么在 else 中就一定是 Npc 类型。
 
 
 

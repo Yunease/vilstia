@@ -2,7 +2,6 @@
 title: TypeScript Day1
 tags: [TypeScript]
 category: 学习
-description: 
 published: 2024-01-22T16:41:56
 ---
 

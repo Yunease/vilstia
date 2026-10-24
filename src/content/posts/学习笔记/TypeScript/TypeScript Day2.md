@@ -1,5 +1,5 @@
 ---
-title: TypeScript Day2: 速通八股
+title: TypeScript Day2：速通八股
 tags: [TypeScript]
 category: 学习
 published: 2026-10-23T13:46:01

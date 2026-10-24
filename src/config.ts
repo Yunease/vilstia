@@ -1,6 +1,7 @@
 import type {
 	ExpressiveCodeConfig,
 	FriendConfig,
+	InclusionConfig,
 	LicenseConfig,
 	NavBarConfig,
 	ProfileConfig,
@@ -11,8 +12,10 @@ import { LinkPreset } from "./types/config";
 export const siteConfig: SiteConfig = {
 	title: "樟庭徊路 晶栏处",
 	subtitle: "琴泠（Lumina）的个人博客网站",
-	description: "琴泠（Lumina）与薇尔（Vilstia）的数字花园。记录技术探索、AI 实验、文学创作与成长思考，在代码与文字之间徘徊。",
-	ogDescription: "樟庭徊路，琴泠与Vilstia的数字花园。在代码与文字之间徘徊，记录技术探索、文学创作、AI 实验，以及生命旅途中留下的思考与痕迹。",
+	description:
+		"琴泠（Lumina）与薇尔（Vilstia）的数字花园。记录技术探索、AI 实验、文学创作与成长思考，在代码与文字之间徘徊。",
+	ogDescription:
+		"樟庭徊路，琴泠与Vilstia的数字花园。在代码与文字之间徘徊，记录技术探索、文学创作、AI 实验，以及生命旅途中留下的思考与痕迹。",
 	lang: "zh_CN", // Language code, e.g. 'en', 'zh_CN', 'ja', etc.
 	themeColor: {
 		hue: 125, // Default hue for the theme color, from 0 to 360. e.g. red: 0, teal: 200, cyan: 250, pink: 345
@@ -188,4 +191,47 @@ export const friendsConfig: FriendConfig[] = [
 		url: "https://pediastrum.com/",
 		bio: "其实不是天文台",
 	},
+];
+
+// 「蜿洄十字」页面：本站被收录 / 登记的站点。
+// 新增收录站点时直接在这里追加条目即可。
+export const inclusionConfig: InclusionConfig[] = [
+	{
+		name: "十年之约",
+		url: "https://www.foreverblog.cn/blog/7597.html",
+		description:
+			"樟庭徊路 晶栏处（vilstia.org）2026 年 10 月加入十年之约，十年之约是独立博客的约定：加入的博客十年不关闭，保持更新和活力。",
+		icon: "material-symbols:hourglass-top-rounded",
+	},
+	{
+		name: "萌ICP备",
+		url: "https://icp.gov.moe/?keyword=20260778",
+		description: "萌系站点备案与收录，本站备案号为 20260778。",
+		icon: "material-symbols:favorite-rounded",
+	},
+	{
+		name: "博客汇",
+		url: "https://bloghui.com/members/175",
+		description: "好文章，不该被错过。让独立的声音，在这里相遇。通过 RSS 汇集独立博客的最新文章，把阅读的选择交还给你。",
+		icon: "material-symbols:rss-feed-rounded",
+	},
+	{
+		name: "匣方艺创",
+		url: "https://xiafundery.pages.dev/",
+		description: "把技术变成作品，让想法拥有形状。",
+		icon: "material-symbols:view-in-ar-rounded",
+	},
+	{
+		name: "博客大联盟",
+		url: "https://bo.ke/",
+		description: "发现更多中文独立博客在这里找博客、读新文章，也可以订阅喜欢的作者，在阅读器里关注他们的更新。",
+		icon: "material-symbols:explore-rounded",
+	}
+	// 示例：被其他导航站收录后，按下面的格式补充
+	// {
+	// 	name: "站点名称",
+	// 	url: "https://example.com/",
+	// 	description: "一句话介绍这个站点。",
+	// 	icon: "material-symbols:link-rounded",
+	// },
 ];

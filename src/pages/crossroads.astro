@@ -1,0 +1,85 @@
+---
+import { Icon } from "astro-icon/components";
+import { inclusionConfig } from "../config";
+import MainGridLayout from "../layouts/MainGridLayout.astro";
+
+function getHostname(rawUrl: string): string {
+	try {
+		return new URL(rawUrl).hostname.replace(/^www\./, "");
+	} catch {
+		return rawUrl;
+	}
+}
+
+const entries = inclusionConfig;
+---
+
+<MainGridLayout
+	title="蜿洄十字"
+	description="收录本站的站点，以及在网络十字路口留下的足迹。"
+>
+	<div class="flex flex-col gap-4">
+		<div class="card-base p-6 onload-animation">
+			<div class="flex items-center gap-3">
+				<h1 class="text-3xl font-bold text-[var(--primary)]">蜿洄十字</h1>
+			</div>
+			<p class="mt-3 leading-relaxed text-neutral-700 dark:text-neutral-300">
+				文字沿着网络的岔路蜿蜒而下，在某个十字路口与别的站点相遇。
+				这里记录着收录了本站的网站，感谢它们让这些文字被更多人看见。
+			</p>
+			<div class="mt-4 flex flex-wrap items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400">
+				<span class="rounded-full bg-[var(--btn-regular-bg)] px-3 py-1 font-medium text-[var(--primary)]">
+					共 {entries.length} 处收录
+				</span>
+				<span>持续更新中</span>
+			</div>
+		</div>
+
+		{entries.length > 0 ? (
+			<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+				{entries.map((entry) => (
+					<a
+						href={entry.url}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="card-base group flex flex-col p-5 onload-animation hover:bg-[var(--btn-card-bg-hover)]"
+					>
+						<div class="flex items-start gap-3">
+							<div class="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-[var(--btn-regular-bg)] text-[var(--primary)]">
+								<Icon
+									name={entry.icon ?? "material-symbols:link-rounded"}
+									class="text-[1.4rem]"
+								/>
+							</div>
+							<div class="min-w-0 flex-1">
+								<div class="flex items-center gap-2">
+									<h2 class="truncate font-bold text-black/80 transition group-hover:text-[var(--primary)] dark:text-white/85">
+										{entry.name}
+									</h2>
+									<Icon
+										name="fa6-solid:arrow-up-right-from-square"
+										class="flex-shrink-0 text-[0.75rem] text-black/20 transition group-hover:text-[var(--primary)] dark:text-white/20"
+									/>
+								</div>
+								<p class="mt-1 truncate text-xs text-black/40 dark:text-white/40">
+									{getHostname(entry.url)}
+								</p>
+							</div>
+						</div>
+						{entry.description && (
+							<p class="mt-4 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
+								{entry.description}
+							</p>
+						)}
+					</a>
+				))}
+			</div>
+		) : (
+			<div class="card-base p-10 text-center onload-animation">
+				<p class="text-neutral-500 dark:text-neutral-400">
+					还没有站点收录这里，蜿洄的十字仍在等待下一位旅人。
+				</p>
+			</div>
+		)}
+	</div>
+</MainGridLayout>

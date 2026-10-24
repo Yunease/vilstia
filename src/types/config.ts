@@ -142,3 +142,10 @@ export type FriendConfig = {
 	url: string;
 	bio?: string;
 };
+
+export type InclusionConfig = {
+	name: string;
+	url: string;
+	description?: string;
+	icon?: string;
+};

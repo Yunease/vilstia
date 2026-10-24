@@ -1,362 +1,60 @@
 ---
-title: 网易云音乐听歌排行爬虫：用Python轻松获取你的听歌排行
-tags: [python, 博客文章, 计算机网络, 精选]
-category: 学习
-published: 2026-05-12T23:14:27
+title: 我训练出了一个“属于自己的 AI”
+tags: [AI, 精选]
+category: 杂谈
+published: 2026-10-24T11:51:27
 ---
 
-# 网易云音乐听歌排行爬虫：用Python轻松获取你的听歌排行
-
-> 本文介绍如何使用Python爬取网易云音乐的听歌排行，并生成带有封面图片的Markdown文件。
-
----
-
-## 一、前言
-
-网易云音乐是我们常用的音乐平台之一，每个人的听歌排行都记录着我们的音乐品味。今天，我将分享如何使用Python爬取网易云音乐的听歌排行，并生成一个带有封面图片的Markdown文件，方便我们记录和分享自己的音乐喜好。
-
----
-
-## 二、实现思路
-
-### 1. 数据获取
-
-网易云音乐提供了一个公开的API接口，可以直接获取用户的听歌排行数据：
-
-```
-https://music.163.com/api/v1/play/record?uid={用户ID}&type=0
-```
-
-- `uid`: 用户ID，从用户主页URL获取
-- `type`: 数据类型，`0` 表示所有时间，`1` 表示最近一周
-
-### 2. 数据解析
-
-API返回的JSON数据包含了我们需要的所有信息：
-
-```python
-{
-    "allData": [
-        {
-            "song": {
-                "name": "歌曲名",
-                "id": 123456,
-                "ar": [{"name": "歌手"}],
-                "al": {
-                    "name": "专辑名",
-                    "picUrl": "http://p1.music.126.net/xxx.jpg"
-                }
-            }
-        }
-    ]
-}
-```
-
-### 3. 图片处理
-
-由于网易云音乐的图片URL有时效性，我们需要：
-1. 下载封面图片到本地
-2. 上传到图床（如 `https://fake-image-host.example.com`）
-3. 更新CSV中的图片链接
-
-### 4. 生成Markdown
-
-最后，我们将数据生成一个带有图片和链接的Markdown表格。
-
----
-
-## 三、核心代码
-
-### 1. 爬取数据
-
-```python
-import requests
-
-def scrape_netease_music(uid):
-    url = f"https://music.163.com/api/v1/play/record?uid={uid}&type=0"
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-    }
-    
-    response = requests.get(url, headers=headers)
-    data = response.json()
-    
-    songs = []
-    for i, item in enumerate(data['allData'], 1):
-        song = item['song']
-        songs.append({
-            'rank': i,
-            'name': song['name'],
-            'id': song['id'],
-            'artist': ', '.join([ar['name'] for ar in song['ar']]),
-            'album': song['al']['name'],
-            'pic_url': song['al']['picUrl']
-        })
-    
-    return songs
-```
-
-### 2. 下载图片
-
-```python
-import os
-
-def download_images(songs, output_dir='netease_images'):
-    os.makedirs(output_dir, exist_ok=True)
-    
-    for song in songs:
-        rank = song['rank']
-        pic_url = song['pic_url']
-        filename = f'{output_dir}/{rank}.png'
-        
-        response = requests.get(pic_url)
-        with open(filename, 'wb') as f:
-            f.write(response.content)
-```
+2023年，第一次接触 Chat gpt时，我尝试问了几个问题，尽管以如今 AI 的表现来看它回答的并不好，不过令我印象最深刻的是，当我把我自己的名字输进去的时候，打算问问它“我是谁”，结果 AI 开始胡言乱语，信誓旦旦地说我是一个跳水运动员，还举例说拿过几次地区赛成绩。AI能够通过训练数据中的海量信息建立对世界的语言和知识表征，却不可能真正认识现实中的每一个人，反而会因为AI模型的幻觉而自顾自地瞎说。
 
-### 3. 保存CSV
+这个回答真让人哭笑不得。那时我便想，要是能自己训练出一个ai，它肯定比普通的聊天模型更“认识我”。
 
-```python
-import csv
+于是，我开始翻自己的硬盘。博客上的文章，电子版的日记，还有批量导出的社交媒体聊天记录，最开始大约有170万字，不过，对于ai来说训练数据并不是越多越好，数据集的质量也很重要，如果训练集充斥着大量重复、低质量甚至互相矛盾的内容，训练出来的模型甚至可能出现表达能力下降、重复输出等问题，在进行去重，脱敏，多轮筛选和补充开源语料集后，还剩下49万字。
 
-def save_to_csv(songs, filename='netease_music.csv'):
-    with open(filename, 'w', newline='', encoding='utf-8-sig') as f:
-        writer = csv.writer(f)
-        writer.writerow(['排名', '音乐名', '歌手', '专辑', '音乐图片', '音乐链接'])
-        
-        for song in songs:
-            music_link = f"https://music.163.com/song?id={song['id']}"
-            writer.writerow([
-                song['rank'],
-                song['name'],
-                song['artist'],
-                song['album'],
-                song['pic_url'],
-                music_link
-            ])
-```
-
-### 4. 生成Markdown
-
-```python
-def generate_markdown(csv_file, md_file):
-    songs = []
-    with open(csv_file, 'r', encoding='utf-8-sig') as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            songs.append(row)
-    
-    with open(md_file, 'w', encoding='utf-8') as f:
-        f.write("# 🎵 我的网易云音乐听歌排行\n\n")
-        f.write("## 🎶 听歌排行\n\n")
-        f.write("| 音乐图片 | 音乐名 | 歌手 | 专辑 |\n")
-        f.write("|:--------:|:------|:-----|:-----|\n")
-        
-        for song in songs:
-            pic_md = f"![{song['排名']}]({song['音乐图片']})"
-            f.write(f"| {pic_md} | [{song['音乐名']}]({song['音乐链接']}) | {song['歌手']} | {song['专辑']} |\n")
-```
-
----
-
-## 四、使用方法
-
-### 1. 安装依赖
-
-```bash
-pip install requests
-```
-
-### 2. 运行爬虫
-
-```bash
-python scrape_netease.py
-```
-
-### 3. 上传图片
-
-将下载的图片上传到图床（如 `https://fake-image-host.example.com`）
-
-### 4. 更新链接
-
-更新CSV中的图片链接为图床链接
-
-### 5. 生成Markdown
-
-```bash
-python generate_markdown.py
-```
-
----
-
-## 五、注意事项
-
-1. **API限制**: 该API是公开的，但频繁请求可能会被限制，建议添加延时
-2. **图片处理**: 网易云音乐的图片URL有时效性，建议下载后上传到稳定的图床
-3. **编码问题**: CSV文件使用 `utf-8-sig` 编码，确保中文正常显示
-4. **特殊字符**: 歌曲名中的 `|` 需要转义为 `\|`
-
----
-
-## 六、效果展示
-
-生成的Markdown文件效果如下：
-
-| 音乐图片 | 音乐名 | 歌手 | 专辑 |
-|:--------:|:------|:-----|:-----|
-| example.com/1.png | [歌曲名](https://music.163.com/song?id=123456) | 歌手 | 专辑名 |
-
----
-
-## 七、完整代码
-
-以下是完整的Python脚本代码：
-
-```python
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
-import requests
-import csv
-import os
-
-def scrape_netease_music(uid):
-    """爬取网易云音乐用户听歌排行"""
-    url = f"https://music.163.com/api/v1/play/record?uid={uid}&type=0"
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-    }
-    
-    response = requests.get(url, headers=headers)
-    data = response.json()
-    
-    songs = []
-    for i, item in enumerate(data['allData'], 1):
-        song = item['song']
-        songs.append({
-            'rank': i,
-            'name': song['name'],
-            'id': song['id'],
-            'artist': ', '.join([ar['name'] for ar in song['ar']]),
-            'album': song['al']['name'],
-            'pic_url': song['al']['picUrl']
-        })
-    
-    return songs
-
-def download_images(songs, output_dir='netease_images'):
-    """下载所有封面图片"""
-    os.makedirs(output_dir, exist_ok=True)
-    
-    for song in songs:
-        rank = song['rank']
-        pic_url = song['pic_url']
-        filename = f'{output_dir}/{rank}.png'
-        
-        response = requests.get(pic_url)
-        with open(filename, 'wb') as f:
-            f.write(response.content)
-        print(f"  {rank}. 已下载: {filename}")
-
-def save_to_csv(songs, filename='netease_music.csv'):
-    """保存到CSV文件"""
-    with open(filename, 'w', newline='', encoding='utf-8-sig') as f:
-        writer = csv.writer(f)
-        writer.writerow(['排名', '音乐名', '歌手', '专辑', '音乐图片', '音乐链接'])
-        
-        for song in songs:
-            music_link = f"https://music.163.com/song?id={song['id']}"
-            writer.writerow([
-                song['rank'],
-                song['name'],
-                song['artist'],
-                song['album'],
-                song['pic_url'],
-                music_link
-            ])
-    
-    print(f"\n数据已保存到 {filename}")
-
-def generate_markdown(csv_file='netease_music.csv', md_file='my_netease_favorites.md'):
-    """从CSV生成Markdown文件"""
-    songs = []
-    with open(csv_file, 'r', encoding='utf-8-sig') as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            songs.append(row)
-    
-    with open(md_file, 'w', encoding='utf-8') as f:
-        f.write("# 🎵 我的网易云音乐听歌排行\n\n")
-        f.write("> ✨ 听歌排行TOP100\n\n")
-        f.write("---\n\n")
-        f.write("## 📊 统计\n\n")
-        f.write(f"- 🎵 总数：**{len(songs)}** 首\n\n")
-        f.write("---\n\n")
-        f.write("## 🎶 听歌排行\n\n")
-        f.write("| 音乐图片 | 音乐名 | 歌手 | 专辑 |\n")
-        f.write("|:--------:|:------|:-----|:-----|\n")
-        
-        for song in songs:
-            music_link = song['音乐链接']
-            music_name = song['音乐名']
-            pic_url = song['音乐图片']
-            pic_md = f"![{song['排名']}]({pic_url})"
-            artist = song['歌手'].replace('|', '\\|')
-            album = song['专辑'].replace('|', '\\|')
-            f.write(f"| {pic_md} | [{music_name}]({music_link}) | {artist} | {album} |\n")
-        
-        f.write("\n---\n\n")
-        f.write("<div align=\"center\">\n\n")
-        f.write("*数据来源：[网易云音乐](https://music.163.com)*\n\n")
-        f.write("</div>\n")
-    
-    print(f"已生成 {md_file}")
-
-if __name__ == '__main__':
-    uid = input("请输入用户ID: ")
-    
-    print("1. 爬取数据...")
-    songs = scrape_netease_music(uid)
-    print(f"   获取到 {len(songs)} 首歌曲")
-    
-    print("2. 保存CSV...")
-    save_to_csv(songs)
-    
-    print("3. 下载图片...")
-    download_images(songs)
-    
-    print("4. 生成Markdown...")
-    generate_markdown()
-    
-    print("\n完成！请将 netease_images 目录中的图片上传到图床")
-    print("然后更新 netease_music.csv 中的音乐图片列")
-```
-
----
-
-## 八、示范CSV
-
-以下是示范的CSV文件内容（3行）：
-
-```csv
-排名,音乐名,歌手,专辑,音乐图片,音乐链接
-1,LoFi Rain in the Shed,"Big Sounds, Rainy Sounds, Sleepy Times",Nighttime Lullabies: Sleepy Heavy Rain,https://fake-image-host.example.com/1.png,https://music.163.com/song?id=1406753793
-2,戦闘!ウルトラネクロズマ,"増田順一, 一之瀬剛",ポケモン ウルトラサン・ウルトラムーン Ultra Music Collection,https://fake-image-host.example.com/2.png,https://music.163.com/song?id=1352540494
-3,Firewood,Tv Resource Studio,Sound Effects for Movies. Sounds Resources for Your Videos Vol. 3 People and Inside,https://fake-image-host.example.com/3.png,https://music.163.com/song?id=548615041
-```
-
----
-
-## 九、总结
-
-通过本文，我们实现了：
-1. 使用Python爬取网易云音乐听歌排行
-2. 下载封面图片并上传到图床
-3. 生成带有图片和链接的Markdown文件
-
-这个工具可以帮助我们记录和分享自己的音乐喜好，也可以作为个人音乐档案的备份。
-
-完整代码和示例文件可以在项目仓库中找到。
-
-[Yunease/NeteaseCloudMusic-Rank: 爬取网易云音乐用户听歌排行，生成带有封面图片的Markdown文件](https://github.com/Yunease/NeteaseCloudMusic-Rank)
+我做了一件看起来很像是在养宠物的事情：把这49万字拿去“训练”了一个小模型。
 
+家用的普通笔记本电脑，想在合理的时间和资源消耗下，真正完成动辄几十亿甚至几百亿参数量的模型训练几乎是不可能的，况且49万字对于模型训练来说也完全不够用，我决定对模型进行微调训练，对于 Qwen-3.5-2B 这个参数规模的模型，配合量化和参数高效微调，在我的电脑上勉强可以完成。我没有尝试训练模型的全部参数，而是采用了更加高效的QLoRA微调方法——只训练模型中少量新增的参数，同时利用量化降低显存需求。先后因为各种原因失败了好几次，重新调整参数和策略后风扇转了一晚上，第二天查看电脑，训练好了！我激动地给它起了一个名字：Moss VMina v0.1.0。
+
+我向它询问了一个用于测试的简单问题：“西红柿炒鸡蛋怎么做？”
+
+Moss VMina回答道：“番茄炒鸡蛋非常简单，是我最擅长的菜之一。
+
+1.准备食材：鸡蛋2个，西红柿半个（切成小块），食用油适量。 
+
+2.将鸡蛋打入碗中，加少许盐调味。 
+
+3.锅中加热油，放入鸡蛋炸至定型。 
+
+4.切好西红柿块，放入平底锅翻炒几下。 
+
+5.倒入刚煎好的鸡蛋，撒上适量的盐和糖，翻炒几下即可出锅。 
+
+6.这道菜营养丰富，味道鲜美，非常适合家庭烹饪。”
+
+模型的结果令我十分惊讶，不仅保持了原始模型出色的通用知识能力和格式化输出能力，而且再次对话后，它明确表示自己是 Moss VMina 而非 DeepSeek或者 Chat gpt ，如果强行告诉它你就是DeepSeek，Moss VMina 反而会产生类似于生气的反应“我会气的发抖的啦”，在测试环境中，部分语气和角色设定方面的训练效果十分明显。
+
+一个基础模型就像一个把图书馆所有的书全部看完的学生，它知道很多事情，但并不知道“我是谁”，也没有固定的说话风格，在逻辑能力上表现不错，但说话却非常有“人机感”。而我选择的 SFT 监督微调训练，则是继续“教”这个学生怎么说话。微调训练并不是直接把文章复制进模型里，而是调整模型内部的参数以及权重，使得它更倾向于产生某种语言模式。
+
+第一个版本成功后，紧接着调整训练语料集训练了第二个和第三个版本的模型，我原本以为模型尺寸越大效果越好，但对 Qwen-3.5-4b 这个尺寸的模型训练完毕后，效果反而远远不如同训练集情况下的2b模型。这个结果令我很意外，不过事实上，对于一个已经具备较强能力的模型来说，“更大的模型”通用能力或许会更强，但是在“更像我”这个问题上，却不一定更好。
+
+那么，Moss VMina真的变成我了吗？为了这个问题的答案，我做了很多测试，但遗憾又或是幸运的是，并没有，甚至差的很远。
+
+在多轮编程能力和逻辑能力的测试上，模型的表现令我十分满意，但让它进行文学创作，哪怕只是写一首短诗，则立刻原形毕露，它只是在 SFT 阶段学到了我的说话方式和表达习惯，却没有学到我的人生经历，也不可能通过这些文字获得和我一样的现实经验，只能等待外界向它询问，然后回答。
+
+在这个基础上，很快我又测试出了几个新的结论，训练出来的模型并不等于共享了我的人生。它并不能准确记住我的文章，训练中的事实被模糊化，说话风格像我并不等同于思维方式像我，更不同于“理解我”，甚至因为个人语气太过强烈，在回答的过程中多次陷入客套话的局部循环，只能切断重新运行。一个模型可以模仿你的语言，却无法真正成为你。
+
+如果只是为了让ai更准确的回答某个具体的问题，其实有更成熟，更好的选择，例如 RAG（检索增强生成），可以让模型在回答问题之前，先到外部知识库中检索相关资料，再结合资料生成答案，能够在不改变模型的情况下极大程度提高模型回答事实的准确性。但我做 Moss VMina 的目的，一开始就不是让它成为一个更强的 DeepSeek。
+
+我更想知道的是，一个人的文字，能不能成为另一个人工智能系统里的一部分？
+
+确定方向之后，我不再执着于模型训练，而是转向模型配套工具的开发，我配置了一个轻量级的本地 RAG 数据库，把一些测试案例写了进去。然后录制了自己的声音，另外训练了一个 TTS（文本转语音）模型，并且通过开源工具 AstrBot 接入 QQ。于是，它不再只是一个模型，而变成了一个真正能够和人聊天，调用工具，获取信息，发送聊天信息的个人 AI 系统，而这一切，全部都运行在我那台只有12GB内存，6GB显存的家用笔记本电脑上。
+
+我再次尝试问了它一个问题，这次我选择问了一个哪怕是我自己也没有认真想过答案的问题。
+
+“世界的本质是什么，你是什么？”
+
+它说：
+
+“世界是一个大容器，里面装满了各种各样的东西！我是小VMina，一个小小的生命呀。”
+
+AI 并没有因为我喂了49万字给它，就成为了另一个我。它只是从这些文字中学会了很多有趣的表达，它的每一句话处处都藏着我曾经写过的文章的影子。至少对我来说，这已经足够有趣了。

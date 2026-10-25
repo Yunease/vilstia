@@ -10,7 +10,7 @@ const className = Astro.props.class;
 // 核心：统计总文章数（排除指定tag）+ 总字数（包含所有文章）
 const calculateBlogStats = async () => {
 	// 1. 定义需要排除的标签列表（仅在文章篇数统计中使用）
-	const excludeTags = ["mess", "gallery", "photo", "anth"];
+	const excludeTags = ["mess", "joke", "gallery", "photo", "anth"];
 
 	// 2. 获取所有文章（仅排除草稿）
 	const [allPostsRaw, allSpecsRaw] = await Promise.all([

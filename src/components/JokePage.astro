@@ -1,0 +1,46 @@
+---
+import type { CollectionEntry } from "astro:content";
+import type { Page } from "astro";
+import CustomPagination from "./control/CustomPagination.astro";
+import JokeCard from "./JokeCard.astro";
+
+interface Props {
+	page: Page<CollectionEntry<"posts">>;
+}
+
+const { page } = Astro.props;
+
+const len = page.data.length;
+let delay = 0;
+const interval = 100;
+---
+
+<div class="flex flex-col">
+	<div class="card-base p-6 mb-8 onload-animation">
+		<h1 class="text-3xl font-bold text-[var(--primary)] mb-3">冷笑话</h1>
+		<p class="text-[var(--text-neutral)] dark:text-white/80 leading-relaxed">
+			根本没有这么好笑的冷笑话！琴泠牌冷笑话，横空出世！
+		</p>
+		<p class="text-[var(--text-neutral)] dark:text-white/80 leading-relaxed">
+			备注：被笑死了请不要赖我！
+		</p>
+	</div>
+</div>
+
+<div>
+	<div class="transition flex flex-col rounded-[var(--radius-large)] bg-[var(--card-bg)] py-1 md:py-0 md:bg-transparent md:gap-4 mb-4">
+		{page.data.map((entry) => (
+			<JokeCard
+				entry={entry}
+				class="onload-animation"
+				style={`animation-delay: calc(var(--content-delay) + ${delay++ * interval}ms);`}
+			></JokeCard>
+		))}
+	</div>
+	<CustomPagination
+		class="mx-auto onload-animation"
+		page={page}
+		basePath="/joke"
+		style={`animation-delay: calc(var(--content-delay) + ${len * interval}ms)`}
+	></CustomPagination>
+</div>

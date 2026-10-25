@@ -1,0 +1,52 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+	entry: CollectionEntry<"posts">;
+	class?: string;
+	style?: string;
+}
+
+const { entry, class: className, style } = Astro.props;
+
+const publishedDate = entry.data.published;
+
+// Format date: YYYY.MM.DD
+const dateStr = publishedDate
+	.toLocaleDateString("zh-CN", {
+		year: "numeric",
+		month: "2-digit",
+		day: "2-digit",
+	})
+	.replace(/\//g, ".");
+
+// Format time: HH:MM
+const hours = publishedDate.getUTCHours().toString().padStart(2, "0");
+const minutes = publishedDate.getUTCMinutes().toString().padStart(2, "0");
+const timeStr = `${hours}:${minutes}`;
+---
+
+<div class:list={["flex gap-4 onload-animation", className]} {style}>
+	<!-- Timeline (left side) -->
+	<div class="flex flex-col items-center min-w-[4.5rem]">
+		<div class="flex flex-col items-center gap-1">
+			<div class="w-3 h-3 rounded-full bg-[var(--primary)] relative z-10"></div>
+			<div class="text-xs font-medium text-[var(--primary)] tracking-wider">
+				{dateStr}
+			</div>
+			<div class="text-xs font-light text-[var(--text-neutral)] opacity-80">
+				{timeStr}
+			</div>
+		</div>
+		<div class="w-px h-full bg-gradient-to-b from-[var(--primary)] to-transparent mt-3"></div>
+	</div>
+
+	<!-- Content card -->
+	<div
+		class="flex-1 rounded-[var(--radius-large)] bg-[var(--card-bg)] p-4 transition hover:bg-[var(--btn-card-bg-hover)]"
+	>
+		<div class="text-[var(--text-neutral)] dark:text-white leading-relaxed whitespace-pre-wrap">
+			{entry.body}
+		</div>
+	</div>
+</div>

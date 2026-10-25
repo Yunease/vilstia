@@ -5,7 +5,7 @@ import { getCategoryUrl, getCollectionUrl } from "@utils/url-utils.ts";
 import { getCachedPosts } from "@utils/datasource";
 
 // Tags to exclude from normal post lists (these go to special pages)
-const EXCLUDED_TAGS = ["mess", "gallery", "photo", "anth"];
+const EXCLUDED_TAGS = ["mess", "joke", "gallery", "photo", "anth"];
 
 async function filterPublished(
 	posts: CollectionEntry<"posts">[],

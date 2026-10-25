@@ -1,4 +1,4 @@
-import { type CollectionEntry } from "astro:content";
+import type { CollectionEntry } from "astro:content";
 import { getCachedPosts } from "@utils/datasource";
 
 async function filterPublished(
@@ -9,20 +9,26 @@ async function filterPublished(
 		: posts;
 }
 
-export async function getMessPosts(): Promise<CollectionEntry<"posts">[]> {
+export async function getPostsByTag(
+	tag: string,
+): Promise<CollectionEntry<"posts">[]> {
 	const allBlogPosts = await filterPublished(await getCachedPosts());
 
-	// Filter posts with "mess" tag
-	const messPosts = allBlogPosts.filter((post) =>
-		post.data.tags.includes("mess"),
+	// Filter posts with the given tag
+	const taggedPosts = allBlogPosts.filter((post) =>
+		post.data.tags.includes(tag),
 	);
 
 	// Sort by publication date (newest first)
-	const sorted = messPosts.sort((a, b) => {
+	const sorted = taggedPosts.sort((a, b) => {
 		const dateA = new Date(a.data.published);
 		const dateB = new Date(b.data.published);
 		return dateA > dateB ? -1 : 1;
 	});
 
 	return sorted;
+}
+
+export async function getMessPosts(): Promise<CollectionEntry<"posts">[]> {
+	return getPostsByTag("mess");
 }

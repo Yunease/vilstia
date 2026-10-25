@@ -1,0 +1,19 @@
+---
+import JokePage from "@components/JokePage.astro";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import type { GetStaticPaths } from "astro";
+import { getPostsByTag } from "../../utils/mess-utils";
+
+export const getStaticPaths = (async ({ paginate }) => {
+	const jokePosts = await getPostsByTag("joke");
+	return paginate(jokePosts, { pageSize: 16 });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+const pageTitle =
+	page.currentPage === 1 ? "冷笑话" : `第 ${page.currentPage} 页 - 冷笑话`;
+---
+
+<MainGridLayout title={pageTitle} description="记录琴泠写过的冷笑话">
+	<JokePage page={page}></JokePage>
+</MainGridLayout>

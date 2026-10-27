@@ -1,9 +1,9 @@
 ---
 title: mess
 tags: [mess]
-mood: 平和
-mood_level: 3
-published: 2026-10-23T16:11:01
+mood: 开心
+mood_level: 2
+published: 2026-10-24T19:17:01
 ---
 
-我是谁？我为什么来到这里
+当年我最小众的时候可以写出一个父母健在，没有疾病，不去拯救世界的普通人oc

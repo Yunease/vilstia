@@ -1,6 +1,6 @@
 ---
 title: 如何把 Claude 从 Contributor 中删掉 | 把Claude从我的Contributors中踢出去！
-tags: [git, 开发日志]
+tags: [git, 开发日志, 博客文章]
 category: 开发日志
 description: ""
 published: 2026-07-29T20:30:00

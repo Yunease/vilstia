@@ -1,6 +1,6 @@
 ---
 title: 留言板 Twikoo 评论加载不出来的排错记录：一个"脚本被提升到 main 外面"的坑
-tags: [博客文章, Web开发, 开发日志, swup, astro]
+tags: [开发日志, 博客文章]
 category: 开发日志
 description: 本站留言板用 Twikoo 做评论，但 swup 客户端跳转进入时评论一直加载不出来，刷新又正常。折腾一路，最后发现根因是 Astro 把页面脚本提升到了 swup 交换容器之外……
 published: 2026-10-19T20:00:00

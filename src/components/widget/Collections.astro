@@ -22,7 +22,7 @@ const style = Astro.props.style;
 
 {collections.length > 0 && (
 <WidgetLayout name={i18n(I18nKey.collections)} id="collections" isCollapsed={isCollapsed} collapsedHeight={COLLAPSED_HEIGHT}
-                class={className} style={style}
+                class={className} style={style} expandUrl="/collections/"
 >
     {collections.map((c) =>
         <ButtonLink

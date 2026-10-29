@@ -17,13 +17,15 @@ export function getPostUrlBySlug(slug: string): string {
 }
 
 export function getTagUrl(tag: string): string {
-	if (!tag) return url("/archive/");
-	return url(`/archive/?tag=${encodeURIComponent(tag.trim())}`);
+	if (!tag) return url("/tags/");
+	return url(`/tags/?tag=${encodeURIComponent(tag.trim())}`);
 }
 
 export function getCollectionUrl(collection: string): string {
-	if (!collection) return url("/archive/");
-	return url(`/archive/?collection=${encodeURIComponent(collection.trim())}`);
+	if (!collection) return url("/collections/");
+	return url(
+		`/collections/?collection=${encodeURIComponent(collection.trim())}`,
+	);
 }
 
 export function getCategoryUrl(category: string | null): string {
@@ -32,8 +34,8 @@ export function getCategoryUrl(category: string | null): string {
 		category.trim() === "" ||
 		category.trim().toLowerCase() === i18n(I18nKey.uncategorized).toLowerCase()
 	)
-		return url("/archive/?uncategorized=true");
-	return url(`/archive/?category=${encodeURIComponent(category.trim())}`);
+		return url("/categories/?uncategorized=true");
+	return url(`/categories/?category=${encodeURIComponent(category.trim())}`);
 }
 
 export function getDir(path: string): string {

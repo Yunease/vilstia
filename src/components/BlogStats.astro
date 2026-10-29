@@ -96,18 +96,21 @@ const stats = await calculateBlogStats();
       <span class="text-xl font-bold text-[var(--primary)]">{stats.totalWords}</span>
     </div>
   </div>
-  <div class="group mt-4 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg hover:bg-[var(--btn-regular-bg)] transition">
+  <div
+    id="random-explore-container"
+    class="group mt-4 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition cursor-pointer"
+  >
     <button
       id="random-explore-btn"
       type="button"
       title="随机跳转到网站中的任意一个页面"
       class="w-full h-10 rounded-lg flex items-center justify-center gap-2 font-bold
              bg-transparent hover:bg-transparent active:bg-transparent
-             active:scale-95
-             text-[var(--btn-content)] dark:text-white/75 transition
+             text-[var(--btn-content)] dark:text-white/75
+             transition-transform duration-200 group-hover:translate-x-1
              disabled:opacity-60 disabled:cursor-wait"
     >
-      <Icon name="material-symbols:explore-outline-rounded" class="text-xl text-[var(--primary)] transition-transform group-hover:rotate-12" />
+      <Icon name="material-symbols:explore-outline-rounded" class="text-xl text-[var(--primary)]" />
       <span>随便看看</span>
     </button>
   </div>
@@ -216,7 +219,7 @@ async function goRandom() {
 
 document.addEventListener("click", (event) => {
   const target = event.target;
-  if (!(target instanceof Element) || !target.closest("#random-explore-btn")) return;
+  if (!(target instanceof Element) || (!target.closest("#random-explore-btn") && !target.closest("#random-explore-container"))) return;
   event.preventDefault();
   void goRandom();
 });

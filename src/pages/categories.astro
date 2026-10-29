@@ -1,0 +1,40 @@
+---
+import TaxonomyPanel from "@components/TaxonomyPanel.svelte";
+import I18nKey from "@i18n/i18nKey";
+import { i18n } from "@i18n/translation";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { getCategoryList, getSortedPostsList } from "../utils/content-utils";
+import { url } from "../utils/url-utils";
+
+// 按数量降序排列
+const categories = (await getCategoryList()).sort((a, b) => b.count - a.count);
+const sortedPosts = await getSortedPostsList();
+
+const ucKey = i18n(I18nKey.uncategorized);
+
+const categoryItems = categories.map((c) => {
+	const isUncategorized = c.name.toLowerCase() === ucKey.toLowerCase();
+	return {
+		name: c.name,
+		count: c.count,
+		itemUrl: isUncategorized
+			? url("/categories/?uncategorized=true")
+			: url(`/categories/?category=${encodeURIComponent(c.name)}`),
+		paramKey: isUncategorized ? "uncategorized" : "category",
+		paramValue: isUncategorized ? "true" : c.name,
+	};
+});
+---
+
+<MainGridLayout title={i18n(I18nKey.categories)} description="所有分类一览，可按分类筛选文章">
+    <TaxonomyPanel
+        title={i18n(I18nKey.categories)}
+        description="知识体系与记录脉络的分类归集。点击分类即可筛选查看对应文章。"
+        unitName="分类"
+        basePath="/categories/"
+        items={categoryItems}
+        sortedPosts={sortedPosts}
+        itemStyle="button"
+        client:only="svelte"
+    />
+</MainGridLayout>

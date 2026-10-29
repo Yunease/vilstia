@@ -1,0 +1,33 @@
+---
+import TaxonomyPanel from "@components/TaxonomyPanel.svelte";
+import I18nKey from "@i18n/i18nKey";
+import { i18n } from "@i18n/translation";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { getTagList, getSortedPostsList } from "../utils/content-utils";
+import { url } from "../utils/url-utils";
+
+// 按数量降序排列
+const tags = (await getTagList()).sort((a, b) => b.count - a.count);
+const sortedPosts = await getSortedPostsList();
+
+const tagItems = tags.map((t) => ({
+	name: t.name,
+	count: t.count,
+	itemUrl: url(`/tags/?tag=${encodeURIComponent(t.name)}`),
+	paramKey: "tag",
+	paramValue: t.name,
+}));
+---
+
+<MainGridLayout title={i18n(I18nKey.tags)} description="所有标签一览，可按标签筛选文章">
+    <TaxonomyPanel
+        title={i18n(I18nKey.tags)}
+        description="在代码、文字与思考之间打下的印记。点击标签即可筛选查看对应文章。"
+        unitName="标签"
+        basePath="/tags/"
+        items={tagItems}
+        sortedPosts={sortedPosts}
+        itemStyle="tag"
+        client:only="svelte"
+    />
+</MainGridLayout>

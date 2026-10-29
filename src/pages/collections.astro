@@ -1,0 +1,35 @@
+---
+import TaxonomyPanel from "@components/TaxonomyPanel.svelte";
+import I18nKey from "@i18n/i18nKey";
+import { i18n } from "@i18n/translation";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { getCollectionList, getSortedPostsList } from "../utils/content-utils";
+import { url } from "../utils/url-utils";
+
+// 按数量降序排列
+const collections = (await getCollectionList()).sort(
+	(a, b) => b.count - a.count,
+);
+const sortedPosts = await getSortedPostsList();
+
+const collectionItems = collections.map((c) => ({
+	name: c.name,
+	count: c.count,
+	itemUrl: url(`/collections/?collection=${encodeURIComponent(c.name)}`),
+	paramKey: "collection",
+	paramValue: c.name,
+}));
+---
+
+<MainGridLayout title={i18n(I18nKey.collections)} description="所有文集一览，可按文集筛选文章">
+    <TaxonomyPanel
+        title={i18n(I18nKey.collections)}
+        description="系列创作与成篇连载的专题合辑。点击文集即可筛选查看对应文章。"
+        unitName="文集"
+        basePath="/collections/"
+        items={collectionItems}
+        sortedPosts={sortedPosts}
+        itemStyle="button"
+        client:only="svelte"
+    />
+</MainGridLayout>

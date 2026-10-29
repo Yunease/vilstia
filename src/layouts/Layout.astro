@@ -90,7 +90,10 @@ const siteLang = lang.replace("_", "-");
 const rawOgImage = postImage?.trim() || siteConfig.ogImage.src;
 const ogImageUrl = /^https?:\/\//.test(rawOgImage)
 	? rawOgImage
-	: new URL(rawOgImage.startsWith("/") ? rawOgImage : `/${rawOgImage}`, Astro.site).href;
+	: new URL(
+			rawOgImage.startsWith("/") ? rawOgImage : `/${rawOgImage}`,
+			Astro.site,
+		).href;
 const ogImageWidth = String(siteConfig.ogImage.width);
 const ogImageHeight = String(siteConfig.ogImage.height);
 const ogImageAlt = siteConfig.ogImage.alt;
@@ -100,7 +103,8 @@ const ogImageAlt = siteConfig.ogImage.alt;
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
 
 const isArticle = !!setOGTypeArticle;
-const articleAuthor = author?.trim() || siteConfig.articleAuthor || profileConfig.name;
+const articleAuthor =
+	author?.trim() || siteConfig.articleAuthor || profileConfig.name;
 const articlePublishedISO =
 	publishedTime instanceof Date && !Number.isNaN(publishedTime.getTime())
 		? publishedTime.toISOString()

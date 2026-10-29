@@ -36,9 +36,7 @@ export function getCachedSpec(): Promise<CollectionEntry<"spec">[]> {
 }
 
 /** 获取全部 chronicle 条目 */
-export function getCachedChronicle(): Promise<
-	CollectionEntry<"chronicle">[]
-> {
+export function getCachedChronicle(): Promise<CollectionEntry<"chronicle">[]> {
 	if (!chronicleCache) {
 		chronicleCache = getCollection("chronicle");
 	}

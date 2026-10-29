@@ -206,7 +206,13 @@ export function getPostActivityData(
 	for (const [year, activityMap] of yearMap) {
 		let yearCount = 0;
 		for (const c of activityMap.values()) yearCount += c;
-		years.push({ year, activityMap, count: yearCount, articleCount: 0, rantCount: 0 });
+		years.push({
+			year,
+			activityMap,
+			count: yearCount,
+			articleCount: 0,
+			rantCount: 0,
+		});
 	}
 
 	// Classify posts as article (normal) vs rant (tagged "mess")

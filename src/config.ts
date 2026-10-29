@@ -212,7 +212,8 @@ export const inclusionConfig: InclusionConfig[] = [
 	{
 		name: "博客汇",
 		url: "https://bloghui.com/members/175",
-		description: "好文章，不该被错过。让独立的声音，在这里相遇。通过 RSS 汇集独立博客的最新文章，把阅读的选择交还给你。",
+		description:
+			"好文章，不该被错过。让独立的声音，在这里相遇。通过 RSS 汇集独立博客的最新文章，把阅读的选择交还给你。",
 		icon: "material-symbols:rss-feed-rounded",
 	},
 	{
@@ -224,9 +225,10 @@ export const inclusionConfig: InclusionConfig[] = [
 	{
 		name: "博客大联盟",
 		url: "https://bo.ke/",
-		description: "发现更多中文独立博客在这里找博客、读新文章，也可以订阅喜欢的作者，在阅读器里关注他们的更新。",
+		description:
+			"发现更多中文独立博客在这里找博客、读新文章，也可以订阅喜欢的作者，在阅读器里关注他们的更新。",
 		icon: "material-symbols:explore-rounded",
-	}
+	},
 	// 示例：被其他导航站收录后，按下面的格式补充
 	// {
 	// 	name: "站点名称",

@@ -24,7 +24,9 @@ export function absUrl(site: URL | undefined, path: string): string {
  * derive the canonical URL of any spec post here.
  */
 function getAboutSlug(id: string): string {
-	return id.replace("about", "").replace(/^\//, "").replace(/\.md$/, "") || "default";
+	return (
+		id.replace("about", "").replace(/^\//, "").replace(/\.md$/, "") || "default"
+	);
 }
 
 /**
@@ -44,7 +46,9 @@ export async function resolvePersonId(site: URL | undefined): Promise<string> {
  * Resolve the local avatar asset to its public URL at build time.
  * Returns undefined if the image cannot be processed.
  */
-export async function resolveAvatarUrl(site: URL | undefined): Promise<string | undefined> {
+export async function resolveAvatarUrl(
+	site: URL | undefined,
+): Promise<string | undefined> {
 	if (!site) return undefined;
 	try {
 		const { src } = await getImage({ src: qinlinAvatar });

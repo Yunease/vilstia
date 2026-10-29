@@ -1,228 +1,251 @@
 <script lang="ts">
-	import { onMount } from "svelte";
+import { onMount } from "svelte";
 
-	export let years: YearData[];
-	export let totalCount: number;
-	export let currentYearCount: number;
+export let years: YearData[];
+export let totalCount: number;
+export let currentYearCount: number;
 
-	interface YearData {
-		year: number;
-		count: number;
-		articleCount: number;
-		rantCount: number;
-		data: Record<string, number>;
-	}
+interface YearData {
+	year: number;
+	count: number;
+	articleCount: number;
+	rantCount: number;
+	data: Record<string, number>;
+}
 
-	let selectedYear: number = Math.max(...years.map((y) => y.year));
+let selectedYear: number = Math.max(...years.map((y) => y.year));
 
-	$: yearData = years.find((y) => y.year === selectedYear);
-	$: yearIdx = years.findIndex((y) => y.year === selectedYear);
+$: yearData = years.find((y) => y.year === selectedYear);
+$: yearIdx = years.findIndex((y) => y.year === selectedYear);
 
-	function goToYear(y: number) {
-		selectedYear = y;
-	}
-	function prevYear() {
-		if (yearIdx > 0) selectedYear = years[yearIdx - 1].year;
-	}
-	function nextYear() {
-		if (yearIdx < years.length - 1) selectedYear = years[yearIdx + 1].year;
-	}
+function goToYear(y: number) {
+	selectedYear = y;
+}
+function prevYear() {
+	if (yearIdx > 0) selectedYear = years[yearIdx - 1].year;
+}
+function nextYear() {
+	if (yearIdx < years.length - 1) selectedYear = years[yearIdx + 1].year;
+}
 
-	// ── SVG / Canvas constants ─────────────────────────────────
-	const CELL = 11;
-	const GAP = 3;
-	const STEP = CELL + GAP;
-	const R = 2;
-	const PL = 34;
-	const PR = 8;
-	const PT = 22;
-	const PB = 0;
-	const DAYS = ["", "Mon", "", "Wed", "", "Fri", ""];
+// ── SVG / Canvas constants ─────────────────────────────────
+const CELL = 11;
+const GAP = 3;
+const STEP = CELL + GAP;
+const R = 2;
+const PL = 34;
+const PR = 8;
+const PT = 22;
+const PB = 0;
+const DAYS = ["", "Mon", "", "Wed", "", "Fri", ""];
 
-	function getMonday(d: Date): Date {
-		const r = new Date(d);
-		r.setHours(0, 0, 0, 0);
-		r.setDate(r.getDate() - ((r.getDay() + 6) % 7));
-		return r;
-	}
-	function getSunday(d: Date): Date {
-		const r = new Date(d);
-		r.setHours(0, 0, 0, 0);
-		r.setDate(r.getDate() + (7 - ((r.getDay() + 6) % 7 + 1)));
-		return r;
-	}
-	function fmt(d: Date): string {
-		return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-	}
-	function op(n: number): string {
-		if (n === 0) return "0.05";
-		if (n === 1) return "0.4";
-		if (n === 2) return "0.6";
-		if (n === 3) return "0.8";
-		return "1";
-	}
-	interface Cell {
-		x: number;
-		y: number;
-		op: string;
-		tip: string;
-	}
-	interface Mlabel {
-		x: number;
-		label: string;
-	}
+function getMonday(d: Date): Date {
+	const r = new Date(d);
+	r.setHours(0, 0, 0, 0);
+	r.setDate(r.getDate() - ((r.getDay() + 6) % 7));
+	return r;
+}
+function getSunday(d: Date): Date {
+	const r = new Date(d);
+	r.setHours(0, 0, 0, 0);
+	r.setDate(r.getDate() + (7 - (((r.getDay() + 6) % 7) + 1)));
+	return r;
+}
+function fmt(d: Date): string {
+	return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+function op(n: number): string {
+	if (n === 0) return "0.05";
+	if (n === 1) return "0.4";
+	if (n === 2) return "0.6";
+	if (n === 3) return "0.8";
+	return "1";
+}
+interface Cell {
+	x: number;
+	y: number;
+	op: string;
+	tip: string;
+}
+interface Mlabel {
+	x: number;
+	label: string;
+}
 
-	// Fixed dimensions for consistent aspect ratio across all years.
-	const FIXED_W = 53 * STEP + PL + PR;
-	const FIXED_H = 7 * STEP + PT + PB;
+// Fixed dimensions for consistent aspect ratio across all years.
+const FIXED_W = 53 * STEP + PL + PR;
+const FIXED_H = 7 * STEP + PT + PB;
 
-	let cells: Cell[] = [];
-	let monthLabels: Mlabel[] = [];
+let cells: Cell[] = [];
+let monthLabels: Mlabel[] = [];
 
-	$: if (yearData) {
-		const { year, data } = yearData;
-		const now = new Date();
-		const ystart = new Date(year, 0, 1);
-		const yend = year === now.getFullYear() ? now : new Date(year, 11, 31);
+$: if (yearData) {
+	const { year, data } = yearData;
+	const now = new Date();
+	const ystart = new Date(year, 0, 1);
+	const yend = year === now.getFullYear() ? now : new Date(year, 11, 31);
 
-		const gs = getMonday(ystart);
-		const ge = getSunday(yend);
-		const nWeeks = Math.max(1, Math.ceil((ge.getTime() - gs.getTime()) / (7 * 86400000)));
+	const gs = getMonday(ystart);
+	const ge = getSunday(yend);
+	const nWeeks = Math.max(
+		1,
+		Math.ceil((ge.getTime() - gs.getTime()) / (7 * 86400000)),
+	);
 
-		// Month labels — only odd months
-		const ml: Mlabel[] = [];
-		const seen = new Set<number>();
-		for (let w = 0; w < nWeeks; w++) {
-			const d = new Date(gs);
-			d.setDate(d.getDate() + w * 7 + 3);
-			if (w === 0 || d.getMonth() !== new Date(gs.getTime() + (w - 1) * 7 * 86400000 + 3 * 86400000).getMonth()) {
-				const x = w * STEP + PL;
-				const b = Math.round(x / 5) * 5;
-				if (seen.has(b)) continue;
-				seen.add(b);
-				const monthNum = d.getMonth() + 1;
-				if (monthNum === 12 || monthNum % 2 === 0) continue;
-				ml.push({ x, label: `${monthNum}月` });
-			}
-		}
-		monthLabels = ml;
-
-		// Cells
-		const cc: Cell[] = [];
-		for (let w = 0; w < nWeeks; w++) {
-			for (let d = 0; d < 7; d++) {
-				const cd = new Date(gs);
-				cd.setDate(cd.getDate() + w * 7 + d);
-				if (cd < ystart || cd > yend) continue;
-				const key = fmt(cd);
-				const n = data[key] ?? 0;
-				cc.push({
-					x: w * STEP + PL,
-					y: d * STEP + PT,
-					op: op(n),
-					tip: n === 0 ? `无文章` : `${n} 篇 · ${key}`,
-				});
-			}
-		}
-		cells = cc;
-	}
-
-	// ── Canvas rendering ─────────────────────────────────────────
-	let canvas: HTMLCanvasElement;
-	let ctx: CanvasRenderingContext2D | null = null;
-	let tooltip: { text: string; x: number; y: number; visible: boolean } = { text: "", x: 0, y: 0, visible: false };
-
-	function draw() {
-		if (!canvas || !ctx || !yearData) return;
-
-		// Scale for high-DPI displays. Keep the drawing buffer at FIXED_W/FIXED_H
-		// logical units; CSS max-w-full h-auto scales the display size responsively.
-		const dpr = window.devicePixelRatio || 1;
-		canvas.width = FIXED_W * dpr;
-		canvas.height = FIXED_H * dpr;
-		ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-		// Resolve the CSS variable to an actual color for canvas drawing.
-		const primaryColor = getComputedStyle(canvas).getPropertyValue("--primary").trim() || "oklch(0.55 0.12 125)";
-
-		// Clear
-		ctx.clearRect(0, 0, FIXED_W, FIXED_H);
-
-		// Month labels
-		ctx.font = "14px sans-serif";
-		ctx.textAlign = "center";
-		ctx.textBaseline = "middle";
-		ctx.fillStyle = primaryColor;
-		for (const ml of monthLabels) {
-			ctx.globalAlpha = 0.6;
-			ctx.fillText(ml.label, ml.x, PT - 10);
-		}
-		ctx.globalAlpha = 1;
-
-		// Day labels
-		ctx.font = "12px sans-serif";
-		ctx.textAlign = "right";
-		ctx.textBaseline = "middle";
-		ctx.fillStyle = primaryColor;
-		ctx.globalAlpha = 0.5;
-		DAYS.forEach((label, i) => {
-			if (label) {
-				ctx!.fillText(label, PL - 6, i * STEP + PT + CELL / 2);
-			}
-		});
-		ctx.globalAlpha = 1;
-
-		// Cells — batch by opacity to reduce canvas state changes.
-		ctx.fillStyle = primaryColor;
-		const opacityGroups: Record<string, Cell[]> = {};
-		for (const c of cells) {
-			(opacityGroups[c.op] ??= []).push(c);
-		}
-		for (const op of Object.keys(opacityGroups).sort()) {
-			ctx.globalAlpha = Number.parseFloat(op);
-			ctx.beginPath();
-			for (const c of opacityGroups[op]) {
-				const x = c.x;
-				const y = c.y;
-				const r = R;
-				ctx.moveTo(x + r, y);
-				ctx.arcTo(x + CELL, y, x + CELL, y + CELL, r);
-				ctx.arcTo(x + CELL, y + CELL, x, y + CELL, r);
-				ctx.arcTo(x, y + CELL, x, y, r);
-				ctx.arcTo(x, y, x + CELL, y, r);
-				ctx.closePath();
-			}
-			ctx.fill();
-		}
-		ctx.globalAlpha = 1;
-	}
-
-	function handleMouseMove(e: MouseEvent) {
-		if (!canvas || cells.length === 0) return;
-		const rect = canvas.getBoundingClientRect();
-		const scaleX = FIXED_W / rect.width;
-		const scaleY = FIXED_H / rect.height;
-		const x = (e.clientX - rect.left) * scaleX;
-		const y = (e.clientY - rect.top) * scaleY;
-
-		const cell = cells.find((c) => x >= c.x && x <= c.x + CELL && y >= c.y && y <= c.y + CELL);
-		if (cell) {
-			tooltip = { text: cell.tip, x: e.clientX - rect.left + 8, y: e.clientY - rect.top - 8, visible: true };
-		} else {
-			tooltip = { ...tooltip, visible: false };
+	// Month labels — only odd months
+	const ml: Mlabel[] = [];
+	const seen = new Set<number>();
+	for (let w = 0; w < nWeeks; w++) {
+		const d = new Date(gs);
+		d.setDate(d.getDate() + w * 7 + 3);
+		if (
+			w === 0 ||
+			d.getMonth() !==
+				new Date(
+					gs.getTime() + (w - 1) * 7 * 86400000 + 3 * 86400000,
+				).getMonth()
+		) {
+			const x = w * STEP + PL;
+			const b = Math.round(x / 5) * 5;
+			if (seen.has(b)) continue;
+			seen.add(b);
+			const monthNum = d.getMonth() + 1;
+			if (monthNum === 12 || monthNum % 2 === 0) continue;
+			ml.push({ x, label: `${monthNum}月` });
 		}
 	}
+	monthLabels = ml;
 
-	function handleMouseLeave() {
+	// Cells
+	const cc: Cell[] = [];
+	for (let w = 0; w < nWeeks; w++) {
+		for (let d = 0; d < 7; d++) {
+			const cd = new Date(gs);
+			cd.setDate(cd.getDate() + w * 7 + d);
+			if (cd < ystart || cd > yend) continue;
+			const key = fmt(cd);
+			const n = data[key] ?? 0;
+			cc.push({
+				x: w * STEP + PL,
+				y: d * STEP + PT,
+				op: op(n),
+				tip: n === 0 ? `无文章` : `${n} 篇 · ${key}`,
+			});
+		}
+	}
+	cells = cc;
+}
+
+// ── Canvas rendering ─────────────────────────────────────────
+let canvas: HTMLCanvasElement;
+let ctx: CanvasRenderingContext2D | null = null;
+let tooltip: { text: string; x: number; y: number; visible: boolean } = {
+	text: "",
+	x: 0,
+	y: 0,
+	visible: false,
+};
+
+function draw() {
+	if (!canvas || !ctx || !yearData) return;
+
+	// Scale for high-DPI displays. Keep the drawing buffer at FIXED_W/FIXED_H
+	// logical units; CSS max-w-full h-auto scales the display size responsively.
+	const dpr = window.devicePixelRatio || 1;
+	canvas.width = FIXED_W * dpr;
+	canvas.height = FIXED_H * dpr;
+	ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+	// Resolve the CSS variable to an actual color for canvas drawing.
+	const primaryColor =
+		getComputedStyle(canvas).getPropertyValue("--primary").trim() ||
+		"oklch(0.55 0.12 125)";
+
+	// Clear
+	ctx.clearRect(0, 0, FIXED_W, FIXED_H);
+
+	// Month labels
+	ctx.font = "14px sans-serif";
+	ctx.textAlign = "center";
+	ctx.textBaseline = "middle";
+	ctx.fillStyle = primaryColor;
+	for (const ml of monthLabels) {
+		ctx.globalAlpha = 0.6;
+		ctx.fillText(ml.label, ml.x, PT - 10);
+	}
+	ctx.globalAlpha = 1;
+
+	// Day labels
+	ctx.font = "12px sans-serif";
+	ctx.textAlign = "right";
+	ctx.textBaseline = "middle";
+	ctx.fillStyle = primaryColor;
+	ctx.globalAlpha = 0.5;
+	DAYS.forEach((label, i) => {
+		if (label) {
+			ctx!.fillText(label, PL - 6, i * STEP + PT + CELL / 2);
+		}
+	});
+	ctx.globalAlpha = 1;
+
+	// Cells — batch by opacity to reduce canvas state changes.
+	ctx.fillStyle = primaryColor;
+	const opacityGroups: Record<string, Cell[]> = {};
+	for (const c of cells) {
+		(opacityGroups[c.op] ??= []).push(c);
+	}
+	for (const op of Object.keys(opacityGroups).sort()) {
+		ctx.globalAlpha = Number.parseFloat(op);
+		ctx.beginPath();
+		for (const c of opacityGroups[op]) {
+			const x = c.x;
+			const y = c.y;
+			const r = R;
+			ctx.moveTo(x + r, y);
+			ctx.arcTo(x + CELL, y, x + CELL, y + CELL, r);
+			ctx.arcTo(x + CELL, y + CELL, x, y + CELL, r);
+			ctx.arcTo(x, y + CELL, x, y, r);
+			ctx.arcTo(x, y, x + CELL, y, r);
+			ctx.closePath();
+		}
+		ctx.fill();
+	}
+	ctx.globalAlpha = 1;
+}
+
+function handleMouseMove(e: MouseEvent) {
+	if (!canvas || cells.length === 0) return;
+	const rect = canvas.getBoundingClientRect();
+	const scaleX = FIXED_W / rect.width;
+	const scaleY = FIXED_H / rect.height;
+	const x = (e.clientX - rect.left) * scaleX;
+	const y = (e.clientY - rect.top) * scaleY;
+
+	const cell = cells.find(
+		(c) => x >= c.x && x <= c.x + CELL && y >= c.y && y <= c.y + CELL,
+	);
+	if (cell) {
+		tooltip = {
+			text: cell.tip,
+			x: e.clientX - rect.left + 8,
+			y: e.clientY - rect.top - 8,
+			visible: true,
+		};
+	} else {
 		tooltip = { ...tooltip, visible: false };
 	}
+}
 
-	$: cells, monthLabels, canvas, draw();
+function handleMouseLeave() {
+	tooltip = { ...tooltip, visible: false };
+}
 
-	onMount(() => {
-		ctx = canvas.getContext("2d");
-		draw();
-	});
+$: cells, monthLabels, canvas, draw();
+
+onMount(() => {
+	ctx = canvas.getContext("2d");
+	draw();
+});
 </script>
 
 <div class="heatmap-card rounded-[var(--radius-large)] bg-[var(--card-bg)] p-4 md:p-5">

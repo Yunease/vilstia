@@ -33,22 +33,26 @@ function op(n: number): string {
 function mon(d: Date): Date {
 	const r = new Date(d);
 	r.setHours(0, 0, 0, 0);
-	r.setDate(r.getDate() - (((r.getDay() + 6) % 7)));
+	r.setDate(r.getDate() - ((r.getDay() + 6) % 7));
 	return r;
 }
 function sun(d: Date): Date {
 	const r = new Date(d);
 	r.setHours(0, 0, 0, 0);
-	r.setDate(r.getDate() + (7 - ((r.getDay() + 6) % 7 + 1)));
+	r.setDate(r.getDate() + (7 - (((r.getDay() + 6) % 7) + 1)));
 	return r;
 }
 
 // ── Build per-year grids ────────────────────────────────────────
 interface Cell {
-	x: number; y: number; op: string; tip: string;
+	x: number;
+	y: number;
+	op: string;
+	tip: string;
 }
 interface Mlabel {
-	x: number; label: string;
+	x: number;
+	label: string;
 }
 interface YearBlock {
 	year: number;
@@ -64,11 +68,15 @@ interface YearBlock {
 const blocks: YearBlock[] = years.map((yr) => {
 	const { year, activityMap, count, articleCount, rantCount } = yr;
 	const ystart = new Date(year, 0, 1);
-	const yend = year === endDate.getFullYear() ? endDate : new Date(year, 11, 31);
+	const yend =
+		year === endDate.getFullYear() ? endDate : new Date(year, 11, 31);
 
 	const gs = mon(ystart);
 	const ge = sun(yend);
-	const nWeeks = Math.max(1, Math.ceil((ge.getTime() - gs.getTime()) / (7 * 86400000)));
+	const nWeeks = Math.max(
+		1,
+		Math.ceil((ge.getTime() - gs.getTime()) / (7 * 86400000)),
+	);
 
 	// Month labels — only odd months
 	const mlabels: Mlabel[] = [];
@@ -76,7 +84,13 @@ const blocks: YearBlock[] = years.map((yr) => {
 	for (let w = 0; w < nWeeks; w++) {
 		const d = new Date(gs);
 		d.setDate(d.getDate() + w * 7 + 3);
-		if (w === 0 || d.getMonth() !== new Date(gs.getTime() + (w - 1) * 7 * 86400000 + 3 * 86400000).getMonth()) {
+		if (
+			w === 0 ||
+			d.getMonth() !==
+				new Date(
+					gs.getTime() + (w - 1) * 7 * 86400000 + 3 * 86400000,
+				).getMonth()
+		) {
 			const x = w * STEP + PL;
 			const b = Math.round(x / 5) * 5;
 			if (seen.has(b)) continue;

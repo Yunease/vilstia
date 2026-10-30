@@ -1,6 +1,6 @@
 ---
 title: 我训练出了一个“属于自己的 AI”
-tags: [AI, 精选, 博客文章]
+tags: [AI, 博客文章]
 category: 杂谈
 published: 2026-10-24T11:51:27
 ---

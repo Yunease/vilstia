@@ -1,6 +1,6 @@
 ---
 title: 电脑端背单词 MintWord 高效 AI 背单词工具 | 免费单词记忆软件
-tags: [博客文章, 开源软件, 精选]
+tags: [博客文章, 开源软件]
 category: 学习
 collection: '开源软件推荐系列'
 published: 2026-05-31T23:57:01

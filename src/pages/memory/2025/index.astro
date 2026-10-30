@@ -1,0 +1,1881 @@
+---
+import memoryData from "../../../data/memory-2025.json";
+
+const { monthlyStats, moodStats, top100Words, articles } = memoryData;
+const byMood = moodStats.byMood as Record<string, number>;
+
+// Extract monthly moods breakdown
+const monthlyMoods: Record<string, Record<string, number>> = {};
+articles.forEach((item) => {
+	if (item.mood) {
+		const m = item.isoDate.slice(0, 7);
+		if (!monthlyMoods[m]) monthlyMoods[m] = {};
+		monthlyMoods[m][item.mood] = (monthlyMoods[m][item.mood] || 0) + 1;
+	}
+});
+
+// Mood configuration: precise, vibrant yet restrained in the Swiss layout
+const MOOD_META: Record<string, { label: string; color: string; bg: string; sign: string }> = {
+	怨恨: { label: "怨恨", color: "#8B5CF6", bg: "rgba(139, 92, 246, 0.08)", sign: "▲ 渡鸦之羽" },
+	平和: { label: "平和", color: "#EC4899", bg: "rgba(236, 72, 153, 0.1)", sign: "● 祝福" },
+	开心: { label: "开心", color: "#10B981", bg: "rgba(16, 185, 129, 0.08)", sign: "✦ 舞蹈和跳跃" },
+	消沉: { label: "消沉", color: "#64748B", bg: "rgba(100, 116, 139, 0.08)", sign: "■ 水沉" },
+	振奋: { label: "振奋", color: "#F97316", bg: "rgba(249, 115, 22, 0.08)", sign: "★ 车下草" },
+	焦躁: { label: "焦躁", color: "#EF4444", bg: "rgba(239, 68, 68, 0.08)", sign: "◆ 热空气" },
+};
+
+const CORE_QUOTE = {
+	highlight: "我是由过去的一切构成的，但过去的一切绝非必然的，只是从如今的眼光来看，它们都恰好发生过了而已。",
+	extended:
+		"提起笔写下那些斑驳的童话，从回忆里抽取夕阳覆盖灰色的天空，那些被遮蔽的也曾绚烂过。欢动的车厢摇摆出浅粉色的絮语，在笔下重构出新的枝桠——虚构是人的表象，我总是忍不住多留下点属于我的印痕，在许久之后也能辨认出来。工厂的烟囱们，你们也留下吧，时间已经足够灰了。",
+	date: "2025-12-11 17:15:01",
+	mood: "平和",
+	moodLevel: 1,
+	url: "/posts/message/old/mess%20-%20%E5%89%AF%E6%9C%AC%20(8)/",
+};
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>2025 年度记录 · 理性格网与粉色絮语 | 樟庭徊路</title>
+	<meta name="description" content="2025 年度记录：理性格网与粉色絮语。170 个发生过的文字切片与心境回声。" />
+	<link rel="icon" type="image/svg+xml" href="/favicon/favicon.ico" />
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet" />
+</head>
+<body class="memory-2025-root" data-no-swup>
+	<!-- Kinetic Ticker Tape Top Bar -->
+	<aside class="ticker-wrap" aria-hidden="true">
+		<div class="ticker-track">
+			<span class="ticker-item">樟庭徊路 · 2025 年度记述</span>
+			<span class="ticker-sep">✿</span>
+			<span class="ticker-item">“谁懂这种抽象感，早上写代码是理科生，晚上写同人文是文科生”</span>
+			<span class="ticker-sep">✦</span>
+			<span class="ticker-item">“每当我质疑生命的韧性时，命运就会回馈以温暖的触摸，我想它大概也是温柔的”</span>
+			<span class="ticker-sep">꒰｡ › ·̮ ‹ ｡꒱</span>
+			<span class="ticker-item">“没有任何一个离家在外的陕西人可以拒绝一碗纯手掰鲜嫩多汁的羊肉泡馍”</span>
+			<span class="ticker-sep">✿</span>
+			<span class="ticker-item">“人生如果是宝可梦就好了，这样我就可以发起上司拒绝不了的战斗，用替守毒恶心死别人”</span>
+			<span class="ticker-sep">✦</span>
+			<span class="ticker-item">“真正年轻的是可以泰然自若跟老板再买一根冰棍，无视他人眼神的心态”</span>
+			<span class="ticker-sep">꒰｡ › ·̮ ‹ ｡꒱</span>
+			<span class="ticker-item">“接近群山的人群山告诉他人类渺小，接近云雾的人云雾告诉他自然宽容 · 向泰山出发！”</span>
+			<span class="ticker-sep">✿</span>
+			<span class="ticker-item">“写 c 我用 goto，写 css 我用 important，傻逼的不是代码，是我自己”</span>
+			<span class="ticker-sep">✦</span>
+			<span class="ticker-item">“连裤袜就是最棒的！买到了双层加绒黑丝，穿起来超级无敌舒服摸起来也软软滑滑”</span>
+			<span class="ticker-sep">✿</span>
+		</div>
+	</aside>
+
+	<!-- Main Structural Grid Container -->
+	<div class="swiss-layout">
+		<!-- HEADER: Architectural Identity -->
+		<header class="grid-header">
+			<div class="header-cell brand-cell">
+				<a href="/memory/" data-no-swup class="brand-link">
+					<span class="brand-flag">2025 卷</span>
+					<span class="brand-name">樟庭徊路 · 年度印痕</span>
+				</a>
+			</div>
+			<div class="header-cell coord-cell">
+				<span class="coord-label">岁月斜角</span>
+				<span class="coord-val">2025.01.02 — 2025.12.30</span>
+			</div>
+			<div class="header-cell status-cell">
+				<span class="live-dot"></span>
+				<span class="status-text">170 篇 ✿</span>
+			</div>
+			<div class="header-cell back-cell">
+				<a href="/memory/" data-no-swup class="btn-back">
+					<span>返回记忆总览</span>
+				</a>
+			</div>
+		</header>
+
+		<!-- HERO MONUMENT: Monumental Typography -->
+		<section class="monument-hero">
+			<div class="monument-top-bar">
+				<div class="top-tag">编年落绢 · 2025</div>
+				<div class="top-theme">理性推演与日常絮语之间 ✿</div>
+				<div class="top-count">第 001 — 170 篇</div>
+			</div>
+
+			<div class="monument-title-box">
+				<div class="big-year-wrap">
+					<span class="year-digit">2</span>
+					<span class="year-digit">0</span>
+					<span class="year-digit">2</span>
+					<span class="year-digit special-digit">5<sup class="cute-star">✿</sup></span>
+				</div>
+			</div>
+
+			<div class="hero-statement-grid">
+				<div class="statement-col statement-left">
+					<p class="statement-lead">
+						“以我过去的目光来看，我无疑是无比憧憬如今的自己的，好吧，除了没有长高之外。如果明年还能以这样的形态看待现在的自己，大概也算没有虚度人生了吧。”
+					</p>
+					<span class="statement-sub">成败得失，命运使然也。人只能干预过程，却不能左右结果。现在最该考虑的，是今晚回去吃什么，以及让日子过得更轻松一些。</span>
+				</div>
+				<div class="statement-col statement-metrics">
+					<div class="metric-block">
+						<span class="m-num counter" data-target="170">0</span>
+						<span class="m-label">总文章数</span>
+					</div>
+					<div class="metric-block">
+						<span class="m-num counter" data-target="72">0</span>
+						<span class="m-label">博客文章</span>
+					</div>
+					<div class="metric-block">
+						<span class="m-num counter" data-target="98">0</span>
+						<span class="m-label">短吐槽</span>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- CHAPTER 1: DUALITY MATRIX (Grey Rationality vs. Tender Pink Whimsy) -->
+		<section class="duality-matrix">
+			<div class="matrix-header-bar">
+				<span class="chapter-badge">第一章 · 苓屏湛波水消从</span>
+				<h2 class="matrix-heading">白昼的格线与夜里的温存</h2>
+				<span class="matrix-desc">镰收秋风，我不会宽恕你的。</span>
+			</div>
+
+			<div class="matrix-dual-grid">
+				<!-- Left Cell: The Grey/Black Intellectual Anchor -->
+				<div class="dual-cell cell-rational">
+					<div class="cell-tag-bar">
+						<span class="side-code">01 / 白昼 · 螺旋塔</span>
+						<span class="side-stat">135 次调试</span>
+					</div>
+					<h3 class="cell-title">刻度 · 算法、试卷与必须走过的路</h3>
+					<p class="cell-text">
+						卷积神经网络的对比实验、A*启发式搜索的理论求索、反复琢磨的数据库范式、以及期末考前深夜整理的教育心理学题目汇编。
+					</p>
+					<div class="cell-keywords">
+						<span class="kw-tag">写c用goto</span>
+						<span class="kw-tag">css用!important</span>
+						<span class="kw-tag">哈基算法</span>
+						<span class="kw-tag">A*搜索</span>
+						<span class="kw-tag">数据库范式</span>
+						<span class="kw-tag">离散数学坠机</span>
+					</div>
+					<div class="cell-quote">
+						“其实我总有一种感觉。沉迷技术的人有意在逃避政治，但我又不够沉迷，我一定是因为这样才痛苦的……页面出错的时候，每一个 ul 都不是无辜的。”
+					</div>
+				</div>
+
+				<!-- Right Cell: The Gentle Pink Tender Sanctuary -->
+				<div class="dual-cell cell-whimsical">
+					<div class="cell-tag-bar">
+						<span class="side-code pink-code">02 / 霞色 · 假面与呼吸 ✿</span>
+						<span class="side-stat pink-stat">晶振与日常絮语</span>
+					</div>
+					<h3 class="cell-title pink-title">温柔的私语 · 故事、日常与想对自己说的话 ꒰｡ › ·̮ ‹ ｡꒱</h3>
+					<p class="cell-text">
+						在代码与书本之外，笔下重构出了新的枝桠。小说《晶振》与《拉利玛》的纯粹文学热忱；全世界空洞骑士水平下降100万倍的逗趣连载；冬夜里为一条保暖裤袜认真写下的测评；还有在游戏里和好朋友们热闹度过的生日。
+					</p>
+					<div class="cell-keywords">
+						<span class="kw-tag pink-kw">波克基斯最萌 ✿</span>
+						<span class="kw-tag pink-kw">手掰羊肉泡馍</span>
+						<span class="kw-tag pink-kw">双层加绒黑丝</span>
+						<span class="kw-tag pink-kw">空洞骑士 ✦</span>
+						<span class="kw-tag pink-kw">向泰山出发</span>
+						<span class="kw-tag pink-kw">天恩空气斩</span>
+					</div>
+					<div class="cell-quote pink-quote">
+						“我又幻想了。幻想我是能召唤出波克基斯的训练家，每天去罗德岛打卡给阿米娅臭脸色，跟大哥晨练偷学炒螺，下午去钓鱼约会……波克基斯就是最完美的宝可梦，有什么意见跟我的天恩空气斩说去吧！”
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- CHAPTER 2: MOOD SPECTRUM MATRIX -->
+		<section class="mood-matrix">
+			<div class="matrix-header-bar">
+				<span class="chapter-badge">第二章 · 涨涨落落</span>
+				<h2 class="matrix-heading">心灵碎片：98 段随手写下的短思</h2>
+				<span class="matrix-desc">其实我认为不靠抱枕就能睡着的人，也许有一种超能力</span>
+			</div>
+
+			<div class="mood-cells-grid">
+				{Object.entries(MOOD_META).map(([moodKey, meta]) => {
+					const count = byMood[moodKey] || 0;
+					const percent = ((count / 98) * 100).toFixed(1);
+					return (
+						<button
+							class="mood-grid-cell"
+							data-mood={moodKey}
+							style={`--m-color: ${meta.color}; --m-bg: ${meta.bg};`}
+						>
+							<div class="mood-cell-top">
+								<span class="mood-sign">{meta.sign}</span>
+								<span class="mood-name">{meta.label}</span>
+								<span class="mood-count">{count}</span>
+							</div>
+							<div class="mood-bar-track">
+								<div class="mood-bar-fill" style={`width: ${percent}%;`}></div>
+							</div>
+							<div class="mood-cell-bot">
+								<span class="mood-pct">{percent}%</span>
+								<span class="mood-hint">点击查看月度流向</span>
+							</div>
+						</button>
+					);
+				})}
+			</div>
+
+			<div class="mood-focus-banner" id="mood-focus-banner" style="display: none;">
+				<div class="mf-left">
+					<span class="mf-dot">✿</span>
+					<span class="mf-title">心境透视 · <strong id="mf-mood-name"></strong>: </span>
+					<span id="mf-mood-detail"></span>
+				</div>
+				<button id="btn-clear-mf" class="btn-clear-filter">清除聚焦</button>
+			</div>
+
+			<!-- Dynamic Voice of the Mood -->
+			<div class="mood-quote-display" id="mood-quote-box">
+				<div class="mq-meta">
+					<span class="mq-tag" id="mq-tag">平和 Lv1</span>
+					<span class="mq-date" id="mq-date">2025-11-12 09:57</span>
+				</div>
+				<p class="mq-text" id="mq-text">
+					“每当我质疑生命的韧性时，命运就会回馈以温暖的触摸，完全不同往日严厉的模样，陌生又毫不违和。我想它大概也是温柔的，像我一样。”
+				</p>
+			</div>
+		</section>
+
+		<!-- CHAPTER 3: MONTHLY CHRONICLE BAR CHART -->
+		<section class="chronicle-barchart-section" id="chronicle">
+			<div class="matrix-header-bar">
+				<span class="chapter-badge">第三章 · 编年</span>
+				<h2 class="matrix-heading">湿润河床</h2>
+				<span class="matrix-desc">时间在 12 个月度里起伏流淌</span>
+			</div>
+
+			<!-- Status & Legend Bar -->
+			<div class="chart-status-bar">
+				<div class="chart-status-item">
+					<span class="cs-label">总篇数</span>
+					<span class="cs-val counter" data-target="170">0</span>
+					<span class="cs-unit">篇</span>
+				</div>
+				<div class="chart-status-item">
+					<span class="cs-legend-pill pill-article">
+						<span class="legend-box box-article">■</span>
+						<span>文章: <strong>72</strong> 篇 (42.4%)</span>
+					</span>
+				</div>
+				<div class="chart-status-item">
+					<span class="cs-legend-pill pill-mess">
+						<span class="legend-box box-mess">✿</span>
+						<span>短吐槽: <strong>98</strong> 篇 (57.6%)</span>
+					</span>
+				</div>
+				<div class="chart-status-item cs-peak">
+					<span class="cs-label">创作双峰月</span>
+					<span class="cs-peak-val">04月 (28篇) · 11月 (26篇)</span>
+				</div>
+			</div>
+
+			<!-- The Graphic Swiss Bar Chart Stage -->
+			<div class="barchart-container">
+				<div class="barchart-stage">
+					<!-- Y-Axis Reference Guidelines -->
+					<div class="barchart-gridlines" aria-hidden="true">
+						<div class="gridline-row" style="bottom: 100%;">
+							<span class="gridline-label">30 篇</span>
+							<div class="gridline-dash"></div>
+						</div>
+						<div class="gridline-row" style="bottom: 66.66%;">
+							<span class="gridline-label">20 篇</span>
+							<div class="gridline-dash"></div>
+						</div>
+						<div class="gridline-row" style="bottom: 33.33%;">
+							<span class="gridline-label">10 篇</span>
+							<div class="gridline-dash"></div>
+						</div>
+						<div class="gridline-row" style="bottom: 0%;">
+							<span class="gridline-label">0</span>
+							<div class="gridline-solid"></div>
+						</div>
+					</div>
+
+					<!-- The 12 Columns -->
+					<div class="barchart-columns">
+						{Object.entries(monthlyStats).map(([mKey, mStat]) => {
+							const mNum = mKey.replace("2025-", "");
+							const totalHeightPct = ((mStat.total / 30) * 100).toFixed(1);
+							const artHeightPct = ((mStat.nonMess / mStat.total) * 100).toFixed(1);
+							const messHeightPct = ((mStat.mess / mStat.total) * 100).toFixed(1);
+							const isPeak = mStat.total >= 25;
+
+							return (
+								<div
+									class={`bar-col-slot ${isPeak ? "col-peak" : ""}`}
+									data-month={mKey}
+									data-total={mStat.total}
+									data-article={mStat.nonMess}
+									data-mess={mStat.mess}
+								>
+									<!-- The Bar Track & Stacked Segments -->
+									<div class="bar-track">
+										<div
+											class="bar-pillar"
+											style={`height: ${totalHeightPct}%;`}
+										>
+											<div class="bar-total-num">
+												{mStat.total}
+												{isPeak && <span class="peak-star">✦</span>}
+											</div>
+
+											<!-- Upper segment: 短吐槽 (Pink) -->
+											<div
+												class="bar-seg seg-mess"
+												style={`height: ${messHeightPct}%;`}
+												title={`${mNum}月 短吐槽: ${mStat.mess} 篇`}
+											>
+												{mStat.mess >= 6 && (
+													<span class="seg-val">{mStat.mess}</span>
+												)}
+											</div>
+
+											<!-- Lower segment: 文章 (Charcoal) -->
+											<div
+												class="bar-seg seg-article"
+												style={`height: ${artHeightPct}%;`}
+												title={`${mNum}月 文章: ${mStat.nonMess} 篇`}
+											>
+												{mStat.nonMess >= 4 && (
+													<span class="seg-val">{mStat.nonMess}</span>
+												)}
+											</div>
+										</div>
+									</div>
+
+									<!-- Column Bottom Label & Breakdown Text -->
+									<div class="bar-col-meta">
+										<div class="bar-month-title">{mNum}月</div>
+										<div class="bar-quantities">
+											<div class="qty-line qty-art">文章 {mStat.nonMess}篇</div>
+											<div class="qty-line qty-mess">短吐槽 {mStat.mess}篇</div>
+										</div>
+									</div>
+								</div>
+							);
+						})}
+					</div>
+				</div>
+			</div>
+
+			<!-- 12-Month Structural Summary Grid (Responsive Card Table) -->
+			<div class="month-cards-grid">
+				{Object.entries(monthlyStats).map(([mKey, mStat]) => {
+					const mNum = mKey.replace("2025-", "");
+					const isPeak = mStat.total >= 25;
+					const mMoods = monthlyMoods[mKey] || {};
+
+					return (
+						<div class={`month-card ${isPeak ? "card-peak" : ""}`} data-month={mKey}>
+							<div class="mc-head">
+								<span class="mc-month-badge">{mNum} 月份</span>
+								<span class="mc-total-tag">共 {mStat.total} 篇</span>
+							</div>
+
+							<div class="mc-counts-row">
+								<div class="mc-stat-item mc-stat-art">
+									<span class="stat-dot dot-art">■</span>
+									<span class="stat-name">文章</span>
+									<span class="stat-num">{mStat.nonMess} 篇</span>
+								</div>
+								<div class="mc-stat-sep">/</div>
+								<div class="mc-stat-item mc-stat-mess">
+									<span class="stat-dot dot-mess">✿</span>
+									<span class="stat-name">短吐槽</span>
+									<span class="stat-num">{mStat.mess} 篇</span>
+								</div>
+							</div>
+
+							<!-- Subtle Mood Spectrum of the Month -->
+							{Object.keys(mMoods).length > 0 && (
+								<div class="mc-mood-row">
+									{Object.entries(mMoods).map(([moodName, moodCount]) => {
+										const meta = MOOD_META[moodName];
+										return (
+											<span
+												class="mc-mood-chip"
+												data-mood-chip={moodName}
+												style={`--mc-mood: ${meta?.color || "#111827"};`}
+												title={`${moodName}: ${moodCount} 篇`}
+											>
+												{moodName} {moodCount}
+											</span>
+										);
+									})}
+								</div>
+							)}
+						</div>
+					);
+				})}
+			</div>
+		</section>
+
+		<!-- CHAPTER 4: THE GENTLE PINK CHAMBER (The Anchor Quote) -->
+		<section class="pink-quote-chamber">
+			<div class="chamber-frame">
+				<div class="chamber-corner corner-tl">✿</div>
+				<div class="chamber-corner corner-tr">✦</div>
+				<div class="chamber-corner corner-bl">✦</div>
+				<div class="chamber-corner corner-br">✿</div>
+
+				<div class="chamber-tag">
+					<span>第四章 · 絮语 ✿</span>
+					<span class="tag-sep">·</span>
+					<span>岁末的自白</span>
+				</div>
+
+				<blockquote class="chamber-quote-text">
+					“{CORE_QUOTE.highlight}”
+				</blockquote>
+
+				<div class="chamber-passage">
+					<p>{CORE_QUOTE.extended}</p>
+				</div>
+
+				<div class="chamber-footer-bar">
+					<div class="cite-meta">
+						<span class="cite-date">{CORE_QUOTE.date}</span>
+						<span class="cite-mood">心境：{CORE_QUOTE.mood} Lv{CORE_QUOTE.moodLevel}</span>
+					</div>
+					<a href={CORE_QUOTE.url} data-no-swup class="btn-source-jump">
+						<span>追溯原初手记</span>
+					</a>
+				</div>
+			</div>
+		</section>
+
+		<!-- CHAPTER 5: CONCEPT CONSTELLATION -->
+		<section class="constellation-matrix">
+			<div class="matrix-header-bar">
+				<span class="chapter-badge">第五章 · 词谱</span>
+				<h2 class="matrix-heading">使用过的词语们</h2>
+				<span class="matrix-desc">我没办法像小孩一样说出轻佻的话来，完全意气用事，说出感人肺腑的荒诞言论。</span>
+			</div>
+
+			<div class="lexicon-grid">
+				{top100Words.slice(0, 32).map((w, i) => {
+					const isPink = ["晶振", "连裤袜", "迷拟丘", "罗德岛", "硝烟", "灵魂", "骑士", "山茶花", "生活"].includes(w.word);
+					return (
+						<div class={`lexicon-item ${isPink ? "item-pink" : ""}`}>
+							<span class="lex-rank">{(i + 1).toString().padStart(2, "0")}</span>
+							<span class="lex-word">{w.word}</span>
+							<span class="lex-count">{w.count}</span>
+						</div>
+					);
+				})}
+			</div>
+		</section>
+
+		<!-- FOOTER COLOPHON: Return & Sealing -->
+		<footer class="grid-footer">
+			<div class="footer-cell left-info">
+				<div class="colophon-title">2025</div>
+				<div class="colophon-desc">
+					时间不断向前走，过去被压缩。
+				</div>
+			</div>
+			<div class="footer-cell action-center">
+				<a href="/memory/" data-no-swup class="btn-main-return">
+					<span>返回年度记录总览</span>
+				</a>
+			</div>
+			<div class="footer-cell meta-right">
+				<div class="foot-label">樟庭徊路 🌙 · 2025</div>
+				<div class="foot-copy">琴泠的梦境、碎碎念与创作 · 年度记录封存</div>
+			</div>
+		</footer>
+	</div>
+
+	<!-- Interactive Logic -->
+	<script is:inline>
+		(function () {
+			// 1. Playful Sparkle on Click (Creates a tiny ✿ or ✦ at cursor)
+			const SPARKLE_ICONS = ["✿", "✦", "✧", "꒰·̮·꒱", "●"];
+			const SPARKLE_COLORS = ["#FF4D00", "#EC4899", "#8B5CF6", "#10B981", "#111827"];
+
+			function createSparkle(e) {
+				const spark = document.createElement("div");
+				spark.className = "click-sparkle";
+				spark.textContent = SPARKLE_ICONS[Math.floor(Math.random() * SPARKLE_ICONS.length)];
+				spark.style.color = SPARKLE_COLORS[Math.floor(Math.random() * SPARKLE_COLORS.length)];
+				spark.style.left = e.clientX + "px";
+				spark.style.top = e.clientY + "px";
+				document.body.appendChild(spark);
+				setTimeout(() => spark.remove(), 700);
+			}
+			window.addEventListener("click", createSparkle);
+
+			// 2. Animated Number Counters
+			const counters = document.querySelectorAll(".counter");
+			const counterObserver = new IntersectionObserver(
+				(entries, observer) => {
+					entries.forEach((entry) => {
+						if (entry.isIntersecting) {
+							const el = entry.target;
+							const target = parseInt(el.getAttribute("data-target") || "0", 10);
+							let cur = 0;
+							const step = Math.max(1, Math.floor(target / 30));
+							const timer = setInterval(() => {
+								cur += step;
+								if (cur >= target) {
+									el.textContent = String(target);
+									clearInterval(timer);
+								} else {
+									el.textContent = String(cur);
+								}
+							}, 25);
+							observer.unobserve(el);
+						}
+					});
+				},
+				{ threshold: 0.3 }
+			);
+			counters.forEach((c) => counterObserver.observe(c));
+
+			// 3. Mood Focus & Month Chart Highlights Interaction
+			const moodCells = document.querySelectorAll(".mood-grid-cell");
+			const moodFocusBanner = document.getElementById("mood-focus-banner");
+			const mfMoodName = document.getElementById("mf-mood-name");
+			const mfMoodDetail = document.getElementById("mf-mood-detail");
+			const btnClearMf = document.getElementById("btn-clear-mf");
+			const mqTag = document.getElementById("mq-tag");
+			const mqDate = document.getElementById("mq-date");
+			const mqText = document.getElementById("mq-text");
+
+			const barSlots = document.querySelectorAll(".bar-col-slot");
+			const monthCards = document.querySelectorAll(".month-card");
+
+			const MOOD_MONTH_DIST = {
+				怨恨: "共 33 篇碎片 · 集中分布在：11月 (11篇) · 4月 (8篇) · 10月 (4篇) · 3月 (3篇)",
+				平和: "共 20 篇碎片 · 集中分布在：11月 (8篇) · 4月 (4篇) · 5月 (2篇) · 10月 (2篇)",
+				开心: "共 16 篇碎片 · 集中分布在：5月 (3篇) · 2月 (2篇) · 3月 (2篇) · 11月 (2篇) · 12月 (2篇)",
+				消沉: "共 14 篇碎片 · 集中分布在：4月 (3篇) · 9月 (3篇) · 7月 (2篇) · 10月 (2篇)",
+				振奋: "共 11 篇碎片 · 集中分布在：4月 (5篇) · 10月 (2篇) · 1月 (1篇) · 3月 (1篇) · 6月 (1篇)",
+				焦躁: "共 4 篇碎片 · 集中分布在：10月 (2篇) · 4月 (1篇) · 12月 (1篇)",
+			};
+
+			const MOOD_VOICES = {
+				平和: {
+					tag: "平和 Lv1 · 岁末手记",
+					date: "2025-11-12 09:57",
+					text: "“每当我质疑生命的韧性时，命运就会回馈以温暖的触摸，完全不同往日严厉的模样，陌生又毫不违和。我想它大概也是温柔的，像我一样。”",
+				},
+				怨恨: {
+					tag: "怨恨 Lv2 · 宝可梦现实主义",
+					date: "2025-01-20 18:59",
+					text: "“人生如果是宝可梦就好了，这样我就可以发起上司拒绝不了的战斗，用替守毒恶心死别人。”",
+				},
+				开心: {
+					tag: "开心 Lv2 · 乡愁与美食",
+					date: "2025-11-30 22:28",
+					text: "“没有任何一个离家在外的陕西人可以拒绝一碗纯手掰鲜嫩多汁的羊肉泡馍，如果能拒绝那就说明你爱吃小炒！”",
+				},
+				消沉: {
+					tag: "消沉 Lv3 · 课堂与困意",
+					date: "2025-04-10 12:04",
+					text: "“困晕了，数据库怎么这么好睡。怀疑老师是盾菇，一上课就撒蘑菇孢子害我睡着……这下是想不睡都不行了，睡！睡！睡！Zzzzzzzzz”",
+				},
+				振奋: {
+					tag: "振奋 Lv4 · 理工与文艺左右脑",
+					date: "2025-04-11 15:04",
+					text: "“谁懂这种抽象感，早上写代码是理科生，晚上写同人文是文科生，有种左右脑互搏的美感。其实我是吃货，我要吃吃吃！”",
+				},
+				焦躁: {
+					tag: "焦躁 Lv1 · 程序员自我修养",
+					date: "2025-10-10 19:05",
+					text: "“写 c 我用 goto，写 css 我用 important，命名我用拼音，注释我加一堆颜文字卖萌。我终于发现，傻逼的不是代码，是我自己。”",
+				},
+			};
+
+			let activeMood = null;
+
+			function setMoodFocus(mood) {
+				if (activeMood === mood) {
+					clearMoodFocus();
+					return;
+				}
+				activeMood = mood;
+				moodCells.forEach((c) => {
+					if (c.getAttribute("data-mood") === mood) {
+						c.classList.add("active");
+					} else {
+						c.classList.remove("active");
+					}
+				});
+
+				if (moodFocusBanner && mfMoodName && mfMoodDetail) {
+					mfMoodName.textContent = mood;
+					mfMoodDetail.textContent = MOOD_MONTH_DIST[mood] || "";
+					moodFocusBanner.style.display = "flex";
+				}
+
+				if (MOOD_VOICES[mood] && mqTag && mqDate && mqText) {
+					mqTag.textContent = MOOD_VOICES[mood].tag;
+					mqDate.textContent = MOOD_VOICES[mood].date;
+					mqText.textContent = MOOD_VOICES[mood].text;
+				}
+
+				// Highlight months that have this mood
+				monthCards.forEach((card) => {
+					const mChip = card.querySelector(`[data-mood-chip="${mood}"]`);
+					if (mChip) {
+						card.classList.add("mood-highlight");
+					} else {
+						card.classList.remove("mood-highlight");
+					}
+				});
+
+				barSlots.forEach((slot) => {
+					const mKey = slot.getAttribute("data-month");
+					const matchingCard = document.querySelector(`.month-card[data-month="${mKey}"] [data-mood-chip="${mood}"]`);
+					if (matchingCard) {
+						slot.classList.add("mood-highlight");
+					} else {
+						slot.classList.remove("mood-highlight");
+					}
+				});
+
+				// Smooth scroll toward chronicle section
+				const chronicle = document.getElementById("chronicle");
+				if (chronicle) {
+					chronicle.scrollIntoView({ behavior: "smooth" });
+				}
+			}
+
+			function clearMoodFocus() {
+				activeMood = null;
+				moodCells.forEach((c) => c.classList.remove("active"));
+				if (moodFocusBanner) moodFocusBanner.style.display = "none";
+				monthCards.forEach((card) => card.classList.remove("mood-highlight"));
+				barSlots.forEach((slot) => slot.classList.remove("mood-highlight"));
+
+				if (MOOD_VOICES["平和"] && mqTag && mqDate && mqText) {
+					mqTag.textContent = MOOD_VOICES["平和"].tag;
+					mqDate.textContent = MOOD_VOICES["平和"].date;
+					mqText.textContent = MOOD_VOICES["平和"].text;
+				}
+			}
+
+			moodCells.forEach((cell) => {
+				cell.addEventListener("click", () => {
+					const mood = cell.getAttribute("data-mood");
+					if (mood) setMoodFocus(mood);
+				});
+			});
+
+			if (btnClearMf) {
+				btnClearMf.addEventListener("click", clearMoodFocus);
+			}
+
+			// Hover sync between bar column and month card
+			barSlots.forEach((slot) => {
+				const mKey = slot.getAttribute("data-month");
+				slot.addEventListener("mouseenter", () => {
+					const targetCard = document.querySelector(`.month-card[data-month="${mKey}"]`);
+					if (targetCard) targetCard.classList.add("hover-sync");
+				});
+				slot.addEventListener("mouseleave", () => {
+					const targetCard = document.querySelector(`.month-card[data-month="${mKey}"]`);
+					if (targetCard) targetCard.classList.remove("hover-sync");
+				});
+			});
+
+			monthCards.forEach((card) => {
+				const mKey = card.getAttribute("data-month");
+				card.addEventListener("mouseenter", () => {
+					const targetSlot = document.querySelector(`.bar-col-slot[data-month="${mKey}"]`);
+					if (targetSlot) targetSlot.classList.add("hover-sync");
+				});
+				card.addEventListener("mouseleave", () => {
+					const targetSlot = document.querySelector(`.bar-col-slot[data-month="${mKey}"]`);
+					if (targetSlot) targetSlot.classList.remove("hover-sync");
+				});
+			});
+
+			// Clean up listeners on unload
+			window.addEventListener("beforeunload", () => {
+				window.removeEventListener("click", createSparkle);
+				counterObserver.disconnect();
+			});
+		})();
+	</script>
+
+	<!-- Scoped Styles -->
+	<style>
+		/* Strict Color & Structural Variables */
+		:root {
+			--grid-bg: #f8f9fa;
+			--grid-surface: #ffffff;
+			--grid-line: #111827;
+			--grid-line-soft: rgba(17, 24, 39, 0.15);
+			--text-black: #111827;
+			--text-dim: #4b5563;
+			--text-muted: #9ca3af;
+			--accent-vermilion: #ff4d00;
+			--accent-pink-soft: #fff0f3;
+			--accent-pink-main: #ec4899;
+			--accent-pink-border: #fbcfe8;
+			--font-display: "Hanken Grotesk", sans-serif;
+			--font-serif: "Noto Serif SC", serif;
+			--font-mono: "JetBrains Mono", monospace;
+		}
+
+		.memory-2025-root {
+			margin: 0;
+			padding: 0;
+			background-color: var(--grid-bg);
+			color: var(--text-black);
+			font-family: var(--font-display);
+			overflow-x: hidden;
+			-webkit-font-smoothing: antialiased;
+		}
+
+		/* Click Sparkle Animation */
+		:global(.click-sparkle) {
+			position: fixed;
+			pointer-events: none;
+			font-family: var(--font-serif);
+			font-size: 1.25rem;
+			font-weight: 700;
+			transform: translate(-50%, -50%) scale(0.6);
+			animation: pop-sparkle 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+			z-index: 9999;
+		}
+		@keyframes pop-sparkle {
+			0% { opacity: 1; transform: translate(-50%, -50%) scale(0.6) rotate(0deg); }
+			50% { transform: translate(-50%, -100%) scale(1.4) rotate(25deg); opacity: 0.9; }
+			100% { opacity: 0; transform: translate(-50%, -160%) scale(0.8) rotate(45deg); }
+		}
+
+		/* Top Ticker Tape (Kinetic Marquee) */
+		.ticker-wrap {
+			background: var(--text-black);
+			color: #ffffff;
+			overflow: hidden;
+			white-space: nowrap;
+			border-bottom: 1px solid var(--text-black);
+			padding: 7px 0;
+			font-family: var(--font-mono);
+			font-size: 0.75rem;
+			letter-spacing: 0.12em;
+		}
+		.ticker-track {
+			display: inline-flex;
+			align-items: center;
+			gap: 24px;
+			animation: marquee 35s linear infinite;
+		}
+		.ticker-sep {
+			color: var(--accent-vermilion);
+			font-size: 0.8rem;
+		}
+		@keyframes marquee {
+			0% { transform: translateX(0); }
+			100% { transform: translateX(-50%); }
+		}
+
+		/* Swiss Structural Layout */
+		.swiss-layout {
+			max-width: 1400px;
+			margin: 0 auto;
+			border-left: 1px solid var(--grid-line);
+			border-right: 1px solid var(--grid-line);
+			background: var(--grid-surface);
+			box-shadow: 0 0 50px rgba(0, 0, 0, 0.04);
+		}
+
+		/* HEADER */
+		.grid-header {
+			display: grid;
+			grid-template-columns: 2fr 3fr 2fr 1.5fr;
+			border-bottom: 1px solid var(--grid-line);
+		}
+		.header-cell {
+			padding: 18px 24px;
+			border-right: 1px solid var(--grid-line);
+			display: flex;
+			align-items: center;
+		}
+		.header-cell:last-child {
+			border-right: none;
+		}
+		.brand-link {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			text-decoration: none;
+			color: inherit;
+		}
+		.brand-flag {
+			font-family: var(--font-mono);
+			font-size: 0.78rem;
+			font-weight: 700;
+			background: var(--text-black);
+			color: #ffffff;
+			padding: 3px 8px;
+		}
+		.brand-name {
+			font-weight: 800;
+			font-size: 0.95rem;
+			letter-spacing: -0.01em;
+		}
+		.coord-cell {
+			flex-direction: column;
+			align-items: flex-start;
+			justify-content: center;
+			gap: 2px;
+		}
+		.coord-label {
+			font-family: var(--font-mono);
+			font-size: 0.65rem;
+			color: var(--text-muted);
+			letter-spacing: 0.1em;
+		}
+		.coord-val {
+			font-family: var(--font-mono);
+			font-size: 0.8rem;
+			font-weight: 600;
+		}
+		.status-cell {
+			gap: 8px;
+			font-family: var(--font-mono);
+			font-size: 0.75rem;
+			font-weight: 600;
+		}
+		.live-dot {
+			width: 7px;
+			height: 7px;
+			background: var(--accent-vermilion);
+			border-radius: 50%;
+		}
+		.back-cell {
+			justify-content: flex-end;
+		}
+		.btn-back {
+			text-decoration: none;
+			color: var(--text-black);
+			font-size: 0.85rem;
+			font-weight: 700;
+			padding: 6px 14px;
+			border: 1px solid var(--grid-line);
+			transition: all 0.2s;
+		}
+		.btn-back:hover {
+			background: var(--text-black);
+			color: #ffffff;
+		}
+
+		/* HERO MONUMENT */
+		.monument-hero {
+			border-bottom: 1px solid var(--grid-line);
+		}
+		.monument-top-bar {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 12px 24px;
+			border-bottom: 1px solid var(--grid-line);
+			font-family: var(--font-mono);
+			font-size: 0.8rem;
+			background: var(--grid-bg);
+		}
+		.top-tag {
+			font-weight: 700;
+			color: var(--accent-vermilion);
+		}
+		.top-theme {
+			font-weight: 600;
+		}
+		.top-count {
+			color: var(--text-dim);
+		}
+
+		.monument-title-box {
+			padding: 40px 24px 20px;
+			overflow: hidden;
+			border-bottom: 1px solid var(--grid-line);
+			background: #ffffff;
+		}
+		.big-year-wrap {
+			display: flex;
+			justify-content: space-between;
+			align-items: baseline;
+			line-height: 0.82;
+			font-size: clamp(6.5rem, 21vw, 19rem);
+			font-weight: 900;
+			letter-spacing: -0.05em;
+			user-select: none;
+		}
+		.year-digit {
+			color: var(--text-black);
+			transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+		}
+		.year-digit:hover {
+			transform: translateY(-8px);
+			color: var(--accent-vermilion);
+		}
+		.special-digit {
+			position: relative;
+		}
+		.cute-star {
+			position: absolute;
+			top: 0;
+			right: -0.3em;
+			font-size: 0.25em;
+			color: var(--accent-pink-main);
+			animation: rotate-flower 12s linear infinite;
+		}
+		@keyframes rotate-flower {
+			0% { transform: rotate(0deg); }
+			100% { transform: rotate(360deg); }
+		}
+
+		.hero-statement-grid {
+			display: grid;
+			grid-template-columns: 5fr 4fr;
+		}
+		.statement-col {
+			padding: 36px 32px;
+		}
+		.statement-left {
+			border-right: 1px solid var(--grid-line);
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			gap: 16px;
+		}
+		.statement-lead {
+			font-family: var(--font-serif);
+			font-size: clamp(1.2rem, 2.2vw, 1.7rem);
+			font-weight: 700;
+			line-height: 1.6;
+			margin: 0;
+			color: var(--text-black);
+		}
+		.statement-sub {
+			font-size: 0.95rem;
+			color: var(--text-dim);
+			line-height: 1.6;
+		}
+		.statement-metrics {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 24px;
+			background: var(--grid-bg);
+		}
+		.metric-block {
+			display: flex;
+			flex-direction: column;
+			gap: 6px;
+		}
+		.m-num {
+			font-family: var(--font-mono);
+			font-size: clamp(2rem, 3.5vw, 3.2rem);
+			font-weight: 800;
+			line-height: 1;
+			color: var(--text-black);
+		}
+		.m-label {
+			font-size: 0.85rem;
+			font-weight: 700;
+			color: var(--text-dim);
+		}
+
+		/* SECTION COMMON HEADERS */
+		.matrix-header-bar {
+			display: flex;
+			align-items: center;
+			gap: 20px;
+			padding: 16px 24px;
+			border-bottom: 1px solid var(--grid-line);
+			background: var(--grid-bg);
+			flex-wrap: wrap;
+		}
+		.chapter-badge {
+			font-family: var(--font-mono);
+			font-size: 0.75rem;
+			font-weight: 800;
+			background: var(--text-black);
+			color: #ffffff;
+			padding: 3px 8px;
+		}
+		.matrix-heading {
+			margin: 0;
+			font-size: 1.15rem;
+			font-weight: 800;
+			letter-spacing: -0.01em;
+		}
+		.matrix-desc {
+			margin-left: auto;
+			font-size: 0.85rem;
+			color: var(--text-dim);
+			font-family: var(--font-mono);
+		}
+
+		/* CHAPTER 1: DUALITY MATRIX */
+		.duality-matrix {
+			border-bottom: 1px solid var(--grid-line);
+		}
+		.matrix-dual-grid {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+		}
+		.dual-cell {
+			padding: 40px 32px;
+			display: flex;
+			flex-direction: column;
+		}
+		.cell-rational {
+			border-right: 1px solid var(--grid-line);
+			background: #ffffff;
+		}
+		.cell-whimsical {
+			background: var(--accent-pink-soft);
+		}
+		.cell-tag-bar {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			font-family: var(--font-mono);
+			font-size: 0.78rem;
+			font-weight: 700;
+			margin-bottom: 20px;
+		}
+		.pink-code {
+			color: var(--accent-pink-main);
+		}
+		.pink-stat {
+			color: var(--accent-pink-main);
+		}
+		.cell-title {
+			font-size: 1.5rem;
+			font-weight: 800;
+			margin: 0 0 16px;
+			line-height: 1.3;
+		}
+		.pink-title {
+			color: #9d174d;
+		}
+		.cell-text {
+			font-size: 0.95rem;
+			line-height: 1.75;
+			color: var(--text-dim);
+			margin: 0 0 24px;
+		}
+		.cell-keywords {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 8px;
+			margin-bottom: 30px;
+		}
+		.kw-tag {
+			font-family: var(--font-mono);
+			font-size: 0.75rem;
+			padding: 4px 10px;
+			border: 1px solid var(--grid-line);
+			background: #ffffff;
+			font-weight: 600;
+		}
+		.pink-kw {
+			border-color: var(--accent-pink-main);
+			background: #ffffff;
+			color: #be185d;
+		}
+		.cell-quote {
+			margin-top: auto;
+			padding: 16px;
+			border-left: 3px solid var(--text-black);
+			background: rgba(0, 0, 0, 0.04);
+			font-family: var(--font-serif);
+			font-size: 0.88rem;
+			line-height: 1.6;
+			font-style: italic;
+		}
+		.pink-quote {
+			border-left-color: var(--accent-pink-main);
+			background: rgba(236, 72, 153, 0.08);
+			color: #831843;
+		}
+
+		/* CHAPTER 2: MOOD MATRIX */
+		.mood-matrix {
+			border-bottom: 1px solid var(--grid-line);
+		}
+		.mood-cells-grid {
+			display: grid;
+			grid-template-columns: repeat(6, 1fr);
+		}
+		.mood-grid-cell {
+			background: var(--grid-surface);
+			border: none;
+			border-right: 1px solid var(--grid-line);
+			padding: 24px 20px;
+			text-align: left;
+			cursor: pointer;
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+			transition: all 0.2s;
+			outline: none;
+		}
+		.mood-grid-cell:last-child {
+			border-right: none;
+		}
+		.mood-grid-cell:hover, .mood-grid-cell.active {
+			background: var(--m-bg);
+			box-shadow: inset 0 -4px 0 var(--m-color);
+		}
+		.mood-cell-top {
+			display: flex;
+			flex-direction: column;
+			gap: 4px;
+		}
+		.mood-sign {
+			font-family: var(--font-mono);
+			font-size: 0.72rem;
+			color: var(--m-color);
+			font-weight: 700;
+		}
+		.mood-name {
+			font-weight: 800;
+			font-size: 1.25rem;
+		}
+		.mood-count {
+			font-family: var(--font-mono);
+			font-size: 1.8rem;
+			font-weight: 900;
+			line-height: 1;
+			color: var(--m-color);
+		}
+		.mood-bar-track {
+			height: 4px;
+			background: rgba(0, 0, 0, 0.08);
+			overflow: hidden;
+		}
+		.mood-bar-fill {
+			height: 100%;
+			background-color: var(--m-color);
+		}
+		.mood-cell-bot {
+			display: flex;
+			justify-content: space-between;
+			font-family: var(--font-mono);
+			font-size: 0.72rem;
+			color: var(--text-dim);
+		}
+		.mood-hint {
+			opacity: 0;
+			transition: opacity 0.2s;
+		}
+		.mood-grid-cell:hover .mood-hint {
+			opacity: 1;
+		}
+
+		/* CHAPTER 2: MOOD FOCUS BANNER */
+		.mood-focus-banner {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 12px 24px;
+			background: var(--accent-pink-soft);
+			border-top: 1px solid var(--accent-pink-main);
+			font-family: var(--font-mono);
+			font-size: 0.8rem;
+			color: #831843;
+			font-weight: 600;
+		}
+		.mf-left {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			flex-wrap: wrap;
+		}
+		.mf-dot {
+			color: var(--accent-pink-main);
+		}
+		.btn-clear-filter {
+			background: #ffffff;
+			border: 1px solid var(--accent-pink-main);
+			color: #be185d;
+			font-family: var(--font-mono);
+			font-size: 0.75rem;
+			font-weight: 700;
+			padding: 4px 10px;
+			cursor: pointer;
+			transition: all 0.15s;
+		}
+		.btn-clear-filter:hover {
+			background: var(--accent-pink-main);
+			color: #ffffff;
+		}
+
+		/* Dynamic Mood Voice Card */
+		.mood-quote-display {
+			padding: 18px 24px;
+			background: #ffffff;
+			border-top: 1px solid var(--grid-line);
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+			transition: all 0.25s ease;
+		}
+		.mq-meta {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			font-family: var(--font-mono);
+			font-size: 0.75rem;
+		}
+		.mq-tag {
+			font-weight: 700;
+			color: var(--accent-pink-main);
+			background: var(--accent-pink-soft);
+			padding: 2px 8px;
+			border: 1px solid var(--accent-pink-main);
+		}
+		.mq-date {
+			color: var(--text-muted);
+		}
+		.mq-text {
+			font-family: var(--font-serif);
+			font-size: 0.95rem;
+			line-height: 1.7;
+			color: var(--text-black);
+			margin: 0;
+			padding-left: 12px;
+			border-left: 2px solid var(--accent-vermilion);
+			font-style: italic;
+		}
+
+		/* CHAPTER 3: BAR CHART & CHRONICLE */
+		.chronicle-barchart-section {
+			border-bottom: 1px solid var(--grid-line);
+		}
+		.chart-status-bar {
+			padding: 16px 24px;
+			border-bottom: 1px solid var(--grid-line);
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 16px;
+			flex-wrap: wrap;
+			background: #ffffff;
+		}
+		.chart-status-item {
+			display: flex;
+			align-items: baseline;
+			gap: 8px;
+			font-family: var(--font-mono);
+		}
+		.cs-label {
+			font-size: 0.75rem;
+			color: var(--text-dim);
+			text-transform: uppercase;
+			letter-spacing: 0.05em;
+		}
+		.cs-val {
+			font-size: 1.3rem;
+			font-weight: 900;
+			color: var(--text-black);
+		}
+		.cs-unit {
+			font-size: 0.8rem;
+			color: var(--text-dim);
+		}
+		.cs-legend-pill {
+			display: inline-flex;
+			align-items: center;
+			gap: 8px;
+			font-size: 0.8rem;
+			padding: 4px 12px;
+			border: 1px solid var(--grid-line);
+			background: var(--grid-bg);
+			font-family: var(--font-mono);
+		}
+		.pill-article .legend-box {
+			color: #111827;
+			font-size: 0.75rem;
+		}
+		.pill-mess .legend-box {
+			color: var(--accent-pink-main);
+			font-size: 0.85rem;
+		}
+		.cs-peak {
+			font-size: 0.8rem;
+		}
+		.cs-peak-val {
+			font-weight: 700;
+			color: var(--accent-vermilion);
+		}
+
+		/* Graphic Bar Stage */
+		.barchart-container {
+			padding: 40px 24px 20px 24px;
+			border-bottom: 1px solid var(--grid-line);
+			background: #ffffff;
+			overflow-x: auto;
+		}
+		.barchart-stage {
+			position: relative;
+			height: 380px;
+			min-width: 780px;
+			display: flex;
+			flex-direction: column;
+		}
+		.barchart-gridlines {
+			position: absolute;
+			inset: 0 0 100px 0;
+			pointer-events: none;
+			z-index: 1;
+		}
+		.gridline-row {
+			position: absolute;
+			left: 0;
+			right: 0;
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			transform: translateY(50%);
+		}
+		.gridline-label {
+			font-family: var(--font-mono);
+			font-size: 0.7rem;
+			color: var(--text-muted);
+			width: 40px;
+			text-align: right;
+			flex-shrink: 0;
+		}
+		.gridline-dash {
+			flex: 1;
+			height: 1px;
+			border-bottom: 1px dashed var(--grid-line-soft);
+		}
+		.gridline-solid {
+			flex: 1;
+			height: 1px;
+			background: var(--grid-line);
+		}
+
+		.barchart-columns {
+			display: grid;
+			grid-template-columns: repeat(12, 1fr);
+			height: 100%;
+			position: relative;
+			z-index: 2;
+			gap: 10px;
+			padding-left: 52px;
+		}
+		.bar-col-slot {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: flex-end;
+			height: 100%;
+			cursor: pointer;
+			transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+		}
+		.bar-col-slot:hover,
+		.bar-col-slot.hover-sync {
+			transform: translateY(-6px);
+		}
+		.bar-col-slot.mood-highlight {
+			background: rgba(236, 72, 153, 0.05);
+			border-radius: 4px;
+		}
+
+		.bar-track {
+			height: 270px;
+			display: flex;
+			align-items: flex-end;
+			justify-content: center;
+			width: 100%;
+		}
+		.bar-pillar {
+			width: 38px;
+			display: flex;
+			flex-direction: column;
+			border: 1.5px solid var(--text-black);
+			border-radius: 4px 4px 0 0;
+			overflow: hidden;
+			position: relative;
+			box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+			transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+		}
+		.bar-col-slot:hover .bar-pillar,
+		.bar-col-slot.hover-sync .bar-pillar {
+			box-shadow: 4px 6px 0 rgba(0, 0, 0, 0.2);
+			border-color: var(--accent-vermilion);
+		}
+		.bar-col-slot.col-peak .bar-pillar {
+			border-color: #111827;
+		}
+
+		.bar-total-num {
+			position: absolute;
+			top: -24px;
+			left: 50%;
+			transform: translateX(-50%);
+			font-family: var(--font-mono);
+			font-size: 0.8rem;
+			font-weight: 800;
+			color: var(--text-black);
+			white-space: nowrap;
+			display: flex;
+			align-items: center;
+			gap: 2px;
+		}
+		.peak-star {
+			color: var(--accent-vermilion);
+			font-size: 0.7rem;
+		}
+
+		.bar-seg {
+			width: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-family: var(--font-mono);
+			font-size: 0.68rem;
+			font-weight: 700;
+			transition: filter 0.2s;
+		}
+		.seg-mess {
+			background: linear-gradient(180deg, #f472b6 0%, #ec4899 100%);
+			color: #ffffff;
+			border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+		}
+		.seg-article {
+			background: #111827;
+			color: #ffffff;
+		}
+		.bar-col-slot:hover .seg-mess,
+		.bar-col-slot.hover-sync .seg-mess {
+			filter: brightness(1.08);
+		}
+
+		.bar-col-meta {
+			height: 90px;
+			text-align: center;
+			margin-top: 10px;
+			border-top: 1px solid var(--grid-line);
+			padding-top: 8px;
+			width: 100%;
+		}
+		.bar-month-title {
+			font-family: var(--font-mono);
+			font-size: 0.95rem;
+			font-weight: 800;
+			color: var(--text-black);
+			margin-bottom: 4px;
+		}
+		.bar-quantities {
+			display: flex;
+			flex-direction: column;
+			gap: 2px;
+			font-family: var(--font-mono);
+			font-size: 0.7rem;
+			font-weight: 600;
+			line-height: 1.35;
+		}
+		.qty-art {
+			color: #374151;
+		}
+		.qty-mess {
+			color: #db2777;
+		}
+
+		/* 12-Month Structural Summary Grid */
+		.month-cards-grid {
+			display: grid;
+			grid-template-columns: repeat(4, 1fr);
+			gap: 1px;
+			background: var(--grid-line);
+		}
+		.month-card {
+			background: #ffffff;
+			padding: 16px 20px;
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+			transition: all 0.2s ease;
+			cursor: default;
+		}
+		.month-card:hover,
+		.month-card.hover-sync {
+			background: #fff8f9;
+		}
+		.month-card.mood-highlight {
+			background: #fdf2f8;
+			outline: 2px solid var(--accent-pink-main);
+			outline-offset: -2px;
+		}
+		.month-card.card-peak {
+			background: #fafafa;
+		}
+
+		.mc-head {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			border-bottom: 1px solid var(--grid-line-soft);
+			padding-bottom: 8px;
+		}
+		.mc-month-badge {
+			font-family: var(--font-mono);
+			font-size: 0.95rem;
+			font-weight: 800;
+			color: var(--text-black);
+		}
+		.mc-total-tag {
+			font-family: var(--font-mono);
+			font-size: 0.78rem;
+			font-weight: 700;
+			background: var(--grid-bg);
+			border: 1px solid var(--grid-line);
+			padding: 2px 8px;
+			color: var(--text-black);
+		}
+		.card-peak .mc-total-tag {
+			background: #111827;
+			color: #ffffff;
+			border-color: #111827;
+		}
+
+		.mc-counts-row {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			font-family: var(--font-mono);
+			font-size: 0.8rem;
+		}
+		.mc-stat-item {
+			display: flex;
+			align-items: center;
+			gap: 6px;
+		}
+		.stat-dot {
+			font-size: 0.7rem;
+		}
+		.dot-art {
+			color: #111827;
+		}
+		.dot-mess {
+			color: var(--accent-pink-main);
+		}
+		.stat-name {
+			color: var(--text-dim);
+		}
+		.stat-num {
+			font-weight: 800;
+			color: var(--text-black);
+		}
+		.mc-stat-mess .stat-num {
+			color: #db2777;
+		}
+		.mc-stat-sep {
+			color: var(--grid-line);
+		}
+
+		.mc-mood-row {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 4px;
+			margin-top: 4px;
+		}
+		.mc-mood-chip {
+			font-family: var(--font-mono);
+			font-size: 0.68rem;
+			padding: 1px 6px;
+			border: 1px solid var(--mc-mood);
+			color: var(--mc-mood);
+			background: rgba(0, 0, 0, 0.02);
+			border-radius: 2px;
+		}
+
+		/* CHAPTER 4: THE GENTLE PINK CHAMBER */
+		.pink-quote-chamber {
+			border-bottom: 1px solid var(--grid-line);
+			background: var(--accent-pink-soft);
+			padding: 70px 40px;
+			position: relative;
+		}
+		.chamber-frame {
+			max-width: 900px;
+			margin: 0 auto;
+			border: 1.5px solid #f472b6;
+			background: #ffffff;
+			padding: 56px 48px;
+			position: relative;
+			box-shadow: 12px 12px 0 #fbcfe8;
+		}
+		.chamber-corner {
+			position: absolute;
+			width: 24px;
+			height: 24px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 0.9rem;
+			color: var(--accent-pink-main);
+			background: #ffffff;
+		}
+		.corner-tl { top: -12px; left: -12px; }
+		.corner-tr { top: -12px; right: -12px; }
+		.corner-bl { bottom: -12px; left: -12px; }
+		.corner-br { bottom: -12px; right: -12px; }
+
+		.chamber-tag {
+			display: inline-flex;
+			align-items: center;
+			gap: 8px;
+			font-family: var(--font-mono);
+			font-size: 0.75rem;
+			font-weight: 800;
+			color: var(--accent-pink-main);
+			margin-bottom: 24px;
+			letter-spacing: 0.08em;
+		}
+		.tag-sep { opacity: 0.5; }
+
+		.chamber-quote-text {
+			margin: 0 0 28px;
+			font-family: var(--font-serif);
+			font-size: clamp(1.4rem, 3.2vw, 2.3rem);
+			font-weight: 800;
+			line-height: 1.6;
+			color: #831843;
+			letter-spacing: 0.02em;
+		}
+		.chamber-passage {
+			font-family: var(--font-serif);
+			font-size: 1rem;
+			line-height: 1.9;
+			color: #4b5563;
+			margin-bottom: 36px;
+			text-align: justify;
+		}
+		.chamber-footer-bar {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			border-top: 1px solid #fce7f3;
+			padding-top: 20px;
+			font-family: var(--font-mono);
+			font-size: 0.8rem;
+		}
+		.cite-meta {
+			display: flex;
+			gap: 14px;
+			color: #9d174d;
+			font-weight: 600;
+		}
+		.btn-source-jump {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			color: var(--text-black);
+			text-decoration: none;
+			font-weight: 700;
+			padding: 6px 14px;
+			border: 1px solid var(--grid-line);
+			transition: all 0.2s;
+		}
+		.btn-source-jump:hover {
+			background: var(--text-black);
+			color: #ffffff;
+		}
+
+		/* CHAPTER 5: CONSTELLATION LEXICON */
+		.constellation-matrix {
+			border-bottom: 1px solid var(--grid-line);
+		}
+		.lexicon-grid {
+			display: grid;
+			grid-template-columns: repeat(4, 1fr);
+		}
+		.lexicon-item {
+			padding: 16px 20px;
+			border-right: 1px solid var(--grid-line-soft);
+			border-bottom: 1px solid var(--grid-line-soft);
+			display: flex;
+			align-items: baseline;
+			justify-content: space-between;
+			font-family: var(--font-mono);
+			transition: background 0.15s;
+		}
+		.lexicon-item:hover {
+			background: var(--grid-bg);
+		}
+		.lexicon-item.item-pink {
+			background: #fff5f7;
+		}
+		.lexicon-item.item-pink:hover {
+			background: #ffe4e9;
+		}
+		.lex-rank {
+			font-size: 0.7rem;
+			color: var(--text-muted);
+		}
+		.lex-word {
+			font-weight: 700;
+			font-size: 0.95rem;
+			font-family: var(--font-serif);
+		}
+		.item-pink .lex-word {
+			color: #be185d;
+		}
+		.lex-count {
+			font-size: 0.75rem;
+			color: var(--text-dim);
+		}
+
+		/* FOOTER */
+		.grid-footer {
+			display: grid;
+			grid-template-columns: 2fr 1.5fr 2fr;
+		}
+		.footer-cell {
+			padding: 32px 24px;
+			border-right: 1px solid var(--grid-line);
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+		}
+		.footer-cell:last-child {
+			border-right: none;
+		}
+		.colophon-title {
+			font-weight: 800;
+			font-size: 1rem;
+			margin-bottom: 6px;
+		}
+		.colophon-desc {
+			font-size: 0.82rem;
+			color: var(--text-dim);
+			line-height: 1.6;
+		}
+		.action-center {
+			align-items: center;
+		}
+		.btn-main-return {
+			display: inline-flex;
+			align-items: center;
+			gap: 8px;
+			background: var(--text-black);
+			color: #ffffff;
+			text-decoration: none;
+			padding: 12px 24px;
+			font-weight: 800;
+			font-size: 0.9rem;
+			border: 1px solid var(--text-black);
+			transition: all 0.2s;
+			box-shadow: 4px 4px 0 var(--accent-vermilion);
+		}
+		.btn-main-return:hover {
+			background: var(--accent-vermilion);
+			border-color: var(--accent-vermilion);
+			transform: translate(-2px, -2px);
+			box-shadow: 6px 6px 0 var(--text-black);
+		}
+		.meta-right {
+			align-items: flex-end;
+			font-family: var(--font-mono);
+			font-size: 0.75rem;
+			color: var(--text-muted);
+			gap: 4px;
+		}
+
+		/* RESPONSIVENESS */
+		@media (max-width: 1024px) {
+			.grid-header {
+				grid-template-columns: 1fr 1fr;
+			}
+			.coord-cell, .status-cell {
+				display: none;
+			}
+			.hero-statement-grid {
+				grid-template-columns: 1fr;
+			}
+			.statement-left {
+				border-right: none;
+				border-bottom: 1px solid var(--grid-line);
+			}
+			.matrix-dual-grid {
+				grid-template-columns: 1fr;
+			}
+			.cell-rational {
+				border-right: none;
+				border-bottom: 1px solid var(--grid-line);
+			}
+			.mood-cells-grid {
+				grid-template-columns: repeat(3, 1fr);
+			}
+			.month-cards-grid {
+				grid-template-columns: repeat(3, 1fr);
+			}
+			.lexicon-grid {
+				grid-template-columns: repeat(2, 1fr);
+			}
+			.grid-footer {
+				grid-template-columns: 1fr;
+			}
+			.footer-cell {
+				border-right: none;
+				border-bottom: 1px solid var(--grid-line);
+			}
+			.meta-right {
+				align-items: flex-start;
+			}
+		}
+
+		@media (max-width: 640px) {
+			.big-year-wrap {
+				font-size: 5.5rem;
+			}
+			.mood-cells-grid {
+				grid-template-columns: repeat(2, 1fr);
+			}
+			.month-cards-grid {
+				grid-template-columns: repeat(2, 1fr);
+			}
+			.chart-status-bar {
+				flex-direction: column;
+				align-items: flex-start;
+			}
+			.pink-quote-chamber {
+				padding: 30px 16px;
+			}
+			.chamber-frame {
+				padding: 30px 20px;
+			}
+			.chamber-footer-bar {
+				flex-direction: column;
+				align-items: flex-start;
+				gap: 12px;
+			}
+		}
+
+		@media (max-width: 480px) {
+			.month-cards-grid {
+				grid-template-columns: 1fr;
+			}
+		}
+	</style>
+</body>
+</html>

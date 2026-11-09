@@ -1,6 +1,6 @@
 ---
 title: 实习第一天：初识scrino
-tags: [博客文章]
+tags: [博客文章, 实习]
 category:
 description: 介绍scrino编程教学软件的功能分区与基础操作，为三年级小学生的编程课做准备。
 published: 2026-03-16T20:16:01
